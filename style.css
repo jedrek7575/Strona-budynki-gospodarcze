@@ -51,6 +51,7 @@ a {
   align-items: center;
   justify-content: center;
   text-align: center;
+    transition: 0.5s ease-in-out;
 }
 #hero::before {
   content: "";
@@ -81,7 +82,7 @@ a {
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
 }
 .section-title {
   padding-top: 60px;
@@ -124,14 +125,18 @@ a {
   height: 100vh; /* ważne */
   padding: 0 1rem; /* usunięto pionowy padding */
   text-align: center;
+  width: 100%;
+
 }
 .range-section {
   background: #fff;
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 500px;
+  width: 60%;
+ 
+  margin: auto;
+  
 }
 .price-box {
   margin-top: 1rem;
@@ -197,6 +202,15 @@ a {
   padding: 2rem 1rem;
   text-align: center;
 }
+#contact .container {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1%;
+}
+
 .contact-name {
   font-size: 1.5rem;
   font-weight: 700;
