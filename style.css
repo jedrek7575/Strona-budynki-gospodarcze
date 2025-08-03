@@ -310,3 +310,22 @@ footer {
 }
 
 }
+
+
+.parallax1 {
+  width: 50%;
+  background-image: url('PAR1.jpg'); 
+  background-size: 45%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 100% 10%;
+  position: relative;
+  float: right;
+  z-index: 1;
+}
+
+
+
+#offer .container {
+  width: 50%;
+}
