@@ -313,7 +313,7 @@ footer {
 
 
 .parallax1 {
-  width: 50%;
+  width: 0%;
   background-image: url('PAR1.jpg'); 
   background-size: 45%;
   background-repeat: no-repeat;
@@ -327,5 +327,5 @@ footer {
 
 
 #offer .container {
-  width: 50%;
+  width: 100%;
 }
