@@ -255,6 +255,9 @@ footer {
   text-align: center;
   padding: 1.5rem 1rem;
 }
+.seo {
+  display: none;
+}
 .footer-description p {
   margin: 0.5rem 0;
   font-size: 0.95rem;
