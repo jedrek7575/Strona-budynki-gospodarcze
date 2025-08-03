@@ -1,0 +1,272 @@
+/* === Reset i podstawowe ustawienia === */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f8f6f3;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* === Nawigacja === */
+.navbar {
+  background-color: rgb(167, 110, 40);
+  transition: 0.3s ease-in-out;
+}
+
+.navbar.white {
+  background: transparent !important;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #fff !important;
+}
+
+.navbar.white .navbar-brand,
+.navbar.white .nav-link {
+  color: #000 !important;
+}
+
+.navbar.white .nav-link:hover {
+  color: #b33434 !important;
+}
+
+.nav-link:hover {
+  color: #000000 !important;
+}
+
+/* === Hero === */
+#hero {
+  background: url('1.jpg') center/cover no-repeat;
+  height: 100vh;
+  position: relative;
+  color: white;
+}
+
+#hero::before {
+  content: "";
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  inset: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+#hero .btn-primary {
+  background-color: rgb(167, 110, 40);
+  border: none;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  margin-top: 5%;
+}
+
+#hero .btn-primary:hover {
+  background-color: #b33434;
+}
+
+/* === Sekcje ogólne === */
+.section-title {
+  padding-top: 60px;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #8a4f27;
+  text-align: center;
+  font-weight: 900;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.full-screen-section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+/* === Oferta === */
+#offer .card {
+  max-width: 600px;
+  margin: auto;
+  border-left: 5px solid #8a4f27;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+
+#offer .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-weight: 700;
+  color: #8a4f27;
+}
+
+.card-text {
+  font-size: 1rem;
+}
+#dimensions {
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+
+}
+#dimensions .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+
+/* === Wymiary === */
+.range-section {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transform: scale(120%);
+  margin: 2%;
+}
+
+.price-box {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #d2601a;
+}
+
+.building-sketch {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+#buildingDiagram {
+  border: 1px dashed #ccc;
+  background: #f9f9f9;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+#widthLabel, #lengthLabel {
+  fill: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 15px;
+}
+
+/* === Galeria === */
+#gallery {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding-top: 60px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  opacity: 0.8;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 70% 70%;
+}
+
+@media (max-width: 768px) {
+  .carousel-control-prev,
+  .carousel-control-next {
+    display: none !important;
+  }
+}
+
+/* === Kontakt === */
+#contact {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+  justify-content: center;
+}
+
+.contact-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #8a4f27;
+  text-align: center;
+  
+  
+}
+
+.contact-link {
+  display: inline-block;
+  color: #8a4f27;
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.contact-link:hover {
+  color: #b33434;
+  text-decoration: underline;
+  
+}
+
+#contact form {
+  max-width: 500px;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+#contact form input,
+#contact form textarea {
+  font-size: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+#contact form .btn {
+  background-color: rgb(167, 110, 40);
+  border: none;
+  width: 100%;
+}
+
+#contact form .btn:hover {
+  background-color: #b33434;
+}
+
+/* === Stopka === */
+footer {
+  background: #332e29;
+  color: #ccc;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.footer-description p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.footer-description a {
+  color: #d2601a;
+  text-decoration: none;
+}
+
+.footer-description a:hover {
+  text-decoration: underline;
+}
