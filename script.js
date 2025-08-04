@@ -1,18 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Stopka - aktualny rok
+  // --- STOPKA: aktualny rok
   const yearSpan = document.getElementById('year');
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
 
-  // Suwaki i pola
+  // --- SUWAKI + CENA + RYSUNEK
   const widthRange = document.getElementById('widthRange');
   const lengthRange = document.getElementById('lengthRange');
   const widthValue = document.getElementById('widthValue');
   const lengthValue = document.getElementById('lengthValue');
   const priceEstimate = document.getElementById('priceEstimate');
 
-  // SVG i etykiety
   const buildingRect = document.getElementById('buildingRect');
   const widthLabel = document.getElementById('widthLabel');
   const lengthLabel = document.getElementById('lengthLabel');
@@ -44,48 +43,60 @@ document.addEventListener('DOMContentLoaded', () => {
     buildingRect.setAttribute('width', scaledW.toFixed(1));
     buildingRect.setAttribute('height', scaledH.toFixed(1));
 
-    // Szerokość - na dole
     widthLabel.setAttribute('x', 50);
     widthLabel.setAttribute('y', y + scaledH + 10);
     widthLabel.setAttribute('transform', '');
     widthLabel.textContent = `Szerokość: ${width.toFixed(1)} m`;
 
-    // Długość - po prawej stronie
     lengthLabel.setAttribute('x', x + scaledW + 5);
     lengthLabel.setAttribute('y', y + scaledH / 2);
     lengthLabel.setAttribute('transform', `rotate(-90 ${x + scaledW + 5},${y + scaledH / 2})`);
     lengthLabel.textContent = `Długość: ${length.toFixed(1)} m`;
   }
 
-  widthRange.addEventListener('input', updateSketch);
-  lengthRange.addEventListener('input', updateSketch);
-  updateSketch();
-});
+  // --- FORMULARZ: automatyczne uzupełnienie treści wiadomości
+  function updateMessageText() {
+    const width = widthRange.value;
+    const length = lengthRange.value;
+    const messageField = document.getElementById('message');
+    if (messageField) {
+      messageField.value = `Dzień dobry! Interesuje mnie budynek o wymiarach ${width} x ${length} m ` +
+        `na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.`;
+    }
+  }
 
-// Płynne przewijanie do sekcji #offer po kliknięciu "Poznaj ofertę"
-document.addEventListener('DOMContentLoaded', () => {
+  // Nasłuch zmian suwaków (dla rysunku i wiadomości)
+  widthRange.addEventListener('input', () => {
+    updateSketch();
+    updateMessageText();
+  });
+  lengthRange.addEventListener('input', () => {
+    updateSketch();
+    updateMessageText();
+  });
+
+  // Inicjalizacja na start
+  updateSketch();
+  updateMessageText();
+
+  // --- SCROLL: przewijanie do sekcji "O nas"
   const scrollTrigger = document.getElementById('scrollToOffer');
   const target = document.getElementById('offer');
-
   if (scrollTrigger && target) {
     scrollTrigger.addEventListener('click', e => {
       e.preventDefault();
       const yOffset = -60;
       const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
-
       window.scrollTo({ top: y, behavior: 'smooth' });
     });
   }
-});
 
-// Klasa "white" do navbaru przy widoczności wybranych sekcji
-document.addEventListener('DOMContentLoaded', () => {
+  // --- Navbar: zmiana stylu po scrollu
   const navbar = document.querySelector('.navbar');
   const whiteSections = ['#dimensions', '#gallery', '#contact'];
 
   function checkWhiteSectionInView() {
     const vh = window.innerHeight;
-
     const isVisible = whiteSections.some(selector => {
       const el = document.querySelector(selector);
       if (!el) return false;
@@ -101,5 +112,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.addEventListener('scroll', checkWhiteSectionInView);
-  window.addEventListener('load', checkWhiteSectionInView);
+  checkWhiteSectionInView();
 });
