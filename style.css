@@ -329,3 +329,30 @@ footer {
 #offer .container {
   width: 100%;
 }
+
+#ikonazab {
+  height: 50px;
+  width: auto;
+  margin-right: 1%;
+}
+
+#ikonablack {
+  height: 50px;
+  width: auto;
+  margin-right: 1%;
+  display: none;
+}
+
+#ikonazab.white {
+  height: 50px;
+  width: auto;
+  margin-right: 1%;
+  display: none;
+}
+
+#ikonablack.white {
+  height: 50px;
+  width: auto;
+  margin-right: 1%;
+  display: block;
+}
