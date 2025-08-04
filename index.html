@@ -290,9 +290,9 @@ Dzień dobry! Interesuje mnie budynek o wymiarach (wpisz wymiary) na terenie (wp
   })();
 
   // Obsługa formularza kontaktowego
+window.addEventListener('DOMContentLoaded', function () {
   document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
-
     emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', this)
       .then(function(response) {
         document.getElementById('form-message').innerHTML = "Wiadomość wysłana pomyślnie!";
@@ -303,6 +303,8 @@ Dzień dobry! Interesuje mnie budynek o wymiarach (wpisz wymiary) na terenie (wp
         document.getElementById('form-message').style.color = "red";
       });
   });
+});
+
 </script>
 
 
