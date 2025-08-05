@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageField = document.getElementById('message');
     
     if (messageField) {
-      let containerName = 'Budynek'; // Default name
+      let containerName = 'Narzędziówka'; // Default name
       buttons.forEach(button => {
         if (button.classList.contains('active')) {
           containerName = button.textContent.trim();
