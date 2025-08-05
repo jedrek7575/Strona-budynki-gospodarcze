@@ -132,8 +132,25 @@ Jeśli masz kawałek ziemi i pomysł, my z Kubą zrobimy z tego coś, co przetrw
 
   <!-- Dimensions -->
   <section id="dimensions">
-    <div class="container">
+    
+  <button id="burgerToggle" class="btn btn-outline-secondary">☰ Wybierz typ budynku</button>
+  <div id="burgerMenu" class="burger-menu mt-2">
+    <button data-target="container1" class="btn btn-sm btn-outline-dark active">Narzędziówka</button>
+    <button data-target="container2" class="btn btn-sm btn-outline-dark">Altana</button>
+    <button data-target="container3" class="btn btn-sm btn-outline-dark">Garaż</button>
+    <button data-target="container4" class="btn btn-sm btn-outline-dark">Carport</button>
+  </div>
+</div>
+
+    <div class="build-type-wrapper text-center mb-3">
+
+
+
+ <div id="container1" class="build-container active">
       <h2 class="section-title">Dostosuj wymiary</h2>
+
+
+
       <div class="range-section">
         <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
         <div class="mb-3">
@@ -149,6 +166,8 @@ Jeśli masz kawałek ziemi i pomysł, my z Kubą zrobimy z tego coś, co przetrw
         <div class="price-box">
           Szacowana cena: <strong id="priceEstimate">0</strong> zł
         </div>
+
+
         <!-- Schemat budynku -->
 <div class="building-sketch mt-4 text-center">
   <svg id="buildingDiagram" viewBox="0 0 100 100" class="mx-auto" width="300" height="300" preserveAspectRatio="xMidYMid meet">
@@ -160,6 +179,24 @@ Jeśli masz kawałek ziemi i pomysł, my z Kubą zrobimy z tego coś, co przetrw
 
       </div>
     </div>
+
+
+<div id="container2" class="build-container">Tu będzie konfigurator altany</div>
+
+
+
+<div id="container3" class="build-container">Tu będzie konfigurator garażu</div>
+
+
+
+<div id="container4" class="build-container">Tu będzie konfigurator carportu</div>
+
+
+
+
+
+
+
   </section>
 
   <!-- Gallery -->

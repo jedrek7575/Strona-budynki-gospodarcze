@@ -124,3 +124,30 @@ if (ikonablack) ikonablack.classList.remove('white');
   window.addEventListener('scroll', checkWhiteSectionInView);
   checkWhiteSectionInView();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("burgerToggle");
+  const menu = document.getElementById("burgerMenu");
+  const buttons = menu.querySelectorAll("button");
+  const containers = document.querySelectorAll(".build-container");
+
+  toggle.addEventListener("click", () => {
+    menu.classList.toggle("show");
+  });
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      // Usuń aktywność ze wszystkich
+      buttons.forEach(btn => btn.classList.remove("active"));
+      containers.forEach(c => c.classList.remove("active"));
+
+      // Dodaj aktywność do klikniętego
+      button.classList.add("active");
+      const targetId = button.getAttribute("data-target");
+      document.getElementById(targetId).classList.add("active");
+
+      // Opcjonalnie: zamknij menu po kliknięciu
+      menu.classList.remove("show");
+    });
+  });
+});
