@@ -324,7 +324,7 @@ footer {
   }
 
   #offer {
-  width: 100%;
+  width: 100vh;
   
   border-left: 5px solid #8a4f27;
   padding: 1rem;
@@ -343,27 +343,26 @@ footer {
   position: relative;
 }
 
+
 .offer-column {
   
   flex-direction: column;
-  width: 100%;
+  width: 50%;
+  transform: translateX(95%);
   
-  align-items: center;
-  margin-left: 15%;
-  opacity: 0;
-  display: ;
-  
+ 
+  position: absolute;
+  top: 0;
   transition: 0.3s ease-in-out;
   
 }
 
 .offer-column:hover {
-  display: block;
-  opacity: 1;
-  margin-left: 10%;
+  transform: translateX(0%);
+
 }
 #offer .container {
-  position: relative;
+  height: 100%;
 }
 
 .range-section {
