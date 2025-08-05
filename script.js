@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
   updateMessageText();
 
   // --- SCROLL: przewijanie do sekcji "O nas"
-  const scrollTrigger = document.getElementById('scrollToOffer');
-  const target = document.getElementById('offer');
+  const scrollTrigger = document.getElementById('scrollToDimensions');
+  const target = document.getElementById('dimensions');
   if (scrollTrigger && target) {
     scrollTrigger.addEventListener('click', e => {
       e.preventDefault();
