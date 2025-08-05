@@ -417,6 +417,10 @@ footer {
   
 }
 
+#burgerMenu {
+  margin-top: 2vh;
+}
+
 #burgerMenu .btn {
   font-size: 3vw;
 }
