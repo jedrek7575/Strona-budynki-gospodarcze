@@ -351,7 +351,7 @@ footer {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed !important;
+    background-attachment: scroll !important;
   }
 
   .offer-column {
@@ -363,7 +363,8 @@ footer {
   .card1 {
     position: absolute;
     top: 0;
-    height: 40vh;
+    min-height: 40vh;
+    height: auto;
     width:5% ;
     border-left: none !important;
     border-right: 25px solid #ffffff7e;
@@ -385,7 +386,8 @@ footer {
   .card2 {
     position: absolute;
     bottom: 0;
-    height: 40vh;
+    min-height: 40vh;
+    height: auto;
     width:5% ;
     
     border-left: 25px solid #ffffff7e !important;
@@ -461,8 +463,8 @@ footer {
 
 
 .burger-menu {
-  display: none;
-  flex-direction: column;
+  display: flex;
+  
   gap: 0.5rem;
   position: absolute;
   top: 10%;

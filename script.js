@@ -126,28 +126,22 @@ if (ikonablack) ikonablack.classList.remove('white');
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.getElementById("burgerToggle");
-  const menu = document.getElementById("burgerMenu");
-  const buttons = menu.querySelectorAll("button");
+  const buttons = document.querySelectorAll("#burgerMenu button[data-target]");
   const containers = document.querySelectorAll(".build-container");
 
-  toggle.addEventListener("click", () => {
-    menu.classList.toggle("show");
-  });
-
-  buttons.forEach(button => {
+  buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      // Usuń aktywność ze wszystkich
-      buttons.forEach(btn => btn.classList.remove("active"));
-      containers.forEach(c => c.classList.remove("active"));
+      // Dezaktywuj wszystkie przyciski i kontenery
+      buttons.forEach((btn) => btn.classList.remove("active"));
+      containers.forEach((c) => c.classList.remove("active"));
 
-      // Dodaj aktywność do klikniętego
+      // Aktywuj kliknięty przycisk i jego kontener
       button.classList.add("active");
       const targetId = button.getAttribute("data-target");
-      document.getElementById(targetId).classList.add("active");
-
-      // Opcjonalnie: zamknij menu po kliknięciu
-      menu.classList.remove("show");
+      const targetContainer = document.getElementById(targetId);
+      if (targetContainer) {
+        targetContainer.classList.add("active");
+      }
     });
   });
 });
