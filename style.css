@@ -24,7 +24,7 @@ a {
 .navbar {
   background-color: rgb(167, 110, 40);
   transition: 0.3s ease-in-out;
-  width: 100%;
+  width: auto;
   z-index: 1000;
 }
 .navbar.white {
