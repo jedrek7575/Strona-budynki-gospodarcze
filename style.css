@@ -300,10 +300,10 @@ footer {
     align-items: center;
 
 
-  background-size: 300% !important;
+  background-size: 310% !important;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: 100% 10%;
+  background-position: 48% 100% !important;
   position: relative;
 }
 
@@ -313,6 +313,12 @@ footer {
   width: 100%;
   justify-content: space-between;
   align-items: end;
+  transform: translateX(100%);
+  transition: 0.3s ease-in-out;
+}
+
+.offer-column:hover {
+  transform: translateX(7%);
 }
 
 
@@ -373,11 +379,11 @@ footer {
 
 
   width: 100%;
-  background-image: url('1.jpg'); 
+  background-image: url('tlo.webp'); 
   background-size: 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: 100% 10%;
+  background-position: 100% 100%;
   position: relative;
 
   z-index: 1;
