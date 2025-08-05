@@ -421,6 +421,11 @@ footer {
   font-size: 3vw;
 }
 
+#galleryCarousel {
+  width: auto;
+  transform: scale(100%) !important;
+}
+
 }
 
 
