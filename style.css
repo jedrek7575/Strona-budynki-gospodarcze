@@ -613,7 +613,27 @@ footer {
     width: 0px;  /* Początkowa szerokość */
     height: 0px; /* Początkowa wysokość */
     transition: all 0.3s ease-in-out; /* Gładka animacja zmiany */
+    
+    
+    background-size: 100% 100%; /* Rozciągnięcie obrazu, ignorując proporcje */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; /* Centrowanie obrazu */
 }
+
+.map1 {
+  background-image: url(dachcz.webp);
+}
+.map2 {
+  background-image: url(dachz.webp);
+}
+.map3 {
+  background-image: url(dachzo.webp);
+}
+.map4 {
+  background-image: url(dachb.webp);
+}
+
 
 
 .container5-cards {
