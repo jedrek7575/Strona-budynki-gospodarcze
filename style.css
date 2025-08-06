@@ -371,7 +371,7 @@ footer {
     height: auto;
     width:5% ;
     border-left: none !important;
-    border-right: 25px solid #ffffff7e;
+    border-right: 25px solid rgba(167, 110, 40, 0.31) !important;
     transform: translateX(-101%);
   }
 
@@ -394,7 +394,7 @@ footer {
     height: auto;
     width:5% ;
     
-    border-left: 25px solid #ffffff7e !important;
+    border-left: 25px solid rgb(167, 110, 40, 0.31)!important;
     transform: translateX(87%);
   }
 
