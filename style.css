@@ -176,7 +176,7 @@ a {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: auto; /* ważne */
+  height: 100vh; /* ważne */
   padding: 0 1rem; /* usunięto pionowy padding */
   text-align: center;
   width: 100%;
