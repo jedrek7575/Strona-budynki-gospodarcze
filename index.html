@@ -76,7 +76,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#offer">O nas</a></li>
-          <li class="nav-item"><a class="nav-link" href="#dimensions">Wymiary</a></li>
+          <li class="nav-item"><a class="nav-link" href="#dimensions">Oferta</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
            <li class="nav-item"><a class="nav-link" href="#gallery">Galeria</a></li>
         </ul>
@@ -121,13 +121,15 @@
       <button data-target="container2" class="btn btn-sm btn-outline-dark">Altana</button>
       <button data-target="container3" class="btn btn-sm btn-outline-dark">Garaż</button>
       <button data-target="container4" class="btn btn-sm btn-outline-dark">Carport</button>
+      <button data-target="container5" class="btn btn-sm btn-outline-dark">Budy</button>
+    
     </div>
 
     <div class="build-type-wrapper text-center mb-3">
       
       <!-- Kontener 1: Narzędziówka -->
       <div id="container1" class="build-container active">
-        <h2 class="section-title">Dostosuj wymiary</h2>
+        <h2 class="section-title">Bezpieczny schowek na Twoje narzędzia</h2>
         <div class="range-section">
           <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
           <div class="mb-3">
@@ -153,6 +155,7 @@
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate1">0</strong> zł
+             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
 
@@ -161,7 +164,7 @@
 
       <!-- Kontener 2: Altana -->
       <div id="container2" class="build-container">
-        <h2 class="section-title">Dostosuj wymiary</h2>
+        <h2 class="section-title">Miejsce Twojego wypoczynku</h2>
         <div class="range-section">
           <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
           <div class="mb-3">
@@ -187,13 +190,14 @@
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate2">0</strong> zł
+             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
       </div>
 
       <!-- Kontener 3: Garaż -->
       <div id="container3" class="build-container">
-        <h2 class="section-title">Dostosuj wymiary</h2>
+        <h2 class="section-title">Miejsce na Twój środek transportu</h2>
         <div class="range-section">
           <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
           <div class="mb-3">
@@ -219,13 +223,14 @@
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate3">0</strong> zł
+             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
       </div>
 
       <!-- Kontener 4: Carport -->
       <div id="container4" class="build-container">
-        <h2 class="section-title">Dostosuj wymiary</h2>
+        <h2 class="section-title">Praktyczne zabezpieczenie </h2>
         <div class="range-section">
           <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
           <div class="mb-3">
@@ -251,10 +256,210 @@
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate4">0</strong> zł
+             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
       </div>
 
+
+<!-- Kontener 5: Budy -->
+<div id="container5" class="build-container">
+  <h2 class="section-title">Ekskluzywny dom Twojego psa</h2>
+  
+  <!-- Kafelki -->
+  <div class="container5-cards">
+    <div class="card" data-title="Buda 1" data-dimensions="3.5 x 5.5" data-price="1500">
+      <div class="carousel-wrapper">
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+            </div>
+            <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            </div>
+            <div class="carousel-item">
+              <img src="image3.jpg" class="d-block w-100" alt="Buda 3">
+            </div>
+            <div class="carousel-item">
+              <img src="image4.jpg" class="d-block w-100" alt="Buda 4">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-description">
+        <h5 class="card-title">Buda 1</h5>
+        <p class="card-text">Elegancki i przestronny domek dla psa, idealny na każdą porę roku.</p>
+      </div>
+      <div class="price-box">
+        <strong class="price-value">Cena: <span>1500 zł</span></strong>
+         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+      </div>
+    </div>
+
+
+
+    <div class="card" data-title="Buda 2" data-dimensions="3.5 x 5.5" data-price="1800">
+      <div class="carousel-wrapper">
+        <div id="carousel2" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
+            </div>
+     
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="card-description">
+        <h5 class="card-title">Buda 2</h5>
+        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
+      </div>
+      <div class="price-box">
+        <strong class="price-value">Cena: <span>1800 zł</span></strong>
+         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+      </div>
+    </div>
+
+        <div class="card" data-title="Buda 3" data-dimensions="3.5 x 5.5" data-price="1800">
+      <div class="carousel-wrapper">
+        <div id="carousel3" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
+            </div>
+     
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel3" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel3" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="card-description">
+        <h5 class="card-title">Buda 3</h5>
+        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
+      </div>
+      <div class="price-box">
+        <strong class="price-value">Cena: <span>1800 zł</span></strong>
+         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+      </div>
+    </div>
+
+     <div class="container5-cards2">
+
+   <div class="card" data-title="Buda 4" data-dimensions="3.5 x 5.5" data-price="1800">
+      <div class="carousel-wrapper">
+        <div id="carousel4" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
+            </div>
+     
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel4" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel4" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="card-description">
+        <h5 class="card-title">Buda 4</h5>
+        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
+      </div>
+      <div class="price-box">
+        <strong class="price-value">Cena: <span>1800 zł</span></strong>
+         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+      </div>
+    </div>
+
+        <div class="card" data-title="Buda 5" data-dimensions="3.5 x 5.5" data-price="1800">
+      <div class="carousel-wrapper">
+        <div id="carousel5" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
+            </div>
+                        <div class="carousel-item">
+              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
+            </div>
+     
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel5" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel5" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="card-description">
+        <h5 class="card-title">Buda 5</h5>
+        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
+      </div>
+      <div class="price-box">
+        <strong class="price-value">Cena: <span>1800 zł</span></strong>
+         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+      </div>
+    </div>
+   
+
+     </div>
+
+
+
+  </div>
+</div>
 
 
     </div>
@@ -267,6 +472,7 @@
     <div class="container" style="max-width: 600px;">
       <h2 class="section-title">Skontaktuj się z nami</h2>
 
+<!-- Formularz kontaktowy -->
 <form id="contact-form">
   <div class="mb-2">
     <input type="text" name="user_name" placeholder="Imię i nazwisko" class="form-control" required />
@@ -281,6 +487,8 @@
   </div>
   <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
 </form>
+
+<p id="form-message" style="margin-top: 10px;"></p>
 
 
       <p id="form-message" style="margin-top: 10px;"></p>
