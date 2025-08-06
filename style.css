@@ -228,8 +228,19 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem;
+  padding: 1rem 0.5rem;
 }
+
+#gallery .container {
+    background: #fff;
+ 
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+ 
+}
+
+
+
 .carousel-wrapper {
   width: 100%;
   max-width: 800px;
@@ -681,13 +692,13 @@ footer {
   overflow: hidden;
 }
 
-.carousel-inner img {
-  width: 100%;
-  height: auto;
-}
+
+
+
 
 .card-description {
   padding: 15px;
+  background: none;
 }
 
 .card-title {
