@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-36X685CZ6N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-36X685CZ6N');
+</script>
+
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zabudo.pl - Profesjonalne rozwiązania Twojego ogrodu</title>
@@ -625,6 +637,31 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
   <script src="script.js"></script>
+
+<div id="cookie-banner" class="text-center">
+  Ta strona korzysta z plików cookies w celach statystycznych i funkcjonalnych. 
+  <br>Możesz zaakceptować lub opuścić stronę, jeśli się nie zgadzasz.
+  <div class="mt-2">
+    <button id="accept-cookies" class="btn btn-sm btn-primary">Akceptuję</button>
+  </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+
+  if (!localStorage.getItem('cookiesAccepted')) {
+    banner.classList.add('show');
+  }
+
+  acceptBtn.addEventListener('click', function() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    banner.classList.remove('show');
+  });
+});
+</script>
 
 </body>
 </html>
