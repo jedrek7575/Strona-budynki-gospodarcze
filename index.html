@@ -638,30 +638,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   <script src="script.js"></script>
 
-<div id="cookie-banner" class="text-center">
-  Ta strona korzysta z plików cookies w celach statystycznych i funkcjonalnych. 
-  <br>Możesz zaakceptować lub opuścić stronę, jeśli się nie zgadzasz.
-  <div class="mt-2">
-    <button id="accept-cookies" class="btn btn-sm btn-primary">Akceptuję</button>
-  </div>
-</div>
 
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const banner = document.getElementById('cookie-banner');
-  const acceptBtn = document.getElementById('accept-cookies');
 
-  if (!localStorage.getItem('cookiesAccepted')) {
-    banner.classList.add('show');
-  }
 
-  acceptBtn.addEventListener('click', function() {
-    localStorage.setItem('cookiesAccepted', 'true');
-    banner.classList.remove('show');
-  });
-});
-</script>
 
 </body>
 
