@@ -7,6 +7,7 @@ html {
 }
 body {
   font-family: 'Poppins', sans-serif;
+  font-weight: 900;
   margin: 0;
   background-color: #f8f6f3;
   color: #333;
@@ -25,10 +26,13 @@ a {
   transition: 0.3s ease-in-out;
   width: auto;
   z-index: 1000;
+  
 }
 .navbar.white {
   background: transparent !important;
 }
+
+
 .navbar-brand,
 .nav-link {
   color: #fff !important;
