@@ -248,6 +248,8 @@ a {
 .carousel-wrapper {
   width: 100%;
   max-width: 800px;
+  z-index: 0;
+  position: relative;
 }
 .carousel-control-prev,
 .carousel-control-next {
@@ -702,22 +704,25 @@ footer {
 
 .card-description {
   padding: 15px;
-  background: none;
+  background-color: transparent;
 }
 
 .card-title {
   font-weight: bold;
   font-size: 1.2rem;
+
 }
 
 .card-text {
   font-size: 0.9rem;
   color: #666;
+  
+
 }
 
 .price-box {
   padding: 10px;
-  background-color: #f4f4f4;
+  background-color: transparent;
   text-align: center;
 }
 
@@ -803,4 +808,37 @@ footer {
 }
 #cookie-banner.show {
   display: block;
+}
+
+.carousel-inner .carousel-item img {
+  object-fit: cover; /* Umożliwia dopasowanie obrazu, aby wypełniał przestrzeń bez zmiany proporcji */
+  width: 100%;
+  height: 100%;
+ 
+}
+
+.container5-cards .card {
+  width: 25%;
+ 
+}
+
+.container5-cards .card2 {
+  width: 50%;
+}
+
+@media (max-width: 768px) {
+
+.container5-cards .card {
+  width: 100%;
+  height: 100%;
+
+}
+
+.container5-cards .card2 {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+
 }
