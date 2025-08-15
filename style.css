@@ -26,12 +26,76 @@ a {
   transition: 0.3s ease-in-out;
   width: auto;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
   
 }
 .navbar.white {
   background: transparent !important;
 }
 
+@media (max-width: 768px) {
+  .ikonazab {
+   
+  }
+}
+
+.navbar-toggler {
+  color: white;
+  border: none;
+  
+}
+
+.line {
+  width: 35px;
+  height: 5px;
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  
+  transition: .3s ease-in-out;
+  border: solid 0.001px;
+}
+
+
+
+.navbar-toggler .line:nth-child(1) {
+ background-color: white; 
+
+
+ 
+}
+
+
+.navbar-toggler .line:nth-child(2) {
+ background-color: white; 
+}
+
+
+.navbar-toggler .line:nth-child(3) {
+background-color: white;
+
+}
+
+
+.navbar-toggler.active .line:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+  
+  border: none;
+}
+
+.navbar-toggler.active .line:nth-child(2) {
+  opacity: 0; /* Ukrywamy środkową linię */
+}
+
+.navbar-toggler.active .line:nth-child(3) {
+  transform: translateY(-15px) rotate(-45deg);
+  border: none;
+}
+
+.navbar-toggler-icon {
+  color: white;
+  
+}
 
 .navbar-brand,
 .nav-link {
@@ -44,6 +108,26 @@ a {
 .navbar.white .nav-link:hover,
 .nav-link:hover {
   color: #b33434 !important;
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* brand po lewej, reszta po prawej */
+}
+
+.navbar-brand {
+  margin-right: auto; /* trzyma brand maksymalnie po lewej */
+  
+  align-self: flex-end;
+}
+
+.navbar-toggler {
+  margin-left: auto; /* wypycha hamburgera w prawo, gdy menu zwinięte */
+}
+
+.navbar-collapse {
+  flex-grow: 0; /* zapobiega rozwlekaniu na całą szerokość */
 }
 
 /* === HERO === */
@@ -402,8 +486,8 @@ footer {
     height: auto;
     width:5% ;
     border-left: none !important;
-    border-right: 25px solid rgba(167, 110, 40, 0.31) !important;
-    transform: translateX(-101%);
+    border-right: 10px solid rgb(167, 110, 40) !important;
+    transform: translateX(-104%);
   }
 
   .card1 p {
@@ -425,8 +509,8 @@ footer {
     height: auto;
     width:5% ;
     
-    border-left: 25px solid rgb(167, 110, 40, 0.31)!important;
-    transform: translateX(87%);
+    border-left: 10px solid rgb(167, 110, 40)!important;
+    transform: translateX(90%);
   }
 
   .card2 p {
@@ -751,14 +835,9 @@ footer {
     width: 100%;
   }
   
-  .carousel-wrapper {
-    height: 150px;
-  }
 
-  .container5 {
-    height: auto !important; /* Upewnij się, że wysokość jest automatyczna w wersji mobilnej */
-    position: relative !important;
-  }
+
+
 }
 
 .container5 .section-title {
@@ -837,13 +916,12 @@ footer {
 
 .container5-cards .card {
   width: 100%;
-  height: 100%;
-
+ 
 }
 
 .container5-cards .card2 {
   width: 100%;
-  height: 100%;
+ 
   display: none;
 }
 

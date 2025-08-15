@@ -14,7 +14,7 @@
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": "Po Prostu Solidne",
+    "name": "Zabudo.pl",
     "description": "Budynki gospodarcze na wymiar – hale stalowe, wiaty, garaże blaszane, konstrukcje rolnicze. Montaż Śląsk i Małopolska.",
     "url": "https://www.poprostusolidne.pl", 
     "telephone": "+48503702467",
@@ -34,11 +34,11 @@
   }
   </script>
 
-  <meta name="description" content="Po Prostu Solidne – Budujemy trwałe, funkcjonalne budynki gospodarcze na wymiar na Śląsku i w Małopolsce. Szybka realizacja, montaż i atrakcyjne ceny.">
-  <meta name="keywords" content="budynki gospodarcze, konstrukcje stalowe, garaże blaszane, Śląsk, Małopolska, Siewierz, budowa, montaż, solidne budynki, na wymiar, blaszaki, Po Prostu Solidne">
-  <meta name="author" content="Po Prostu Solidne">
+  <meta name="description" content="Zabudo.pl – Budujemy trwałe, funkcjonalne budynki gospodarcze na wymiar na Śląsku i w Małopolsce. Szybka realizacja, montaż i atrakcyjne ceny.">
+  <meta name="keywords" content="budynki gospodarcze, konstrukcje stalowe, garaże blaszane, Śląsk, Małopolska, Siewierz, budowa, montaż, solidne budynki, na wymiar, blaszaki, Zabudo.pl">
+  <meta name="author" content="Zabudo.pl">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Budynki gospodarcze na wymiar | Po Prostu Solidne">
+  <meta property="og:title" content="Budynki gospodarcze na wymiar | Zabudo.pl">
   <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
   <meta property="og:image" content="URL_DO_Twojej_Głównej_Grafiki.jpg">
   <meta property="og:url" content="https://www.twojadomena.pl">
@@ -71,12 +71,14 @@
 <body>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
+    <div class="container logotyp">
       <img id="ikonazab" src="favicon-96x96white.png">
       <img id="ikonablack" src="favicon-96x96black.png">
       <a class="navbar-brand" href="#">Zabudo.pl</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
+                <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
@@ -668,6 +670,34 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('cookiesAccepted', 'true');
     banner.classList.remove('show');
     loadAnalytics();
+  });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const toggler = document.querySelector('.navbar-toggler');
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+  const navbarCollapse = document.getElementById('navbarNav');
+
+  // 1. Kliknięcie w hamburgera — toggle klasy "active"
+  if (toggler) {
+    toggler.addEventListener('click', () => {
+      toggler.classList.toggle('active');
+    });
+  }
+
+  // 2. Kliknięcie w dowolny link menu — zamykanie menu i usuwanie "active"
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      toggler.classList.remove('active');
+
+      // Jeśli menu jest otwarte, zamknij je (Bootstrap 5 API)
+      const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+      if (bsCollapse) {
+        bsCollapse.hide();
+      }
+    });
   });
 });
 </script>
