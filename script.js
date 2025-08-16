@@ -93,7 +93,7 @@ function updateCalculator(containerId) {
   const area = width * length;
 
   const pricePerSquareMeter = {
-    container1: 850,
+    container1: 1017,
     container2: 900,
     container3: 1300,
     container4: 450
