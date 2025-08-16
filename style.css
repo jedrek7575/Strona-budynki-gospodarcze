@@ -809,3 +809,5 @@ footer {
   font-weight: 900;
 }
 
+#cookie-banner { display: none; }
+#cookie-banner.show { display: block !important; }
