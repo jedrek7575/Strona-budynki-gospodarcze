@@ -804,3 +804,8 @@ footer {
 #cookie-banner.show {
   display: block;
 }
+
+#accept-all {
+  font-weight: 900;
+}
+

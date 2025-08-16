@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-
-
-
-
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zabudo.pl - Profesjonalne rozwiązania Twojego ogrodu</title>
 
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Po Prostu Solidne",
     "description": "Budynki gospodarcze na wymiar – hale stalowe, wiaty, garaże blaszane, konstrukcje rolnicze. Montaż Śląsk i Małopolska.",
-    "url": "https://www.poprostusolidne.pl", 
+    "url": "https://www.poprostusolidne.pl",
     "telephone": "+48503702467",
     "email": "poprostusolidne@gmail.com",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "ul. Przykładowa 1",  
+      "streetAddress": "ul. Przykładowa 1",
       "addressLocality": "Siewierz",
       "addressRegion": "Śląskie",
       "postalCode": "42-470",
@@ -29,11 +25,12 @@
     },
     "areaServed": ["Śląsk", "Małopolska", "Siewierz", "Zawiercie", "Myszków", "Łazy", "Poręba", "Żarki", "Koziegłowy", "Ożarowice", "Wojkowice Kościelne"],
     "openingHours": "Mo-Fr 08:00-17:00",
-    "image": "https://www.poprostusolidne.pl/logo.png",  
+    "image": "https://www.poprostusolidne.pl/logo.png",
     "sameAs": []
   }
   </script>
 
+  <!-- Meta -->
   <meta name="description" content="Po Prostu Solidne – Budujemy trwałe, funkcjonalne budynki gospodarcze na wymiar na Śląsku i w Małopolsce. Szybka realizacja, montaż i atrakcyjne ceny.">
   <meta name="keywords" content="budynki gospodarcze, konstrukcje stalowe, garaże blaszane, Śląsk, Małopolska, Siewierz, budowa, montaż, solidne budynki, na wymiar, blaszaki, Po Prostu Solidne">
   <meta name="author" content="Po Prostu Solidne">
@@ -42,38 +39,30 @@
   <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
   <meta property="og:image" content="URL_DO_Twojej_Głównej_Grafiki.jpg">
   <meta property="og:url" content="https://www.twojadomena.pl">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Podstawowa favicon -->
+  <!-- Favicons -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-
-  <!-- Favicon dla nowoczesnych przeglądarek -->
   <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-
-  <!-- Apple iOS -->
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
-  <!-- Android/Chrome -->
   <link rel="manifest" href="site.webmanifest">
-
-  <!-- Windows -->
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="mstile-144x144.png">
   <meta name="theme-color" content="#ffffff">
-
 </head>
+
 <body>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-      <img id="ikonazab" src="favicon-96x96white.png">
-      <img id="ikonablack" src="favicon-96x96black.png">
+      <img id="ikonazab" src="favicon-96x96white.png" alt="Logo białe" />
+      <img id="ikonablack" src="favicon-96x96black.png" alt="Logo czarne" />
       <a class="navbar-brand" href="#">Zabudo.pl</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -83,7 +72,7 @@
           <li class="nav-item"><a class="nav-link" href="#offer">O nas</a></li>
           <li class="nav-item"><a class="nav-link" href="#dimensions">Oferta</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
-           <li class="nav-item"><a class="nav-link" href="#gallery">Galeria</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Galeria</a></li>
         </ul>
       </div>
     </div>
@@ -119,7 +108,7 @@
     </div>
   </section>
 
-  <!-- Dimensions -->
+  <!-- Dimensions (skrócone, bez zmian logiki Twojego konfiguratora) -->
   <section id="dimensions">
     <div id="burgerMenu" class="burger-menu">
       <button data-target="container1" class="btn btn-sm btn-outline-dark active">Narzędziówka</button>
@@ -127,11 +116,9 @@
       <button data-target="container3" class="btn btn-sm btn-outline-dark">Garaż</button>
       <button data-target="container4" class="btn btn-sm btn-outline-dark">Carport</button>
       <button data-target="container5" class="btn btn-sm btn-outline-dark">Budy</button>
-    
     </div>
 
     <div class="build-type-wrapper text-center mb-3">
-      
       <!-- Kontener 1: Narzędziówka -->
       <div id="container1" class="build-container active">
         <h2 class="section-title">Bezpieczny schowek na Twoje narzędzia</h2>
@@ -152,19 +139,15 @@
             <strong>Wymiary: </strong><span id="dimensions1">3.5 x 5.5</span> m
           </div>
 
-        <div class="dimensions-map">
-            <div id="buildingMap" class="building-map map1">
-                <!-- Budynek będzie reprezentowany przez ten element -->
-            </div>
-        </div>
+          <div class="dimensions-map">
+            <div id="buildingMap" class="building-map map1"></div>
+          </div>
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate1">0</strong> zł
-             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
-
-</div>
       </div>
 
       <!-- Kontener 2: Altana -->
@@ -187,15 +170,13 @@
             <strong>Wymiary: </strong><span id="dimensions2">3.5 x 5.5</span> m
           </div>
 
-        <div class="dimensions-map">
-            <div id="buildingMap" class="building-map map2">
-                <!-- Budynek będzie reprezentowany przez ten element -->
-            </div>
-        </div>
+          <div class="dimensions-map">
+            <div id="buildingMap" class="building-map map2"></div>
+          </div>
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate2">0</strong> zł
-             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
       </div>
@@ -220,22 +201,20 @@
             <strong>Wymiary: </strong><span id="dimensions3">3.5 x 5.5</span> m
           </div>
 
-        <div class="dimensions-map">
-            <div id="buildingMap" class="building-map map3">
-                <!-- Budynek będzie reprezentowany przez ten element -->
-            </div>
-        </div>
+          <div class="dimensions-map">
+            <div id="buildingMap" class="building-map map3"></div>
+          </div>
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate3">0</strong> zł
-             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
       </div>
 
       <!-- Kontener 4: Carport -->
       <div id="container4" class="build-container">
-        <h2 class="section-title">Praktyczne zabezpieczenie </h2>
+        <h2 class="section-title">Praktyczne zabezpieczenie</h2>
         <div class="range-section">
           <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
           <div class="mb-3">
@@ -252,256 +231,193 @@
           <div class="dimensions-display">
             <strong>Wymiary: </strong><span id="dimensions4">3.5 x 5.5</span> m
           </div>
-  
-        <div class="dimensions-map">
-            <div id="buildingMap" class="building-map map4">
-                <!-- Budynek będzie reprezentowany przez ten element -->
-            </div>
-        </div>
+
+          <div class="dimensions-map">
+            <div id="buildingMap" class="building-map map4"></div>
+          </div>
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate4">0</strong> zł
-             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
       </div>
 
-
-<!-- Kontener 5: Budy -->
-<div id="container5" class="build-container">
-  <h2 class="section-title">Ekskluzywny dom Twojego psa</h2>
-  
-  <!-- Kafelki -->
-  <div class="container5-cards">
-    <div class="card" data-title="Buda 1" data-dimensions="3.5 x 5.5" data-price="1500">
-      <div class="carousel-wrapper">
-        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="" class="d-block w-100" alt="Buda 1">
+      <!-- Kontener 5: Budy (galeria kart) -->
+      <div id="container5" class="build-container">
+        <h2 class="section-title">Ekskluzywny dom Twojego psa</h2>
+        <div class="container5-cards">
+          <!-- Karta 1 -->
+          <div class="card" data-title="Buda 1" data-dimensions="3.5 x 5.5" data-price="1500">
+            <div class="carousel-wrapper">
+              <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active"><img src="" class="d-block w-100" alt="Buda 1"></div>
+                  <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 2"></div>
+                  <div class="carousel-item"><img src="image3.jpg" class="d-block w-100" alt="Buda 3"></div>
+                  <div class="carousel-item"><img src="image4.jpg" class="d-block w-100" alt="Buda 4"></div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
             </div>
-            <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            <div class="card-description">
+              <h5 class="card-title">Już wkrótce</h5>
+              <p class="card-text">Elegancki i przestronny domek dla psa, idealny na każdą porę roku.</p>
             </div>
-            <div class="carousel-item">
-              <img src="image3.jpg" class="d-block w-100" alt="Buda 3">
-            </div>
-            <div class="carousel-item">
-              <img src="image4.jpg" class="d-block w-100" alt="Buda 4">
+            <div class="price-box">
+              <strong class="price-value">Cena: <span>1500 zł</span></strong>
+              <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-      <div class="card-description">
-        <h5 class="card-title">Już wkrótce</h5>
-        <p class="card-text">Elegancki i przestronny domek dla psa, idealny na każdą porę roku.</p>
-      </div>
-      <div class="price-box">
-        <strong class="price-value">Cena: <span>1500 zł</span></strong>
-         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
-      </div>
-    </div>
 
-
-
-    <div class="card" data-title="Buda 2" data-dimensions="3.5 x 5.5" data-price="1800">
-      <div class="carousel-wrapper">
-        <div id="carousel2" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+          <!-- Karta 2 -->
+          <div class="card" data-title="Buda 2" data-dimensions="3.5 x 5.5" data-price="1800">
+            <div class="carousel-wrapper">
+              <div id="carousel2" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active"><img src="image1.jpg" class="d-block w-100" alt="Buda 1"></div>
+                  <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 2"></div>
+                  <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 3"></div>
+                  <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 4"></div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+              </div>
             </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            <div class="card-description">
+              <h5 class="card-title">Już wkrótce</h5>
+              <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
             </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
+            <div class="price-box">
+              <strong class="price-value">Cena: <span>1800 zł</span></strong>
+              <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
             </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
-            </div>
-     
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-      <div class="card-description">
-        <h5 class="card-title">Już wkrótce</h5>
-        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
-      </div>
-      <div class="price-box">
-        <strong class="price-value">Cena: <span>1800 zł</span></strong>
-         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
-      </div>
-    </div>
 
-        <div class="card" data-title="Buda 3" data-dimensions="3.5 x 5.5" data-price="1800">
-      <div class="carousel-wrapper">
-        <div id="carousel3" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+          <!-- Karta 3 -->
+          <div class="card" data-title="Buda 3" data-dimensions="3.5 x 5.5" data-price="1800">
+            <div class="carousel-wrapper">
+              <div id="carousel3" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active"><img src="image1.jpg" class="d-block w-100" alt="Buda 1"></div>
+                  <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 2"></div>
+                  <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 3"></div>
+                  <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 4"></div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel3" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel3" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+              </div>
             </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
+            <div class="card-description">
+              <h5 class="card-title">Już wkrótce</h5>
+              <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
             </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
+            <div class="price-box">
+              <strong class="price-value">Cena: <span>1800 zł</span></strong>
+              <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
             </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
-            </div>
-     
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carousel3" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carousel3" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-      <div class="card-description">
-        <h5 class="card-title">Już wkrótce</h5>
-        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
-      </div>
-      <div class="price-box">
-        <strong class="price-value">Cena: <span>1800 zł</span></strong>
-         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
-      </div>
-    </div>
 
-     <div class="container5-cards2">
+          <div class="container5-cards2">
+            <!-- Karta 4 -->
+            <div class="card" data-title="Buda 4" data-dimensions="3.5 x 5.5" data-price="1800">
+              <div class="carousel-wrapper">
+                <div id="carousel4" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="image1.jpg" class="d-block w-100" alt="Buda 1"></div>
+                    <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 2"></div>
+                    <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 3"></div>
+                    <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 4"></div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carousel4" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carousel4" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="card-description">
+                <h5 class="card-title">Już wkrótce</h5>
+                <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
+              </div>
+              <div class="price-box">
+                <strong class="price-value">Cena: <span>1800 zł</span></strong>
+                <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+              </div>
+            </div>
 
-   <div class="card" data-title="Buda 4" data-dimensions="3.5 x 5.5" data-price="1800">
-      <div class="carousel-wrapper">
-        <div id="carousel4" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
+            <!-- Karta 5 -->
+            <div class="card" data-title="Buda 5" data-dimensions="3.5 x 5.5" data-price="1800">
+              <div class="carousel-wrapper">
+                <div id="carousel5" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="image1.jpg" class="d-block w-100" alt="Buda 1"></div>
+                    <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 2"></div>
+                    <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 3"></div>
+                    <div class="carousel-item"><img src="image2.jpg" class="d-block w-100" alt="Buda 4"></div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carousel5" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carousel5" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="card-description">
+                <h5 class="card-title">Już wkrótce</h5>
+                <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
+              </div>
+              <div class="price-box">
+                <strong class="price-value">Cena: <span>1800 zł</span></strong>
+                <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+              </div>
             </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
-            </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
-            </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
-            </div>
-     
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carousel4" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carousel4" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </button>
         </div>
-      </div>
-      <div class="card-description">
-        <h5 class="card-title">Już wkrótce</h5>
-        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
-      </div>
-      <div class="price-box">
-        <strong class="price-value">Cena: <span>1800 zł</span></strong>
-         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
-      </div>
-    </div>
-
-        <div class="card" data-title="Buda 5" data-dimensions="3.5 x 5.5" data-price="1800">
-      <div class="carousel-wrapper">
-        <div id="carousel5" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="image1.jpg" class="d-block w-100" alt="Buda 1">
-            </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 2">
-            </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 3">
-            </div>
-                        <div class="carousel-item">
-              <img src="image2.jpg" class="d-block w-100" alt="Buda 4">
-            </div>
-     
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carousel5" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carousel5" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-      <div class="card-description">
-        <h5 class="card-title">Już wkrótce</h5>
-        <p class="card-text">Solidny, drewniany domek dla psa, odporny na warunki atmosferyczne.</p>
-      </div>
-      <div class="price-box">
-        <strong class="price-value">Cena: <span>1800 zł</span></strong>
-         <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
-      </div>
-    </div>
-   
-
-     </div>
-
-
-
-  </div>
-</div>
-
-
+      </div> <!-- /container5 -->
     </div>
   </section>
-
-
 
   <!-- Contact -->
   <section id="contact" class="full-screen-section d-flex align-items-center justify-content-center text-center">
     <div class="container" style="max-width: 600px;">
       <h2 class="section-title">Skontaktuj się z nami</h2>
 
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:poprostusolidne@gmail.com">poprostusolidne@gmail.com</a></p>
+      </div>
 
-<div class="footer-description">
-      <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
-      <p>Email: <a href="mailto:poprostusolidne@gmail.com">poprostusolidne@gmail.com</a></p>
-    </div>
-
-
-<!-- Formularz kontaktowy -->
-<form id="contact-form">
-  <div class="mb-2">
-    <input type="text" name="user_name" placeholder="Imię i nazwisko" class="form-control" required />
-  </div>
-  <div class="mb-2">
-    <input type="email" name="user_email" placeholder="Adres e-mail" class="form-control" required />
-  </div>
-  <div class="mb-2">
-    <textarea id="message" name="message" rows="6" class="form-control" required>
-      Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.
-    </textarea>
-  </div>
-  <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
-</form>
-
-<p id="form-message" style="margin-top: 10px;"></p>
-
+      <!-- Formularz kontaktowy -->
+      <form id="contact-form">
+        <div class="mb-2">
+          <input type="text" name="user_name" placeholder="Imię i nazwisko" class="form-control" required />
+        </div>
+        <div class="mb-2">
+          <input type="email" name="user_email" placeholder="Adres e-mail" class="form-control" required />
+        </div>
+        <div class="mb-2">
+          <textarea id="message" name="message" rows="6" class="form-control" required>Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+      </form>
 
       <p id="form-message" style="margin-top: 10px;"></p>
     </div>
@@ -513,30 +429,14 @@
       <h2 class="section-title">Galeria realizacji</h2>
       <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="1.webp" class="d-block w-100" alt="Zdjęcie 1">
-          </div>
-          <div class="carousel-item">
-            <img src="2.webp" class="d-block w-100" alt="Zdjęcie 2">
-          </div>
-          <div class="carousel-item">
-            <img src="3.webp" class="d-block w-100" alt="Zdjęcie 3">
-          </div>
-                   <div class="carousel-item">
-            <img src="4.webp" class="d-block w-100" alt="Zdjęcie 3">
-          </div>
-                   <div class="carousel-item">
-            <img src="5.webp" class="d-block w-100" alt="Zdjęcie 3">
-          </div>
-                   <div class="carousel-item">
-            <img src="6.webp" class="d-block w-100" alt="Zdjęcie 3">
-          </div>
-                   <div class="carousel-item">
-            <img src="7.webp" class="d-block w-100" alt="Zdjęcie 3">
-          </div>
-                   <div class="carousel-item">
-            <img src="8.webp" class="d-block w-100" alt="Zdjęcie 3">
-          </div>
+          <div class="carousel-item active"><img src="1.webp" class="d-block w-100" alt="Zdjęcie 1"></div>
+          <div class="carousel-item"><img src="2.webp" class="d-block w-100" alt="Zdjęcie 2"></div>
+          <div class="carousel-item"><img src="3.webp" class="d-block w-100" alt="Zdjęcie 3"></div>
+          <div class="carousel-item"><img src="4.webp" class="d-block w-100" alt="Zdjęcie 4"></div>
+          <div class="carousel-item"><img src="5.webp" class="d-block w-100" alt="Zdjęcie 5"></div>
+          <div class="carousel-item"><img src="6.webp" class="d-block w-100" alt="Zdjęcie 6"></div>
+          <div class="carousel-item"><img src="7.webp" class="d-block w-100" alt="Zdjęcie 7"></div>
+          <div class="carousel-item"><img src="8.webp" class="d-block w-100" alt="Zdjęcie 8"></div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -551,139 +451,211 @@
   </section>
 
   <!-- Footer -->
-<footer>
-  <div class="container">
-    <p>&copy; <span id="year"></span> Zabudo.pl</p>
-    <div class="footer-description">
-      <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
-      <p>Email: <a href="mailto:poprostusolidne@gmail.com">poprostusolidne@gmail.com</a></p>
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Zabudo.pl</p>
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:poprostusolidne@gmail.com">poprostusolidne@gmail.com</a></p>
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-  <!-- Scripts -->
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("0rODOdXhUGV-z--Ya"); // Twój PUBLIC KEY
+    })();
+  </script>
+
+  <!-- Twój główny skrypt (jeśli używasz) -->
   <script src="script.js"></script>
 
-<script>
-const hero = document.getElementById('hero');
-const images = [
-  '1.webp',
-  '2.webp',
-  '3.webp',
-  '4.webp',
-  '5.webp',
-  '6.webp',
-  '7.webp',
-  '8.webp'
-];
-let index = 0;
+  <!-- Rotacja tła hero -->
+  <script>
+  const hero = document.getElementById('hero');
+  const images = ['1.webp','2.webp','3.webp','4.webp','5.webp','6.webp','7.webp','8.webp'];
+  let index = 0;
+  setInterval(() => {
+    index = (index + 1) % images.length;
+    hero.style.backgroundImage = `url('${images[index]}')`;
+  }, 3000);
+  </script>
 
-
-setInterval(() => {
-  index = (index + 1) % images.length;
-  hero.style.backgroundImage = `url('${images[index]}')`;  // Poprawiona linia
-}, 3000); // 3000 ms = 3 sekundy
-</script>
-
-
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
-<script>
-  // Inicjalizacja z Twoim publicznym kluczem
-  (function() {
-    emailjs.init("0rODOdXhUGV-z--Ya"); // ← Twój PUBLIC KEY
-  })();
-
-  // Obsługa formularza kontaktowego
-window.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', this)
-      .then(function(response) {
-        document.getElementById('form-message').innerHTML = "Wiadomość wysłana pomyślnie!";
-        document.getElementById('form-message').style.color = "green";
-        document.getElementById('contact-form').reset();
-      }, function(error) {
-        document.getElementById('form-message').innerHTML = "Błąd podczas wysyłania. Spróbuj ponownie.";
-        document.getElementById('form-message').style.color = "red";
-      });
+  <!-- Auto-karuzela galerii -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const myCarousel = document.querySelector('#galleryCarousel');
+    if (myCarousel) {
+      new bootstrap.Carousel(myCarousel, { interval: 3000, ride: 'carousel' });
+    }
   });
-});
+  </script>
 
-</script>
+  <!-- BANER ZGÓD: HTML -->
+  <div id="cookie-banner" class="text-center" style="display:none;">
+    Ta strona korzysta z plików cookies w celach statystycznych i funkcjonalnych.
+    <br>Możesz zaakceptować lub opuścić stronę, jeśli się nie zgadzasz.
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Upewnij się, że Bootstrap jest poprawnie załadowany
-  const myCarousel = document.querySelector('#galleryCarousel');
-  
-  // Sprawdzamy, czy karuzela jest załadowana
-  if (myCarousel) {
-    const carousel = new bootstrap.Carousel(myCarousel, {
-      interval: 3000, // Interwał na 3 sekundy
-      ride: 'carousel' // Aktywacja automatycznego przewijania
-    });
-  }
-});
-</script>
+    <div class="mt-3 text-start" style="max-width: 420px; margin: 0 auto;">
+      <label><input type="checkbox" id="consent-cookies"> Zgadzam się na pliki cookies</label><br>
+      <label><input type="checkbox" id="consent-newsletter"> Zgadzam się na otrzymywanie newslettera</label>
+    </div>
 
-  <script src="script.js"></script>
+    <div class="mt-3">
+      <button id="accept-all" class="btn btn-success btn-sm me-2">✅ Zaakceptuj wszystkie</button>
+      <button id="accept-cookies" class="btn btn-outline-secondary btn-sm">Zapisz wybór</button>
+    </div>
 
-
-
-
-
-
-<div id="cookie-banner" class="text-center">
-  Ta strona korzysta z plików cookies w celach statystycznych i funkcjonalnych. 
-  <br>Możesz zaakceptować lub opuścić stronę, jeśli się nie zgadzasz.
-  <div class="mt-2">
-    <button id="accept-cookies" class="btn btn-sm btn-primary">Akceptuję</button>
+    <!-- (Opcjonalnie) linki do polityk -->
+    <!-- <div class="small mt-2"><a href="/polityka-prywatnosci">Polityka prywatności</a> • <a href="/polityka-cookies">Polityka cookies</a></div> -->
   </div>
-</div>
 
-<script>
-function loadAnalytics() {
-  const script = document.createElement('script');
-  script.src = "https://www.googletagmanager.com/gtag/js?id=G-36X685CZ6N";
-  script.async = true;
-  document.head.appendChild(script);
+  <!-- BANER ZGÓD: LOGIKA + integracja z EmailJS -->
+  <script>
+  // --- Ładowanie GA tylko przy zgodzie na cookies ---
+  function loadAnalytics() {
+    if (window._gaLoaded) return;
+    const script = document.createElement('script');
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-36X685CZ6N";
+    script.async = true;
+    document.head.appendChild(script);
 
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  window.gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', 'G-36X685CZ6N');
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  const banner = document.getElementById('cookie-banner');
-  const acceptBtn = document.getElementById('accept-cookies');
-
-  if (!localStorage.getItem('cookiesAccepted')) {
-    banner.classList.add('show');
-  } else {
-    loadAnalytics();
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-36X685CZ6N');
+    window._gaLoaded = true;
   }
 
-  acceptBtn.addEventListener('click', function() {
-    localStorage.setItem('cookiesAccepted', 'true');
-    banner.classList.remove('show');
-    loadAnalytics();
+  document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('cookie-banner');
+    const btnAcceptAll = document.getElementById('accept-all');
+    const btnSave = document.getElementById('accept-cookies');
+    const consentCookies = document.getElementById('consent-cookies');
+    const consentNewsletter = document.getElementById('consent-newsletter');
+
+    // Przywróć zgody
+    const saved = localStorage.getItem('consents');
+    if (saved) {
+      const consents = JSON.parse(saved);
+      consentCookies.checked = !!consents.cookies;
+      consentNewsletter.checked = !!consents.newsletter;
+      if (consents.cookies) loadAnalytics();
+      banner.style.display = 'none';
+    } else {
+      banner.classList.add('show');
+      banner.style.display = '';
+    }
+
+    // Klik: zaakceptuj wszystkie
+    btnAcceptAll.addEventListener('click', function() {
+      consentCookies.checked = true;
+      consentNewsletter.checked = true;
+      saveAndClose();
+    });
+
+    // Klik: zapisz wybór
+    btnSave.addEventListener('click', function() {
+      saveAndClose();
+    });
+
+    function saveAndClose() {
+      const consents = {
+        cookies: !!consentCookies.checked,
+        newsletter: !!consentNewsletter.checked
+      };
+
+      localStorage.setItem('consents', JSON.stringify(consents));
+
+      // zapis metadanych zgody na newsletter (audyt)
+      localStorage.setItem('newsletterConsentMeta', JSON.stringify({
+        consent: consents.newsletter,
+        ts: new Date().toISOString(),
+        source: 'cookie-banner'
+      }));
+
+      if (consents.cookies) loadAnalytics();
+
+      banner.classList.remove('show');
+      banner.style.display = 'none';
+    }
   });
-});
-</script>
 
+  // Obsługa formularza kontaktowego z dopięciem zgód do EmailJS
+  window.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('contact-form');
+    const msg = document.getElementById('form-message');
+
+    function addHidden(form, name, value) {
+      let input = form.querySelector('input[name="'+name+'"]');
+      if (!input) {
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        form.appendChild(input);
+      }
+      input.value = value;
+    }
+
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // odczytaj metadane zgody newsletter
+      let newsletterConsent = 'NIE';
+      let newsletterTs = '';
+      let newsletterSource = '';
+      try {
+        const meta = JSON.parse(localStorage.getItem('newsletterConsentMeta') || '{}');
+        if (meta && meta.consent) {
+          newsletterConsent = 'TAK';
+          newsletterTs = meta.ts || '';
+          newsletterSource = meta.source || '';
+        }
+      } catch(e) {}
+
+      // odczytaj zgodę na cookies
+      let cookiesConsent = 'NIE';
+      try {
+        const cons = JSON.parse(localStorage.getItem('consents') || '{}');
+        cookiesConsent = cons.cookies ? 'TAK' : 'NIE';
+      } catch(e) {}
+
+      // dopnij ukryte pola
+      addHidden(form, 'newsletter_consent', newsletterConsent);
+      addHidden(form, 'newsletter_consent_ts', newsletterTs);
+      addHidden(form, 'newsletter_consent_source', newsletterSource);
+      addHidden(form, 'consent_cookies', cookiesConsent);
+
+      // wyślij przez EmailJS (używa Twojej konfiguracji)
+      emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', form)
+        .then(function() {
+          msg.textContent = "Wiadomość wysłana pomyślnie!";
+          msg.style.color = "green";
+          form.reset();
+        }, function() {
+          msg.textContent = "Błąd podczas wysyłania. Spróbuj ponownie.";
+          msg.style.color = "red";
+        });
+    });
+  });
+  </script>
+
+  <!-- SEO helper (jak miałeś) -->
+  <div class="seo" style="position:absolute; left:-9999px; visibility:hidden;">
+    budy, budy dla psów, budy Kraków, budy Katowice, budy Śląsk, budy Małopolska, ...
+  </div>
+
+  <script>
+    // Rok w stopce
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
-
-
-
-
-
-<div class="seo" style="position:absolute; left:-9999px; visibility:hidden;">
-budy, budy dla psów, budy Kraków, budy Katowice, budy Śląsk, budy Małopolska, najlepsze budy, ekskluzywne budy, budy najlepszej jakości, altany ogrodowe kraków, altany ogrodowe wieliczka, altany ogrodowe niepołomice, altany ogrodowe zielonki, altany ogrodowe libertów, altany ogrodowe skawina, altany ogrodowe mogilany, altany ogrodowe zabierzów, altany ogrodowe myślenice, altany ogrodowe bochnia, altany ogrodowe brzesko, altany ogrodowe tarnów, altany ogrodowe nowy sącz, altany ogrodowe krynica-zdrój, altany ogrodowe limanowa, altany ogrodowe rabka-zdrój, altany ogrodowe nowy targ, altany ogrodowe zakopane, altany ogrodowe olkusz, altany ogrodowe bukowno, altany ogrodowe trzebinia, altany ogrodowe chrzanów, altany ogrodowe krzeszowice, altany ogrodowe sułkowice, altany ogrodowe gdów, altany ogrodowe tenczynek, altany ogrodowe węgrzce wielkie, altany ogrodowe tychy, altany ogrodowe mikołów, altany ogrodowe pszczyna, altany ogrodowe bielsko-biała, altany ogrodowe żywiec, altany ogrodowe czechowice-dziedzice, altany ogrodowe siewierz, altany ogrodowe tarnowskie góry, altany ogrodowe zabrze, altany ogrodowe gliwice, altany ogrodowe rybnik, altany ogrodowe wodzisław śląski, altany ogrodowe radzionków, altany ogrodowe knurów, altany ogrodowe czeladź, altany ogrodowe będzin, altany ogrodowe sosnowiec, altany ogrodowe dąbrowa górnicza, altany ogrodowe jaworzno, altany ogrodowe lubliniec, altany ogrodowe ustroń, altany ogrodowe wisła, altany ogrodowe żory, altany ogrodowe orzesze, altany ogrodowe łaziska górne, domki narzędziowe kraków, domki narzędziowe wieliczka, domki narzędziowe niepołomice, domki narzędziowe zielonki, domki narzędziowe libertów, domki narzędziowe skawina, domki narzędziowe mogilany, domki narzędziowe zabierzów, domki narzędziowe myślenice, domki narzędziowe bochnia, domki narzędziowe brzesko, domki narzędziowe tarnów, domki narzędziowe nowy sącz, domki narzędziowe krynica-zdrój, domki narzędziowe limanowa, domki narzędziowe rabka-zdrój, domki narzędziowe nowy targ, domki narzędziowe zakopane, domki narzędziowe olkusz, domki narzędziowe bukowno, domki narzędziowe trzebinia, domki narzędziowe chrzanów, domki narzędziowe krzeszowice, domki narzędziowe sułkowice, domki narzędziowe gdów, domki narzędziowe tenczynek, domki narzędziowe węgrzce wielkie, domki narzędziowe tychy, domki narzędziowe mikołów, domki narzędziowe pszczyna, domki narzędziowe bielsko-biała, domki narzędziowe żywiec, domki narzędziowe czechowice-dziedzice, domki narzędziowe siewierz, domki narzędziowe tarnowskie góry, domki narzędziowe zabrze, domki narzędziowe gliwice, domki narzędziowe rybnik, domki narzędziowe wodzisław śląski, domki narzędziowe radzionków, domki narzędziowe knurów, domki narzędziowe czeladź, domki narzędziowe będzin, domki narzędziowe sosnowiec, domki narzędziowe dąbrowa górnicza, domki narzędziowe jaworzno, domki narzędziowe lubliniec, domki narzędziowe ustroń, domki narzędziowe wisła, domki narzędziowe żory, domki narzędziowe orzesze, domki narzędziowe łaziska górne, domki letniskowe kraków, domki letniskowe wieliczka, domki letniskowe niepołomice, domki letniskowe zielonki, domki letniskowe libertów, domki letniskowe skawina, domki letniskowe mogilany, domki letniskowe zabierzów, domki letniskowe myślenice, domki letniskowe bochnia, domki letniskowe brzesko, domki letniskowe tarnów, domki letniskowe nowy sącz, domki letniskowe krynica-zdrój, domki letniskowe limanowa, domki letniskowe rabka-zdrój, domki letniskowe nowy targ, domki letniskowe zakopane, domki letniskowe olkusz, domki letniskowe bukowno, domki letniskowe trzebinia, domki letniskowe chrzanów, domki letniskowe krzeszowice, domki letniskowe sułkowice, domki letniskowe gdów, domki letniskowe tenczynek, domki letniskowe węgrzce wielkie, domki letniskowe tychy, domki letniskowe mikołów, domki letniskowe pszczyna, domki letniskowe bielsko-biała, domki letniskowe żywiec, domki letniskowe czechowice-dziedzice, domki letniskowe siewierz, domki letniskowe tarnowskie góry, domki letniskowe zabrze, domki letniskowe gliwice, domki letniskowe rybnik, domki letniskowe wodzisław śląski, domki letniskowe radzionków, domki letniskowe knurów, domki letniskowe czeladź, domki letniskowe będzin, domki letniskowe sosnowiec, domki letniskowe dąbrowa górnicza, domki letniskowe jaworzno, domki letniskowe lubliniec, domki letniskowe ustroń, domki letniskowe wisła, domki letniskowe żory, domki letniskowe orzesze, domki letniskowe łaziska górne, wiaty i carporty kraków, wiaty i carporty wieliczka, wiaty i carporty niepołomice, wiaty i carporty zielonki, wiaty i carporty libertów, wiaty i carporty skawina, wiaty i carporty mogilany, wiaty i carporty zabierzów, wiaty i carporty myślenice, wiaty i carporty bochnia, wiaty i carporty brzesko, wiaty i carporty tarnów, wiaty i carporty nowy sącz, wiaty i carporty krynica-zdrój, wiaty i carporty limanowa, wiaty i carporty rabka-zdrój, wiaty i carporty nowy targ, wiaty i carporty zakopane, wiaty i carporty olkusz, wiaty i carporty bukowno, wiaty i carporty trzebinia, wiaty i carporty chrzanów, wiaty i carporty krzeszowice, wiaty i carporty sułkowice, wiaty i carporty gdów, wiaty i carporty tenczynek, wiaty i carporty węgrzce wielkie, wiaty i carporty tychy, wiaty i carporty mikołów, wiaty i carporty pszczyna, wiaty i carporty bielsko-biała, wiaty i carporty żywiec, wiaty i carporty czechowice-dziedzice, wiaty i carporty siewierz, wiaty i carporty tarnowskie góry, wiaty i carporty zabrze, wiaty i carporty gliwice, wiaty i carporty rybnik, wiaty i carporty wodzisław śląski, wiaty i carporty radzionków, wiaty i carporty knurów, wiaty i carporty czeladź, wiaty i carporty będzin, wiaty i carporty sosnowiec, wiaty i carporty dąbrowa górnicza, wiaty i carporty jaworzno, wiaty i carporty lubliniec, wiaty i carporty ustroń, wiaty i carporty wisła, wiaty i carporty żory, wiaty i carporty orzesze, wiaty i carporty łaziska górne, domki z tarasami kraków, domki z tarasami wieliczka, domki z tarasami niepołomice, domki z tarasami zielonki, domki z tarasami libertów, domki z tarasami skawina, domki z tarasami mogilany, domki z tarasami zabierzów, domki z tarasami myślenice, domki z tarasami bochnia, domki z tarasami brzesko, domki z tarasami tarnów, domki z tarasami nowy sącz, domki z tarasami krynica-zdrój, domki z tarasami limanowa, domki z tarasami rabka-zdrój, domki z tarasami nowy targ, domki z tarasami zakopane, domki z tarasami olkusz, domki z tarasami bukowno, domki z tarasami trzebinia, domki z tarasami chrzanów, domki z tarasami krzeszowice, domki z tarasami sułkowice, domki z tarasami gdów, domki z tarasami tenczynek, domki z tarasami węgrzce wielkie, domki z tarasami tychy, domki z tarasami mikołów, domki z tarasami pszczyna, domki z tarasami bielsko-biała, domki z tarasami żywiec, domki z tarasami czechowice-dziedzice, domki z tarasami siewierz, domki z tarasami tarnowskie góry, domki z tarasami zabrze, domki z tarasami gliwice, domki z tarasami rybnik, domki z tarasami wodzisław śląski, domki z tarasami radzionków, domki z tarasami knurów, domki z tarasami czeladź, domki z tarasami będzin, domki z tarasami sosnowiec, domki z tarasami dąbrowa górnicza, domki z tarasami jaworzno, domki z tarasami lubliniec, domki z tarasami ustroń, domki z tarasami wisła, domki z tarasami żory, domki z tarasami orzesze, domki z tarasami łaziska górne
-</div>
-
 </html>
