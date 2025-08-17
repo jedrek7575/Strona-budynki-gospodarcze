@@ -144,7 +144,7 @@
           </div>
 
           <div class="price-box">
-            Szacowana cena: <strong id="priceEstimate1">0</strong> zł
+            Szacowana cena: <strong id="priceEstimate1">(Dostosuj wymiary)</strong> 
             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
@@ -175,7 +175,7 @@
           </div>
 
           <div class="price-box">
-            Szacowana cena: <strong id="priceEstimate2">0</strong> zł
+            Szacowana cena: <strong id="priceEstimate2">(Dostosuj wymiary)</strong> 
             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
@@ -206,7 +206,7 @@
           </div>
 
           <div class="price-box">
-            Szacowana cena: <strong id="priceEstimate3">0</strong> zł
+            Szacowana cena: <strong id="priceEstimate3">(Dostosuj wymiary)</strong> 
             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
@@ -237,7 +237,7 @@
           </div>
 
           <div class="price-box">
-            Szacowana cena: <strong id="priceEstimate4">0</strong> zł
+            Szacowana cena: <strong id="priceEstimate4">(Dostosuj wymiary)</strong> 
             <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
           </div>
         </div>
@@ -450,6 +450,291 @@
     </div>
   </section>
 
+
+
+<!-- BLOG -->
+<section id="blog" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title mb-4">Blog</h2>
+
+    <div class="blog-scroller-wrapper position-relative">
+
+      <!-- Przyciski przewijania -->
+      <button id="blogPrev" class="blog-nav blog-nav-left btn btn-light" aria-label="Poprzednie artykuły">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button id="blogNext" class="blog-nav blog-nav-right btn btn-light" aria-label="Następne artykuły">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+      <!-- Lista artykułów (poziomy scroll) -->
+      <div id="blogScroller" class="blog-scroller">
+        <!-- Artykuł 1 -->
+        <article class="blog-card" data-article-id="a1">
+          <img src="blog1.webp" class="blog-img" alt="Altana ogrodowa – inspiracje">
+          <div class="blog-body">
+            <h3 class="blog-title">Narzędziówka, szopa na narzędzia - dlaczego to jest tak potrzebne?</h3>
+            <p class="blog-excerpt">
+            <p>Co nas wyróżnia — 7 konkretów:</p>  
+
+            <p>- Ocieplenie 360°</p>
+
+            <p>Ściany, podłoga i dach z pełnym pakietem: pełne pokrycie warstwą izolacyjną, paroizolacja od środka i wiatroizolacja od zewnątrz. Dzięki temu narzędzia nie łapią wilgoci, a wnętrze trzyma temperaturę.
+
+            </p>
+
+            <p>
+          - Konstrukcja na lata
+            </p>
+<p>
+  Dobieramy przekroje i zagęszczenie usztywnień pod Twoją strefę śniegową i wiatrową. Zero „telepania” na wichrze.
+</p>
+
+<p> -Szczelność i detale
+  
+</p>
+
+<p>Taśmy, taśmy, taśmy — przy oknach, drzwiach, cokołach. Obróbki, kapinosy i rynny w standardzie, żeby woda nie robiła szkód.</p>
+            </p>
+            
+            
+            </p>
+          </div>
+          <div class="blog-comments">
+            <h4>Komentarze</h4>
+            <ul class="comments-list" id="comments-a1"></ul>
+            <form class="comment-form" data-article-id="a1" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)">
+                </div>
+                <div class="col-12 col-md-4">
+                  <input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required>
+                </div>
+                <div class="col-12 col-md-12">
+                  <textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <!-- Artykuł 2 -->
+        <article class="blog-card" data-article-id="a2">
+          <img src="2.webp" class="blog-img" alt="Garaż blaszany – poradnik">
+          <div class="blog-body">
+            <h3 class="blog-title">Garaż blaszany czy drewniany?</h3>
+            <p class="blog-excerpt">Porównujemy koszty, trwałość i czas montażu.</p>
+          </div>
+          <div class="blog-comments">
+            <h4>Komentarze</h4>
+            <ul class="comments-list" id="comments-a2"></ul>
+            <form class="comment-form" data-article-id="a2" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)">
+                </div>
+                <div class="col-12 col-md-4">
+                  <input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required>
+                </div>
+                <div class="col-12 col-md-12">
+                  <textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <!-- Artykuł 3 -->
+        <article class="blog-card" data-article-id="a3">
+          <img src="3.webp" class="blog-img" alt="Carport – praktyczne wskazówki">
+          <div class="blog-body">
+            <h3 class="blog-title">Carport: szybkie zadaszenie auta</h3>
+            <p class="blog-excerpt">Jakie fundamenty i jakie pokrycie dachu wybrać?</p>
+          </div>
+          <div class="blog-comments">
+            <h4>Komentarze</h4>
+            <ul class="comments-list" id="comments-a3"></ul>
+            <form class="comment-form" data-article-id="a3" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)">
+                </div>
+                <div class="col-12 col-md-4">
+                  <input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required>
+                </div>
+                <div class="col-12 col-md-12">
+                  <textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <!-- Artykuł 4 -->
+        <article class="blog-card" data-article-id="a4">
+          <img src="4.webp" class="blog-img" alt="Domek narzędziowy – wymiary">
+          <div class="blog-body">
+            <h3 class="blog-title">Domek narzędziowy – optymalne wymiary</h3>
+            <p class="blog-excerpt">Jak policzyć zapotrzebowanie na metry i półki.</p>
+          </div>
+          <div class="blog-comments">
+            <h4>Komentarze</h4>
+            <ul class="comments-list" id="comments-a4"></ul>
+            <form class="comment-form" data-article-id="a4" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)">
+                </div>
+                <div class="col-12 col-md-4">
+                  <input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required>
+                </div>
+                <div class="col-12 col-md-12">
+                  <textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <!-- Artykuł 5 -->
+        <article class="blog-card" data-article-id="a5">
+          <img src="5.webp" class="blog-img" alt="Wiaty – materiały">
+          <div class="blog-body">
+            <h3 class="blog-title">Wiata czy altana? Różnice i zastosowania</h3>
+            <p class="blog-excerpt">Kiedy wybrać lekką konstrukcję, a kiedy zabudowę?</p>
+          </div>
+          <div class="blog-comments">
+            <h4>Komentarze</h4>
+            <ul class="comments-list" id="comments-a5"></ul>
+            <form class="comment-form" data-article-id="a5" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)">
+                </div>
+                <div class="col-12 col-md-4">
+                  <input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required>
+                </div>
+                <div class="col-12 col-md-12">
+                  <textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <!-- Artykuły 6–10 (używamy ponownie obrazów 6–8, 1–2, aby uniknąć 404) -->
+        <article class="blog-card" data-article-id="a6">
+          <img src="6.webp" class="blog-img" alt="Montaż – checklist">
+          <div class="blog-body">
+            <h3 class="blog-title">Montaż krok po kroku</h3>
+            <p class="blog-excerpt">Co przygotować przed przyjazdem ekipy?</p>
+          </div>
+          <div class="blog-comments"><h4>Komentarze</h4><ul class="comments-list" id="comments-a6"></ul>
+            <form class="comment-form" data-article-id="a6" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4"><input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)"></div>
+                <div class="col-12 col-md-4"><input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required></div>
+                <div class="col-12 col-md-12"><textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea></div>
+                <div class="col-12"><button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button></div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <article class="blog-card" data-article-id="a7">
+          <img src="7.webp" class="blog-img" alt="Konserwacja konstrukcji">
+          <div class="blog-body">
+            <h3 class="blog-title">Konserwacja i serwis</h3>
+            <p class="blog-excerpt">Jak dbać o drewno i stal, by służyły latami.</p>
+          </div>
+          <div class="blog-comments"><h4>Komentarze</h4><ul class="comments-list" id="comments-a7"></ul>
+            <form class="comment-form" data-article-id="a7" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4"><input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)"></div>
+                <div class="col-12 col-md-4"><input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required></div>
+                <div class="col-12 col-md-12"><textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea></div>
+                <div class="col-12"><button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button></div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <article class="blog-card" data-article-id="a8">
+          <img src="8.webp" class="blog-img" alt="Formalności i prawo">
+          <div class="blog-body">
+            <h3 class="blog-title">Zgłoszenie czy pozwolenie?</h3>
+            <p class="blog-excerpt">Kiedy wystarczy zgłoszenie budowy obiektu gospodarczego.</p>
+          </div>
+          <div class="blog-comments"><h4>Komentarze</h4><ul class="comments-list" id="comments-a8"></ul>
+            <form class="comment-form" data-article-id="a8" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4"><input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)"></div>
+                <div class="col-12 col-md-4"><input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required></div>
+                <div class="col-12 col-md-12"><textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea></div>
+                <div class="col-12"><button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button></div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <article class="blog-card" data-article-id="a9">
+          <img src="1.webp" class="blog-img" alt="Fundamenty – poradnik">
+          <div class="blog-body">
+            <h3 class="blog-title">Fundament pod wiatę</h3>
+            <p class="blog-excerpt">Płyta, stopy czy bloczki? Plusy i minusy.</p>
+          </div>
+          <div class="blog-comments"><h4>Komentarze</h4><ul class="comments-list" id="comments-a9"></ul>
+            <form class="comment-form" data-article-id="a9" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4"><input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)"></div>
+                <div class="col-12 col-md-4"><input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required></div>
+                <div class="col-12 col-md-12"><textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea></div>
+                <div class="col-12"><button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button></div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <article class="blog-card" data-article-id="a10">
+          <img src="2.webp" class="blog-img" alt="Cenniki i wyceny">
+          <div class="blog-body">
+            <h3 class="blog-title">Ile to kosztuje w 2025?</h3>
+            <p class="blog-excerpt">Orientacyjne widełki cenowe i na co zwrócić uwagę w ofercie.</p>
+          </div>
+          <div class="blog-comments"><h4>Komentarze</h4><ul class="comments-list" id="comments-a10"></ul>
+            <form class="comment-form" data-article-id="a10" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4"><input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)"></div>
+                <div class="col-12 col-md-4"><input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required></div>
+                <div class="col-12 col-md-12"><textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea></div>
+                <div class="col-12"><button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button></div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+      </div> <!-- /blogScroller -->
+    </div> <!-- /wrapper -->
+  </div>
+</section>
+
+
   <!-- Footer -->
   <footer>
     <div class="container">
@@ -657,5 +942,107 @@
     // Rok w stopce
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
+
+
+
+<!-- Sekcja ,,BLOG" -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // ----- slider 1/10
+  const scroller = document.getElementById('blogScroller');
+  const prevBtn  = document.getElementById('blogPrev');
+  const nextBtn  = document.getElementById('blogNext');
+  const cards    = Array.from(scroller.querySelectorAll('.blog-card'));
+  const total    = cards.length;
+  let idx = 0;
+
+  function goTo(i, smooth = true) {
+    idx = (i + total) % total; // pętla 0..total-1
+    const x = idx * scroller.clientWidth;
+    scroller.scrollTo({ left: x, behavior: smooth ? 'smooth' : 'instant' });
+    // aria/ukrycie semantyczne (opcjonalnie)
+    cards.forEach((c, k) => c.setAttribute('aria-hidden', String(k !== idx)));
+  }
+
+  prevBtn?.addEventListener('click', () => goTo(idx - 1));
+  nextBtn?.addEventListener('click', () => goTo(idx + 1));
+
+  // Klawiatura
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  goTo(idx - 1);
+    if (e.key === 'ArrowRight') goTo(idx + 1);
+  });
+
+  // Reaktywuj po zmianie rozmiaru (zachowaj bieżący slajd)
+  window.addEventListener('resize', () => goTo(idx, false));
+
+  // Start na pierwszej karcie
+  goTo(0, false);
+
+  // ----- komentarze (localStorage per artykuł) — bez zmian
+  const KEY = (id) => `blogComments:${id}`;
+
+  function maskEmail(email) {
+    const [u,d] = email.split('@');
+    if (!d) return email;
+    const domParts = d.split('.');
+    const domMain = domParts[0] || '';
+    const maskedU = u.length <= 2 ? (u[0] || '*') + '*' : u.slice(0,2) + '***';
+    const maskedD = domMain ? domMain[0] + '*'.repeat(Math.max(1, Math.min(3, domMain.length-1))) : '*';
+    return `${maskedU}@${maskedD}.${domParts.slice(1).join('.')}`;
+  }
+
+  function renderComments(articleId) {
+    const list = document.getElementById(`comments-${articleId}`);
+    if (!list) return;
+    const data = JSON.parse(localStorage.getItem(KEY(articleId)) || '[]');
+    list.innerHTML = '';
+    data.forEach(item => {
+      const li = document.createElement('li');
+      const when = new Date(item.ts).toLocaleString();
+      li.innerHTML = `
+        <div class="comment-meta"><strong>${item.name || 'Anonim'}</strong> • ${item.emailMasked} • ${when}</div>
+        <div class="comment-text">${item.text.replace(/</g,'&lt;')}</div>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll('.comment-form').forEach(form => {
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const id   = this.dataset.articleId;
+      const name = (this.querySelector('input[name="name"]')?.value || '').trim();
+      const email= (this.querySelector('input[name="email"]')?.value || '').trim();
+      const text = (this.querySelector('textarea[name="text"]')?.value || '').trim();
+
+      const emailOk = /^\S+@\S+\.\S+$/.test(email);
+      if (!emailOk) { alert('Podaj poprawny adres e-mail.'); return; }
+      if (!text)    { alert('Wpisz treść komentarza.'); return; }
+
+      const entry = {
+        name,
+        emailMasked: maskEmail(email),
+        text,
+        ts: new Date().toISOString()
+      };
+      const arr = JSON.parse(localStorage.getItem(KEY(id)) || '[]');
+      arr.push(entry);
+      localStorage.setItem(KEY(id), JSON.stringify(arr));
+      this.querySelector('textarea[name="text"]').value = '';
+      renderComments(id);
+    });
+  });
+
+  // Załaduj komentarze dla wszystkich kart
+  document.querySelectorAll('.blog-card').forEach(card => {
+    const id = card.getAttribute('data-article-id');
+    renderComments(id);
+  });
+});
+</script>
+
+
 </body>
 </html>
