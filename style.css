@@ -884,3 +884,7 @@ margin-bottom: 2vh;
   font-weight: 900 !important;
   font-size: large;
 }
+
+.blog-card p {
+  text-align: justify;
+}
