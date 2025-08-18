@@ -31,6 +31,43 @@ a {
 .navbar.white {
   background: transparent !important;
 }
+.navbar-toggler {
+  color: white;
+  border-color: white;
+  
+  
+}
+
+.line {
+  width: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 5px;
+  border-radius: 3px;
+  transition: .3s ease-in-out;
+  border: solid 0.001px;
+}
+
+.navbar-toggler .line:nth-child(1) {
+ background-color: white; 
+
+ 
+}
+
+
+.navbar-toggler .line:nth-child(2) {
+ background-color: white; 
+}
+
+
+.navbar-toggler .line:nth-child(3) {
+background-color: white;
+
+
+
+}
+
+
 
 
 .navbar-brand,
