@@ -888,3 +888,18 @@ margin-bottom: 2vh;
 .blog-card p {
   text-align: justify;
 }
+
+/* Umożliwia przewijanie palcem */
+.blog-scroller {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* płynne przewijanie na iOS */
+}
+
+/* Ukryj przyciski na urządzeniach mobilnych */
+@media (max-width: 768px) {
+  #blogPrev,
+  #blogNext {
+    display: none;
+  }
+}
