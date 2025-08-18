@@ -859,3 +859,28 @@ margin-bottom: 2vh;
   .blog-img { height: 180px; }
 }
 
+.blog-scroller {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.blog-card {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+.blog-scroller.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.blog-card h3 {
+  font-weight: 900;
+}
+
+.blog-card p {
+  font-weight: 600;
+}
+
+.akapit {
+  font-weight: 900 !important;
+  font-size: large;
+}
