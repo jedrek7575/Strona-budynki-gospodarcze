@@ -694,11 +694,16 @@ footer {
   justify-content: center;
   gap: 20px;
   position: relative;
-  height: auto;
+  
   margin-left: 2%;
   margin-right: 2%;
   
   flex-wrap: wrap;
+}
+
+.container5-cards .card {
+  height: 20vhpx;
+  width: 20vw;
 }
 
 .container5-cards2 {
