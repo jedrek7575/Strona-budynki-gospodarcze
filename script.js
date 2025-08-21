@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Funkcja aktualizująca formularz po kliknięciu na kartę
   cards.forEach(card => {
-    card.addEventListener('click', function () {
+    card.addEventListener('click', function (e) {
+          if (e.target.closest('.carousel')) return; 
       // Pobieramy tytuł i wymiary z atrybutów data- na karcie
       const title = card.getAttribute('data-title');
       const dimensions = card.getAttribute('data-dimensions');
@@ -177,3 +178,62 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+document.querySelectorAll('#container5 .carousel .carousel-control-prev, #container5 .carousel .carousel-control-next')
+  .forEach(ctrl => ctrl.addEventListener('click', e => e.stopPropagation()));   // <-- DODAJ
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const lightbox = document.getElementById("dog-lightbox");
+  const closeBtn = document.querySelector(".dog-lightbox-close");
+  const mainImg = document.getElementById("dog-lightbox-main-img");
+  const thumbsContainer = document.getElementById("dog-lightbox-thumbs");
+
+  // Przykładowe galerie zdjęć dla każdej budy
+  const dogGalleries = {
+    "villa-cerber": ["Buda12.webp", "Buda11.webp", "Buda13.webp", "image1.jpg", "image2.jpg"],
+    "dog2": ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg"],
+    "dog3": ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg"],
+    "dog4": ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg"],
+    "dog5": ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg"]
+  };
+
+  // Kliknięcie w obrazek w karcie
+  document.querySelectorAll(".dog-card img").forEach(img => {
+    img.addEventListener("click", () => {
+      const card = img.closest(".dog-card");
+      const galleryKey = card.getAttribute("data-title").toLowerCase().replace(/\s+/g,"-");
+
+      if (dogGalleries[galleryKey]) {
+        thumbsContainer.innerHTML = ""; // czyścimy miniatury
+        dogGalleries[galleryKey].forEach((src, i) => {
+          const thumb = document.createElement("img");
+          thumb.src = src;
+          if (i === 0) {
+            thumb.classList.add("active");
+            mainImg.src = src;
+          }
+          thumb.addEventListener("click", () => {
+            mainImg.src = src;
+            document.querySelectorAll(".dog-lightbox-thumbs img").forEach(t => t.classList.remove("active"));
+            thumb.classList.add("active");
+          });
+          thumbsContainer.appendChild(thumb);
+        });
+
+        lightbox.style.display = "flex";
+      }
+    });
+  });
+
+  // Zamknięcie
+  closeBtn.addEventListener("click", () => {
+    lightbox.style.display = "none";
+  });
+
+  // Zamknięcie klikając w tło
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = "none";
+    }
+  });
+});

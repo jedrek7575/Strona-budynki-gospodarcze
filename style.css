@@ -748,8 +748,8 @@ footer {
 }
 
 .container5-cards .card {
-  height: 100vh;
-  width: 98vw;
+  height: auto;
+  width: 90vw;
 }
 .container5-cards {
   display: flex;
@@ -757,19 +757,17 @@ footer {
   justify-content: center;
   gap: 20px;
   position: relative;
-  
+  transform: translateX(-3%);
   margin-left: 0%;
   margin-right: 0%;
   
   flex-wrap: wrap;
 }
+
+
 }
 
-.carousel-wrapper {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-}
+
 
 
 
@@ -817,9 +815,6 @@ footer {
     width: 100%;
   }
   
-  .carousel-wrapper {
-    height: 150px;
-  }
 
   .container5 {
     height: auto !important; /* Upewnij się, że wysokość jest automatyczna w wersji mobilnej */
@@ -982,3 +977,105 @@ margin-bottom: 2vh;
 }
 
 
+
+
+/* Ramka slajdu ma sensowną wysokość na tel. */
+#container5 .carousel,
+#container5 .carousel-inner,
+#container5 .carousel-item {
+  height: auto;        /* na telefonach pełniejsza wysokość */
+  max-height: 520px;   /* górny limit */
+   /* dolny limit */
+}
+
+/* Wycentruj zawartość w slajdzie */
+#container5 .carousel-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;    /* paski, gdy proporcje się nie zgadzają */
+}
+
+/* KLUCZ: obraz musi mieć width + height, wtedy object-fit: contain działa */
+#container5 .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;      /* nie flex! */
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Nie ograniczaj zbyt agresywnie wrappera */
+#container5 .carousel-wrapper {
+  width: 100%;
+  height: auto;        /* spójnie z .carousel-item */
+  max-height: 520px;
+ 
+  /* możesz zostawić, bo i tak obraz się mieści */
+}
+
+/* Mobile: trochę więcej wysokości, bo UI zabiera miejsce */
+@media (max-width: 576px) {
+  #container5 .carousel,
+  #container5 .carousel-inner,
+  #container5 .carousel-item,
+  #container5 .carousel-wrapper {
+    height: auto;
+    
+  }
+}
+
+/* Przydymione tło */
+.dog-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 20000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Zamknięcie */
+.dog-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+/* Duże zdjęcie */
+.dog-lightbox-main {
+  max-width: 90%;
+  max-height: 70vh;
+  margin-bottom: 20px;
+}
+.dog-lightbox-main img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 8px;
+}
+
+/* Miniatury */
+.dog-lightbox-thumbs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.dog-lightbox-thumbs img {
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+.dog-lightbox-thumbs img.active {
+  border-color: #d2601a;
+}
