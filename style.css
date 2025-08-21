@@ -31,6 +31,43 @@ a {
 .navbar.white {
   background: transparent !important;
 }
+.navbar-toggler {
+  color: white;
+  border-color: white;
+  
+  
+}
+
+.line {
+  width: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 5px;
+  border-radius: 3px;
+  transition: .3s ease-in-out;
+  border: solid 0.001px;
+}
+
+.navbar-toggler .line:nth-child(1) {
+ background-color: white; 
+
+ 
+}
+
+
+.navbar-toggler .line:nth-child(2) {
+ background-color: white; 
+}
+
+
+.navbar-toggler .line:nth-child(3) {
+background-color: white;
+
+
+
+}
+
+
 
 
 .navbar-brand,
@@ -858,4 +895,52 @@ margin-bottom: 2vh;
   .blog-scroller-wrapper { padding: 0 2.25rem; }
   .blog-img { height: 180px; }
 }
+
+.blog-scroller {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.blog-card {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+.blog-scroller.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.blog-card h3 {
+  font-weight: 900;
+}
+
+.blog-card p {
+  font-weight: 600;
+}
+
+.akapit {
+  font-weight: 900 !important;
+  font-size: large;
+}
+
+.blog-card p {
+  text-align: justify;
+}
+
+/* Umożliwia przewijanie palcem */
+.blog-scroller {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* płynne przewijanie na iOS */
+}
+
+/* Ukryj przyciski na urządzeniach mobilnych */
+@media (max-width: 768px) {
+  #blogPrev,
+  #blogNext {
+    display: none;
+  }
+.blog-scroller-wrapper { padding: 0; position: relative; }
+
+}
+
 
