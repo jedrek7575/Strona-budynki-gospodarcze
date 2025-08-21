@@ -94,9 +94,9 @@ function updateCalculator(containerId) {
 
   const pricePerSquareMeter = {
     container1: 1017,
-    container2: 900,
-    container3: 1300,
-    container4: 450
+    container2: 1183,
+    container3: 1286,
+    container4: 768
   };
 
   const estimatedPrice = Math.round(area * pricePerSquareMeter[`container${containerId}`]);
