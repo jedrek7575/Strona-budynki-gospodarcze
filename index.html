@@ -979,6 +979,75 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
+<script>
+// ZWIJANIE MENU MOBILNEGO + PŁYNNY SCROLL Z OFFSETEM
+document.addEventListener('DOMContentLoaded', () => {
+  const navbarCollapseEl = document.getElementById('navbarNav');
+  const navbarToggler    = document.querySelector('.navbar-toggler');
+  if (!navbarCollapseEl || !navbarToggler) return;
+
+  // Instancja Collapse (nie otwieraj/nie zamykaj automatycznie)
+  const bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarCollapseEl, { toggle: false });
+
+  // Linki, które mają zamykać menu (zwykłe i dropdowny)
+  const actionableLinks = navbarCollapseEl.querySelectorAll('a.nav-link, .dropdown-item');
+
+  // Funkcja: czy jesteśmy w trybie mobilnym (toggler widoczny)
+  const isMobile = () => window.getComputedStyle(navbarToggler).display !== 'none';
+
+  // Płynny scroll z offsetem dla sekcji (#id)
+  const smoothScrollToHash = (hash) => {
+    if (!hash || hash === '#') return false;
+    const target = document.querySelector(hash);
+    if (!target) return false;
+    const yOffset = -60; // wysokość nagłówka (dostosuj w razie potrzeby)
+    const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+    return true;
+  };
+
+  actionableLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href') || '';
+
+      // Jeśli klik w link do sekcji na stronie — przewiń z offsetem
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        smoothScrollToHash(href);
+      }
+
+      // Jeżeli menu jest rozwinięte i jesteśmy na mobile — zwiń
+      if (isMobile() && navbarCollapseEl.classList.contains('show')) {
+        bsCollapse.hide();
+      }
+    });
+  });
+
+  // Klik poza menu — zamknij (tylko mobile)
+  document.addEventListener('click', (e) => {
+    if (!isMobile()) return;
+    const clickedInsideMenu = navbarCollapseEl.contains(e.target);
+    const clickedToggler    = navbarToggler.contains(e.target);
+    if (navbarCollapseEl.classList.contains('show') && !clickedInsideMenu && !clickedToggler) {
+      bsCollapse.hide();
+    }
+  });
+
+  // Zamykanie po nawigacji klawiaturą (Enter/Space na linku)
+  navbarCollapseEl.addEventListener('keydown', (e) => {
+    if (!isMobile()) return;
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('a.nav-link, .dropdown-item')) {
+      setTimeout(() => bsCollapse.hide(), 0);
+    }
+  });
+
+  // Opcjonalnie: jeśli adres URL ma #hash po przeładowaniu — przewiń z offsetem
+  if (location.hash) {
+    setTimeout(() => smoothScrollToHash(location.hash), 0);
+  }
+});
+</script>
+
 </body>
 </html>
 
