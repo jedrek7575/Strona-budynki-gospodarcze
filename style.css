@@ -142,7 +142,7 @@ background-color: white;
 
 /* === OFERTA === */
 #offer {
-  display: flex;
+  display: none;
   justify-content: end;
   align-items: end;
   font-weight: 900;
@@ -183,7 +183,7 @@ background-color: white;
   transition: transform 0.2s ease;
   background: rgba(255, 255, 255, 0.754);
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  display: flex;
+  display: none;
   align-self: flex-end;
   justify-self: flex-end;
   border-radius: 10px;
@@ -198,7 +198,7 @@ background-color: white;
   transition: transform 0.2s ease;
   background: rgba(255, 255, 255, 0.754);
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  display: flex;
+  display: none;
   align-self: flex-end;
   justify-self: flex-end;
   border-radius: 10px;
