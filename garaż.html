@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zabudo.pl - Profesjonalne rozwiązania Twojego ogrodu</title>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Po Prostu Solidne",
+    "description": "Budynki gospodarcze na wymiar – hale stalowe, wiaty, garaże blaszane, konstrukcje rolnicze. Montaż Śląsk i Małopolska.",
+    "url": "https://www.zabudo.pl",
+    "telephone": "+48503702467",
+    "email": "adam@zabudo.pl",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ul. Przykładowa 1",
+      "addressLocality": "Siewierz",
+      "addressRegion": "Śląskie",
+      "postalCode": "42-470",
+      "addressCountry": "PL"
+    },
+    "areaServed": ["Śląsk", "Małopolska", "Siewierz", "Zawiercie", "Myszków", "Łazy", "Poręba", "Żarki", "Koziegłowy", "Ożarowice", "Wojkowice Kościelne"],
+    "openingHours": "Mo-Fr 08:00-17:00",
+    "sameAs": []
+  }
+  </script>
+
+  <!-- Meta -->
+  <meta name="description" content="Zabudo.PL – Budujemy trwałe, funkcjonalne budynki gospodarcze na wymiar na Śląsku i w Małopolsce. Szybka realizacja, montaż i atrakcyjne ceny.">
+  <meta name="keywords" content="budynki gospodarcze, konstrukcje stalowe, garaże blaszane, Śląsk, Małopolska, Siewierz, budowa, montaż, solidne budynki, na wymiar, blaszaki, Po Prostu Solidne">
+  <meta name="author" content="Po Prostu Solidne">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Budynki gospodarcze na wymiar | Po Prostu Solidne">
+  <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
+  <meta property="og:image" content="URL_DO_Twojej_Głównej_Grafiki.jpg">
+  <meta property="og:url" content="https://www.twojadomena.pl">
+
+  <!-- Fonts & CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="mstile-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <img id="ikonazab" src="favicon-96x96white.png" alt="Logo białe" />
+
+      <a class="navbar-brand" href="index.html">Zabudo.pl</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+ 
+          <li class="nav-item"><a class="nav-link" href="index.html#oferta">Oferta</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Kontakt</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#gallery">Galeria</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<div class="sklep-wrapper">
+
+
+
+
+
+
+    <div id="burgerMenu" class="burger-menu">
+      <button data-target="container1" class="btn btn-sm btn-outline-dark active">garaż jednostanowiskowy</button>
+      <button data-target="container2" class="btn btn-sm btn-outline-dark">garaż dwustanowiskowy</button>
+    </div>
+
+
+    <div class="usługi-menu-wyboru">
+
+
+
+
+      <div class="pole-wyboru">
+        
+<div class="pole-wyboru-tytuł">
+      <input type="checkbox" class="main-check" /> Ocieplenie
+</div>
+
+  <div class="opcje">
+    
+     <label class="opcja-1">
+      <input type="checkbox" data-type="sqm" data-price="74"/> 50 mm
+    </label>
+
+        <label class="opcja-2">
+      <input type="checkbox" data-type="sqm" data-price="134"/> 100 mm
+    </label>
+
+    <label class="opcja-3">
+      <input type="checkbox" data-type="sqm" data-price="157"/> 150 mm
+    </label>
+
+  </div>
+      </div>
+
+
+
+       <div class="pole-wyboru">
+        
+<div class="pole-wyboru-tytuł">
+      <input type="checkbox" class="main-check" /> Fundament
+</div>
+
+  <div class="opcje">
+    
+     <label class="opcja-1">
+      <input type="checkbox" data-type="sqm" data-price="97"/> Płyty chodnikowe na podsypce piaskowej
+    </label>
+
+        <label class="opcja-2">
+      <input type="checkbox" data-type="sqm" data-price="138"/> Płyty chodnikowe z dodatkowym utwardzeniem podłoża
+    </label>
+
+    <label class="opcja-3">
+      <input type="checkbox" data-type="sqm" data-price="156"/> Płyta betonowa
+    </label>
+
+        <label class="opcja-4">
+      <input type="checkbox" data-type="sqm" data-price="185"/> Płyta betonowa z dodatkowym utwardzeniem podłoża
+    </label>
+
+  </div>
+      </div>
+
+
+
+
+    </div>
+
+
+    <div class="build-type-wrapper text-center mb-3">
+      <!-- Kontener 1: Narzędziówka -->
+      <div id="container1" class="build-container active">
+        <h2 class="section-title">Garaż jednostanowiskowy</h2>
+        <div class="range-section">
+          <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
+          <div class="mb-3">
+            <label for="widthRange1">Szerokość (2–5 m):</label>
+            <input type="range" id="widthRange1" min="2" max="5" step="0.1" value="3.5" />
+            <span id="widthValue1"></span> m
+          </div>
+          <div class="mb-3">
+            <label for="lengthRange1">Długość (4–7 m):</label>
+            <input type="range" id="lengthRange1" min="4" max="7" step="0.1" value="5.5" />
+            <span id="lengthValue1"></span> m
+          </div>
+
+          <div class="dimensions-display">
+            <strong>Wymiary: </strong><span id="dimensions1">3.5 x 5.5</span> m
+          </div>
+
+          <div class="dimensions-map">
+            <div id="buildingMap" class="building-map map1"></div>
+        
+          </div>
+
+          <div class="price-box">
+            Szacowana cena: <strong id="priceEstimate1">(Dostosuj wymiary)</strong> 
+            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Kontener 2: garaż 2 stanowiska -->
+      <div id="container2" class="build-container">
+        <h2 class="section-title">Garaż dwustanowiskowy</h2>
+        <div class="range-section">
+          <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
+          <div class="mb-3">
+            <label for="widthRange2">Szerokość (2–5 m):</label>
+            <input type="range" id="widthRange2" min="2" max="5" step="0.1" value="3.5" />
+            <span id="widthValue2"></span> m
+          </div>
+          <div class="mb-3">
+            <label for="lengthRange2">Długość (5–7 m):</label>
+            <input type="range" id="lengthRange2" min="5" max="7" step="0.1" value="6.0" />
+            <span id="lengthValue2"></span> m
+          </div>
+
+          <div class="dimensions-display">
+            <strong>Wymiary: </strong><span id="dimensions2">3.5 x 5.5</span> m
+          </div>
+
+          <div class="dimensions-map">
+            <div id="buildingMap" class="building-map map2"></div>
+         
+          </div>
+
+          <div class="price-box">
+            Szacowana cena: <strong id="priceEstimate2">(Dostosuj wymiary)</strong> 
+            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+          </div>
+        </div>
+      </div>
+
+      
+
+    </div>  
+
+
+      <!-- Obsługa pól wyboru -->
+
+
+<script>
+  document.querySelectorAll(".pole-wyboru").forEach(pole => {
+    const mainCheckbox = pole.querySelector(".main-check");
+    const opcje = pole.querySelector(".opcje");
+
+    mainCheckbox.addEventListener("change", () => {
+      if (mainCheckbox.checked) {
+        opcje.classList.add("rozwinięty");
+      } else {
+        opcje.classList.remove("rozwinięty");
+      }
+    });
+  });
+</script>
+    
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // --- pomocnicze: m² w danym kontenerze (z suwaków) ---
+  function getAreaFromContainer(container) {
+    const w = parseFloat(container.querySelector('input[id^="widthRange"]')?.value || '0');
+    const l = parseFloat(container.querySelector('input[id^="lengthRange"]')?.value || '0');
+    return (isNaN(w) || isNaN(l)) ? 0 : w * l;
+  }
+
+  // --- UI: obsługa pól wyboru (jak u Ciebie) ---
+  document.querySelectorAll(".pole-wyboru").forEach(pole => {
+    const mainCheckbox = pole.querySelector(".main-check");
+    const opcje = pole.querySelector(".opcje");
+    const subOptions = opcje.querySelectorAll("input[type=checkbox]");
+
+    mainCheckbox.addEventListener("change", () => {
+      if (mainCheckbox.checked) {
+        opcje.classList.add("rozwinięty");
+      } else {
+        opcje.classList.remove("rozwinięty");
+        // Odznacz wszystkie opcje wewnętrzne
+        subOptions.forEach(c => (c.checked = false));
+        updateCalculatorForAll();
+      }
+    });
+
+    subOptions.forEach(opt => {
+      opt.addEventListener("change", () => {
+        if (opt.checked) {
+          // tylko jedna opcja w grupie
+          subOptions.forEach(o => { if (o !== opt) o.checked = false; });
+        }
+        updateCalculatorForAll();
+      });
+    });
+  });
+
+  // --- liczenie dopłat (uwzględnia sqm/fixed) ---
+  function getOptionsPriceTotalForActive(container) {
+    let extras = 0;
+    const area = getAreaFromContainer(container);
+    // tylko JEDNA zaznaczona w każdej .opcje (wg Twojej logiki)
+    document.querySelectorAll(".pole-wyboru .opcje").forEach(group => {
+      const checked = group.querySelector('input[type="checkbox"]:checked');
+      if (!checked) return;
+      const type  = (checked.dataset.type || "fixed").toLowerCase();
+      const price = parseFloat(checked.dataset.price || "0") || 0;
+      extras += (type === "sqm") ? Math.round(price * area) : Math.round(price);
+    });
+    return extras;
+  }
+
+  // --- uruchamianie przeliczeń w aktywnym kontenerze ---
+  function updateCalculatorForAll() {
+    const active = document.querySelector(".build-container.active");
+    if (!active) return;
+    const id = active.id.replace("container", "");
+    updateCalculator(id);
+  }
+
+  // --- PATCH Twojej istniejącej funkcji: dopłaty + NA ŻYWO nawiasy (+… zł) ---
+  const oldUpdateCalculator = window.updateCalculator;
+  window.updateCalculator = function (containerId) {
+    // 1) najpierw Twoja baza (m² × stawka) + wypisanie ceny bazowej
+    oldUpdateCalculator(containerId);
+
+    // 2) kontener, m² i dopłaty
+    const container   = document.getElementById(`container${containerId}`);
+    if (!container) return;
+    const priceTarget = container.querySelector(`#priceEstimate${containerId}`);
+
+    const area = getAreaFromContainer(container);
+    let extras = 0;
+
+    // 3) W KAŻDEJ grupie usuń stare .price-tag, policz dopłatę i wstaw aktualny „(+… zł)”
+    document.querySelectorAll(".pole-wyboru .opcje").forEach(group => {
+      const checked = group.querySelector('input[type="checkbox"]:checked');
+
+      // usuń wszystkie stare tagi w tej grupie
+      group.querySelectorAll(".price-tag").forEach(tag => tag.remove());
+
+      if (!checked) return;
+
+      const type  = (checked.dataset.type || "fixed").toLowerCase();
+      const price = parseFloat(checked.dataset.price || "0") || 0;
+      const add   = (type === "sqm") ? Math.round(price * area) : Math.round(price);
+      extras += add;
+
+      // dopisz aktualny tag przy zaznaczonej opcji
+      const label = checked.closest("label");
+      if (label) {
+        const span = document.createElement("span");
+        span.className = "price-tag";
+        span.textContent = ` (+${add.toLocaleString("pl-PL")} zł)`;
+        label.appendChild(span);
+      }
+    });
+
+    // 4) dolicz dopłaty do ceny bazowej
+    if (priceTarget) {
+      const baseText = priceTarget.textContent.replace(/\D/g, "");
+      if (baseText) {
+        const base  = parseInt(baseText, 10) || 0;
+        const final = base + extras;
+        priceTarget.textContent = final.toLocaleString("pl-PL") + " zł";
+      }
+    }
+  };
+});
+</script>
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // m² aktywnego kontenera (badge → suwaki)
+  function getActiveArea() {
+    const active = document.querySelector(".build-container.active");
+    if (!active) return 0;
+
+    const badge = active.querySelector(".area-badge");
+    if (badge && badge.textContent.trim()) {
+      const m = badge.textContent.match(/([\d.,]+)/);
+      if (m) {
+        const v = parseFloat(m[1].replace(",", "."));
+        if (!isNaN(v)) return v;
+      }
+    }
+    const w = parseFloat(active.querySelector('input[id^="widthRange"]')?.value || "0");
+    const l = parseFloat(active.querySelector('input[id^="lengthRange"]')?.value || "0");
+    return (isNaN(w) || isNaN(l)) ? 0 : w * l;
+  }
+
+  // Pomocnicze: usuń wszystkie price-tagi w danym kontenerze .opcje
+  function clearPriceTags(opcjeEl) {
+    opcjeEl.querySelectorAll(".price-tag").forEach(tag => tag.remove());
+  }
+
+  // Obsługa każdej sekcji .pole-wyboru
+  document.querySelectorAll(".pole-wyboru").forEach(pole => {
+    const mainCheckbox = pole.querySelector(".main-check");
+    const opcje = pole.querySelector(".opcje");
+    if (!opcje) return;
+
+    const subOptions = opcje.querySelectorAll('input[type="checkbox"]');
+
+    // Main-check: ukryj/pokaż + resetuj opcje i price-tagi przy odznaczeniu
+    if (mainCheckbox) {
+      mainCheckbox.addEventListener("change", () => {
+        if (!mainCheckbox.checked) {
+          subOptions.forEach(c => (c.checked = false));
+          clearPriceTags(opcje);
+        }
+        if (typeof updateCalculatorForAll === "function") updateCalculatorForAll();
+      });
+    }
+
+    // Opcje: tylko jedna zaznaczona w ramach danej grupy + dopisz dynamiczny (+price)
+    subOptions.forEach(opt => {
+      opt.addEventListener("change", () => {
+        const label = opt.closest("label");
+        if (!label) return;
+
+        // wyczyść stare tagi w tej grupie
+        clearPriceTags(opcje);
+
+        if (opt.checked) {
+          // odznacz inne w tej samej grupie
+          subOptions.forEach(o => { if (o !== opt) o.checked = false; });
+
+          const type   = (opt.dataset.type || "fixed").toLowerCase();
+          const price  = parseFloat(opt.dataset.price || "0") || 0;
+          const area   = getActiveArea();
+          const value  = Math.round(type === "sqm" ? price * area : price);
+
+          const span = document.createElement("span");
+          span.className = "price-tag";
+          span.textContent = ` (+${value.toLocaleString("pl-PL")} zł)`;
+          label.appendChild(span);
+        }
+
+        if (typeof updateCalculatorForAll === "function") updateCalculatorForAll();
+      });
+    });
+  });
+});
+</script>
+
+
+
+
+
+
+
+      <!-- Formularz kontaktowy -->
+
+<section id="contact" class="full-screen-section d-flex align-items-center justify-content-center text-center">
+    <div class="container" style="max-width: 600px;">
+      <h2 class="section-title">Skontaktuj się z nami</h2>
+
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+      </div>
+
+
+      <form id="contact-form">
+        <div class="mb-2">
+          <input type="text" name="user_name" placeholder="Imię i nazwisko" class="form-control" required />
+        </div>
+        <div class="mb-2">
+          <input type="email" name="user_email" placeholder="Adres e-mail" class="form-control" required />
+        </div>
+        <div class="mb-2">
+          <textarea id="message" name="message" rows="6" class="form-control" required>Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+      </form>
+
+      <p id="form-message" style="margin-top: 10px;"></p>
+    </div>
+  </section>
+
+
+
+</div>
+
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Nasłuchujemy kliknięcia na kartach w container5
+  const cards = document.querySelectorAll('.container5-cards .card');
+
+  // Funkcja aktualizująca formularz po kliknięciu na kartę
+  cards.forEach(card => {
+    card.addEventListener('click', function (e) {
+          if (e.target.closest('.carousel')) return; 
+      // Pobieramy tytuł i wymiary z atrybutów data- na karcie
+      const title = card.getAttribute('data-title');
+      const dimensions = card.getAttribute('data-dimensions');
+
+      // Ustawiamy odpowiednią nazwę budynku w formularzu
+      const buildingNameField = document.querySelector('textarea[name="message"]');
+      buildingNameField.value = `Dzień dobry! Interesuje mnie ${title} z dostawą do (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.`;
+
+      // Usuwamy fragment o wymiarach z formularza
+      const dimensionsField = document.getElementById('dimensions1');
+      if (dimensionsField) {
+        dimensionsField.style.display = 'none';  // Ukrywamy wymiary
+      }
+
+      // Ustawiamy tytuł budynku
+      const titleField = document.querySelector('.contact-name');
+      if (titleField) {
+        titleField.textContent = title;  // Ustawiamy tytuł budynku
+      }
+    });
+  });
+});
+
+// Funkcja do przewijania do sekcji "Dimensions"
+const scrollTrigger = document.getElementById('scrollToDimensions');
+const target = document.getElementById('oferta');
+
+if (scrollTrigger && target) {
+  scrollTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    const yOffset = -60; // Offset dla górnej krawędzi
+    const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  });
+}
+
+// Funkcja do uzupełniania treści wiadomości
+function updateMessageText() {
+  const activeContainer = document.querySelector('.build-container.active');
+  const width = activeContainer.querySelector('input[id^="widthRange"]').value;
+  const length = activeContainer.querySelector('input[id^="lengthRange"]').value;
+
+  const messageField = document.getElementById('message');
+  
+  if (messageField) {
+    let containerName = 'Narzędziówka'; // Default name
+    const buttons = document.querySelectorAll("#burgerMenu button[data-target]");
+    buttons.forEach(button => {
+      if (button.classList.contains('active')) {
+        containerName = button.textContent.trim();
+      }
+    });
+
+    messageField.value = `Dzień dobry! Interesuje mnie ${containerName} o wymiarach ${width} x ${length} m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.`;
+  }
+}
+
+// Funkcja do nasłuchiwania zmian na suwakach tylko dla aktywnego kontenera
+function addEventListenersForActiveContainer() {
+  const activeContainer = document.querySelector('.build-container.active');
+
+  const widthRange = activeContainer.querySelector('input[id^="widthRange"]');
+  const lengthRange = activeContainer.querySelector('input[id^="lengthRange"]');
+
+  widthRange.addEventListener('input', () => {
+    updateCalculator(activeContainer.id.replace('container', ''));
+    updateBuildingMap(); // Aktualizuj mapę po zmianie rozmiarów
+  });
+
+  lengthRange.addEventListener('input', () => {
+    updateCalculator(activeContainer.id.replace('container', ''));
+    updateBuildingMap(); // Aktualizuj mapę po zmianie rozmiarów
+  });
+}
+
+// Funkcja aktualizująca wartości w polach suwaków oraz treści
+function updateCalculator(containerId) {
+  const widthRange = document.getElementById(`widthRange${containerId}`);
+  const lengthRange = document.getElementById(`lengthRange${containerId}`);
+  const widthValue = document.getElementById(`widthValue${containerId}`);
+  const lengthValue = document.getElementById(`lengthValue${containerId}`);
+  const priceEstimate = document.getElementById(`priceEstimate${containerId}`);
+
+  const width = parseFloat(widthRange.value);
+  const length = parseFloat(lengthRange.value);
+  const area = width * length;
+
+  const pricePerSquareMeter = {
+    container1: 1956,
+    container2: 2457,
+
+  };
+
+  const estimatedPrice = Math.round(area * pricePerSquareMeter[`container${containerId}`]);
+
+  widthValue.textContent = width.toFixed(1);
+  lengthValue.textContent = length.toFixed(1);
+  priceEstimate.textContent = estimatedPrice.toLocaleString('pl-PL') + ' zł';
+
+  updateMessageText();
+}
+
+// Funkcja do aktualizacji mapki budynku w aktywnym kontenerze
+function updateBuildingMap() {
+  const activeContainer = document.querySelector('.build-container.active');
+
+  const width = activeContainer.querySelector('input[id^="widthRange"]').value;
+  const length = activeContainer.querySelector('input[id^="lengthRange"]').value;
+
+  const buildingMap = activeContainer.querySelector('.building-map');
+
+  if (buildingMap) {
+    const mapWidth = width * 50; // Szerokość w px
+    const mapHeight = length * 50; // Wysokość w px
+
+    buildingMap.style.width = `${mapWidth}px`;
+    buildingMap.style.height = `${mapHeight}px`;
+  }
+}
+
+// Funkcja do ustawienia nasłuchiwania na kliknięcie przycisku w burger menu
+function setUpBurgerMenu() {
+  const buttons = document.querySelectorAll("#burgerMenu button[data-target]");
+  const containers = document.querySelectorAll(".build-container");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      buttons.forEach((btn) => btn.classList.remove("active"));
+      containers.forEach((c) => c.classList.remove("active"));
+
+      button.classList.add("active");
+      const targetId = button.getAttribute("data-target");
+      const targetContainer = document.getElementById(targetId);
+      if (targetContainer) {
+        targetContainer.classList.add("active");
+      }
+
+      addEventListenersForActiveContainer(); // Ustaw nasłuch na suwakach
+      updateBuildingMap(); // Aktualizuj mapkę po zmianie kontenera
+    });
+  });
+}
+
+// Inicjalizujemy nasłuch i aktualizacje mapki dla aktywnego kontenera
+setUpBurgerMenu();
+addEventListenersForActiveContainer();
+updateBuildingMap(); // Inicjalizujemy mapkę przy załadowaniu strony
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Nasłuchujemy na kliknięcia przycisków "Zapytaj o dostępność" we wszystkich kontenerach
+  const allButtons = document.querySelectorAll('.container5 .btn, .build-container .btn'); // Przycisk w każdym kontenerze
+
+  // Iteracja po wszystkich przyciskach
+  allButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault(); // Zapobiega domyślnemu zachowaniu, jeśli jest to link
+
+      const contactSection = document.getElementById('contact'); // Sekcja kontaktowa
+      if (contactSection) {
+        const yOffset = -60; // Offset, aby uwzględnić wysokość nagłówka
+        const y = contactSection.getBoundingClientRect().top + window.scrollY + yOffset;
+
+        // Przewijanie strony do sekcji kontaktowej
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    });
+  });
+});
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Zabudo.pl</p>
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+        <a href="polityka-prywatności.html">Polityka prywatności</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("0rODOdXhUGV-z--Ya"); // Twój PUBLIC KEY
+    })();
+  </script>
+
+  <!-- Twój główny skrypt (jeśli używasz) -->
+  <script src="script.js"></script>
+
+
+  <!-- BANER ZGÓD: HTML -->
+  <div id="cookie-banner" class="text-center" style="display:none;">
+    Ta strona korzysta z plików cookies w celach statystycznych i funkcjonalnych.
+    <br>Możesz zaakceptować lub opuścić stronę, jeśli się nie zgadzasz.
+
+    <div class="mt-3 text-start" style="max-width: 420px; margin: 0 auto;">
+      <label><input type="checkbox" id="consent-cookies"> Zgadzam się na pliki cookies</label><br>
+      <label><input type="checkbox" id="consent-newsletter"> Zgadzam się na otrzymywanie newslettera</label>
+    </div>
+
+    <div class="mt-3">
+      <button id="accept-all" class="btn btn-success btn-sm me-2">✅ Zaakceptuj wszystkie</button>
+      <button id="accept-cookies" class="btn btn-outline-secondary btn-sm">Zapisz wybór</button>
+    </div>
+
+    <!-- (Opcjonalnie) linki do polityk -->
+    <!-- <div class="small mt-2"><a href="/polityka-prywatnosci">Polityka prywatności</a> • <a href="/polityka-cookies">Polityka cookies</a></div> -->
+  </div>
+
+  <!-- BANER ZGÓD: LOGIKA + integracja z EmailJS -->
+  <script>
+  // --- Ładowanie GA tylko przy zgodzie na cookies ---
+  function loadAnalytics() {
+    if (window._gaLoaded) return;
+    const script = document.createElement('script');
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-36X685CZ6N";
+    script.async = true;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-36X685CZ6N');
+    window._gaLoaded = true;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('cookie-banner');
+    const btnAcceptAll = document.getElementById('accept-all');
+    const btnSave = document.getElementById('accept-cookies');
+    const consentCookies = document.getElementById('consent-cookies');
+    const consentNewsletter = document.getElementById('consent-newsletter');
+
+    // Przywróć zgody
+    const saved = localStorage.getItem('consents');
+    if (saved) {
+      const consents = JSON.parse(saved);
+      consentCookies.checked = !!consents.cookies;
+      consentNewsletter.checked = !!consents.newsletter;
+      if (consents.cookies) loadAnalytics();
+      banner.style.display = 'none';
+    } else {
+      banner.classList.add('show');
+      banner.style.display = '';
+    }
+
+    // Klik: zaakceptuj wszystkie
+    btnAcceptAll.addEventListener('click', function() {
+      consentCookies.checked = true;
+      consentNewsletter.checked = true;
+      saveAndClose();
+    });
+
+    // Klik: zapisz wybór
+    btnSave.addEventListener('click', function() {
+      saveAndClose();
+    });
+
+    function saveAndClose() {
+      const consents = {
+        cookies: !!consentCookies.checked,
+        newsletter: !!consentNewsletter.checked
+      };
+
+      localStorage.setItem('consents', JSON.stringify(consents));
+
+      // zapis metadanych zgody na newsletter (audyt)
+      localStorage.setItem('newsletterConsentMeta', JSON.stringify({
+        consent: consents.newsletter,
+        ts: new Date().toISOString(),
+        source: 'cookie-banner'
+      }));
+
+      if (consents.cookies) loadAnalytics();
+
+      banner.classList.remove('show');
+      banner.style.display = 'none';
+    }
+  });
+
+
+
+
+
+
+
+
+
+<script>
+// ZWIJANIE MENU MOBILNEGO + PŁYNNY SCROLL Z OFFSETEM
+document.addEventListener('DOMContentLoaded', () => {
+  const navbarCollapseEl = document.getElementById('navbarNav');
+  const navbarToggler    = document.querySelector('.navbar-toggler');
+  if (!navbarCollapseEl || !navbarToggler) return;
+
+  // Instancja Collapse (nie otwieraj/nie zamykaj automatycznie)
+  const bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarCollapseEl, { toggle: false });
+
+  // Linki, które mają zamykać menu (zwykłe i dropdowny)
+  const actionableLinks = navbarCollapseEl.querySelectorAll('a.nav-link, .dropdown-item');
+
+  // Funkcja: czy jesteśmy w trybie mobilnym (toggler widoczny)
+  const isMobile = () => window.getComputedStyle(navbarToggler).display !== 'none';
+
+  // Płynny scroll z offsetem dla sekcji (#id)
+  const smoothScrollToHash = (hash) => {
+    if (!hash || hash === '#') return false;
+    const target = document.querySelector(hash);
+    if (!target) return false;
+    const yOffset = -60; // wysokość nagłówka (dostosuj w razie potrzeby)
+    const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+    return true;
+  };
+
+  actionableLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href') || '';
+
+      // Jeśli klik w link do sekcji na stronie — przewiń z offsetem
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        smoothScrollToHash(href);
+      }
+
+      // Jeżeli menu jest rozwinięte i jesteśmy na mobile — zwiń
+      if (isMobile() && navbarCollapseEl.classList.contains('show')) {
+        bsCollapse.hide();
+      }
+    });
+  });
+
+  // Klik poza menu — zamknij (tylko mobile)
+  document.addEventListener('click', (e) => {
+    if (!isMobile()) return;
+    const clickedInsideMenu = navbarCollapseEl.contains(e.target);
+    const clickedToggler    = navbarToggler.contains(e.target);
+    if (navbarCollapseEl.classList.contains('show') && !clickedInsideMenu && !clickedToggler) {
+      bsCollapse.hide();
+    }
+  });
+
+  // Zamykanie po nawigacji klawiaturą (Enter/Space na linku)
+  navbarCollapseEl.addEventListener('keydown', (e) => {
+    if (!isMobile()) return;
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('a.nav-link, .dropdown-item')) {
+      setTimeout(() => bsCollapse.hide(), 0);
+    }
+  });
+
+  // Opcjonalnie: jeśli adres URL ma #hash po przeładowaniu — przewiń z offsetem
+  if (location.hash) {
+    setTimeout(() => smoothScrollToHash(location.hash), 0);
+  }
+});
+
+</script>
+
+  <script>
+    // Rok w stopce
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+
+
+
+
+  
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -214,16 +214,264 @@ background-color: white;
   
 }
 
-/* === WYMIARY === */
-#dimensions {
-  z-index: 100;
+
+
+.oferta{
+  height: 100vh;
+  width: 100vw;
+}
+
+.menuoferta{
   display: flex;
+  height: 12vh;
+  padding: 2%;
+  width: 50vw;
+  justify-self: center;
+  justify-content: space-between;
+  gap: 10%;
+}
+
+.menuoferta button {
+  height: 7vh;
+  padding: 1%;
+  width: 100%;
+  border-radius: 10px;
+  border: 5px solid rgb(167, 110, 40);
+  background-color: rgb(255, 236, 213);
+  color: rgb(167, 110, 40);
+  font-weight: 900;
+  font-size: 1.5vw;
+  transition: 0.1s ease-in-out;
+  margin-top: 5vh;
+ 
+}
+
+@media (max-width: 576px) {
+
+.menuoferta {
+  width: 100vw;
+  padding: 4%;
+}
+
+#usługi {
+    padding: 0% !important;
+  margin-left: 0%  !important;
+  margin-right: 0%  !important;
+
+}
+
+#sklep {
+  padding: 0% !important;
+  margin-left: 0%  !important;
+  margin-right: 0%  !important;
+
+  
+}
+
+.sklepkarta1-tytuł {
+  font-size: 3.5vw !important;
+
+}
+
+.menuoferta button {
+
+  font-size: 3.5vw;
+}
+
+.sklepkarta1 {
+
+  width: 96% !important;
+}
+
+.sklepkarta2 {
+  display: none !important;
+}
+
+}
+
+.menuoferta button:hover {
+  background-color: #b33434;
+   color: rgb(255, 255, 255);
+}
+
+.panel {
+  display: none;
+}
+
+.menuoferta button.pokazane {
+  background-color: #b33434;
+   color: rgb(255, 255, 255);
+}
+
+.panel.pokazane {
+  display: flex !important;
+}
+
+
+.panel { 
+
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10vh;
+
+}
+
+
+
+.sklepkarta{
+
+  height: 20vh;
+  width: 100%;
+  display: flex;
+  background-color: #ffffff;
+  margin-bottom: 2%;
+  margin-top: 2%;
+   box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+ transition: 0.3 ease-in-out;
+ justify-content: space-between;
+ align-items: center;
+ gap: 2%;
+
+}
+
+.sklepkarta:hover {
+  transform: scale(105%);
+ 
+  box-shadow: 0 2px 60px rgba(0,0,0,0.2);
+}
+
+.sklepkarta1 {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 2% ;
+  padding-right: 2% ;
+  gap: 2%;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.sklepkarta1-obrazy {
+  
+ 
+   position: relative;
+   overflow: hidden;
+   width: 40%;
+   height: 100%;
+   margin-left: 5%;
+}
+
+.sklepkarta1-obrazy-obraz {
+  height: 100%;
+  width: auto;
+  position: absolute; 
+  inset: 0;
+  object-fit:scale-down;
+   opacity: 0;
+     inset: 0;
+  transition: 0.3s ease-in-out;
+}
+
+.sklepkarta1-tytuł {
+  font-size: 1.5vw;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: 900 !important;
+}
+
+.sklepkarta1-tekst {
+  width: 60%;
+  margin-right: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 200;
+}
+
+.sklepkarta1-tekst h1 {
+  font-weight: 400;
+}
+
+.sklepkarta1-obrazy > img.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sklepkarta1-obrazy > img { transition: none; }
+}
+
+.galeria-produktów {
+  width: 100%;
+  height: auto;
+}
+
+.sklepkarta2 {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  padding: 2% ;
+}
+
+.sklepkarta2-obrazy {
+  
+ 
+   position: relative;
+   overflow: hidden;
+   width: 100%;
+   height: 100%;
+   transition: 0.3s ease-in-out;
+}
+
+.sklepkarta2-obrazy-obraz {
+  height: 100%;
+  width: 100%;
+  position: absolute; 
+  inset: 0;
+  object-fit: cover;
+
+ 
+}
+
+.galeria-produktów {
+  display: flex;
+  background-color: white;
+  height: 90vh;
+  
+  
+     box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+/* === WYMIARY === */
+#usługi {
+  z-index: 100;
+  
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  padding: 0 1rem;
+  
+  
   text-align: center;
+  padding-right: 4%;
+  overflow: hidden;
+  position: relative;
+  min-height: auto;  /* Ważne! Zmienna wysokość */
+}
+
+#sklep {
+  z-index: 100;
   width: 100vw;
+  align-items: center;
+  justify-content: center;
+  padding-left: 4%;
+  
+  text-align: center;
+  
   overflow: hidden;
   position: relative;
   min-height: auto;  /* Ważne! Zmienna wysokość */
@@ -416,7 +664,7 @@ footer {
     overflow: hidden;
     position: relative;
     padding: 1rem;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     background-size: cover;
@@ -485,7 +733,7 @@ footer {
 }
 
 #burgerMenu {
-  margin-top: 2vh;
+  margin-top: 8vh;
 }
 
 #burgerMenu .btn {
@@ -544,26 +792,24 @@ footer {
 
 
 
-
 .burger-menu {
   display: block;
   font-weight: 900;
   
-  margin-top: 1%;
+  margin-top: 10vh;
   top: 0;
   gap: 0.5rem;
   position: absolute;
-  z-index: 1000;
+  z-index: 1;
   
-  background-color: #ffffff74;
   
- 
   border-radius: 10%;
 }
 
 .burger-menu .btn {
   font-weight: 900;
-  border: 2px solid black;
+  border: 3px solid rgb(0, 0, 0);
+  background-color: #ffffff74;
 }
 
 
@@ -619,7 +865,12 @@ footer {
 
 
 .burger-menu button.active {
-  background-color: #8a4f27;
+  background-color: #b33434;
+  color: white;
+}
+
+.burger-menu button:hover {
+  background-color: #b33434;
   color: white;
 }
 
@@ -657,7 +908,7 @@ footer {
 
 /* Styl dla samego budynku */
 .building-map {
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
     border: 5px solid #8a4f27;
@@ -1102,4 +1353,220 @@ margin-bottom: 2vh;
 }
 .dog-lightbox-thumbs img.active {
   border-color: #d2601a;
+}
+
+
+
+
+/*Sklep*/
+
+.sklep-wrapper {
+  height: auto;
+  width: 100%;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  padding: 2%;
+  justify-content: center;
+  align-items: center;
+}
+
+.karty1 {
+  height: 100%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3%;
+  
+ 
+}
+
+
+.karta-sklepu {
+  
+  height: 25vh;
+  width: 90%;
+  box-shadow: 0 2px 30px rgba(0,0,0,0.3);
+  margin-top: 2%;
+  margin-bottom: 2%;
+
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 2%;
+  gap: 2%;
+}
+
+.karta-sklepu-img {
+  width: auto;
+  height: 100%;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+  
+}
+
+.karta-sklepu-treść {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.karta-sklepu-opis {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+
+  
+  width: 100%;
+}
+
+.karta-sklepu-kupno {
+  display: flex;
+  
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8%;
+  
+}
+
+.kup-teraz {
+  display: flex;
+  justify-self: flex-end;
+  align-self: flex-end;
+  
+  
+  padding: 2%;
+  padding-left: 10%;
+  padding-right: 10%;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  border:none;
+  
+  background-color: rgb(167, 63, 40);
+
+
+  color: white;
+  font-size: 1.5vw;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+}
+
+.kup-teraz:hover {
+background-color: red;
+transition: 0.1s ease-in-out;
+}
+
+.cena {
+  font-weight: 900;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.8vw;
+  font-style: italic;
+  align-self: center;
+  display: flex;
+  
+}
+
+
+
+
+
+
+
+/* Usługi */
+
+.usługi-menu-wyboru {
+  display: flex;
+  
+  padding: 2%;
+  width: 50vw;
+  justify-content: center;
+  align-items: start;
+}
+
+.pole-wyboru {
+  display: flex;
+  padding: 2%;
+  flex-direction: column;
+  font-weight: 900;
+
+
+
+}
+
+.pole-wyboru-tytuł {
+    border: 3px solid rgb(0, 0, 0);
+width: 18rem;
+height: 5vh ;
+padding: 2%;
+gap: 3%;
+font-size: 0.9rem;
+      background-color: #ffffff74;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+.opcje {
+  
+  flex-direction: column;
+  margin-left: 2%;
+  display: none;
+  height: auto;
+  width: 17rem;
+    border: 2px solid black;
+    padding: 1%;
+}
+
+.opcje.rozwinięty {
+  display: flex;
+
+}
+
+
+.price-tag {
+  color: rgb(43, 104, 246);
+  font-weight: 800;
+  font-style: italic;
+  font-size:  0.9rem;
+}
+
+.building-map { position: relative; }
+
+.dimensions-map { position: relative; }
+
+.area-badge{
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0,0,0,.6);
+  border-radius: 6px;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 576px) {
+
+  .usługi-menu-wyboru {
+    width: 98%;
+    flex-direction: column;
+    
+    align-items: center;
+  }
 }
