@@ -94,7 +94,7 @@ background-color: white;
   align-items: center;
   justify-content: center;
   text-align: center;
-    transition: 0.5s ease-in-out;
+    transition: 0.5s ;
     z-index: 100;
 }
 #hero::before {
@@ -752,9 +752,7 @@ footer {
   
 }
 
-#burgerMenu {
-  margin-top: 8vh;
-}
+
 
 #burgerMenu .btn {
   font-size: 3vw;
@@ -816,10 +814,10 @@ footer {
   display: block;
   font-weight: 900;
   
-  margin-top: 10vh;
+ 
   top: 0;
   gap: 0.5rem;
-  position: absolute;
+  position: relative;
   z-index: 1;
   
   
