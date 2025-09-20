@@ -92,8 +92,9 @@
       <button data-target="container2" class="btn btn-sm btn-outline-dark">garaż dwustanowiskowy</button>
     </div>
 
+    <button class="konfiguracja">szczegółowa konfiguracja</button>
 
-    <div class="usługi-menu-wyboru">
+    <div class="usługi-menu-wyboru" >
 
 
 
@@ -160,27 +161,52 @@
       <!-- Kontener 1: Narzędziówka -->
       <div id="container1" class="build-container active">
         <h2 class="section-title">Garaż jednostanowiskowy</h2>
+
+
         <div class="range-section">
           <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
           <div class="mb-3">
             <label for="widthRange1">Szerokość (2–5 m):</label>
             <input type="range" id="widthRange1" min="2" max="5" step="0.1" value="3.5" />
-            <span id="widthValue1"></span> m
+            <span id="widthValue1">3.5</span> m
           </div>
           <div class="mb-3">
-            <label for="lengthRange1">Długość (4–7 m):</label>
-            <input type="range" id="lengthRange1" min="4" max="7" step="0.1" value="5.5" />
-            <span id="lengthValue1"></span> m
+            <label for="lengthRange1">Długość (2–7 m):</label>
+            <input type="range" id="lengthRange1" min="2" max="7" step="0.1" value="4.5" />
+            <span id="lengthValue1">4.5</span> m
           </div>
 
-          <div class="dimensions-display">
-            <strong>Wymiary: </strong><span id="dimensions1">3.5 x 5.5</span> m
-          </div>
+
 
           <div class="dimensions-map">
             <div id="buildingMap" class="building-map map1"></div>
-        
+
           </div>
+
+
+
+        <div class="range-selection-height">
+         
+<div class="mb-3">
+  <label for="heightRange1">Wysokość w najniższym punkcie (1.7–3 m):</label>
+  <input type="range" id="heightRange1" min="1.7" max="3" step="0.1" value="2.3" />
+  <span id="heightValue1">2.3</span> m
+</div>
+
+<div class="mb-3">
+  <label for="heightPeakRange1">Wysokość w najwyższym punkcie (2–4 m):</label>
+  <input type="range" id="heightPeakRange1" min="2" max="4" step="0.1" value="3" />
+  <span id="heightPeakValue1">3.0</span> m
+</div>
+
+
+          <div class="dimensions-map-height">
+            <div id="buildingMapheight" class="building-map-height mapheight"></div>
+
+          </div>
+
+
+
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate1">(Dostosuj wymiary)</strong> 
@@ -229,6 +255,18 @@
 
 
       <!-- Obsługa pól wyboru -->
+
+<script>
+
+  const btn = document.querySelector('.konfiguracja');
+  const menu = document.querySelector('.usługi-menu-wyboru')
+
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('aktywny');
+    menu.classList.toggle('aktywny');
+  })
+  
+</script>
 
 
 <script>
@@ -477,7 +515,118 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
+<script>
+/**
+ * 
+ * 
+ * Elewacja frontowa: prostokąt (ściana) + trójkąt (dach).
+ * Podstawa = SZEROKOŚĆ z górnego suwaka (widthRangeX). // ← zmień na lengthRange, jeśli wolisz
+ * Okap = heightRange1, Kalenica = heightPeakRange1.
+ * Gwarantujemy: H_peak >= H_eave (auto-korekta suwaków).
+ */
 
+
+
+// startowe przeliczenia dla domyślnie aktywnego (container1)
+addEventListenersForActiveContainer();
+updateCalculator('1');   // cena
+updateBuildingMap();     // rzut z góry
+if (typeof updateBuildingElevation === 'function') updateBuildingElevation(); // rzut z przodu
+
+
+function updateBuildingElevation() {
+  const active = document.querySelector('.build-container.active');
+  if (!active) return;
+
+  // PODSTAWA: SZEROKOŚĆ
+  const baseInput = active.querySelector('input[id^="widthRange"]'); // ← tu zmienisz na lengthRange, jeśli chcesz
+  const heightEaveInput = active.querySelector('#heightRange1');
+  const heightPeakInput = active.querySelector('#heightPeakRange1');
+  const map = active.querySelector('#buildingMapheight');
+
+  if (!baseInput || !heightEaveInput || !heightPeakInput || !map) return;
+
+  let L = parseFloat(baseInput.value || '0');            // m (podstawa)
+  let H_eave = parseFloat(heightEaveInput.value || '0'); // m
+  let H_peak = parseFloat(heightPeakInput.value || '0'); // m
+
+  // Pilnujemy relacji kalenica >= okap (auto-poprawka suwaka)
+  if (H_peak < H_eave) {
+    H_peak = H_eave;
+    heightPeakInput.value = H_peak.toFixed(1);
+  }
+
+  // Aktualizacje wyświetlanych wartości
+  const eaveSpan = document.getElementById('heightValue1');
+  const peakSpan = document.getElementById('heightPeakValue1');
+  if (eaveSpan) eaveSpan.textContent = H_eave.toFixed(1);
+  if (peakSpan) peakSpan.textContent = H_peak.toFixed(1);
+
+  // Skalowanie (px / m)
+  const PX = 60;
+  const basePx = Math.max(80, Math.round(L * PX));
+  const peakPx = Math.max(100, Math.round(H_peak * PX));
+
+  // Reset rysunku
+  map.innerHTML = '';
+
+  // SVG
+  const SVGN = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(SVGN, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${basePx} ${peakPx}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.style.width = basePx + 'px';
+  svg.style.height = peakPx + 'px';
+
+  const yGround = peakPx;
+  const yEave  = peakPx - Math.round(H_eave * PX);
+  const yPeak  = peakPx - Math.round(H_peak * PX);
+  const xMid   = Math.round(basePx / 2);
+
+  // Ściana
+  const rect = document.createElementNS(SVGN, 'rect');
+  rect.setAttribute('x', 0);
+  rect.setAttribute('y', yEave);
+  rect.setAttribute('width', basePx);
+  rect.setAttribute('height', yGround - yEave);
+  rect.setAttribute('fill', 'none');
+  rect.setAttribute('stroke', 'currentColor');
+  rect.setAttribute('stroke-width', '2');
+
+  // Dach
+  const roof = document.createElementNS(SVGN, 'polygon');
+  roof.setAttribute('points', `0,${yEave} ${xMid},${yPeak} ${basePx},${yEave}`);
+  roof.setAttribute('fill', 'none');
+  roof.setAttribute('stroke', 'currentColor');
+  roof.setAttribute('stroke-width', '2');
+
+  // Linia gruntu
+  const ground = document.createElementNS(SVGN, 'line');
+  ground.setAttribute('x1', 0);
+  ground.setAttribute('y1', yGround - 1);
+  ground.setAttribute('x2', basePx);
+  ground.setAttribute('y2', yGround - 1);
+  ground.setAttribute('stroke', '#bbb');
+  ground.setAttribute('stroke-width', '1');
+
+  // Podpisy
+  const txt = (x, y, t, anchor='start') => {
+    const el = document.createElementNS(SVGN, 'text');
+    el.setAttribute('x', x);
+    el.setAttribute('y', y);
+    el.setAttribute('text-anchor', anchor);
+    el.setAttribute('class', 'elev-dim');
+    el.textContent = t;
+    return el;
+  };
+  const baseDim = txt(xMid, yGround - 6, 'Szer.: ' + L.toFixed(1) + ' m', 'middle');
+  const eaveDim = txt(6, yEave - 6, 'Okap: ' + H_eave.toFixed(1) + ' m');
+  const peakDim = txt(basePx - 6, yPeak - 6, 'Kalenica: ' + H_peak.toFixed(1) + ' m', 'end');
+
+  svg.append(ground, rect, roof, baseDim, eaveDim, peakDim);
+  map.appendChild(svg);
+}
+</script>
 
 <script>
 
@@ -549,47 +698,166 @@ function updateMessageText() {
 // Funkcja do nasłuchiwania zmian na suwakach tylko dla aktywnego kontenera
 function addEventListenersForActiveContainer() {
   const activeContainer = document.querySelector('.build-container.active');
+  if (!activeContainer) return;
 
-  const widthRange = activeContainer.querySelector('input[id^="widthRange"]');
-  const lengthRange = activeContainer.querySelector('input[id^="lengthRange"]');
+  // id = "1" dla container1, "2" dla container2 …
+  const id = activeContainer.id.replace('container', '');
 
-  widthRange.addEventListener('input', () => {
-    updateCalculator(activeContainer.id.replace('container', ''));
-    updateBuildingMap(); // Aktualizuj mapę po zmianie rozmiarów
-  });
+  // pobierz kontrolki z aktywnego kontenera (po konkretnych id)
+  const widthRange  = activeContainer.querySelector(`#widthRange${id}`);
+  const lengthRange = activeContainer.querySelector(`#lengthRange${id}`);
+  const heightEave  = activeContainer.querySelector(`#heightRange${id}`);        // okap
+  const heightPeak  = activeContainer.querySelector(`#heightPeakRange${id}`);    // kalenica
 
-  lengthRange.addEventListener('input', () => {
-    updateCalculator(activeContainer.id.replace('container', ''));
-    updateBuildingMap(); // Aktualizuj mapę po zmianie rozmiarów
-  });
-}
-
-// Funkcja aktualizująca wartości w polach suwaków oraz treści
-function updateCalculator(containerId) {
-  const widthRange = document.getElementById(`widthRange${containerId}`);
-  const lengthRange = document.getElementById(`lengthRange${containerId}`);
-  const widthValue = document.getElementById(`widthValue${containerId}`);
-  const lengthValue = document.getElementById(`lengthValue${containerId}`);
-  const priceEstimate = document.getElementById(`priceEstimate${containerId}`);
-
-  const width = parseFloat(widthRange.value);
-  const length = parseFloat(lengthRange.value);
-  const area = width * length;
-
-  const pricePerSquareMeter = {
-    container1: 1956,
-    container2: 2457,
-
+  // jedna funkcja odświeżająca wszystko co trzeba
+  const refreshAll = () => {
+    updateCalculator(id);
+    updateBuildingMap();
+    if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
   };
 
-  const estimatedPrice = Math.round(area * pricePerSquareMeter[`container${containerId}`]);
+  // — suwaki planu (z góry)
+  if (widthRange)  widthRange.addEventListener('input', refreshAll);
+  if (lengthRange) lengthRange.addEventListener('input', refreshAll);
 
-  widthValue.textContent = width.toFixed(1);
-  lengthValue.textContent = length.toFixed(1);
+  // — suwaki wysokości (front)
+  if (heightEave) heightEave.addEventListener('input', () => {
+    if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
+    updateCalculator(id); // cena zależy m.in. od okapu
+  });
+
+if (heightPeak) heightPeak.addEventListener('input', () => {
+  if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
+  updateCalculator(id); // TERAZ MUSI przeliczać, bo cena zależy od różnicy (peak-eave)
+});
+
+  // — reguła: kalenica ≥ okap + 0.2 (może być większa)
+  const DELTA = 0.2;
+
+  if (heightEave) {
+    heightEave.addEventListener('input', () => {
+      let eave   = parseFloat(heightEave.value);
+      const peak = parseFloat(heightPeak?.value ?? '0');
+      const peakMax = parseFloat(heightPeak?.max ?? '4');
+
+      const eaveMaxAllowed = peakMax - DELTA;
+      if (eave > eaveMaxAllowed) {
+        eave = eaveMaxAllowed;
+        heightEave.value = eave.toFixed(1);
+      }
+
+      const minPeak = eave + DELTA;
+      if (heightPeak && peak < minPeak) {
+        heightPeak.value = Math.min(minPeak, peakMax).toFixed(1);
+      }
+
+      if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
+      updateCalculator(id);
+    });
+  }
+
+if (heightPeak) {
+  heightPeak.addEventListener('input', () => {
+    const eave    = parseFloat(heightEave?.value ?? '0');
+    let   peak    = parseFloat(heightPeak.value);
+    const peakMax = parseFloat(heightPeak.max ?? '4');
+
+    const minPeak = eave + 0.2;
+    if (peak < minPeak) {
+      peak = Math.min(minPeak, peakMax);
+      heightPeak.value = peak.toFixed(1);
+    }
+
+    if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
+    updateCalculator(id); // ← DODAJ TO
+  });
+}
+
+  // od razu przelicz po wpięciu nasłuchów (ważne dla „na żywo”)
+  refreshAll();
+}
+
+
+
+const ROOF_HYPO_FACTOR = 58;
+
+function calcRoofHypoCost(containerId, width, length) {
+  // Szukamy suwaków wysokości tylko w tym kontenerze
+  const cont = document.querySelector(`#container${containerId}`);
+  if (!cont) return 0;
+
+  const eaveInput = cont.querySelector(`#heightRange${containerId}`);
+  const peakInput = cont.querySelector(`#heightPeakRange${containerId}`);
+
+  // Jeśli w tym kontenerze nie ma suwaków wysokości → brak dopłaty
+  if (!eaveInput || !peakInput) return 0;
+
+  const eave = parseFloat(eaveInput.value);
+  const peak = parseFloat(peakInput.value);
+  if (!Number.isFinite(eave) || !Number.isFinite(peak) || !Number.isFinite(width) || !Number.isFinite(length)) return 0;
+
+  // Różnica wysokości (wysokość samego dachu, „rise”)
+  const rise = Math.max(peak - eave, 0);
+
+  // Połowa szerokości („run”)
+  const halfWidth = width / 2;
+
+  // Przeciwprostokątna jednego spadu
+  const hypo = Math.hypot(halfWidth, rise); // = sqrt(halfWidth^2 + rise^2)
+
+  // Zgodnie z Twoim opisem:
+  // 2 spady  → *2
+  // × szerokość × długość
+  // × współczynnik
+  const rawCost = hypo * 2 * width * length * ROOF_HYPO_FACTOR;
+
+  return Math.round(rawCost);
+}
+
+
+// Funkcja aktualizująca wartości w polach suwaków oraz treści
+// Funkcja aktualizująca wartości w polach suwaków oraz treści
+function updateCalculator(containerId) {
+  const widthRange   = document.getElementById(`widthRange${containerId}`);
+  const lengthRange  = document.getElementById(`lengthRange${containerId}`);
+  const widthValue   = document.getElementById(`widthValue${containerId}`);
+  const lengthValue  = document.getElementById(`lengthValue${containerId}`);
+  const priceEstimate= document.getElementById(`priceEstimate${containerId}`);
+
+  if (!widthRange || !lengthRange || !priceEstimate) return;
+
+  const width  = parseFloat(widthRange.value)  || 0;
+  const length = parseFloat(lengthRange.value) || 0;
+  const area   = width * length;
+
+  const pricePerSquareMeter = {
+    container1: 618,
+    container2: 2457,
+  };
+
+  const baseRate = pricePerSquareMeter[`container${containerId}`] || 0;
+
+  // Mnożnik z okapu (jeśli dany kontener go posiada)
+  let heightMultiplier = 1;
+  const eaveInput = document.querySelector(`#container${containerId} #heightRange${containerId}`);
+  if (eaveInput) {
+    const eave = parseFloat(eaveInput.value);
+    if (Number.isFinite(eave) && eave > 0) heightMultiplier = eave;
+  }
+
+  // NOWE: dopłata za spad (przeciwprostokątna)
+  const roofHypoCost = calcRoofHypoCost(containerId, width, length);
+
+  // Cena końcowa = bazowa * mnożnik wysokości + dopłata za spad
+  const estimatedPrice = Math.round(area * baseRate * heightMultiplier) + roofHypoCost;
+
+  if (widthValue)   widthValue.textContent  = width.toFixed(1);
+  if (lengthValue)  lengthValue.textContent = length.toFixed(1);
   priceEstimate.textContent = estimatedPrice.toLocaleString('pl-PL') + ' zł';
 
-  updateMessageText();
+  if (typeof updateMessageText === 'function') updateMessageText();
 }
+
 
 // Funkcja do aktualizacji mapki budynku w aktywnym kontenerze
 function updateBuildingMap() {
@@ -626,8 +894,12 @@ function setUpBurgerMenu() {
         targetContainer.classList.add("active");
       }
 
-      addEventListenersForActiveContainer(); // Ustaw nasłuch na suwakach
-      updateBuildingMap(); // Aktualizuj mapkę po zmianie kontenera
+      // ważne: najpierw ustaw nasłuchy, potem przelicz
+      addEventListenersForActiveContainer();
+      const newId = targetContainer.id.replace('container','');
+      updateCalculator(newId);
+      updateBuildingMap();
+      if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
     });
   });
 }
@@ -635,8 +907,9 @@ function setUpBurgerMenu() {
 // Inicjalizujemy nasłuch i aktualizacje mapki dla aktywnego kontenera
 setUpBurgerMenu();
 addEventListenersForActiveContainer();
-updateBuildingMap(); // Inicjalizujemy mapkę przy załadowaniu strony
-
+updateCalculator('1');
+updateBuildingMap();
+updateBuildingElevation();
 
 document.addEventListener('DOMContentLoaded', () => {
   // Nasłuchujemy na kliknięcia przycisków "Zapytaj o dostępność" we wszystkich kontenerach
@@ -664,6 +937,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </script>
 
+
+
+
+      <!-- Suwaki wysokości -->
 
 
 
@@ -814,7 +1091,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
+</script>
 
 
 
