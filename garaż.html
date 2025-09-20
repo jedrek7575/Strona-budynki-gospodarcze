@@ -788,9 +788,16 @@ if (heightPeak) {
   refreshAll();
 }
 
-
+  // Ustawienie ceny za dach!
 
 const ROOF_HYPO_FACTOR = 58;
+
+// Ustawienie ceny za garaż dwustanowiskowy!
+
+const BUILD_TYPE_SURCHARGE = {
+  '1': 0,        // garaż jednostanowiskowy
+  '2': 4873     // garaż dwustanowiskowy  ← ZMIEŃ KWOTĘ wg potrzeb
+};
 
 function calcRoofHypoCost(containerId, width, length) {
   // Szukamy suwaków wysokości tylko w tym kontenerze
@@ -859,8 +866,12 @@ function updateCalculator(containerId) {
   // NOWE: dopłata za spad (przeciwprostokątna)
   const roofHypoCost = calcRoofHypoCost(containerId, width, length);
 
-  // Cena końcowa = bazowa * mnożnik wysokości + dopłata za spad
-  const estimatedPrice = Math.round(area * baseRate * heightMultiplier) + roofHypoCost;
+  const buildSurcharge = BUILD_TYPE_SURCHARGE[String(containerId)] || 0;
+
+// Cena końcowa = bazowa * mnożnik wysokości + dopłata za spad + dopłata za typ
+const estimatedPrice = Math.round(area * baseRate * heightMultiplier) 
+                       + roofHypoCost 
+                       + buildSurcharge;
 
   if (widthValue)   widthValue.textContent  = width.toFixed(1);
   if (lengthValue)  lengthValue.textContent = length.toFixed(1);

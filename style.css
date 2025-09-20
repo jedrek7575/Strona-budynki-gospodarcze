@@ -328,7 +328,7 @@ background-color: white;
   margin-bottom: 2%;
   margin-top: 2%;
    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
- transition: 0.3 ease-in-out;
+   transition: 0.1s ease-in-out;
  justify-content: space-between;
  align-items: center;
  gap: 2%;
@@ -351,7 +351,7 @@ background-color: white;
   gap: 2%;
   justify-content: center;
   align-items: center;
- 
+  transition: 0.3s ease-in-out;
 }
 
 .sklepkarta1-obrazy {
@@ -391,7 +391,7 @@ background-color: white;
     object-position: center; 
    opacity: 0;
      inset: 0;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 .sklepkarta1-tytuł {
@@ -446,7 +446,7 @@ background-color: white;
    overflow: hidden;
    width: 100%;
    height: 100%;
-   transition: 0.3s ease-in-out;
+
 }
 
 .sklepkarta2-obrazy-obraz {
@@ -455,7 +455,7 @@ background-color: white;
   position: absolute; 
   inset: 0;
   object-fit: cover;
-
+  transition: 0.2s ease-in-out;
  
 }
 
