@@ -158,7 +158,9 @@
 
 
     <div class="build-type-wrapper text-center mb-3">
-      <!-- Kontener 1: Narzędziówka -->
+
+      <!-- Kontener 1: Garaż 1 -->
+
       <div id="container1" class="build-container active">
         <h2 class="section-title">Garaż jednostanowiskowy</h2>
 
@@ -166,14 +168,14 @@
         <div class="range-section">
           <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
           <div class="mb-3">
-            <label for="widthRange1">Szerokość (2–5 m):</label>
-            <input type="range" id="widthRange1" min="2" max="5" step="0.1" value="3.5" />
-            <span id="widthValue1">3.5</span> m
+            <label for="widthRange1">Szerokość (3–7 m):</label>
+            <input type="range" id="widthRange1" min="3" max="7" step="0.1" value="5" />
+            <span id="widthValue1">5</span> m
           </div>
           <div class="mb-3">
-            <label for="lengthRange1">Długość (2–7 m):</label>
-            <input type="range" id="lengthRange1" min="2" max="7" step="0.1" value="4.5" />
-            <span id="lengthValue1">4.5</span> m
+            <label for="lengthRange1">Długość (3–5 m):</label>
+            <input type="range" id="lengthRange1" min="3" max="5" step="0.1" value="4" />
+            <span id="lengthValue1">4</span> m
           </div>
 
 
@@ -214,42 +216,57 @@
           </div>
         </div>
       </div>
-
-
-
-      <!-- Kontener 2: garaż 2 stanowiska -->
-      <div id="container2" class="build-container">
-        <h2 class="section-title">Garaż dwustanowiskowy</h2>
-        <div class="range-section">
-          <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
-          <div class="mb-3">
-            <label for="widthRange2">Szerokość (2–5 m):</label>
-            <input type="range" id="widthRange2" min="2" max="5" step="0.1" value="3.5" />
-            <span id="widthValue2"></span> m
-          </div>
-          <div class="mb-3">
-            <label for="lengthRange2">Długość (5–7 m):</label>
-            <input type="range" id="lengthRange2" min="5" max="7" step="0.1" value="6.0" />
-            <span id="lengthValue2"></span> m
-          </div>
-
-          <div class="dimensions-display">
-            <strong>Wymiary: </strong><span id="dimensions2">3.5 x 5.5</span> m
-          </div>
-
-          <div class="dimensions-map">
-            <div id="buildingMap" class="building-map map2"></div>
-         
-          </div>
-
-          <div class="price-box">
-            Szacowana cena: <strong id="priceEstimate2">(Dostosuj wymiary)</strong> 
-            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
-          </div>
-        </div>
       </div>
 
-      
+
+      <!-- Kontener 2: Garaż 2 stanowiska -->
+
+ <div id="container2" class="build-container">
+  <h2 class="section-title">Garaż dwustanowiskowy</h2>
+
+  <div class="range-section">
+    <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
+
+    <div class="mb-3">
+      <label for="widthRange2">Szerokość (5–7 m):</label>
+      <input type="range" id="widthRange2" min="5" max="7" step="0.1" value="6" />
+      <span id="widthValue2">6</span> m
+    </div>
+
+    <div class="mb-3">
+      <label for="lengthRange2">Długość (3–5 m):</label>
+      <input type="range" id="lengthRange2" min="3" max="5" step="0.1" value="4" />
+      <span id="lengthValue2">4</span> m
+    </div>
+
+    <div class="dimensions-map">
+      <div class="building-map map2"></div>
+    </div>
+
+    <div class="range-selection-height">
+      <div class="mb-3">
+        <label for="heightRange2">Wysokość w najniższym punkcie (1.7–3 m):</label>
+        <input type="range" id="heightRange2" min="1.7" max="3" step="0.1" value="2.3" />
+        <span id="heightValue2">2.3</span> m
+      </div>
+
+      <div class="mb-3">
+        <label for="heightPeakRange2">Wysokość w najwyższym punkcie (2–4 m):</label>
+        <input type="range" id="heightPeakRange2" min="2" max="4" step="0.1" value="3.0" />
+        <span id="heightPeakValue2">3.0</span> m
+      </div>
+
+      <div class="dimensions-map-height">
+        <div class="building-map-height mapheight"></div>
+      </div>
+
+      <div class="price-box">
+        Szacowana cena: <strong id="priceEstimate2">(Dostosuj wymiary)</strong>
+        <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zapytaj o dostępność</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     </div>  
 
@@ -538,44 +555,40 @@ function updateBuildingElevation() {
   const active = document.querySelector('.build-container.active');
   if (!active) return;
 
-  // PODSTAWA: SZEROKOŚĆ
-  const baseInput = active.querySelector('input[id^="widthRange"]'); // ← tu zmienisz na lengthRange, jeśli chcesz
-  const heightEaveInput = active.querySelector('#heightRange1');
-  const heightPeakInput = active.querySelector('#heightPeakRange1');
-  const map = active.querySelector('#buildingMapheight');
+  const id = active.id.replace('container',''); // "1" lub "2"
+
+  const baseInput       = active.querySelector(`#widthRange${id}`); // lub podmień na length, jeśli chcesz
+  const heightEaveInput = active.querySelector(`#heightRange${id}`);
+  const heightPeakInput = active.querySelector(`#heightPeakRange${id}`);
+  const map             = active.querySelector('.building-map-height');
 
   if (!baseInput || !heightEaveInput || !heightPeakInput || !map) return;
 
-  let L = parseFloat(baseInput.value || '0');            // m (podstawa)
-  let H_eave = parseFloat(heightEaveInput.value || '0'); // m
-  let H_peak = parseFloat(heightPeakInput.value || '0'); // m
+  let L      = parseFloat(baseInput.value || '0');
+  let H_eave = parseFloat(heightEaveInput.value || '0');
+  let H_peak = parseFloat(heightPeakInput.value || '0');
 
-  // Pilnujemy relacji kalenica >= okap (auto-poprawka suwaka)
   if (H_peak < H_eave) {
     H_peak = H_eave;
     heightPeakInput.value = H_peak.toFixed(1);
   }
 
-  // Aktualizacje wyświetlanych wartości
-  const eaveSpan = document.getElementById('heightValue1');
-  const peakSpan = document.getElementById('heightPeakValue1');
+  const eaveSpan = document.getElementById(`heightValue${id}`);
+  const peakSpan = document.getElementById(`heightPeakValue${id}`);
   if (eaveSpan) eaveSpan.textContent = H_eave.toFixed(1);
   if (peakSpan) peakSpan.textContent = H_peak.toFixed(1);
 
-  // Skalowanie (px / m)
   const PX = 60;
   const basePx = Math.max(80, Math.round(L * PX));
   const peakPx = Math.max(100, Math.round(H_peak * PX));
 
-  // Reset rysunku
   map.innerHTML = '';
 
-  // SVG
   const SVGN = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(SVGN, 'svg');
   svg.setAttribute('viewBox', `0 0 ${basePx} ${peakPx}`);
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-  svg.style.width = basePx + 'px';
+  svg.style.width  = basePx + 'px';
   svg.style.height = peakPx + 'px';
 
   const yGround = peakPx;
@@ -583,7 +596,6 @@ function updateBuildingElevation() {
   const yPeak  = peakPx - Math.round(H_peak * PX);
   const xMid   = Math.round(basePx / 2);
 
-  // Ściana
   const rect = document.createElementNS(SVGN, 'rect');
   rect.setAttribute('x', 0);
   rect.setAttribute('y', yEave);
@@ -593,14 +605,12 @@ function updateBuildingElevation() {
   rect.setAttribute('stroke', 'currentColor');
   rect.setAttribute('stroke-width', '2');
 
-  // Dach
   const roof = document.createElementNS(SVGN, 'polygon');
   roof.setAttribute('points', `0,${yEave} ${xMid},${yPeak} ${basePx},${yEave}`);
   roof.setAttribute('fill', 'none');
   roof.setAttribute('stroke', 'currentColor');
   roof.setAttribute('stroke-width', '2');
 
-  // Linia gruntu
   const ground = document.createElementNS(SVGN, 'line');
   ground.setAttribute('x1', 0);
   ground.setAttribute('y1', yGround - 1);
@@ -609,7 +619,6 @@ function updateBuildingElevation() {
   ground.setAttribute('stroke', '#bbb');
   ground.setAttribute('stroke-width', '1');
 
-  // Podpisy
   const txt = (x, y, t, anchor='start') => {
     const el = document.createElementNS(SVGN, 'text');
     el.setAttribute('x', x);
@@ -626,6 +635,8 @@ function updateBuildingElevation() {
   svg.append(ground, rect, roof, baseDim, eaveDim, peakDim);
   map.appendChild(svg);
 }
+
+
 </script>
 
 <script>
@@ -832,7 +843,7 @@ function updateCalculator(containerId) {
 
   const pricePerSquareMeter = {
     container1: 618,
-    container2: 2457,
+    container2: 618,
   };
 
   const baseRate = pricePerSquareMeter[`container${containerId}`] || 0;
