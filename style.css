@@ -34,8 +34,8 @@ a {
 }
 .navbar-toggler {
   color: white;
-  border-color: white;
-  
+ 
+  border: 3px solid white;
   
 }
 
@@ -68,7 +68,41 @@ background-color: white;
 
 }
 
+#navbar.white .navbar-toggler {
+  color: rgb(0, 0, 0);
+  border-color: rgb(0, 0, 0);
+  
+  
+}
 
+#navbar.white .line {
+  width: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 5px;
+  border-radius: 3px;
+  transition: .3s ease-in-out;
+  border: black solid 0.001px;
+}
+
+#navbar.white .navbar-toggler .line:nth-child(1) {
+ background-color: rgb(0, 0, 0); 
+
+ 
+}
+
+
+#navbar.white .navbar-toggler .line:nth-child(2) {
+ background-color: rgb(0, 0, 0); 
+}
+
+
+#navbar.white .navbar-toggler .line:nth-child(3) {
+background-color: rgb(0, 0, 0);
+
+
+
+}
 
 
 .navbar-brand,
@@ -86,7 +120,7 @@ background-color: white;
 
 /* === HERO === */
 #hero {
-  background: url('tlo1.webp') center/cover no-repeat;
+  background: url('tlo2.webp') center/cover no-repeat;
   min-height: 110vh;
   position: relative;
   color: white;
@@ -138,16 +172,73 @@ background-color: white;
   background-color: #b33434;
 }
 
-#advantages {
-  min-height: 50vh !important;
+.advantages-desktop {
+  min-height: 50vh;
   background-color: rgba(255, 255, 255, 0.599);
   z-index: 1;
   color: black;
+  display: block;
 }
 
 #advantages .container {
   
   height: auto;
+}
+
+.advantages-mobilne {
+
+  background-color: rgba(255, 255, 255, 0.599);
+  z-index: 1;
+  color: black;
+  display: none ;
+}
+
+.btn-mobilne {
+  display: none;
+}
+
+@media (max-width: 576px) {
+
+
+.navbar-nav {
+  margin-top: 10%;
+}
+
+.navbar.white {
+  background: rgba(255, 255, 255, 0.329) !important;
+}
+
+
+#hero {
+ min-height: 100vh;
+ justify-content: center;
+
+}
+
+.btn-desktop {
+  display: none;
+}
+
+.btn-mobilne {
+  display: block;
+}
+
+.advantages-desktop {
+  min-height: 0vh;
+  background-color: rgba(255, 255, 255, 0.599);
+  z-index: 1;
+  color: black;
+  display: none;
+}
+
+.advantages-mobilne {
+
+  background-color: rgba(255, 255, 255, 0.599);
+  z-index: 1;
+  color: black;
+  display: block ;
+}
+
 }
 
 
@@ -854,6 +945,25 @@ footer {
   transform: scale(100%) !important;
 }
 
+#ikonazab {
+  height: 50px;
+  width: auto;
+  margin-right: 1%;
+  position: absolute;
+  top: 10%;
+  left: 2% ;
+}
+
+#ikonablack {
+  height: 50px;
+  width: auto;
+  margin-right: 1%;
+  display: none;
+  position: absolute;
+  top: 10%;
+  left: 2%;
+}
+
 }
 
 
@@ -867,6 +977,8 @@ footer {
   height: 50px;
   width: auto;
   margin-right: 1%;
+  
+
 }
 
 #ikonablack {
@@ -874,6 +986,8 @@ footer {
   width: auto;
   margin-right: 1%;
   display: none;
+
+
 }
 
 #navbar.white #ikonablack { display: block; }
