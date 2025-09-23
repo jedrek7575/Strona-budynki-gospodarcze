@@ -1102,7 +1102,7 @@ footer {
 .dimensions-map {
     position: relative;
     width: 100%;
-    height: 40vh; /* Możesz to dostosować w zależności od potrzeby */
+    height: 70vh; /* Możesz to dostosować w zależności od potrzeby */
     background-color: #f0f0f0; /* Kolor tła mapki */
     margin-top: 20px; /* Odstęp od reszty elementów */
     border: 1px solid #ddd; /* Obramowanie mapki */
@@ -1146,7 +1146,7 @@ footer {
 .dimensions-map-height {
     position: relative;
     width: 100%;
-    height: 40vh; /* Możesz to dostosować w zależności od potrzeby */
+    height: 70vh; /* Możesz to dostosować w zależności od potrzeby */
     background-color: #f0f0f0; /* Kolor tła mapki */
     margin-top: 20px; /* Odstęp od reszty elementów */
     border: 1px solid #ddd; /* Obramowanie mapki */
