@@ -562,12 +562,6 @@ function updateBuildingElevation() {
   const heightPeakInput = active.querySelector(`#heightPeakRange${id}`);
   const map             = active.querySelector('.building-map-height');
 
-
-  const WALL_IMG_C1 = '/img/wall-rect.svg';             // ściana dla container1
-const ROOF_IMG_C1 = '/img/roof-triangle.svg';         // dach  dla container1
-const WALL_IMG_C2 = '/img/wall-rect-wide.svg';        // ściana dla container2 (np. inna)
-const ROOF_IMG_C2 = '/img/roof-triangle-double.svg';  // dach  dla container2 (np. inna)
-
   if (!baseInput || !heightEaveInput || !heightPeakInput || !map) return;
 
   let L      = parseFloat(baseInput.value || '0');
