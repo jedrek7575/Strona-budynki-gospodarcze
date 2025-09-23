@@ -291,6 +291,13 @@ align-items: space-between;
   font-weight: 900;
 }
 
+@media (max-width: 576px) {
+.zalety-tytuł {
+  margin-top: 10%;
+}
+
+}
+
 .row {
   margin-top: 2%;
 }
