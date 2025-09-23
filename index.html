@@ -1,117 +1,118 @@
 <!DOCTYPE html>
-<!--
-  Improved website for Zabudo.pl.
-  This template incorporates multiple UX, SEO and accessibility enhancements based on
-  the current design of the site.  The headline and metadata have been updated
-  to reflect that Zabudo.pl główny produkt to budynki gospodarcze oraz inne
-  drewniane konstrukcje.  Images now include descriptive alt attributes and
-  lazy‑loading, and the navigation includes a link to the blog.  A contact
-  form with RODO consent and a reCAPTCHA placeholder has been added for spam
-  protection.  Hidden keyword stuffing has been removed.
--->
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zabudo – lider budownictwa gospodarczego i drewnianych konstrukcji</title>
-  <!-- SEO metadata -->
-  <meta name="description" content="Zabudo to lider branży budownictwa gospodarczego – projektujemy i montujemy hale, wiaty, garaże i domki letniskowe bez kompromisów. Łączymy wieloletnie doświadczenie, najwyższą jakość i indywidualne podejście, tworząc realizacje, które przetrwają pokolenia.">
-  <meta name="keywords" content="budynki gospodarcze, budy, garaże, domki letniskowe, drapaki, Śląsk, Małopolska">
-  <meta property="og:title" content="Budynki gospodarcze na wymiar | Zabudo.pl">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zabudo.pl - Profesjonalne rozwiązania Twojego ogrodu</title>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Po Prostu Solidne",
+    "description": "Budynki gospodarcze na wymiar – hale stalowe, wiaty, garaże blaszane, konstrukcje rolnicze. Montaż Śląsk i Małopolska.",
+    "url": "https://www.zabudo.pl",
+    "telephone": "+48503702467",
+    "email": "adam@zabudo.pl",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ul. Przykładowa 1",
+      "addressLocality": "Siewierz",
+      "addressRegion": "Śląskie",
+      "postalCode": "42-470",
+      "addressCountry": "PL"
+    },
+    "areaServed": ["Śląsk", "Małopolska", "Siewierz", "Zawiercie", "Myszków", "Łazy", "Poręba", "Żarki", "Koziegłowy", "Ożarowice", "Wojkowice Kościelne"],
+    "openingHours": "Mo-Fr 08:00-17:00",
+    "sameAs": []
+  }
+  </script>
+
+  <!-- Meta -->
+  <meta name="description" content="Po Prostu Solidne – Budujemy trwałe, funkcjonalne budynki gospodarcze na wymiar na Śląsku i w Małopolsce. Szybka realizacja, montaż i atrakcyjne ceny.">
+  <meta name="keywords" content="budynki gospodarcze, konstrukcje stalowe, garaże blaszane, Śląsk, Małopolska, Siewierz, budowa, montaż, solidne budynki, na wymiar, blaszaki, Po Prostu Solidne">
+  <meta name="author" content="Po Prostu Solidne">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Budynki gospodarcze na wymiar | Po Prostu Solidne">
   <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
-  <!-- Use a real image here (e.g. logo or realizacja) once available -->
-  <meta property="og:image" content="favicon-96x96.png">
-  <meta property="og:url" content="https://www.zabudo.pl">
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <meta property="og:image" content="URL_DO_Twojej_Głównej_Grafiki.jpg">
+  <meta property="og:url" content="https://www.twojadomena.pl">
+
   <!-- Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body { font-family: 'Poppins', sans-serif; }
-    /* Hero background overlay */
-    #hero {
-      background-image: url('hero-placeholder.jpg');
-      background-size: cover;
-      background-position: center;
-      color: #fff;
-      min-height: 60vh;
-      position: relative;
-    }
-    #hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-    }
-    #hero .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-  </style>
-  <!-- Google reCAPTCHA (anti‑spam protection) -->
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="mstile-144x144.png">
+  <meta name="theme-color" content="#ffffff">
 </head>
+
 <body>
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
+      <img id="ikonazab" src="favicon-96x96white.png" alt="Logo białe" />
+      <img id="ikonablack" src="favicon-96x96black.png" alt="Logo czarne" />
       <a class="navbar-brand" href="#">Zabudo.pl</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#advantages">Dlaczego my</a></li>
-          <li class="nav-item"><a class="nav-link" href="#proces">Proces</a></li>
-          <li class="nav-item"><a class="nav-link" href="#offer">Oferta</a></li>
-          <li class="nav-item"><a class="nav-link" href="#opinie">Opinie</a></li>
-          <li class="nav-item"><a class="nav-link" href="#gallery">Realizacje</a></li>
-          <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
+ 
+           <li class="nav-item"><a class="nav-link" href="#advantages">O nas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#oferta">Oferta</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
+          <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Hero section -->
-  <section id="hero" class="d-flex align-items-center justify-content-center">
-    <div class="container text-center hero-content">
-      <!-- Updated hero headline to convey ambition and industry leadership -->
-      <h1 class="display-5 fw-bold">Zabudo – wyznaczamy standardy w budownictwie</h1>
-      <p class="lead">Budujemy hale, wiaty, garaże i domki letniskowe, tworząc inwestycje, które przeniosą Twój biznes i Twoje życie na wyższy poziom.</p>
-      <a href="#advantages" class="btn btn-primary btn-lg">Dowiedz się, dlaczego jesteśmy najlepsi</a>
+  <!-- Hero -->
+  <section id="hero" class="text-center d-flex align-items-center justify-content-center">
+    <div class="container hero-content">
+      <h1>Zabudo – wyznaczamy standardy w budownictwie</h1>
+      <p>Budujemy hale, wiaty, garaże i domki letniskowe, tworząc inwestycje, które przeniosą Twój biznes i Twoje życie na wyższy poziom.</p>
+      <a href="#advantages" id="scrollToDimensions" class="btn btn-primary">Dowiedz się, dlaczego jesteśmy najlepsi</a>
     </div>
   </section>
 
 
-
-  <!-- Advantages section -->
+   <!-- Ikony - zalety -->
   <section class="py-5" id="advantages">
     <div class="container">
-      <h2 class="text-center mb-4">Dlaczego Zabudo?</h2>
+      <h2 class="text-center mb-4 zalety-tytuł">Dlaczego Zabudo?</h2>
       <div class="row g-4">
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-helmet-safety fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-helmet-safety fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Doświadczenie</h5>
           <p>Od wielu lat budujemy z pasją, łącząc tradycję z nowoczesnością.</p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-building fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-building fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Setki realizacji</h5>
           <p>Zrealizowaliśmy dziesiątki projektów – od wiat po hale przemysłowe.</p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-users fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-users fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Indywidualne podejście</h5>
           <p>Każdy projekt dopasowujemy do potrzeb i marzeń naszych klientów.</p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-star fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-star fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Jakość bez kompromisów</h5>
           <p>Korzystamy z najlepszych materiałów i sprawdzonych technologii.</p>
         </div>
@@ -119,52 +120,28 @@
     </div>
   </section>
 
-  <!-- About section -->
-  <section class="py-5" id="about">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-md-6">
-          <div class="card shadow-sm h-100">
-            <div class="card-body">
-              <h5 class="card-title">Adam</h5>
-              <p class="card-text">Kiedy rozbłysła tysiąckroć jaśniejszym światłem V838 Monocerotis z gwiazdozbioru Jednorożca moi rodzice nie wiedzieli jeszcze, co ich czeka. Mam na imię Adam i jestem właścicielem zabudo.pl. Buduję dla ludzi takich jak Ty – konkretnych, wymagających, szukających trwałych rozwiązań. Wierzę, że solidna konstrukcja to nie luksus, tylko fundament spokoju – i właśnie to Ci oferuję. Jeśli masz kawałek ziemi i pomysł, my z Kubą zrobimy z tego coś, co przetrwa dekady.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card shadow-sm h-100">
-            <div class="card-body">
-              <h5 class="card-title">Kuba</h5>
-              <p class="card-text">Wielu pracodawców wymaga od dwudziestotrzyletniego człowieka co najmniej dziesięć lat doświadczenia. Dlatego stolarstwem oraz ciesielstwem zacząłem się interesować już w wieku trzynastu lat. Pierwszy zastrugany kijek, pierwszy klin wbity w oprawiany toporek... ani się obejrzałem a wznosiłem pierwszy budynek. Pracę traktuję jako pasję, a podejmując się czegokolwiek w pamięci mam dewizę zaszczepioną przez ojca – "albo porządnie, albo wcale".</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Process section -->
+  <!-- Proces section -->
   <section class="py-5 bg-light" id="proces">
     <div class="container">
-      <h2 class="text-center mb-4">Nasz proces</h2>
+      <h2 class="text-center mb-4 zalety-tytuł">Nasz proces</h2>
       <div class="row g-4">
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-comments fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-comments fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Konsultacja</h5>
           <p>Rozmawiamy z Tobą, aby zrozumieć potrzeby i stworzyć wstępną koncepcję inwestycji.</p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-drafting-compass fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-drafting-compass fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Projekt</h5>
           <p>Przygotowujemy szczegółowy projekt dopasowany do Twojej działki oraz budżetu.</p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-hammer fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-hammer fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Produkcja</h5>
           <p>W naszym zakładzie powstają prefabrykaty, które następnie montujemy na miejscu.</p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-truck fa-3x text-primary mb-3"></i>
+          <i class="fa-solid fa-truck fa-3x ikona-zalety text-primary mb-3"></i>
           <h5>Dostawa i montaż</h5>
           <p>Transportujemy gotowe elementy i sprawnie montujemy budynek w umówionym terminie.</p>
         </div>
@@ -172,56 +149,429 @@
     </div>
   </section>
 
-  <!-- Offer section -->
-  <section class="py-5 bg-light" id="offer">
-    <div class="container">
-      <h2 class="text-center mb-4">Oferta</h2>
-      <div class="row g-4">
-        <div class="col-sm-6 col-lg-3">
-          <div class="card h-100">
-            <img src="drapak.webp" class="card-img-top" alt="Najwyższej jakości drapak dla kota" loading="lazy">
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">Drapaki</h5>
-              <p class="card-text">Najwyższej jakości drapak Twojego kota.</p>
-              <a href="drapaki.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card h-100">
-            <img src="budamarzen2.webp" class="card-img-top" alt="Starannie ocieplony dom Twojego psa" loading="lazy">
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">Budy</h5>
-              <p class="card-text">Starannie ocieplony dom Twojego psa.</p>
-              <a href="budy.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card h-100">
-            <img src="garaż1.webp" class="card-img-top" alt="Bezpieczne miejsce na Twój samochód" loading="lazy">
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">Garaż</h5>
-              <p class="card-text">Bezpieczne miejsce na Twój samochód.</p>
-              <a href="garaz.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card h-100">
-            <img src="budynek3.webp" class="card-img-top" alt="Odporny na zmienne warunki atmosferyczne domek letniskowy" loading="lazy">
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">Domek letniskowy</h5>
-              <p class="card-text">Odporny na zmienne warunki atmosferyczne.</p>
-              <a href="domek.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
-            </div>
-          </div>
-        </div>
+
+
+<div id="oferta" class="oferta">
+
+<div class="menuoferta">
+  <button class="sklep" data-target="sklep">SKLEP</button>
+  <button class="usługi pokazane" data-target="usługi">USŁUGI</button>
+</div>
+
+
+  <div id="sklep" class="panel"> 
+    
+<div class="sklepkarta1">
+
+    <a href="drapaki.html" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="drapak2.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="drapak1.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="drapak2.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="drapak1.webp">
+
       </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Drapaki</h1>
+      <p class="sklepkarta1-opis">Najwyższej jakości drapak Twojego kota</p>
+        </div>
+
+
+    </a>
+
+ <a href="" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="budamarzen2.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="buda3.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="Buda11.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Budy</h1>
+      <p class="sklepkarta1-opis">Starannie ocieplony dom Twojego psa</p>
+        </div>
+
+
+    </a>
+
+     <a href="" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Już wkrótce</h1>
+      <p class="sklepkarta1-opis"></p>
+        </div>
+
+
+    </a>
+
+     <a href="" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Już wkrótce</h1>
+      <p class="sklepkarta1-opis"></p>
+        </div>
+
+
+    </a>
+
+
+</div>
+
+
+
+<div class="sklepkarta2">
+
+  <div class="galeria-produktów">
+
+      <div class="sklepkarta2-obrazy">
+
+        <img class="sklepkarta2-obrazy-obraz" src="budamarzen2.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="drapak1.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="drapak2.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+  </div>
+
+</div>
+
+  </div>
+
+
+
+   <div id="usługi" class="panel pokazane">
+    
+
+
+<div class="sklepkarta2">
+
+  <div class="galeria-produktów">
+
+      <div class="sklepkarta2-obrazy">
+
+        <img class="sklepkarta2-obrazy-obraz" src="budynek1.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="budynek2.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="budynek3.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+  </div>
+
+</div>
+
+<div class="sklepkarta1">
+
+    <a href="garaż.html" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="garaż1.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="garaż2.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="garaż3.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="garaż4.webp">
+
+      </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Garaż</h1>
+      <p class="sklepkarta1-opis">Bezpieczne miejsce na Twój samochód</p>
+        </div>
+
+
+    </a>
+
+ <a href="" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="budynek3.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="budynek4.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="budynek1.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Domek letniskowy</h1>
+      <p class="sklepkarta1-opis">Odporny na zmienne warunki atmosferyczne</p>
+        </div>
+
+
+    </a>
+
+     <a href="" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Już wkrótce</h1>
+      <p class="sklepkarta1-opis"></p>
+        </div>
+
+
+    </a>
+
+     <a href="" class="sklepkarta">
+
+      <div class="sklepkarta1-obrazy">
+
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+
+      </div>
+
+      <div class="sklepkarta1-tekst">
+      <h1 class="sklepkarta1-tytuł">Już wkrótce</h1>
+      <p class="sklepkarta1-opis"></p>
+        </div>
+
+
+    </a>
+
+
+</div>
+
+
+
+
+
+  </div>
+
+
+<script>
+document.querySelectorAll('.sklepkarta1-obrazy').forEach(c => {
+  const imgs = c.querySelectorAll('img'); if (imgs.length < 2) return;
+  imgs.forEach((im, k) => im.style.opacity = k ? 0 : 1);
+  let i = 0;
+  setInterval(() => {
+    imgs[i].style.opacity = 0;
+    i = (i + 1) % imgs.length;
+    imgs[i].style.opacity = 1;
+  }, 5000); // co 3s
+});
+</script>
+<script>
+document.querySelectorAll('.sklepkarta2-obrazy').forEach(c => {
+  const imgs = c.querySelectorAll('img'); if (imgs.length < 2) return;
+  imgs.forEach((im, k) => im.style.opacity = k ? 0 : 1);
+  let i = 0;
+  setInterval(() => {
+    imgs[i].style.opacity = 0;
+    i = (i + 1) % imgs.length;
+    imgs[i].style.opacity = 1;
+  }, 5000); // co 3s
+});
+</script>
+
+
+ 
+  
+    
+
+  
+
+
+
+<script>
+// 1) Bierzemy TYLKO przyciski z górnego menu oferty:
+const tabButtons = document.querySelectorAll('.menuoferta [data-target]');
+// 2) Te dwa panele (SKLEP i USŁUGI) mają klasę .panel
+const panels = document.querySelectorAll('.panel');
+
+// Pomocniczo: zbuduj selektor z #, jeśli ktoś zapomniał go wstawić w HTML
+function targetSelectorFrom(btn) {
+  const t = btn.dataset.target || '';
+  return t.startsWith('#') ? t : ('#' + t);
+}
+
+function clearShown() {
+  tabButtons.forEach(b => b.classList.remove('pokazane'));
+  panels.forEach(p => p.classList.remove('pokazane'));
+}
+
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetSelector = targetSelectorFrom(btn); // "#sklep" lub "#usługi"
+    const targetPanel = document.querySelector(targetSelector);
+    if (!targetPanel) return;
+
+    clearShown();
+    btn.classList.add('pokazane');
+    targetPanel.classList.add('pokazane');
+  });
+});
+
+// (opcjonalnie) ustaw stan startowy: pokaż USŁUGI
+// document.querySelector('.menuoferta [data-target="usługi"]')?.click();
+</script>
+
+
+
+
+<script>
+(() => {
+  const scope     = document.getElementById('container5');
+  const lightbox  = document.getElementById('dog-lightbox');
+  const mainImg   = document.getElementById('dog-lightbox-main-img');
+  const thumbsBox = document.getElementById('dog-lightbox-thumbs');
+  const closeX    = lightbox.querySelector('.dog-lightbox-close');
+  const content   = lightbox.querySelector('.dog-lightbox-content'); // << ważne
+
+  // upewnij się, że lightbox jest nad wszystkim i poza #container5 (najlepiej bezpośrednio w <body>)
+  lightbox.style.zIndex = '9999';
+  lightbox.style.display = 'none';
+  lightbox.style.position = 'fixed';
+
+  let gallery = [];
+  let idx = 0;
+
+  const toAbs = (src) => new URL(src, location.href).href;
+
+  const parseGallery = (el) => {
+    const raw = el.getAttribute('data-gallery');
+    if (!raw) return null;
+    try { const j = JSON.parse(raw); if (Array.isArray(j)) return j.map(toAbs); } catch(_) {}
+    return raw.split(',').map(s => s.trim()).filter(Boolean).map(toAbs);
+  };
+
+  const collectFromCard = (imgEl) => {
+    const card = imgEl.closest('.card');
+    if (!card) return [toAbs(imgEl.currentSrc || imgEl.src)];
+    const imgs = card.querySelectorAll('.carousel-inner img');
+    const list = [...imgs].map(i => toAbs(i.currentSrc || i.src));
+    return list.length ? Array.from(new Set(list)) : [toAbs(imgEl.currentSrc || imgEl.src)];
+  };
+
+  const setActive = (i) => {
+    idx = i;
+    mainImg.src = gallery[idx];
+    [...thumbsBox.children].forEach((t, k) => t.classList.toggle('active', k === idx));
+  };
+
+  const renderThumbs = () => {
+    thumbsBox.innerHTML = '';
+    gallery.forEach((src, i) => {
+      const t = document.createElement('img');
+      t.src = src; t.alt = 'miniatura';
+      if (i === idx) t.classList.add('active');
+      t.onclick = (e) => { e.stopPropagation(); setActive(i); }; // << zatrzymaj bubbling
+      thumbsBox.appendChild(t);
+    });
+  };
+
+  const open = (arr, start = 0) => {
+    gallery = arr; idx = Math.max(0, Math.min(start, gallery.length - 1));
+    renderThumbs(); setActive(idx);
+    lightbox.style.display = 'flex';
+    document.documentElement.style.overflow = 'hidden';
+  };
+
+  const close = () => {
+    lightbox.style.display = 'none';
+    mainImg.src = ''; thumbsBox.innerHTML = '';
+    gallery = []; idx = 0;
+    document.documentElement.style.overflow = '';
+  };
+
+  // Klik w IMG tylko w #container5
+  scope.addEventListener('click', (e) => {
+    const img = e.target.closest('img');
+    if (!img || !scope.contains(img)) return;
+
+    let arr = parseGallery(img);
+    if (!arr || arr.length === 0) arr = collectFromCard(img);
+
+    const clicked = toAbs(img.currentSrc || img.src);
+    const start = Math.max(0, arr.indexOf(clicked));
+    open(arr, start);
+  });
+
+  // Zamknięcia
+  closeX.addEventListener('click', (e) => { e.stopPropagation(); close(); });
+
+  // Klik w TŁO zamyka, ale…
+  lightbox.addEventListener('click', () => close());
+
+  // …klik wewnątrz zawartości NIE leci wyżej (nie zamyka i nie odpala burgera)
+  if (content) content.addEventListener('click', (e) => e.stopPropagation());
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.style.display === 'none') return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight' && gallery.length > 1) setActive((idx + 1) % gallery.length);
+    if (e.key === 'ArrowLeft'  && gallery.length > 1) setActive((idx - 1 + gallery.length) % gallery.length);
+  });
+})();
+</script>
+
+  
+  <!-- Contact -->
+  <section id="contact" class="full-screen-section d-flex align-items-center justify-content-center text-center">
+    <div class="container" style="max-width: 600px;">
+      <h2 class="section-title">Skontaktuj się z nami</h2>
+
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+      </div>
+
+      <!-- Formularz kontaktowy -->
+      <form id="contact-form">
+        <div class="mb-2">
+          <input type="text" name="user_name" placeholder="Imię i nazwisko" class="form-control" required />
+        </div>
+        <div class="mb-2">
+          <input type="email" name="user_email" placeholder="Adres e-mail" class="form-control" required />
+        </div>
+        <div class="mb-2">
+          <textarea id="message" name="message" rows="6" class="form-control" required>Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+        <a href="tel:+48503702467" class="btn btn-primary">Zadzwoń teraz!</a>
+      </form>
+
+      <p id="form-message" style="margin-top: 10px;"></p>
     </div>
   </section>
 
-  <!-- Testimonials section (moved to follow the offer) -->
+
+<!-- Testimonials section (moved to follow the offer) -->
   <section class="py-5" id="opinie">
     <div class="container">
       <h2 class="text-center mb-4">Opinie naszych klientów</h2>
@@ -229,7 +579,7 @@
         <div class="col-md-4">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <i class="fa-solid fa-quote-left fa-2x text-primary mb-3"></i>
+              <i class="fa-solid fa-quote-left ikona-zalety fa-2x text-primary mb-3"></i>
               <p class="card-text">"Zabudo to profesjonaliści! Mój garaż stanął w trzy tygodnie, a jakość wykonania przerosła moje oczekiwania. Polecam w 100%!"</p>
               <h6 class="card-subtitle text-muted mt-3">Jan, Brzeszcze</h6>
             </div>
@@ -238,7 +588,7 @@
         <div class="col-md-4">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <i class="fa-solid fa-quote-left fa-2x text-primary mb-3"></i>
+              <i class="fa-solid fa-quote-left fa-2x ikona-zalety text-primary mb-3"></i>
               <p class="card-text">"Hala, którą wybudowali, jest solidna i nowoczesna. Zabudo jest naprawdę bezkonkurencyjne w swoim fachu – pełen profesjonalizm!"</p>
               <h6 class="card-subtitle text-muted mt-3">Anna, Oświęcim</h6>
             </div>
@@ -247,7 +597,7 @@
         <div class="col-md-4">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <i class="fa-solid fa-quote-left fa-2x text-primary mb-3"></i>
+              <i class="fa-solid fa-quote-left fa-2x ikona-zalety text-primary mb-3"></i>
               <p class="card-text">"Od pierwszej rozmowy do montażu minął zaledwie miesiąc, a domek letniskowy przerósł nasze marzenia. Świetna jakość i obsługa klienta na najwyższym poziomie."</p>
               <h6 class="card-subtitle text-muted mt-3">Piotr, Kraków</h6>
             </div>
@@ -257,7 +607,8 @@
     </div>
   </section>
 
-  <!-- Blog section -->
+
+<!-- Blog section -->
   <section class="py-5" id="blog">
     <div class="container">
       <h2 class="text-center mb-4">Blog</h2>
@@ -268,7 +619,7 @@
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">Budowa narzędziówki w 5 dni – solidny budynek gospodarczy z ociepleniem</h5>
               <p class="card-text">Budynki gospodarcze na wymiar to nasza specjalność. W zaledwie pięć dni wykonaliśmy kompletną narzędziówkę z ociepleniem, która będzie służyć właścicielowi przez długie lata.</p>
-              <a href="blog-artykul-1.html" class="btn btn-outline-primary mt-auto">Czytaj więcej</a>
+              <a href="blog.html" class="btn-blog btn btn-outline-primary mt-auto">Czytaj więcej</a>
             </div>
           </div>
         </div>
@@ -278,7 +629,7 @@
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">7 cech, które powinien posiadać solidny budynek gospodarczy</h5>
               <p class="card-text">Budynki gospodarcze na Śląsku i w Małopolsce cieszą się ogromną popularnością. Wybierając idealny projekt, warto zwrócić uwagę na konkretne cechy, które zapewnią trwałość, funkcjonalność i bezpieczeństwo.</p>
-              <a href="blog-artykul-2.html" class="btn btn-outline-primary mt-auto">Czytaj więcej</a>
+              <a href="blog-artykul-2.html" class="btn-blog btn btn-outline-primary mt-auto">Czytaj więcej</a>
             </div>
           </div>
         </div>
@@ -286,75 +637,326 @@
     </div>
   </section>
 
-  <!-- Gallery section -->
-  <section class="py-5 bg-light" id="gallery">
+
+  <!-- Gallery -->
+  <section id="gallery">
     <div class="container">
-      <h2 class="text-center mb-4">Galeria realizacji</h2>
-      <div class="row g-2">
-        <div class="col-6 col-md-3"><img src="galeria1.webp" class="img-fluid rounded" alt="Realizacja 1 – budynek gospodarczy" loading="lazy"></div>
-        <div class="col-6 col-md-3"><img src="galeria2.webp" class="img-fluid rounded" alt="Realizacja 2 – budynek gospodarczy" loading="lazy"></div>
-        <div class="col-6 col-md-3"><img src="galeria3.webp" class="img-fluid rounded" alt="Realizacja 3 – budynek gospodarczy" loading="lazy"></div>
-        <div class="col-6 col-md-3"><img src="galeria4.webp" class="img-fluid rounded" alt="Realizacja 4 – budynek gospodarczy" loading="lazy"></div>
+      <h2 class="section-title">Galeria realizacji</h2>
+      <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active"><img src="1.webp" class="d-block w-100" alt="Zdjęcie 1"></div>
+          <div class="carousel-item"><img src="2.webp" class="d-block w-100" alt="Zdjęcie 2"></div>
+          <div class="carousel-item"><img src="3.webp" class="d-block w-100" alt="Zdjęcie 3"></div>
+          <div class="carousel-item"><img src="4.webp" class="d-block w-100" alt="Zdjęcie 4"></div>
+          <div class="carousel-item"><img src="5.webp" class="d-block w-100" alt="Zdjęcie 5"></div>
+          <div class="carousel-item"><img src="6.webp" class="d-block w-100" alt="Zdjęcie 6"></div>
+          <div class="carousel-item"><img src="7.webp" class="d-block w-100" alt="Zdjęcie 7"></div>
+          <div class="carousel-item"><img src="8.webp" class="d-block w-100" alt="Zdjęcie 8"></div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- Contact section -->
-  <section class="py-5" id="contact">
-    <div class="container">
-      <h2 class="text-center mb-4">Skontaktuj się z nami</h2>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <ul class="list-unstyled">
-            <li><strong>Telefon:</strong> <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></li>
-            <li><strong>Email:</strong> <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <form id="contactForm" method="post" action="https://formspree.io/f/mayylzbn">
-            <div class="mb-3">
-              <label for="name" class="form-label">Imię i nazwisko</label>
-              <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Adres e‑mail</label>
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="message" class="form-label">Treść wiadomości</label>
-              <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-            </div>
-            <div class="form-check mb-3">
-              <input class="form-check-input" type="checkbox" id="rodo" required>
-              <label class="form-check-label" for="rodo">
-                Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na zapytanie (RODO).
-              </label>
-            </div>
-            <div class="mb-3">
-              <!-- Replace YOUR_SITE_KEY with your actual reCAPTCHA site key -->
-              <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
-            </div>
-            <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
+
+
+
+
+
+
+
+
 
   <!-- Footer -->
-  <footer class="bg-dark text-white py-3">
-    <div class="container text-center">
-      <p class="mb-0">&copy; <span id="year"></span> Zabudo.pl</p>
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Zabudo.pl</p>
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+        <a href="polityka-prywatności.html">Polityka prywatności</a>
+      </div>
     </div>
   </footer>
 
-  <!-- JavaScript -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
-    // Set current year in footer
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('year').textContent = new Date().getFullYear();
-    });
+    (function() {
+      emailjs.init("0rODOdXhUGV-z--Ya"); // Twój PUBLIC KEY
+    })();
   </script>
+
+  <!-- Twój główny skrypt (jeśli używasz) -->
+  <script src="script.js"></script>
+
+  <!-- Rotacja tła hero -->
+  <script>
+  const hero = document.getElementById('hero');
+  const images = ['1.webp','2.webp','3.webp','Buda11.webp','1.webp','2.webp','3.webp','Buda11.webp'];
+  let index = 0;
+  setInterval(() => {
+    index = (index + 1) % images.length;
+    hero.style.backgroundImage = `url('${images[index]}')`;
+  }, 6000);
+  </script>
+
+  <!-- Auto-karuzela galerii -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const myCarousel = document.querySelector('#galleryCarousel');
+    if (myCarousel) {
+      new bootstrap.Carousel(myCarousel, { interval: 3000, ride: 'carousel' });
+    }
+  });
+  </script>
+
+  <!-- BANER ZGÓD: HTML -->
+  <div id="cookie-banner" class="text-center" style="display:none;">
+    Ta strona korzysta z plików cookies w celach statystycznych i funkcjonalnych.
+    <br>Możesz zaakceptować lub opuścić stronę, jeśli się nie zgadzasz.
+
+    <div class="mt-3 text-start" style="max-width: 420px; margin: 0 auto;">
+      <label><input type="checkbox" id="consent-cookies"> Zgadzam się na pliki cookies</label><br>
+      <label><input type="checkbox" id="consent-newsletter"> Zgadzam się na otrzymywanie newslettera</label>
+    </div>
+
+    <div class="mt-3">
+      <button id="accept-all" class="btn btn-success btn-sm me-2">✅ Zaakceptuj wszystkie</button>
+      <button id="accept-cookies" class="btn btn-outline-secondary btn-sm">Zapisz wybór</button>
+    </div>
+
+    <!-- (Opcjonalnie) linki do polityk -->
+    <!-- <div class="small mt-2"><a href="/polityka-prywatnosci">Polityka prywatności</a> • <a href="/polityka-cookies">Polityka cookies</a></div> -->
+  </div>
+
+  <!-- BANER ZGÓD: LOGIKA + integracja z EmailJS -->
+  <script>
+  // --- Ładowanie GA tylko przy zgodzie na cookies ---
+  function loadAnalytics() {
+    if (window._gaLoaded) return;
+    const script = document.createElement('script');
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-36X685CZ6N";
+    script.async = true;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-36X685CZ6N');
+    window._gaLoaded = true;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('cookie-banner');
+    const btnAcceptAll = document.getElementById('accept-all');
+    const btnSave = document.getElementById('accept-cookies');
+    const consentCookies = document.getElementById('consent-cookies');
+    const consentNewsletter = document.getElementById('consent-newsletter');
+
+    // Przywróć zgody
+    const saved = localStorage.getItem('consents');
+    if (saved) {
+      const consents = JSON.parse(saved);
+      consentCookies.checked = !!consents.cookies;
+      consentNewsletter.checked = !!consents.newsletter;
+      if (consents.cookies) loadAnalytics();
+      banner.style.display = 'none';
+    } else {
+      banner.classList.add('show');
+      banner.style.display = '';
+    }
+
+    // Klik: zaakceptuj wszystkie
+    btnAcceptAll.addEventListener('click', function() {
+      consentCookies.checked = true;
+      consentNewsletter.checked = true;
+      saveAndClose();
+    });
+
+    // Klik: zapisz wybór
+    btnSave.addEventListener('click', function() {
+      saveAndClose();
+    });
+
+    function saveAndClose() {
+      const consents = {
+        cookies: !!consentCookies.checked,
+        newsletter: !!consentNewsletter.checked
+      };
+
+      localStorage.setItem('consents', JSON.stringify(consents));
+
+      // zapis metadanych zgody na newsletter (audyt)
+      localStorage.setItem('newsletterConsentMeta', JSON.stringify({
+        consent: consents.newsletter,
+        ts: new Date().toISOString(),
+        source: 'cookie-banner'
+      }));
+
+      if (consents.cookies) loadAnalytics();
+
+      banner.classList.remove('show');
+      banner.style.display = 'none';
+    }
+  });
+
+  // Obsługa formularza kontaktowego z dopięciem zgód do EmailJS
+  window.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('contact-form');
+    const msg = document.getElementById('form-message');
+
+    function addHidden(form, name, value) {
+      let input = form.querySelector('input[name="'+name+'"]');
+      if (!input) {
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        form.appendChild(input);
+      }
+      input.value = value;
+    }
+
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // odczytaj metadane zgody newsletter
+      let newsletterConsent = 'NIE';
+      let newsletterTs = '';
+      let newsletterSource = '';
+      try {
+        const meta = JSON.parse(localStorage.getItem('newsletterConsentMeta') || '{}');
+        if (meta && meta.consent) {
+          newsletterConsent = 'TAK';
+          newsletterTs = meta.ts || '';
+          newsletterSource = meta.source || '';
+        }
+      } catch(e) {}
+
+      // odczytaj zgodę na cookies
+      let cookiesConsent = 'NIE';
+      try {
+        const cons = JSON.parse(localStorage.getItem('consents') || '{}');
+        cookiesConsent = cons.cookies ? 'TAK' : 'NIE';
+      } catch(e) {}
+
+      // dopnij ukryte pola
+      addHidden(form, 'newsletter_consent', newsletterConsent);
+      addHidden(form, 'newsletter_consent_ts', newsletterTs);
+      addHidden(form, 'newsletter_consent_source', newsletterSource);
+      addHidden(form, 'consent_cookies', cookiesConsent);
+
+      // wyślij przez EmailJS (używa Twojej konfiguracji)
+      emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', form)
+        .then(function() {
+          msg.textContent = "Wiadomość wysłana pomyślnie!";
+          msg.style.color = "green";
+          form.reset();
+        }, function() {
+          msg.textContent = "Błąd podczas wysyłania. Spróbuj ponownie.";
+          msg.style.color = "red";
+        });
+    });
+  });
+  </script>
+
+  <!-- SEO helper (jak miałeś) -->
+  <div class="seo" style="position:absolute; left:-9999px; visibility:hidden;">
+    budy, budy dla psów, budy Kraków, budy Katowice, budy Śląsk, budy Małopolska, ...
+  </div>
+
+  <script>
+    // Rok w stopce
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+
+
+
+
+
+<script>
+// ZWIJANIE MENU MOBILNEGO + PŁYNNY SCROLL Z OFFSETEM
+document.addEventListener('DOMContentLoaded', () => {
+  const navbarCollapseEl = document.getElementById('navbarNav');
+  const navbarToggler    = document.querySelector('.navbar-toggler');
+  if (!navbarCollapseEl || !navbarToggler) return;
+
+  // Instancja Collapse (nie otwieraj/nie zamykaj automatycznie)
+  const bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarCollapseEl, { toggle: false });
+
+  // Linki, które mają zamykać menu (zwykłe i dropdowny)
+  const actionableLinks = navbarCollapseEl.querySelectorAll('a.nav-link, .dropdown-item');
+
+  // Funkcja: czy jesteśmy w trybie mobilnym (toggler widoczny)
+  const isMobile = () => window.getComputedStyle(navbarToggler).display !== 'none';
+
+  // Płynny scroll z offsetem dla sekcji (#id)
+  const smoothScrollToHash = (hash) => {
+    if (!hash || hash === '#') return false;
+    const target = document.querySelector(hash);
+    if (!target) return false;
+    const yOffset = -60; // wysokość nagłówka (dostosuj w razie potrzeby)
+    const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+    return true;
+  };
+
+  actionableLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href') || '';
+
+      // Jeśli klik w link do sekcji na stronie — przewiń z offsetem
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        smoothScrollToHash(href);
+      }
+
+      // Jeżeli menu jest rozwinięte i jesteśmy na mobile — zwiń
+      if (isMobile() && navbarCollapseEl.classList.contains('show')) {
+        bsCollapse.hide();
+      }
+    });
+  });
+
+  // Klik poza menu — zamknij (tylko mobile)
+  document.addEventListener('click', (e) => {
+    if (!isMobile()) return;
+    const clickedInsideMenu = navbarCollapseEl.contains(e.target);
+    const clickedToggler    = navbarToggler.contains(e.target);
+    if (navbarCollapseEl.classList.contains('show') && !clickedInsideMenu && !clickedToggler) {
+      bsCollapse.hide();
+    }
+  });
+
+  // Zamykanie po nawigacji klawiaturą (Enter/Space na linku)
+  navbarCollapseEl.addEventListener('keydown', (e) => {
+    if (!isMobile()) return;
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('a.nav-link, .dropdown-item')) {
+      setTimeout(() => bsCollapse.hide(), 0);
+    }
+  });
+
+  // Opcjonalnie: jeśli adres URL ma #hash po przeładowaniu — przewiń z offsetem
+  if (location.hash) {
+    setTimeout(() => smoothScrollToHash(location.hash), 0);
+  }
+});
+</script>
+
 </body>
 </html>
+

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zabudo.pl - Profesjonalne rozwiązania Twojego ogrodu</title>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Po Prostu Solidne",
+    "description": "Budynki gospodarcze na wymiar – hale stalowe, wiaty, garaże blaszane, konstrukcje rolnicze. Montaż Śląsk i Małopolska.",
+    "url": "https://www.zabudo.pl",
+    "telephone": "+48503702467",
+    "email": "adam@zabudo.pl",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ul. Przykładowa 1",
+      "addressLocality": "Siewierz",
+      "addressRegion": "Śląskie",
+      "postalCode": "42-470",
+      "addressCountry": "PL"
+    },
+    "areaServed": ["Śląsk", "Małopolska", "Siewierz", "Zawiercie", "Myszków", "Łazy", "Poręba", "Żarki", "Koziegłowy", "Ożarowice", "Wojkowice Kościelne"],
+    "openingHours": "Mo-Fr 08:00-17:00",
+    "sameAs": []
+  }
+  </script>
+
+  <!-- Meta -->
+  <meta name="description" content="Po Prostu Solidne – Budujemy trwałe, funkcjonalne budynki gospodarcze na wymiar na Śląsku i w Małopolsce. Szybka realizacja, montaż i atrakcyjne ceny.">
+  <meta name="keywords" content="budynki gospodarcze, konstrukcje stalowe, garaże blaszane, Śląsk, Małopolska, Siewierz, budowa, montaż, solidne budynki, na wymiar, blaszaki, Po Prostu Solidne">
+  <meta name="author" content="Po Prostu Solidne">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Budynki gospodarcze na wymiar | Po Prostu Solidne">
+  <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
+  <meta property="og:image" content="URL_DO_Twojej_Głównej_Grafiki.jpg">
+  <meta property="og:url" content="https://www.twojadomena.pl">
+
+  <!-- Fonts & CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="mstile-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <img id="ikonazab" src="favicon-96x96white.png" alt="Logo białe" />
+      <img id="ikonablack" src="favicon-96x96black.png" alt="Logo czarne" />
+      <a class="navbar-brand" href="index.html">Zabudo.pl</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+ 
+          <li class="nav-item"><a class="nav-link" href="index.html#oferta">Oferta</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Kontakt</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#gallery">Galeria</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<div class="sklep-wrapper">
+
+
+
+    <!-- BLOG -->
+<section id="blog" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title mb-4">Blog</h2>
+
+    <div class="blog-scroller-wrapper position-relative">
+
+      <!-- Przyciski przewijania -->
+      <button id="blogPrev" class="blog-nav blog-nav-left btn btn-light" aria-label="Poprzednie artykuły">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button id="blogNext" class="blog-nav blog-nav-right btn btn-light" aria-label="Następne artykuły">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+      <!-- Lista artykułów (poziomy scroll) -->
+      <div id="blogScroller" class="blog-scroller">
+       
+
+          <!-- Artykuł 1 -->
+        <article class="blog-card art1" data-article-id="a1">
+          <img src="bud5dni.webp" class="blog-img" alt="Altana ogrodowa – inspiracje">
+          <div class="blog-body">
+            <h3 class="blog-title">Budowa narzędziówki w 5 dni – solidny budynek gospodarczy z ociepleniem</h3>
+            <p class="blog-excerpt">
+            <p>Budynki gospodarcze na wymiar to nasza specjalność. Tym razem w zaledwie pięć dni wykonaliśmy kompletną narzędziówkę z ociepleniem, która będzie służyć właścicielowi przez długie lata.</p>  
+
+            <p class="akapit">Ocieplenie styropianem – komfort i ochrona</p>
+
+            <p>Całe wnętrze budynku zostało dokładnie ocieplone styropianem, co gwarantuje stabilną temperaturę i ochronę przechowywanych narzędzi przed wilgocią czy mrozem. To rozwiązanie szczególnie ważne dla osób, które chcą korzystać z narzędziowni przez cały rok.
+
+            </p>
+
+           
+
+ <p class="akapit"> Trwała konstrukcja na lata
+  
+</p>
+
+<p>Drewniana konstrukcja została zaprojektowana tak, aby zapewnić stabilność i odporność na warunki atmosferyczne. To połączenie estetyki naturalnego drewna z funkcjonalnością i nowoczesnymi rozwiązaniami budowlanymi.</p>
+            </p>
+            
+            
+            </p>
+          </div>
+          <div class="blog-comments">
+            <h4>Komentarze</h4>
+            <ul class="comments-list" id="comments-a1"></ul>
+            <form class="comment-form" data-article-id="a1" novalidate>
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)">
+                </div>
+                <div class="col-12 col-md-4">
+                  <input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required>
+                </div>
+                <div class="col-12 col-md-12">
+                  <textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <!-- Artykuł 2 -->
+       <article class="blog-card art2" data-article-id="a2">
+  <img src="blog1.webp" class="blog-img" alt="Budynki gospodarcze – 7 cech idealnej konstrukcji">
+  <div class="blog-body">
+    <h3 class="blog-title">7 cech, które powinien posiadać solidny budynek gospodarczy</h3>
+    <p class="blog-excerpt">
+      Budynki gospodarcze na Śląsku i w Małopolsce cieszą się ogromną popularnością. Wybierając idealny projekt, warto zwrócić uwagę na konkretne cechy, które zapewnią trwałość, funkcjonalność i bezpieczeństwo. Oto 7 najważniejszych elementów, które musi mieć dobrze zaprojektowany budynek gospodarczy.
+    </p>
+
+    <p class="akapit">1. Trwała konstrukcja</p>
+    <p>Podstawą jest solidna konstrukcja – starannie zaimpregnowane drewno – odporne na wiatr, śnieg i zmienne warunki atmosferyczne. Stabilny szkielet gwarantuje, że narzędziówka posłuży przez dziesięciolecia.</p>
+
+    <p class="akapit">2. Ocieplenie i izolacja</p>
+    <p>Dobre ocieplenie (np. styropianem) oraz zastosowanie paroizolacji i wiatroizolacji to klucz do utrzymania odpowiedniej temperatury i ochrony przed wilgocią. Dzięki temu narzędzia czy sprzęt rolniczy są bezpieczne przez cały rok.</p>
+
+    <p class="akapit">3. Wysoka szczelność</p>
+    <p>Szczelne połączenia, taśmy izolacyjne oraz staranne obróbki blacharskie chronią przed przeciekaniem i gromadzeniem wilgoci. To cecha, która decyduje o długowieczności budynku gospodarczego.</p>
+
+    <p class="akapit">4. Funkcjonalne wnętrze</p>
+    <p>Przestrzeń powinna być dopasowana do potrzeb właściciela – czy to jako narzędziówka, garaż, czy pomieszczenie rolnicze. Odpowiedni układ drzwi, okien i półek pozwala wygodnie korzystać z budynku.</p>
+
+    <p class="akapit">5. Estetyczne wykończenie</p>
+    <p>Szopa narzędziowa to wizytówka posesji. Dlatego wykończenie z naturalnego drewna wpływa na wygląd całego ogrodu czy gospodarstwa, podnosząc wartość nieruchomości.</p>
+
+    <p class="akapit">6. Odporność na warunki atmosferyczne</p>
+    <p>Materiały użyte do budowy muszą być zabezpieczone przed wilgocią, promieniowaniem UV i mrozem. Impregnacja drewna lub ocynkowanie stali zapewnia wieloletnią ochronę konstrukcji.</p>
+
+    <p class="akapit">7. Korzystna cena i elastyczność</p>
+    <p>Najlepsze schowki na narzędzia łączą w sobie solidność z rozsądną ceną. Dopasowanie projektu do budżetu klienta pozwala obniżyć koszty bez kompromisu w jakości.</p>
+
+    <p>Podsumowując – budynki gospodarcze na wymiar powinny łączyć trwałość, izolację i funkcjonalność z estetyką i przystępną ceną. To właśnie te 7 cech decyduje o tym, że inwestycja w narzędziówkę, garaż czy altanę jest opłacalna na lata.</p>
+  </div>
+
+  <div class="blog-comments">
+    <h4>Komentarze</h4>
+    <ul class="comments-list" id="comments-a2"></ul>
+    <form class="comment-form" data-article-id="a2" novalidate>
+      <div class="row g-2">
+        <div class="col-12 col-md-4">
+          <input type="text" name="name" class="form-control" placeholder="Imię (opcjonalnie)">
+        </div>
+        <div class="col-12 col-md-4">
+          <input type="email" name="email" class="form-control" placeholder="Adres e-mail *" required>
+        </div>
+        <div class="col-12 col-md-12">
+          <textarea name="text" rows="2" class="form-control" placeholder="Treść komentarza *" required></textarea>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary btn-sm mt-2" type="submit">Dodaj komentarz</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</article>
+
+
+       
+      
+      </div> <!-- /blogScroller -->
+    </div> <!-- /wrapper -->
+  </div>
+</section>
+
+</div>
+
+
+
+
+<!-- Sekcja ,,BLOG" -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // ----- slider 1/10
+  const scroller = document.getElementById('blogScroller');
+  const prevBtn  = document.getElementById('blogPrev');
+  const nextBtn  = document.getElementById('blogNext');
+  const cards    = Array.from(scroller.querySelectorAll('.blog-card'));
+  const total    = cards.length;
+  let idx = 0;
+
+  function goTo(i, smooth = true) {
+    idx = (i + total) % total; // pętla 0..total-1
+    const x = idx * scroller.clientWidth;
+    scroller.scrollTo({ left: x, behavior: smooth ? 'smooth' : 'instant' });
+    // aria/ukrycie semantyczne (opcjonalnie)
+    cards.forEach((c, k) => c.setAttribute('aria-hidden', String(k !== idx)));
+  }
+
+  prevBtn?.addEventListener('click', () => goTo(idx - 1));
+  nextBtn?.addEventListener('click', () => goTo(idx + 1));
+
+  // Klawiatura
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  goTo(idx - 1);
+    if (e.key === 'ArrowRight') goTo(idx + 1);
+  });
+
+  // Reaktywuj po zmianie rozmiaru (zachowaj bieżący slajd)
+  window.addEventListener('resize', () => goTo(idx, false));
+
+  // Start na pierwszej karcie
+  goTo(0, false);
+
+  // ----- komentarze (localStorage per artykuł) — bez zmian
+  const KEY = (id) => `blogComments:${id}`;
+
+  function maskEmail(email) {
+    const [u,d] = email.split('@');
+    if (!d) return email;
+    const domParts = d.split('.');
+    const domMain = domParts[0] || '';
+    const maskedU = u.length <= 2 ? (u[0] || '*') + '*' : u.slice(0,2) + '***';
+    const maskedD = domMain ? domMain[0] + '*'.repeat(Math.max(1, Math.min(3, domMain.length-1))) : '*';
+    return `${maskedU}@${maskedD}.${domParts.slice(1).join('.')}`;
+  }
+
+  function renderComments(articleId) {
+    const list = document.getElementById(`comments-${articleId}`);
+    if (!list) return;
+    const data = JSON.parse(localStorage.getItem(KEY(articleId)) || '[]');
+    list.innerHTML = '';
+    data.forEach(item => {
+      const li = document.createElement('li');
+      const when = new Date(item.ts).toLocaleString();
+      li.innerHTML = `
+        <div class="comment-meta"><strong>${item.name || 'Anonim'}</strong> • ${item.emailMasked} • ${when}</div>
+        <div class="comment-text">${item.text.replace(/</g,'&lt;')}</div>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll('.comment-form').forEach(form => {
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const id   = this.dataset.articleId;
+      const name = (this.querySelector('input[name="name"]')?.value || '').trim();
+      const email= (this.querySelector('input[name="email"]')?.value || '').trim();
+      const text = (this.querySelector('textarea[name="text"]')?.value || '').trim();
+
+      const emailOk = /^\S+@\S+\.\S+$/.test(email);
+      if (!emailOk) { alert('Podaj poprawny adres e-mail.'); return; }
+      if (!text)    { alert('Wpisz treść komentarza.'); return; }
+
+      const entry = {
+        name,
+        emailMasked: maskEmail(email),
+        text,
+        ts: new Date().toISOString()
+      };
+      const arr = JSON.parse(localStorage.getItem(KEY(id)) || '[]');
+      arr.push(entry);
+      localStorage.setItem(KEY(id), JSON.stringify(arr));
+      this.querySelector('textarea[name="text"]').value = '';
+      renderComments(id);
+    });
+  });
+
+  // Załaduj komentarze dla wszystkich kart
+  document.querySelectorAll('.blog-card').forEach(card => {
+    const id = card.getAttribute('data-article-id');
+    renderComments(id);
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Zabudo.pl</p>
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+        <a href="polityka-prywatności.html">Polityka prywatności</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("0rODOdXhUGV-z--Ya"); // Twój PUBLIC KEY
+    })();
+  </script>
+
+  <!-- Twój główny skrypt (jeśli używasz) -->
+  <script src="script.js"></script>
+
+
+  <!-- BANER ZGÓD: HTML -->
+  <div id="cookie-banner" class="text-center" style="display:none;">
+    Ta strona korzysta z plików cookies w celach statystycznych i funkcjonalnych.
+    <br>Możesz zaakceptować lub opuścić stronę, jeśli się nie zgadzasz.
+
+    <div class="mt-3 text-start" style="max-width: 420px; margin: 0 auto;">
+      <label><input type="checkbox" id="consent-cookies"> Zgadzam się na pliki cookies</label><br>
+      <label><input type="checkbox" id="consent-newsletter"> Zgadzam się na otrzymywanie newslettera</label>
+    </div>
+
+    <div class="mt-3">
+      <button id="accept-all" class="btn btn-success btn-sm me-2">✅ Zaakceptuj wszystkie</button>
+      <button id="accept-cookies" class="btn btn-outline-secondary btn-sm">Zapisz wybór</button>
+    </div>
+
+    <!-- (Opcjonalnie) linki do polityk -->
+    <!-- <div class="small mt-2"><a href="/polityka-prywatnosci">Polityka prywatności</a> • <a href="/polityka-cookies">Polityka cookies</a></div> -->
+  </div>
+
+  <!-- BANER ZGÓD: LOGIKA + integracja z EmailJS -->
+  <script>
+  // --- Ładowanie GA tylko przy zgodzie na cookies ---
+  function loadAnalytics() {
+    if (window._gaLoaded) return;
+    const script = document.createElement('script');
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-36X685CZ6N";
+    script.async = true;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-36X685CZ6N');
+    window._gaLoaded = true;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('cookie-banner');
+    const btnAcceptAll = document.getElementById('accept-all');
+    const btnSave = document.getElementById('accept-cookies');
+    const consentCookies = document.getElementById('consent-cookies');
+    const consentNewsletter = document.getElementById('consent-newsletter');
+
+    // Przywróć zgody
+    const saved = localStorage.getItem('consents');
+    if (saved) {
+      const consents = JSON.parse(saved);
+      consentCookies.checked = !!consents.cookies;
+      consentNewsletter.checked = !!consents.newsletter;
+      if (consents.cookies) loadAnalytics();
+      banner.style.display = 'none';
+    } else {
+      banner.classList.add('show');
+      banner.style.display = '';
+    }
+
+    // Klik: zaakceptuj wszystkie
+    btnAcceptAll.addEventListener('click', function() {
+      consentCookies.checked = true;
+      consentNewsletter.checked = true;
+      saveAndClose();
+    });
+
+    // Klik: zapisz wybór
+    btnSave.addEventListener('click', function() {
+      saveAndClose();
+    });
+
+    function saveAndClose() {
+      const consents = {
+        cookies: !!consentCookies.checked,
+        newsletter: !!consentNewsletter.checked
+      };
+
+      localStorage.setItem('consents', JSON.stringify(consents));
+
+      // zapis metadanych zgody na newsletter (audyt)
+      localStorage.setItem('newsletterConsentMeta', JSON.stringify({
+        consent: consents.newsletter,
+        ts: new Date().toISOString(),
+        source: 'cookie-banner'
+      }));
+
+      if (consents.cookies) loadAnalytics();
+
+      banner.classList.remove('show');
+      banner.style.display = 'none';
+    }
+  });
+
+
+
+
+
+
+
+
+
+<script>
+// ZWIJANIE MENU MOBILNEGO + PŁYNNY SCROLL Z OFFSETEM
+document.addEventListener('DOMContentLoaded', () => {
+  const navbarCollapseEl = document.getElementById('navbarNav');
+  const navbarToggler    = document.querySelector('.navbar-toggler');
+  if (!navbarCollapseEl || !navbarToggler) return;
+
+  // Instancja Collapse (nie otwieraj/nie zamykaj automatycznie)
+  const bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarCollapseEl, { toggle: false });
+
+  // Linki, które mają zamykać menu (zwykłe i dropdowny)
+  const actionableLinks = navbarCollapseEl.querySelectorAll('a.nav-link, .dropdown-item');
+
+  // Funkcja: czy jesteśmy w trybie mobilnym (toggler widoczny)
+  const isMobile = () => window.getComputedStyle(navbarToggler).display !== 'none';
+
+  // Płynny scroll z offsetem dla sekcji (#id)
+  const smoothScrollToHash = (hash) => {
+    if (!hash || hash === '#') return false;
+    const target = document.querySelector(hash);
+    if (!target) return false;
+    const yOffset = -60; // wysokość nagłówka (dostosuj w razie potrzeby)
+    const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+    return true;
+  };
+
+  actionableLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href') || '';
+
+      // Jeśli klik w link do sekcji na stronie — przewiń z offsetem
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        smoothScrollToHash(href);
+      }
+
+      // Jeżeli menu jest rozwinięte i jesteśmy na mobile — zwiń
+      if (isMobile() && navbarCollapseEl.classList.contains('show')) {
+        bsCollapse.hide();
+      }
+    });
+  });
+
+  // Klik poza menu — zamknij (tylko mobile)
+  document.addEventListener('click', (e) => {
+    if (!isMobile()) return;
+    const clickedInsideMenu = navbarCollapseEl.contains(e.target);
+    const clickedToggler    = navbarToggler.contains(e.target);
+    if (navbarCollapseEl.classList.contains('show') && !clickedInsideMenu && !clickedToggler) {
+      bsCollapse.hide();
+    }
+  });
+
+  // Zamykanie po nawigacji klawiaturą (Enter/Space na linku)
+  navbarCollapseEl.addEventListener('keydown', (e) => {
+    if (!isMobile()) return;
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('a.nav-link, .dropdown-item')) {
+      setTimeout(() => bsCollapse.hide(), 0);
+    }
+  });
+
+  // Opcjonalnie: jeśli adres URL ma #hash po przeładowaniu — przewiń z offsetem
+  if (location.hash) {
+    setTimeout(() => smoothScrollToHash(location.hash), 0);
+  }
+});
+</script>
+
+
+  <script>
+    // Rok w stopce
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+
+</body>
+</html>
+
+
