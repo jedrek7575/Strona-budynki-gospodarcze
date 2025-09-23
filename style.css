@@ -1880,10 +1880,18 @@ font-size: 0.9rem;
 
 @media (max-width: 576px) {
 
+#buildingMap {
+
+}
+
   .usługi-menu-wyboru {
     width: 98%;
     flex-direction: column;
     
     align-items: center;
   }
+}
+
+.elev-dim {
+  display: none;
 }
