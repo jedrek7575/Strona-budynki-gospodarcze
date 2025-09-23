@@ -57,11 +57,43 @@
 </head>
 
 <body>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const nav  = document.querySelector('#navbar');
+  const hero = document.querySelector('#hero');
+  if (!nav || !hero) return;
+
+  const calcThreshold = () =>
+    (hero.offsetTop + hero.offsetHeight * 0.5) - nav.offsetHeight; // połowa hero, skorygowana o wysokość nav
+
+  let threshold = calcThreshold();
+
+  const update = () => {
+    threshold = calcThreshold(); // na wypadek zmian rozmiaru
+    const pastHalf = window.scrollY >= threshold;
+    nav.classList.toggle('white', pastHalf);
+  };
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+  update();
+
+  // klik w przycisk -> od razu „white”
+  document.getElementById('scrollToDimensions')?.addEventListener('click', () => {
+    nav.classList.add('white');
+  });
+});
+</script>
+
+
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-      <img id="ikonazab" src="favicon-96x96white.png" alt="Logo białe" />
-      <img id="ikonablack" src="favicon-96x96black.png" alt="Logo czarne" />
+      <img id="ikonazab" src="favicon-96x96white.png" alt="Logo białe"  loading="lazy" />
+      <img id="ikonablack" src="favicon-96x96black.png" alt="Logo czarne"  loading="lazy" />
       <a class="navbar-brand" href="#">Zabudo.pl</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <div class="line"></div>
@@ -82,17 +114,17 @@
   </nav>
 
   <!-- Hero -->
-  <section id="hero" class="text-center d-flex align-items-center justify-content-center">
+  <section id="hero" class="text-center d-flex">
+
     <div class="container hero-content">
       <h1>Zabudo – wyznaczamy standardy w budownictwie</h1>
       <p>Budujemy hale, wiaty, garaże i domki letniskowe, tworząc inwestycje, które przeniosą Twój biznes i Twoje życie na wyższy poziom.</p>
       <a href="#advantages" id="scrollToDimensions" class="btn btn-primary">Dowiedz się, dlaczego jesteśmy najlepsi</a>
     </div>
-  </section>
 
 
    <!-- Ikony - zalety -->
-  <section class="py-5" id="advantages">
+  <div class="py-5" id="advantages">
     <div class="container">
       <h2 class="text-center mb-4 zalety-tytuł">Dlaczego Zabudo?</h2>
       <div class="row g-4">
@@ -118,7 +150,13 @@
         </div>
       </div>
     </div>
+  </div>
+
+
   </section>
+
+
+
 
   <!-- Proces section -->
   <section class="py-5 bg-light" id="proces">
@@ -167,10 +205,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="drapak2.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="drapak1.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="drapak2.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="drapak1.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="drapak2.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="drapak1.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="drapak2.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="drapak1.webp" loading="lazy">
 
       </div>
 
@@ -186,10 +224,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="budamarzen2.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="buda3.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="Buda11.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="budamarzen2.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="buda3.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="Buda11.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -205,10 +243,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -224,10 +262,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -250,10 +288,10 @@
 
       <div class="sklepkarta2-obrazy">
 
-        <img class="sklepkarta2-obrazy-obraz" src="budamarzen2.webp">
-        <img class="sklepkarta2-obrazy-obraz" src="drapak1.webp">
-        <img class="sklepkarta2-obrazy-obraz" src="drapak2.webp">
-        <img class="sklepkarta2-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="budamarzen2.webp" loading="lazy">
+        <img class="sklepkarta2-obrazy-obraz" src="drapak1.webp" loading="lazy">
+        <img class="sklepkarta2-obrazy-obraz" src="drapak2.webp" loading="lazy">
+        <img class="sklepkarta2-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -275,10 +313,10 @@
 
       <div class="sklepkarta2-obrazy">
 
-        <img class="sklepkarta2-obrazy-obraz" src="budynek1.webp">
-        <img class="sklepkarta2-obrazy-obraz" src="budynek2.webp">
-        <img class="sklepkarta2-obrazy-obraz" src="budynek3.webp">
-        <img class="sklepkarta2-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta2-obrazy-obraz" src="budynek1.webp" loading="lazy">
+        <img class="sklepkarta2-obrazy-obraz" src="budynek2.webp" loading="lazy">
+        <img class="sklepkarta2-obrazy-obraz" src="budynek3.webp" loading="lazy">
+        <img class="sklepkarta2-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -292,10 +330,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="garaż1.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="garaż2.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="garaż3.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="garaż4.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="garaż1.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="garaż2.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="garaż3.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="garaż4.webp" loading="lazy">
 
       </div>
 
@@ -311,10 +349,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="budynek3.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="budynek4.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="budynek1.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="budynek3.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="budynek4.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="budynek1.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -330,10 +368,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -349,10 +387,10 @@
 
       <div class="sklepkarta1-obrazy">
 
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
-        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
+        <img class="sklepkarta1-obrazy-obraz" src="plakat.webp" loading="lazy">
 
       </div>
 
@@ -701,15 +739,60 @@ tabButtons.forEach(btn => {
   <script src="script.js"></script>
 
   <!-- Rotacja tła hero -->
-  <script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
   const hero = document.getElementById('hero');
-  const images = ['1.webp','2.webp','3.webp','Buda11.webp','1.webp','2.webp','3.webp','Buda11.webp'];
+  if (!hero) return;
+
+  // Twoja lista obrazów (podaj pełne ścieżki względne/absolutne)
+  const images = ['tlo1.webp','2.webp','3.webp','Buda11.webp','1.webp','2.webp','3.webp','Buda11.webp'];
+
   let index = 0;
-  setInterval(() => {
+  let timer = null;
+
+  // Preload jednego obrazka i dopiero wtedy podmiana tła
+  const preload = (url) => new Promise((resolve) => {
+    const img = new Image();
+    img.fetchPriority = 'low';           // nie blokuj LCP
+    img.src = url;
+    if (img.decode) {
+      img.decode().then(resolve).catch(resolve);
+    } else {
+      img.onload = img.onerror = resolve;
+    }
+  });
+
+  const swap = async () => {
+    const nextUrl = images[(index + 1) % images.length];
+    await preload(nextUrl);                              // dociągnij dopiero teraz
     index = (index + 1) % images.length;
-    hero.style.backgroundImage = `url('${images[index]}')`;
-  }, 6000);
-  </script>
+    hero.style.backgroundImage = `url("${images[index]}")`;
+    timer = setTimeout(swap, 6000);                     // następna rotacja
+  };
+
+  // Zacznij dopiero, gdy hero jest blisko widoku (lazy start)
+  const io = new IntersectionObserver(async ([entry], obs) => {
+    if (!entry.isIntersecting) return;
+    obs.disconnect();
+
+    await preload(images[0]);                           // pierwszy obraz „na żądanie”
+    hero.style.backgroundImage = `url("${images[0]}")`;
+    timer = setTimeout(swap, 6000);
+  }, { rootMargin: '200px 0px' });                      // prefetch ~200px przed wejściem
+
+  io.observe(hero);
+
+  // Oszczędzaj transfer: pauzuj w tle, wznawiaj na powrót
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      clearTimeout(timer);
+      timer = null;
+    } else if (!timer) {
+      timer = setTimeout(swap, 6000);
+    }
+  });
+});
+</script>
 
   <!-- Auto-karuzela galerii -->
   <script>
@@ -909,7 +992,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!hash || hash === '#') return false;
     const target = document.querySelector(hash);
     if (!target) return false;
-    const yOffset = -60; // wysokość nagłówka (dostosuj w razie potrzeby)
+    const yOffset = 0; // wysokość nagłówka (dostosuj w razie potrzeby)
     const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
     return true;

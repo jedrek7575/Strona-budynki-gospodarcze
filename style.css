@@ -86,17 +86,23 @@ background-color: white;
 
 /* === HERO === */
 #hero {
-  background: url('1.webp') center/cover no-repeat;
-  height: 100vh;
+  background: url('tlo1.webp') center/cover no-repeat;
+  min-height: 110vh;
   position: relative;
   color: white;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  align-items: space-between;
+  justify-content: space-between;
+
+  flex-direction: column;
     transition: 0.5s ;
     z-index: 100;
 }
+
+.hero-content {
+  min-height: 60vh;
+}
+
 #hero h1 {
   font-weight: 900;
 }
@@ -111,6 +117,14 @@ background-color: white;
   position: relative;
   z-index: 1;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content h1 {
+ 
 }
 #hero .btn-primary {
   background-color: rgb(167, 110, 40);
@@ -124,7 +138,17 @@ background-color: white;
   background-color: #b33434;
 }
 
+#advantages {
+  min-height: 50vh !important;
+  background-color: rgba(255, 255, 255, 0.599);
+  z-index: 1;
+  color: black;
+}
 
+#advantages .container {
+  
+  height: auto;
+}
 
 
 /* === SEKCJE === */
@@ -147,19 +171,21 @@ background-color: white;
   margin-bottom: 2.5%;
 }
 
-#advantages {
-  min-height: 50vh;
-}
+
 
 #proces {
-  min-height: 50vh;
-  height: auto;
+min-height: 50vh;
+display: flex;
+justify-content: center;
+align-items: space-between;
 }
 
-#advantages .container {
-  margin-top: 4%;
-  height: auto;
+#proces h2 {
+
+  margin-bottom: 5% !important ;
 }
+
+
 
 .ikona-zalety {
   color: #b33434 !important;
@@ -175,7 +201,7 @@ background-color: white;
 }
 
 #advantages .container {
-  margin-top: 4%;
+  
 }
 
 /* === OFERTA === */
@@ -850,21 +876,9 @@ footer {
   display: none;
 }
 
-#ikonazab.white {
-  height: 50px;
-  width: auto;
-  margin-right: 1%;
-  display: none;
-}
+#navbar.white #ikonablack { display: block; }
 
-#ikonablack.white {
-  height: 50px;
-  width: auto;
-  margin-right: 1%;
-  display: block;
-}
-
-
+#navbar.white #ikonazab { display: none; }
 
 .build-type-wrapper {
   
