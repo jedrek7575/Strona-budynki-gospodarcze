@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--
+  Improved website for Zabudo.pl.
+  This template incorporates multiple UX, SEO and accessibility enhancements based on
+  the current design of the site.  The headline and metadata have been updated
+  to reflect that Zabudo.pl główny produkt to budynki gospodarcze oraz inne
+  drewniane konstrukcje.  Images now include descriptive alt attributes and
+  lazy‑loading, and the navigation includes a link to the blog.  A contact
+  form with RODO consent and a reCAPTCHA placeholder has been added for spam
+  protection.  Hidden keyword stuffing has been removed.
+-->
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zabudo – lider budownictwa gospodarczego i drewnianych konstrukcji</title>
+  <!-- SEO metadata -->
+  <meta name="description" content="Zabudo to lider branży budownictwa gospodarczego – projektujemy i montujemy hale, wiaty, garaże i domki letniskowe bez kompromisów. Łączymy wieloletnie doświadczenie, najwyższą jakość i indywidualne podejście, tworząc realizacje, które przetrwają pokolenia.">
+  <meta name="keywords" content="budynki gospodarcze, budy, garaże, domki letniskowe, drapaki, Śląsk, Małopolska">
+  <meta property="og:title" content="Budynki gospodarcze na wymiar | Zabudo.pl">
+  <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
+  <!-- Use a real image here (e.g. logo or realizacja) once available -->
+  <meta property="og:image" content="favicon-96x96.png">
+  <meta property="og:url" content="https://www.zabudo.pl">
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <!-- Fonts & CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    /* Hero background overlay */
+    #hero {
+      background-image: url('hero-placeholder.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      min-height: 60vh;
+      position: relative;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+    #hero .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+  <!-- Google reCAPTCHA (anti‑spam protection) -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Zabudo.pl</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#advantages">Dlaczego my</a></li>
+          <li class="nav-item"><a class="nav-link" href="#proces">Proces</a></li>
+          <li class="nav-item"><a class="nav-link" href="#offer">Oferta</a></li>
+          <li class="nav-item"><a class="nav-link" href="#opinie">Opinie</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Realizacje</a></li>
+          <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero section -->
+  <section id="hero" class="d-flex align-items-center justify-content-center">
+    <div class="container text-center hero-content">
+      <!-- Updated hero headline to convey ambition and industry leadership -->
+      <h1 class="display-5 fw-bold">Zabudo – wyznaczamy standardy w budownictwie</h1>
+      <p class="lead">Budujemy hale, wiaty, garaże i domki letniskowe, tworząc inwestycje, które przeniosą Twój biznes i Twoje życie na wyższy poziom.</p>
+      <a href="#advantages" class="btn btn-primary btn-lg">Dowiedz się, dlaczego jesteśmy najlepsi</a>
+    </div>
+  </section>
+
+
+
+  <!-- Advantages section -->
+  <section class="py-5" id="advantages">
+    <div class="container">
+      <h2 class="text-center mb-4">Dlaczego Zabudo?</h2>
+      <div class="row g-4">
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-helmet-safety fa-3x text-primary mb-3"></i>
+          <h5>Doświadczenie</h5>
+          <p>Od wielu lat budujemy z pasją, łącząc tradycję z nowoczesnością.</p>
+        </div>
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-building fa-3x text-primary mb-3"></i>
+          <h5>Setki realizacji</h5>
+          <p>Zrealizowaliśmy dziesiątki projektów – od wiat po hale przemysłowe.</p>
+        </div>
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-users fa-3x text-primary mb-3"></i>
+          <h5>Indywidualne podejście</h5>
+          <p>Każdy projekt dopasowujemy do potrzeb i marzeń naszych klientów.</p>
+        </div>
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-star fa-3x text-primary mb-3"></i>
+          <h5>Jakość bez kompromisów</h5>
+          <p>Korzystamy z najlepszych materiałów i sprawdzonych technologii.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About section -->
+  <section class="py-5" id="about">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Adam</h5>
+              <p class="card-text">Kiedy rozbłysła tysiąckroć jaśniejszym światłem V838 Monocerotis z gwiazdozbioru Jednorożca moi rodzice nie wiedzieli jeszcze, co ich czeka. Mam na imię Adam i jestem właścicielem zabudo.pl. Buduję dla ludzi takich jak Ty – konkretnych, wymagających, szukających trwałych rozwiązań. Wierzę, że solidna konstrukcja to nie luksus, tylko fundament spokoju – i właśnie to Ci oferuję. Jeśli masz kawałek ziemi i pomysł, my z Kubą zrobimy z tego coś, co przetrwa dekady.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Kuba</h5>
+              <p class="card-text">Wielu pracodawców wymaga od dwudziestotrzyletniego człowieka co najmniej dziesięć lat doświadczenia. Dlatego stolarstwem oraz ciesielstwem zacząłem się interesować już w wieku trzynastu lat. Pierwszy zastrugany kijek, pierwszy klin wbity w oprawiany toporek... ani się obejrzałem a wznosiłem pierwszy budynek. Pracę traktuję jako pasję, a podejmując się czegokolwiek w pamięci mam dewizę zaszczepioną przez ojca – "albo porządnie, albo wcale".</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process section -->
+  <section class="py-5 bg-light" id="proces">
+    <div class="container">
+      <h2 class="text-center mb-4">Nasz proces</h2>
+      <div class="row g-4">
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-comments fa-3x text-primary mb-3"></i>
+          <h5>Konsultacja</h5>
+          <p>Rozmawiamy z Tobą, aby zrozumieć potrzeby i stworzyć wstępną koncepcję inwestycji.</p>
+        </div>
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-drafting-compass fa-3x text-primary mb-3"></i>
+          <h5>Projekt</h5>
+          <p>Przygotowujemy szczegółowy projekt dopasowany do Twojej działki oraz budżetu.</p>
+        </div>
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-hammer fa-3x text-primary mb-3"></i>
+          <h5>Produkcja</h5>
+          <p>W naszym zakładzie powstają prefabrykaty, które następnie montujemy na miejscu.</p>
+        </div>
+        <div class="col-md-3 text-center">
+          <i class="fa-solid fa-truck fa-3x text-primary mb-3"></i>
+          <h5>Dostawa i montaż</h5>
+          <p>Transportujemy gotowe elementy i sprawnie montujemy budynek w umówionym terminie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offer section -->
+  <section class="py-5 bg-light" id="offer">
+    <div class="container">
+      <h2 class="text-center mb-4">Oferta</h2>
+      <div class="row g-4">
+        <div class="col-sm-6 col-lg-3">
+          <div class="card h-100">
+            <img src="drapak.webp" class="card-img-top" alt="Najwyższej jakości drapak dla kota" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Drapaki</h5>
+              <p class="card-text">Najwyższej jakości drapak Twojego kota.</p>
+              <a href="drapaki.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card h-100">
+            <img src="budamarzen2.webp" class="card-img-top" alt="Starannie ocieplony dom Twojego psa" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Budy</h5>
+              <p class="card-text">Starannie ocieplony dom Twojego psa.</p>
+              <a href="budy.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card h-100">
+            <img src="garaż1.webp" class="card-img-top" alt="Bezpieczne miejsce na Twój samochód" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Garaż</h5>
+              <p class="card-text">Bezpieczne miejsce na Twój samochód.</p>
+              <a href="garaz.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card h-100">
+            <img src="budynek3.webp" class="card-img-top" alt="Odporny na zmienne warunki atmosferyczne domek letniskowy" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Domek letniskowy</h5>
+              <p class="card-text">Odporny na zmienne warunki atmosferyczne.</p>
+              <a href="domek.html" class="btn btn-outline-primary mt-auto">Zobacz więcej</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials section (moved to follow the offer) -->
+  <section class="py-5" id="opinie">
+    <div class="container">
+      <h2 class="text-center mb-4">Opinie naszych klientów</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <i class="fa-solid fa-quote-left fa-2x text-primary mb-3"></i>
+              <p class="card-text">"Zabudo to profesjonaliści! Mój garaż stanął w trzy tygodnie, a jakość wykonania przerosła moje oczekiwania. Polecam w 100%!"</p>
+              <h6 class="card-subtitle text-muted mt-3">Jan, Brzeszcze</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <i class="fa-solid fa-quote-left fa-2x text-primary mb-3"></i>
+              <p class="card-text">"Hala, którą wybudowali, jest solidna i nowoczesna. Zabudo jest naprawdę bezkonkurencyjne w swoim fachu – pełen profesjonalizm!"</p>
+              <h6 class="card-subtitle text-muted mt-3">Anna, Oświęcim</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <i class="fa-solid fa-quote-left fa-2x text-primary mb-3"></i>
+              <p class="card-text">"Od pierwszej rozmowy do montażu minął zaledwie miesiąc, a domek letniskowy przerósł nasze marzenia. Świetna jakość i obsługa klienta na najwyższym poziomie."</p>
+              <h6 class="card-subtitle text-muted mt-3">Piotr, Kraków</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog section -->
+  <section class="py-5" id="blog">
+    <div class="container">
+      <h2 class="text-center mb-4">Blog</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card h-100">
+            <img src="bud5dni.webp" class="card-img-top" alt="Budowa narzędziówki w 5 dni – solidny budynek gospodarczy z ociepleniem" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Budowa narzędziówki w 5 dni – solidny budynek gospodarczy z ociepleniem</h5>
+              <p class="card-text">Budynki gospodarcze na wymiar to nasza specjalność. W zaledwie pięć dni wykonaliśmy kompletną narzędziówkę z ociepleniem, która będzie służyć właścicielowi przez długie lata.</p>
+              <a href="blog-artykul-1.html" class="btn btn-outline-primary mt-auto">Czytaj więcej</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card h-100">
+            <img src="blog1.webp" class="card-img-top" alt="Budynki gospodarcze – 7 cech idealnej konstrukcji" loading="lazy">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">7 cech, które powinien posiadać solidny budynek gospodarczy</h5>
+              <p class="card-text">Budynki gospodarcze na Śląsku i w Małopolsce cieszą się ogromną popularnością. Wybierając idealny projekt, warto zwrócić uwagę na konkretne cechy, które zapewnią trwałość, funkcjonalność i bezpieczeństwo.</p>
+              <a href="blog-artykul-2.html" class="btn btn-outline-primary mt-auto">Czytaj więcej</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery section -->
+  <section class="py-5 bg-light" id="gallery">
+    <div class="container">
+      <h2 class="text-center mb-4">Galeria realizacji</h2>
+      <div class="row g-2">
+        <div class="col-6 col-md-3"><img src="galeria1.webp" class="img-fluid rounded" alt="Realizacja 1 – budynek gospodarczy" loading="lazy"></div>
+        <div class="col-6 col-md-3"><img src="galeria2.webp" class="img-fluid rounded" alt="Realizacja 2 – budynek gospodarczy" loading="lazy"></div>
+        <div class="col-6 col-md-3"><img src="galeria3.webp" class="img-fluid rounded" alt="Realizacja 3 – budynek gospodarczy" loading="lazy"></div>
+        <div class="col-6 col-md-3"><img src="galeria4.webp" class="img-fluid rounded" alt="Realizacja 4 – budynek gospodarczy" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact section -->
+  <section class="py-5" id="contact">
+    <div class="container">
+      <h2 class="text-center mb-4">Skontaktuj się z nami</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <ul class="list-unstyled">
+            <li><strong>Telefon:</strong> <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></li>
+            <li><strong>Email:</strong> <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <form id="contactForm" method="post" action="https://formspree.io/f/mayylzbn">
+            <div class="mb-3">
+              <label for="name" class="form-label">Imię i nazwisko</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Adres e‑mail</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Treść wiadomości</label>
+              <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="rodo" required>
+              <label class="form-check-label" for="rodo">
+                Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na zapytanie (RODO).
+              </label>
+            </div>
+            <div class="mb-3">
+              <!-- Replace YOUR_SITE_KEY with your actual reCAPTCHA site key -->
+              <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-3">
+    <div class="container text-center">
+      <p class="mb-0">&copy; <span id="year"></span> Zabudo.pl</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Set current year in footer
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
