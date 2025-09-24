@@ -979,21 +979,21 @@ footer {
 }
 
 #ikonazab {
-  height: 50px;
+  height: 30px;
   width: auto;
   margin-right: 1%;
   position: absolute;
-  top: 10%;
+  top: 25%;
   left: 2% ;
 }
 
 #ikonablack {
-  height: 50px;
+  height: 30px;
   width: auto;
   margin-right: 1%;
   display: none;
   position: absolute;
-  top: 10%;
+  top: 25%;
   left: 2%;
 }
 
@@ -1007,15 +1007,24 @@ footer {
 
 
 #ikonazab {
-  height: 50px;
+  height: 30px;
   width: auto;
   margin-right: 1%;
-  
-
+  transition: 0.1s ease-in-out;
 }
 
+
+#ikonazab:hover {
+  filter: brightness(0) saturate(100%) invert(19%) sepia(93%) saturate(3742%) hue-rotate(340deg) brightness(60%) contrast(94%);
+}
+
+#ikonablack:hover {
+  filter: brightness(0) saturate(100%) invert(19%) sepia(93%) saturate(3742%) hue-rotate(340deg) brightness(60%) contrast(94%);
+}
+
+
 #ikonablack {
-  height: 50px;
+  height: 30px;
   width: auto;
   margin-right: 1%;
   display: none;
@@ -1132,10 +1141,16 @@ footer {
     position: relative;
     width: 100%;
     height: 70vh; /* Możesz to dostosować w zależności od potrzeby */
-    background-color: #f0f0f0; /* Kolor tła mapki */
+
     margin-top: 20px; /* Odstęp od reszty elementów */
     border: 1px solid #ddd; /* Obramowanie mapki */
     display: flex;
+
+      background-image: url('tlomapa.webp'); 
+  background-size: 150%;
+  background-repeat: no-repeat;
+
+  background-position: 50% 50%;
     
 }
 
