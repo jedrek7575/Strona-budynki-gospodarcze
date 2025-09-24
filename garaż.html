@@ -37,7 +37,7 @@
   <meta property="og:title" content="Budynki gospodarcze na wymiar | Po Prostu Solidne">
   <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
   <meta property="og:image" content="URL_DO_Twojej_Głównej_Grafiki.jpg">
-  <meta property="og:url" content="https://www.twojadomena.pl">
+  <meta property="og:url" content="https://www.zabudo.pl">
 
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
@@ -55,6 +55,115 @@
   <meta name="msapplication-TileImage" content="mstile-144x144.png">
   <meta name="theme-color" content="#ffffff">
 </head>
+
+
+<script>
+// === ZBIERANIE KONFIGURACJI + PRZEJŚCIE DO PODSUMOWANIA ===
+
+(function() {
+  // Pomocnicze: ładnie wytnij tekst tytułu grupy (bez checkboxa)
+  function getGroupTitle(poleWyboru) {
+    const t = poleWyboru.querySelector('.pole-wyboru-tytuł');
+    if (!t) return '';
+    // klon, żeby usunąć input i wziąć sam tekst
+    const clone = t.cloneNode(true);
+    const inp = clone.querySelector('input');
+    if (inp) inp.remove();
+    return clone.textContent.trim().replace(/\s+/g, ' ');
+  }
+
+  // Zwraca listę wszystkich aktywnych (zaznaczonych) opcji z panelu usług,
+  // w formacie uniwersalnym (nazwa grupy, wybrana etykieta, data-* itp.)
+  function collectServicesConfig(root) {
+    const out = [];
+    root.querySelectorAll('.usługi-menu-wyboru .pole-wyboru').forEach(pole => {
+      const main = pole.querySelector('.main-check');
+      if (!main || !main.checked) return;
+
+      const groupTitle = getGroupTitle(pole) || 'Opcja';
+      const checked = pole.querySelector('.opcje input[type="checkbox"]:checked');
+
+      const selected = checked ? {
+        label: (checked.closest('label')?.innerText || '').replace(/\(\+\d[\d\s.,]* zł\)\s*$/,'').trim(),
+        type: (checked.dataset.type || 'fixed'),
+        price: parseFloat(checked.dataset.price || '0') || 0
+      } : null;
+
+      out.push({
+        group: groupTitle,
+        selected // może być null, jeśli ktoś rozwinął grupę i nic nie zaznaczył
+      });
+    });
+    return out;
+  }
+
+  // Znajdź aktywny kontener i odczytaj suwakowe wartości
+  function collectActiveBuildConfig() {
+    const active = document.querySelector('.build-container.active');
+    if (!active) return null;
+
+    const id = active.id.replace('container','');
+    const width = parseFloat(active.querySelector(`#widthRange${id}`)?.value || '0');
+    const length = parseFloat(active.querySelector(`#lengthRange${id}`)?.value || '0');
+    const hEave = parseFloat(active.querySelector(`#heightRange${id}`)?.value || '0');      // okap
+    const hPeak = parseFloat(active.querySelector(`#heightPeakRange${id}`)?.value || '0');  // kalenica
+
+    // Nazwa „typu” z przycisku burger-menu (ładny label do podsumowania)
+    let buildType = '';
+    document.querySelectorAll('#burgerMenu button[data-target]').forEach(btn => {
+      if (btn.classList.contains('active')) buildType = btn.textContent.trim();
+    });
+
+    // Cena z widoku (to, co użytkownik widzi)
+    const priceEl = active.querySelector(`#priceEstimate${id}`);
+    const shownPrice = priceEl ? priceEl.textContent.trim() : '';
+
+    return {
+      containerId: id,
+      buildType,            // np. "garaż jednostanowiskowy"
+      width,
+      length,
+      height_eave: hEave,   // wysokość w najniższym pkt
+      height_peak: hPeak,   // wysokość w najwyższym pkt
+      shownPrice            // np. "45 123 zł"
+    };
+  }
+
+  // Główna funkcja: podpinamy się pod wszystkie linki "Zamów teraz!"
+  function wireOrderButtons() {
+    document.querySelectorAll('.build-container a.btn[href]').forEach(a => {
+      // tylko linki w sekcji cenowej (żeby nie łapać innych)
+      a.addEventListener('click', function(e) {
+        try {
+          const buildCfg = collectActiveBuildConfig();
+          if (!buildCfg) return; // pozwól iść normalnie
+
+          const services = collectServicesConfig(document);
+
+          const payload = {
+            version: 1,
+            ts: new Date().toISOString(),
+            build: buildCfg,
+            services
+          };
+
+            // Zapisz do sessionStorage i przejdź dalej
+          sessionStorage.setItem('orderConfig', JSON.stringify(payload));
+          // przechodzimy normalnie na href (nie blokujemy nawigacji)
+        } catch (err) {
+          // w razie czego nie blokuj zamówienia
+          console.error('Błąd zapisu konfiguracji:', err);
+        }
+        // nie wywołujemy preventDefault – chcemy iść na href
+      });
+    });
+  }
+
+  // start
+  document.addEventListener('DOMContentLoaded', wireOrderButtons);
+})();
+</script>
+
 
 <body>
   <!-- Navigation -->
@@ -214,7 +323,7 @@
 
           <div class="price-box">
             Szacowana cena: <strong id="priceEstimate1">(Dostosuj wymiary)</strong> 
-            <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zamów teraz!</button>
+            <a href="podsumowanie.html" class="btn btn-secondary mt-3">Zamów teraz!</a>
           </div>
         </div>
       </div>
@@ -264,7 +373,7 @@
 
       <div class="price-box">
         Szacowana cena: <strong id="priceEstimate2">(Dostosuj wymiary)</strong>
-        <button class="btn btn-secondary mt-3" id="scrollToContactBtn">Zamów teraz!</button>
+        <a href="podsumowanie.html" class="btn btn-secondary mt-3">Zamów teraz!</a>
       </div>
     </div>
   </div>
@@ -523,7 +632,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="mb-2">
           <textarea id="message" name="message" rows="6" class="form-control" required>Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Zamów teraz!</button>
+        <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
       </form>
 
       <p id="form-message" style="margin-top: 10px;"></p>
@@ -547,7 +656,7 @@ function updateBuildingElevation() {
   // --- ŚCIEŻKI DO GRAFIK ---
   const WALL_IMG_C1 = 'elewacjag1.webp';
   const ROOF_IMG_C1 = 'dach1.webp';
-  const WALL_IMG_C2 = 'elewacjag11.webp';
+  const WALL_IMG_C2 = 'elewacjag1.webp';
   const ROOF_IMG_C2 = 'dach1.webp';
   const EDGE_IMG    = 'wiatrownica.jpg';
   const GROUND_IMG  = 'beton.webp';
@@ -1038,52 +1147,13 @@ updateCalculator('1');
 updateBuildingMap();
 updateBuildingElevation();
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Nasłuchujemy na kliknięcia przycisków "Zapytaj o dostępność" we wszystkich kontenerach
-  const allButtons = document.querySelectorAll('.container5 .btn, .build-container .btn'); // Przycisk w każdym kontenerze
 
-  // Iteracja po wszystkich przyciskach
-  allButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault(); // Zapobiega domyślnemu zachowaniu, jeśli jest to link
 
-      const contactSection = document.getElementById('contact'); // Sekcja kontaktowa
-      if (contactSection) {
-        const yOffset = -60; // Offset, aby uwzględnić wysokość nagłówka
-        const y = contactSection.getBoundingClientRect().top + window.scrollY + yOffset;
-
-        // Przewijanie strony do sekcji kontaktowej
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    });
-  });
-});
 
 
 
 
 </script>
-
-
-
-
-      <!-- Suwaki wysokości -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1115,13 +1185,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- EmailJS -->
-  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
-    (function() {
-      emailjs.init("0rODOdXhUGV-z--Ya"); // Twój PUBLIC KEY
-    })();
-  </script>
+
 
   <!-- Twój główny skrypt (jeśli używasz) -->
   <script src="script.js"></script>
@@ -1306,6 +1370,123 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   
+
+
+
+<!-- EmailJS SDK + init -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function () {
+    // Public Key z panelu EmailJS
+    emailjs.init("0rODOdXhUGV-z--Ya");
+  })();
+</script>
+
+<!-- Handler formularza: wysyłka przez EmailJS + dopięcie zgód -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('contact-form');
+    const msg  = document.getElementById('form-message');
+    if (!form) return;
+
+    function addHidden(form, name, value) {
+      let input = form.querySelector('input[name="'+name+'"]');
+      if (!input) {
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        form.appendChild(input);
+      }
+      input.value = value;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // --- Zgody (jak było) ---
+      let newsletterConsent = 'NIE', newsletterTs = '', newsletterSource = '';
+      try {
+        const meta = JSON.parse(localStorage.getItem('newsletterConsentMeta') || '{}');
+        if (meta?.consent) {
+          newsletterConsent = 'TAK';
+          newsletterTs = meta.ts || '';
+          newsletterSource = meta.source || '';
+        }
+      } catch (e) {}
+
+      let cookiesConsent = 'NIE';
+      try {
+        const cons = JSON.parse(localStorage.getItem('consents') || '{}');
+        cookiesConsent = cons.cookies ? 'TAK' : 'NIE';
+      } catch (e) {}
+
+      addHidden(form, 'newsletter_consent', newsletterConsent);
+      addHidden(form, 'newsletter_consent_ts', newsletterTs);
+      addHidden(form, 'newsletter_consent_source', newsletterSource);
+      addHidden(form, 'consent_cookies', cookiesConsent);
+
+      // --- NEW: dopisz "Konfiguracja budynku" do treści wiadomości ---
+      try {
+        const messageField = form.querySelector('textarea[name="message"]');
+        if (messageField) {
+          const build = (typeof collectActiveBuildConfig === 'function') ? collectActiveBuildConfig() : null;
+          const services = (typeof collectServicesConfig === 'function') ? collectServicesConfig(document) : [];
+
+          const lines = [];
+          if (build) {
+            if (build.buildType) lines.push(`Typ: ${build.buildType}`);
+            if (Number.isFinite(build.width) && Number.isFinite(build.length)) {
+              lines.push(`Wymiary: ${build.width.toFixed(1)} × ${build.length.toFixed(1)} m`);
+            }
+            if (Number.isFinite(build.height_eave)) {
+              lines.push(`Wysokość (najniższy pkt): ${build.height_eave.toFixed(1)} m`);
+            }
+            if (Number.isFinite(build.height_peak)) {
+              lines.push(`Wysokość (najwyższy pkt): ${build.height_peak.toFixed(1)} m`);
+            }
+          }
+          if (Array.isArray(services) && services.length) {
+            services.forEach(s => {
+              const label = s?.selected?.label || '(brak wyboru)';
+              const group = s?.group || 'Opcja';
+              lines.push(`${group}: ${label}`);
+            });
+          }
+
+          if (lines.length) {
+            messageField.value =
+              messageField.value.replace(/\s+$/,'') +
+              '\n\nKonfiguracja budynku:\n' +
+              lines.map(l => `• ${l}`).join('\n');
+          }
+        }
+      } catch (err) {
+        console.warn('Nie udało się dołączyć konfiguracji do wiadomości:', err);
+      }
+      // --- /NEW ---
+
+      // --- Stan przycisku (jak było) ---
+      const btn = form.querySelector('button[type="submit"]');
+      const original = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…';
+      }
+
+      const SERVICE_ID  = 'service_yabzq3j';
+      const TEMPLATE_ID = 'template_4s8ii9u';
+
+      emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form).then(() => {
+        if (msg) { msg.textContent = 'Wiadomość wysłana pomyślnie!'; msg.style.color = 'green'; }
+        form.reset();
+      }).catch(() => {
+        if (msg) { msg.textContent = 'Błąd podczas wysyłania. Spróbuj ponownie.'; msg.style.color = 'red'; }
+      }).finally(() => {
+        if (btn) { btn.disabled = false; btn.innerHTML = original; }
+      });
+    });
+  });
+</script>
 
 
 </body>
