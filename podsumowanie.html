@@ -71,22 +71,24 @@
       <div class="row justify-content-center g-4">
         <div class="col-lg-8">
           <div class="card p-3 p-md-4">
+            
             <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center gap-2">
                 <span class="badge text-bg-light border badge-pill"><i class="fa-regular fa-building"></i> <span id="sum-type">—</span></span>
                 <span class="badge text-bg-light border badge-pill"><i class="fa-solid fa-ruler-combined"></i> <span id="sum-dim">—</span></span>
                 <span class="badge text-bg-light border badge-pill"><i class="fa-solid fa-up-down"></i> <span id="sum-heights">—</span></span>
               </div>
-              <span class="badge text-bg-primary">Krok 2/2</span>
+
             </div>
 
             <div class="divider"></div>
 
-            <div class="summary-row"><span>Szacunkowa cena brutto</span><span class="price" id="sum-price">—</span></div>
+            <div class="summary-row"><span>Cena brutto</span><span class="price" id="sum-price">—</span></div>
             <div class="summary-row"><span>Zaliczka <span class="muted">(20%)</span></span><span class="price text-primary" id="sum-deposit">—</span></div>
 
             <div class="mt-3 footer-note">
-              Kwota zaliczki zostanie odliczona od ceny końcowej przy rozliczeniu po montażu. Płatność realizowana przez Stripe (karta, BLIK, Przelewy24).
+              Po zaksięgowaniu płatności skontaktujemy się z Państwem w ciągu 48 godzin w celu ustalenia terminu montażu.
+              Kwota zaliczki zostanie odliczona od ceny końcowej przy rozliczeniu. Płatność realizowana za pomocą Przelewy24.
             </div>
 
             <div class="divider"></div>
@@ -94,16 +96,74 @@
             <h6 class="fw-semibold">Wybrane opcje</h6>
             <div id="sum-options" class="small"></div>
 
+
+<!-- Dane do zamówienia -->
+<div class="divider"></div>
+<h6 class="fw-semibold mb-2">Dane do zamówienia</h6>
+
+<form id="orderForm" novalidate>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="custName" class="form-label">Imię i nazwisko <span class="text-danger">*</span></label>
+      <input type="text" id="custName" class="form-control" placeholder="" required>
+      <div class="invalid-feedback">Podaj imię i nazwisko.</div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="custPhone" class="form-label">Numer telefonu <span class="text-danger">*</span></label>
+      <input type="tel" id="custPhone" class="form-control" placeholder=""
+             pattern="^[0-9+\s-]{9,}$" required>
+      <div class="invalid-feedback">Podaj prawidłowy numer telefonu.</div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="custEmail" class="form-label">Adres e-mail <span class="text-danger">*</span></label>
+      <input type="email" id="custEmail" class="form-control" placeholder="" required>
+      <div class="invalid-feedback">Podaj prawidłowy adres e-mail.</div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="addrStreet" class="form-label">Ulica i numer <span class="text-danger">*</span></label>
+      <input type="text" id="addrStreet" class="form-control" placeholder="" required>
+      <div class="invalid-feedback">Podaj ulicę i numer.</div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="addrPostal" class="form-label">Kod pocztowy <span class="text-danger">*</span></label>
+      <input type="text" id="addrPostal" class="form-control" placeholder=""
+             pattern="^[0-9]{2}-?[0-9]{3}$" required>
+      <div class="invalid-feedback">Podaj kod w formacie 00-000.</div>
+    </div>
+
+    <div class="col-md-8">
+      <label for="addrCity" class="form-label">Miejscowość <span class="text-danger">*</span></label>
+      <input type="text" id="addrCity" class="form-control" placeholder="" required>
+      <div class="invalid-feedback">Podaj miejscowość.</div>
+    </div>
+  </div>
+</form>
+
+
+
+
             <div class="mt-4 d-flex flex-wrap gap-2 justify-content-end">
               <a class="btn btn-outline-secondary" href="/garaż.html">Zmień konfigurację</a>
               <button id="payDepositBtn" class="btn btn-primary pay-btn">
-                <i class="fa-solid fa-shield"></i> Wpłać zaliczkę teraz
+                <i class="fa-solid fa-shield"></i> Złóż zamówienie
               </button>
             </div>
           </div>
 
-          <div class="text-center mt-3">
-            <small class="text-muted">Klikając „Wpłać zaliczkę teraz”, zostaniesz przekierowany do bezpiecznej kasy.</small>
+          <div class=" mt-3">
+            <small class="text-muted d-block mt-2">
+  Klikając przycisk <strong>„Złóż zamówienie”</strong>:
+  <ul class="small mb-0">
+    <li>zawierasz umowę sprzedaży/świadczenia usług z <strong>Zabudo.pl sp. z o.o.</strong>,</li>
+    <li>potwierdzasz, że zapoznałeś(-aś) się i akceptujesz <a href="regulamin-sprzedazy.html" target="_blank">Regulamin sprzedaży</a>, 
+        <a href="polityka-prywatnosci.html" target="_blank">Politykę prywatności</a> oraz zasady korzystania z plików cookies,</li>
+    <li>wyrażasz zgodę na przetwarzanie podanych danych osobowych w celu realizacji zamówienia zgodnie z RODO.</li>
+  </ul>
+</small>
           </div>
         </div>
 
@@ -111,6 +171,9 @@
           <div class="card p-3 p-md-4">
             <h6 class="fw-semibold mb-2">Dane kontaktowe</h6>
             <ul class="list-unstyled small m-0">
+              <li>ZABUDO.PL spółka z o.o.</li>
+              <li>NIP 6252502129</li>
+              <li>KRS 0001194079</li>
               <li><i class="fa-solid fa-phone me-2"></i><a class="text-decoration-none text-dark" href="tel:+48503702467">+48 503 702 467</a></li>
               <li class="mt-1"><i class="fa-regular fa-envelope me-2"></i><a class="text-decoration-none text-dark" href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></li>
             </ul>
@@ -251,53 +314,137 @@ function renderSummary(){
   };
 }
 
-    async function startPayment(){
-      const S = window.__zabudo_summary || {};
-      const btn = document.getElementById('payDepositBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Przekierowuję…';
 
-      // metadata: prześlemy CAŁĄ konfigurację (bezpiecznie jako JSON)
-      const metadata = {
-        type: String(S.type||''),
-        width: String(S.width||''),
-        length: String(S.length||''),
-        height_eave: String(S.height_eave ?? ''),
-        height_peak: String(S.height_peak ?? ''),
-        estimate_grosze: String(S.priceGross||0),
-        services_json: JSON.stringify(S.services||[])
-      };
 
-      try{
-        const res = await fetch('/api/create-checkout-session', {
-          method:'POST',
-          headers:{ 'Content-Type':'application/json' },
-          body: JSON.stringify({
-            amount: S.deposit || 0, // grosze
-            currency: 'pln',
-            description: `Zaliczka – ${S.type} ${S.width}×${S.length} m`,
-            metadata
-          })
-        });
-        const data = await res.json();
-        if (data && data.url) {
-          location.href = data.url;
-        } else {
-          throw new Error('Brak URL kasy.');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Nie udało się zainicjować płatności. Spróbuj ponownie.');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-shield"></i> Wpłać zaliczkę teraz';
-      }
+function getOrderCustomerData() {
+  const name  = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const email = document.getElementById('custEmail').value.trim();
+  const street = document.getElementById('addrStreet').value.trim();
+  const postal = document.getElementById('addrPostal').value.trim();
+  const city   = document.getElementById('addrCity').value.trim();
+
+  return {
+    name, phone, email,
+    address_street: street,
+    address_postal: postal,
+    address_city: city,
+    address_full: [street, postal, city].filter(Boolean).join(', ')
+  };
+}
+
+function validateOrderForm() {
+  const form = document.getElementById('orderForm');
+  let ok = true;
+
+  // czyść poprzednie stany
+  form.querySelectorAll('input').forEach(el => el.classList.remove('is-invalid'));
+
+  // HTML5 validity + własne patterny
+  form.querySelectorAll('input[required]').forEach(el => {
+    if (!el.checkValidity()) {
+      el.classList.add('is-invalid');
+      ok = false;
     }
+  });
 
-    document.addEventListener('DOMContentLoaded', ()=>{
-      document.getElementById('year').textContent = new Date().getFullYear();
-      renderSummary();
-      document.getElementById('payDepositBtn').addEventListener('click', startPayment);
+  // extra: minimalna długość imienia i nazwiska
+  const name = document.getElementById('custName');
+  if (name.value.trim().length < 3) { name.classList.add('is-invalid'); ok = false; }
+
+  if (!ok) {
+    // scroll do pierwszego błędu
+    const first = form.querySelector('.is-invalid');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return ok;
+}
+
+
+
+    async function startPayment(){
+  // walidacja wymaganych danych
+  if (!validateOrderForm()) return;
+
+  const S = window.__zabudo_summary || {};
+  const btn = document.getElementById('payDepositBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Przekierowuję…';
+
+  // dane klienta
+  const C = getOrderCustomerData();
+  // pamiętaj e-mail na później (np. dla autouzupełniania)
+  sessionStorage.setItem('customerEmail', C.email || '');
+  sessionStorage.setItem('customerPhone', C.phone || '');
+  sessionStorage.setItem('customerName', C.name || '');
+  sessionStorage.setItem('customerAddress', C.address_full || '');
+
+  // metadata: cała konfiguracja + dane klienta/adres
+  const metadata = {
+    type: String(S.type||''),
+    width: String(S.width||''),
+    length: String(S.length||''),
+    height_eave: String(S.height_eave ?? ''),
+    height_peak: String(S.height_peak ?? ''),
+    estimate_grosze: String(S.priceGross||0),
+    services_json: JSON.stringify(S.services||[]),
+
+    customer_name: C.name,
+    customer_phone: C.phone,
+    customer_email: C.email,
+    delivery_address: C.address_full,
+    delivery_street: C.address_street,
+    delivery_postal: C.address_postal,
+    delivery_city: C.address_city
+  };
+
+  try{
+    // TODO: jeśli używasz Cloudflare Worker + P24, zmień endpoint na /api/p24/register:
+    // const res = await fetch('https://TWÓJ-WORKER.workers.dev/api/p24/register', { ... })
+
+    const res = await fetch('/api/create-checkout-session', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        amount: S.deposit || 0, // grosze
+        currency: 'pln',
+        description: `Zaliczka – ${S.type} ${S.width}×${S.length} m`,
+        metadata
+      })
     });
+
+    const data = await res.json();
+    if (data && data.url) {
+      location.href = data.url;
+    } else {
+      throw new Error('Brak URL kasy.');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Nie udało się zainicjować płatności. Spróbuj ponownie.');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-shield"></i> Złóż zamówienie';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('year').textContent = new Date().getFullYear();
+  renderSummary();
+
+  // autouzupełnij, jeśli były wcześniej wpisane
+  const email = sessionStorage.getItem('customerEmail') || '';
+  const phone = sessionStorage.getItem('customerPhone') || '';
+  const name  = sessionStorage.getItem('customerName') || '';
+  const addr  = (sessionStorage.getItem('customerAddress') || '').split(',').map(s=>s.trim());
+
+  if (document.getElementById('custEmail')) document.getElementById('custEmail').value = email;
+  if (document.getElementById('custPhone')) document.getElementById('custPhone').value = phone;
+  if (document.getElementById('custName'))  document.getElementById('custName').value  = name;
+
+  // jeśli chcesz rozbić adres automatycznie – zostaw ręcznie wpisywane; tu tylko przykład
+  document.getElementById('payDepositBtn').addEventListener('click', startPayment);
+});
+
   </script>
 </body>
 </html>
