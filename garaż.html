@@ -165,6 +165,15 @@
 </script>
 
 
+<script>
+// Ustawia wartość suwaka + emituje "input" (żeby wszystko zareagowało "live")
+function setRangeValue(rangeEl, value) {
+  if (!rangeEl) return;
+  rangeEl.value = value;
+  rangeEl.dispatchEvent(new Event('input', { bubbles: true })); // <<< najważniejsze
+}
+</script>
+
 <body>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg fixed-top">
@@ -966,16 +975,16 @@ if (heightPeak) heightPeak.addEventListener('input', () => {
       const peakMax = parseFloat(heightPeak?.max ?? '4');
 
       const eaveMaxAllowed = peakMax - DELTA;
-      if (eave > eaveMaxAllowed) {
-        eave = eaveMaxAllowed;
-        heightEave.value = eave.toFixed(1);
-      }
+if (eave > eaveMaxAllowed) {
+  eave = eaveMaxAllowed;
+  setRangeValue(heightEave, eave.toFixed(1)); // "live" update na suwaku + polu number
+}
 
-      const minPeak = eave + DELTA;
-      if (heightPeak && peak < minPeak) {
-        heightPeak.value = Math.min(minPeak, peakMax).toFixed(1);
-      }
-
+const minPeak = eave + DELTA;
+if (heightPeak && peak < minPeak) {
+  const corr = Math.min(minPeak, peakMax);
+  setRangeValue(heightPeak, corr.toFixed(1)); // "live" update górnego + jego number
+}
       if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
       updateCalculator(id);
     });
@@ -987,11 +996,11 @@ if (heightPeak) {
     let   peak    = parseFloat(heightPeak.value);
     const peakMax = parseFloat(heightPeak.max ?? '4');
 
-    const minPeak = eave + 0.2;
-    if (peak < minPeak) {
-      peak = Math.min(minPeak, peakMax);
-      heightPeak.value = peak.toFixed(1);
-    }
+const minPeak = eave + 0.2;
+if (peak < minPeak) {
+  peak = Math.min(minPeak, peakMax);
+  setRangeValue(heightPeak, peak.toFixed(1)); // "live" update
+}
 
     if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
     updateCalculator(id); // ← DODAJ TO
@@ -1095,22 +1104,40 @@ const estimatedPrice = Math.round(area * baseRate * heightMultiplier)
 }
 
 
+
+
+
 // Funkcja do aktualizacji mapki budynku w aktywnym kontenerze
 function updateBuildingMap() {
   const activeContainer = document.querySelector('.build-container.active');
 
-  const width = activeContainer.querySelector('input[id^="widthRange"]').value;
-  const length = activeContainer.querySelector('input[id^="lengthRange"]').value;
+  const width  = parseFloat(activeContainer.querySelector('input[id^="widthRange"]').value);
+  const length = parseFloat(activeContainer.querySelector('input[id^="lengthRange"]').value);
 
   const buildingMap = activeContainer.querySelector('.building-map');
+  if (!buildingMap || !Number.isFinite(width) || !Number.isFinite(length)) return;
 
-  if (buildingMap) {
-    const mapWidth = width * 50; // Szerokość w px
-    const mapHeight = length * 50; // Wysokość w px
+  // 1rem w px (z CSS html { font-size: ... })
+  const rootPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
 
-    buildingMap.style.width = `${mapWidth}px`;
-    buildingMap.style.height = `${mapHeight}px`;
-  }
+  // (opcjonalnie) twarde 75% na mobilkach
+  const isMobile = window.matchMedia('(max-width: 576px)').matches;
+  const scale = isMobile ? 0.75 : 1;
+
+  // Twoje „piksele logiczne” × skala, a na końcu w rem
+  const mapWidthPx  = width  * 50 * scale;
+  const mapHeightPx = length * 50 * scale;
+
+  const mapWidthRem  = mapWidthPx  / rootPx;
+  const mapHeightRem = mapHeightPx / rootPx;
+
+  buildingMap.style.width  = `${mapWidthRem}rem`;
+  buildingMap.style.height = `${mapHeightRem}rem`;
+
+  // żeby nic nie wychodziło poza krawędzie (zostaje w Twoim layoucie)
+  buildingMap.style.maxWidth  = '100%';
+  buildingMap.style.maxHeight = '100%';
+  buildingMap.style.overflow  = 'hidden';
 }
 
 // Funkcja do ustawienia nasłuchiwania na kliknięcie przycisku w burger menu
@@ -1488,6 +1515,118 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 </script>
+
+
+
+
+<script>
+/**
+ * Dokleja pola <input type="number"> do wszystkich suwaków w .build-container,
+ * synchronizuje wartości w obie strony i odpala istniejące przeliczenia/rysowanie.
+ */
+(function () {
+  // mapowanie: id suwaka -> id spana z wyświetlaną wartością
+  function spanIdFor(rangeId) {
+    const m = rangeId.match(/(\D+)(\d+)$/); // np. "widthRange1" -> ["widthRange1","widthRange","1"]
+    if (!m) return null;
+    const base = m[1], id = m[2];
+    if (base === 'widthRange') return `widthValue${id}`;
+    if (base === 'lengthRange') return `lengthValue${id}`;
+    if (base === 'heightRange') return `heightValue${id}`;
+    if (base === 'heightPeakRange') return `heightPeakValue${id}`;
+    return null;
+  }
+
+  function clampToStep(val, min, max, step) {
+    const v = Math.min(Math.max(val, min), max);
+    const s = step > 0 ? step : 1;
+    // zaokrąglanie do kroku (np. 0.1)
+    const r = Math.round((v - min) / s) * s + min;
+    // uniknij "1.999999" – tnij do 3 miejsc po przecinku
+    return parseFloat(r.toFixed(3));
+  }
+
+  function wirePair(range, number) {
+    // z suwaka -> number (na żywo)
+    const syncFromRange = () => {
+      number.value = range.value;
+      // odśwież wyświetlaną wartość przy suwaku (span)
+      const sid = spanIdFor(range.id);
+      const span = sid ? document.getElementById(sid) : null;
+      if (span) {
+        const v = parseFloat(range.value);
+        span.textContent = Number.isFinite(v) ? v.toFixed(1) : range.value;
+      }
+    };
+
+    // z number -> suwak (po zmianie / wpisaniu)
+    const syncFromNumber = () => {
+      const min  = parseFloat(range.min || '0');
+      const max  = parseFloat(range.max || '0');
+      const step = parseFloat(range.step || '1');
+      let v = parseFloat(number.value.replace(',', '.'));
+      if (!Number.isFinite(v)) v = min;
+
+      v = clampToStep(v, min, max, step);
+      range.value = v;
+
+      // Bardzo ważne: wyślij event "input", żeby uruchomić Twoje istniejące nasłuchy,
+      // które pilnują zależności (np. kalenica ≥ okap + 0.2), rysują SVG i liczą cenę.
+      range.dispatchEvent(new Event('input', { bubbles: true }));
+
+      // dopisz również do spana
+      syncFromRange();
+    };
+
+    // podpięcia
+    range.addEventListener('input', syncFromRange);
+    number.addEventListener('change', syncFromNumber);
+    number.addEventListener('blur', syncFromNumber);
+
+    // inicjalny sync
+    syncFromRange();
+  }
+
+  function enhanceRanges() {
+    document.querySelectorAll('.build-container input[type="range"]').forEach(range => {
+      // jeżeli już wstawiliśmy pole number obok, nie rób drugi raz
+      if (range.nextElementSibling && range.nextElementSibling.dataset?.rangeNumberFor === range.id) return;
+
+      // utwórz pole number z tymi samymi ograniczeniami
+      const number = document.createElement('input');
+      number.type = 'number';
+      number.min = range.min;
+      number.max = range.max;
+      number.step = range.step || '1';
+      number.value = range.value;
+      number.dataset.rangeNumberFor = range.id;
+
+      // lekkie style (możesz podmienić na własne klasy Bootstrap)
+      number.className = 'form-control d-inline-block ms-2';
+      number.style.width = '100px';
+      number.inputMode = 'decimal';
+
+      // wstaw zaraz po suwaku i zintegruj
+      range.insertAdjacentElement('afterend', number);
+      wirePair(range, number);
+    });
+  }
+
+  // odpal po załadowaniu DOM i po Twojej inicjalizacji
+  document.addEventListener('DOMContentLoaded', () => {
+    // poczekaj klatkę, żeby wszystkie Twoje listenery już działały
+    requestAnimationFrame(enhanceRanges);
+  });
+
+  // jeśli w trakcie działania przełączasz kontenery (burger menu),
+  // suwaki pozostają te same – nic nie trzeba robić. Gdybyś kiedyś
+  // dodawał suwaki dynamicznie, po dodaniu wywołaj enhanceRanges().
+})();
+</script>
+
+
+
+
 
 
 </body>

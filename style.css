@@ -706,25 +706,7 @@ align-items: space-between;
   font-size: 1.5rem;
   color: #d2601a;
 }
-.building-sketch {
-  max-width: 320px;
-  margin: 2rem auto 0;
-}
-#buildingDiagram {
-  border: 1px dashed #ccc;
-  background: #f9f9f9;
-  padding: 5px;
-  border-radius: 4px;
-  width: 100%;
-  height: auto;
-}
-#widthLabel,
-#lengthLabel {
-  fill: black;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 900;
-  font-size: 15px;
-}
+
 
 /* === GALERIA === */
 #gallery {
@@ -1878,6 +1860,12 @@ font-size: 0.9rem;
 .building-map { position: relative; }
 
 .dimensions-map { position: relative; }
+
+/* Kotwica skalowania i brak wychodzenia poza kontener */
+.building-map { transform-origin: top left; }
+.dimensions-map { overflow: hidden; }  /* nic nie "wyjdzie" poza swój div */
+
+
 
 .area-badge{
   position: absolute;
