@@ -654,9 +654,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 function updateBuildingElevation() {
-
-
-  
   const active = document.querySelector('.build-container.active');
   if (!active) return;
 
@@ -664,11 +661,14 @@ function updateBuildingElevation() {
 
   // --- ŚCIEŻKI DO GRAFIK ---
   const WALL_IMG_C1 = 'elewacjag1.webp';
-  const ROOF_IMG_C1 = 'dach1.webp';
+  const ROOF_IMG_C1 = 'elewacjag1.webp';
   const WALL_IMG_C2 = 'elewacjag1.webp';
-  const ROOF_IMG_C2 = 'dach1.webp';
-  const EDGE_IMG    = 'wiatrownica.jpg';
+  const ROOF_IMG_C2 = 'elewacjag1.webp';
+  const EDGE_IMG    = 'tekstura.webp';
   const GROUND_IMG  = 'beton.webp';
+  const CAP_IMG = 'tekstura.webp'; 
+
+  const SIDE_GAP = 16; // px luzu z lewej i prawej, żeby dach „wystawał”
 
   const baseInput       = active.querySelector(`#widthRange${id}`);
   const heightEaveInput = active.querySelector(`#heightRange${id}`);
@@ -680,19 +680,20 @@ function updateBuildingElevation() {
   let H_eave = parseFloat(heightEaveInput.value || '0');
   let H_peak = parseFloat(heightPeakInput.value || '0');
 
+  // gwarancja: kalenica >= okap
   if (H_peak < H_eave) {
     H_peak = H_eave;
     heightPeakInput.value = H_peak.toFixed(1);
   }
 
-  // DODAJ TO:
-const eaveSpan = active.querySelector(`#heightValue${id}`);
-const peakSpan = active.querySelector(`#heightPeakValue${id}`);
-if (eaveSpan) eaveSpan.textContent = Number(heightEaveInput.value).toFixed(1);
-if (peakSpan) peakSpan.textContent = Number(heightPeakInput.value).toFixed(1);
-// ... i dalej leci kod z rysowaniem SVG
+  // odśwież spany z wartościami
+  const eaveSpan = active.querySelector(`#heightValue${id}`);
+  const peakSpan = active.querySelector(`#heightPeakValue${id}`);
+  if (eaveSpan) eaveSpan.textContent = Number(heightEaveInput.value).toFixed(1);
+  if (peakSpan) peakSpan.textContent = Number(heightPeakInput.value).toFixed(1);
 
-  const PX = 60;
+  // --- SKALA RYSUNKU ---
+  const PX = 60; // px na metr
   const basePx = Math.max(80, Math.round(L * PX));
   const peakPx = Math.max(100, Math.round(H_peak * PX));
 
@@ -744,46 +745,128 @@ if (peakSpan) peakSpan.textContent = Number(heightPeakInput.value).toFixed(1);
   groundRect.setAttribute('height', groundHeight);
   groundRect.setAttribute('fill', `url(#${groundPatId})`);
 
-  // --- ŚCIANA ---
+  // --- ŚCIANA (pattern – „deski” się nie rozciągają) ---
   const WALL_IMG = (id === '2') ? WALL_IMG_C2 : WALL_IMG_C1;
-  const wallImg = document.createElementNS(SVGN, 'image');
-  wallImg.setAttribute('href', WALL_IMG);
-  wallImg.setAttribute('x', 0);
-  wallImg.setAttribute('y', yEave);
-  wallImg.setAttribute('width', basePx);
-  wallImg.setAttribute('height', (yGround - yEave));
-  wallImg.setAttribute('preserveAspectRatio', 'none');
 
-  // czarna linia TYLKO na górze ściany
+  const pxPerM = PX;
+  const BOARD_H_M = 0.05; // ~14 cm wysokości jednej „deski”
+  const boardPx = Math.max(2, Math.round(BOARD_H_M * pxPerM));
+  const BOARDS_PER_TILE = 4;
+  const tileHeightPx = boardPx * BOARDS_PER_TILE;
+  const tileWidthPx  = Math.max(80, Math.min(320, Math.round(basePx / 3)));
+
+  const wallPatId = `wallPat-${id}-${Date.now()}`;
+  const defsWall = document.createElementNS(SVGN, 'defs');
+  const wallPat = document.createElementNS(SVGN, 'pattern');
+  wallPat.setAttribute('id', wallPatId);
+  wallPat.setAttribute('patternUnits', 'userSpaceOnUse');
+  wallPat.setAttribute('width',  tileWidthPx);
+  wallPat.setAttribute('height', tileHeightPx);
+
+  const woodImg = document.createElementNS(SVGN, 'image');
+  woodImg.setAttribute('href', WALL_IMG);
+  woodImg.setAttribute('x', 0);
+  woodImg.setAttribute('y', 0);
+  woodImg.setAttribute('width',  tileWidthPx);
+  woodImg.setAttribute('height', tileHeightPx);
+  woodImg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+
+  wallPat.appendChild(woodImg);
+  defsWall.appendChild(wallPat);
+  svg.appendChild(defsWall);
+
+  const wallRect = document.createElementNS(SVGN, 'rect');
+  wallRect.setAttribute('x', SIDE_GAP);
+  wallRect.setAttribute('y', yEave);
+  wallRect.setAttribute('width', basePx - 2*SIDE_GAP);
+  wallRect.setAttribute('height', (yGround - yEave));
+  wallRect.setAttribute('fill', `url(#${wallPatId})`);
+
   const wallTopLine = document.createElementNS(SVGN, 'line');
-  wallTopLine.setAttribute('x1', 0);
+  wallTopLine.setAttribute('x1', SIDE_GAP);
   wallTopLine.setAttribute('y1', yEave);
-  wallTopLine.setAttribute('x2', basePx);
+  wallTopLine.setAttribute('x2', basePx - SIDE_GAP);
   wallTopLine.setAttribute('y2', yEave);
   wallTopLine.setAttribute('stroke', 'black');
-  wallTopLine.setAttribute('stroke-width', '2');
+  wallTopLine.setAttribute('stroke-width', '1');
 
-  // --- DACH ---
+  // --- DACH (pattern – „belki” się nie rozciągają) ---
   const ROOF_IMG = (id === '2') ? ROOF_IMG_C2 : ROOF_IMG_C1;
-  const clipId = `roofClip-${id}-${Date.now()}`;
-  const defs = document.createElementNS(SVGN, 'defs');
-  const clip = document.createElementNS(SVGN, 'clipPath');
-  clip.setAttribute('id', clipId);
-  clip.setAttribute('clipPathUnits', 'userSpaceOnUse');
-  const tri = document.createElementNS(SVGN, 'polygon');
-  tri.setAttribute('points', `0,${yEave} ${xMid},${yPeak} ${basePx},${yEave}`);
-  clip.appendChild(tri);
-  defs.appendChild(clip);
-  svg.appendChild(defs);
+  const roofPoints = `0,${yEave} ${xMid},${yPeak} ${basePx},${yEave}`;
 
-  const roofImg = document.createElementNS(SVGN, 'image');
-  roofImg.setAttribute('href', ROOF_IMG);
-  roofImg.setAttribute('x', 0);
-  roofImg.setAttribute('y', yPeak);
-  roofImg.setAttribute('width', basePx);
-  roofImg.setAttribute('height', (yEave - yPeak));
-  roofImg.setAttribute('preserveAspectRatio', 'none');
-  roofImg.setAttribute('clip-path', `url(#${clipId})`);
+  const BEAM_STEP_M = 0.18; // ~18 cm między „belkami”
+  const beamPx = Math.max(6, Math.round(BEAM_STEP_M * PX));
+  const roofTileH = beamPx;
+  const roofTileW = Math.max(80, Math.min(320, Math.round(basePx / 3)));
+
+  const roofPatId = `roofPat-${id}-${Date.now()}`;
+  const defsRoof  = document.createElementNS(SVGN, 'defs');
+  const roofPat   = document.createElementNS(SVGN, 'pattern');
+  roofPat.setAttribute('id', roofPatId);
+  roofPat.setAttribute('patternUnits', 'userSpaceOnUse');
+  roofPat.setAttribute('width',  roofTileW);
+  roofPat.setAttribute('height', roofTileH);
+
+  const roofTex = document.createElementNS(SVGN, 'image');
+  roofTex.setAttribute('href', ROOF_IMG);
+  roofTex.setAttribute('x', 0);
+  roofTex.setAttribute('y', 0);
+  roofTex.setAttribute('width',  roofTileW);
+  roofTex.setAttribute('height', roofTileH);
+  roofTex.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+
+  // (opcjonalnie) obróć wzór pod spadek połaci:
+  // const rise = H_peak - H_eave;
+  // const halfWm = (basePx / 2) / PX;
+  // const angleDeg = Math.atan2(rise, halfWm) * 180 / Math.PI;
+  // roofPat.setAttribute('patternTransform', `rotate(${angleDeg}, ${xMid}, ${yPeak})`);
+
+  roofPat.appendChild(roofTex);
+  defsRoof.appendChild(roofPat);
+  svg.appendChild(defsRoof);
+
+  const roofPoly = document.createElementNS(SVGN, 'polygon');
+  roofPoly.setAttribute('points', roofPoints);
+  roofPoly.setAttribute('fill', `url(#${roofPatId})`);
+
+  
+
+  // ClipPath, który ogranicza cień do obszaru ściany (desek)
+const wallClipId = `wallClip-${id}-${Date.now()}`;
+const defsClip   = document.createElementNS(SVGN, 'defs');
+const wallClip   = document.createElementNS(SVGN, 'clipPath');
+wallClip.setAttribute('id', wallClipId);
+wallClip.setAttribute('clipPathUnits', 'userSpaceOnUse');
+
+const wallClipRect = document.createElementNS(SVGN, 'rect');
+wallClipRect.setAttribute('x', SIDE_GAP);
+wallClipRect.setAttribute('y', yEave);
+wallClipRect.setAttribute('width', basePx - 2*SIDE_GAP);
+wallClipRect.setAttribute('height', (yGround - yEave));
+
+wallClip.appendChild(wallClipRect);
+defsClip.appendChild(wallClip);
+svg.appendChild(defsClip);
+
+// --- PROSTY CLIP: cień tylko powyżej linii okapu (yEave) ---
+const shadowClipId = `shadowClip-${id}-${Date.now()}`;
+{
+  const defsClipShadow = document.createElementNS(SVGN, 'defs');
+  const clip = document.createElementNS(SVGN, 'clipPath');
+  clip.setAttribute('id', shadowClipId);
+  clip.setAttribute('clipPathUnits', 'userSpaceOnUse');
+
+  const r = document.createElementNS(SVGN, 'rect');
+  r.setAttribute('x', 0);
+r.setAttribute('y', -MARGIN_TOP);   
+  r.setAttribute('width', basePx);
+r.setAttribute('height', yEave + MARGIN_TOP);
+
+  clip.appendChild(r);
+  defsClipShadow.appendChild(clip);
+  svg.appendChild(defsClipShadow);
+}
+
 
   // --- WIATROWNICE ---
   const A_left  = { x: 0,      y: yEave };
@@ -826,6 +909,29 @@ if (peakSpan) peakSpan.textContent = Number(heightPeakInput.value).toFixed(1);
     ].join(' ');
   }
 
+// --- CIEŃ DLA WIATROWNIC I KAPTURKA ---
+const edgeShadowId = `edgeShadow-${id}-${Date.now()}`;
+const defsShadow   = document.createElementNS(SVGN, 'defs');
+const shadowFilter = document.createElementNS(SVGN, 'filter');
+shadowFilter.setAttribute('id', edgeShadowId);
+// powiększ obszar filtra, by cień się nie ucinał
+shadowFilter.setAttribute('x', '-20%');
+shadowFilter.setAttribute('y', '-20%');
+shadowFilter.setAttribute('width', '140%');
+shadowFilter.setAttribute('height', '160%');
+shadowFilter.setAttribute('color-interpolation-filters', 'sRGB');
+
+// Prosty, wydajny cień:
+const feDrop = document.createElementNS(SVGN, 'feDropShadow');
+feDrop.setAttribute('dx', '0');              // przesunięcie w poziomie
+feDrop.setAttribute('dy', '8');              // przesunięcie w pionie
+feDrop.setAttribute('stdDeviation', '4');    // miękkość
+feDrop.setAttribute('flood-color', 'rgba(0,0,0,0.77)'); // kolor/alpha cienia
+
+shadowFilter.appendChild(feDrop);
+defsShadow.appendChild(shadowFilter);
+svg.appendChild(defsShadow);
+
   const leftStrip = document.createElementNS(SVGN, 'polygon');
   leftStrip.setAttribute('points', makeStrip(A_left.x, A_left.y, P_peak.x, P_peak.y, -EDGE_THICK, CAP_LEN));
   leftStrip.setAttribute('fill', `url(#${patId})`);
@@ -834,30 +940,68 @@ if (peakSpan) peakSpan.textContent = Number(heightPeakInput.value).toFixed(1);
   rightStrip.setAttribute('points', makeStrip(A_right.x, A_right.y, P_peak.x, P_peak.y, EDGE_THICK, CAP_LEN));
   rightStrip.setAttribute('fill', `url(#${patId})`);
 
-  // --- KAPTUREK ---
-  const capWidth  = EDGE_THICK * 3;
-  const capHeight = EDGE_THICK * 2.2;
-  const capOffsetY = 5;
-  const ridgeCap = document.createElementNS(SVGN, 'polygon');
-  ridgeCap.setAttribute(
-    'points',
-    `${P_peak.x},${P_peak.y - capHeight + capOffsetY} ` +
-    `${P_peak.x - capWidth/2},${P_peak.y + capOffsetY} ` +
-    `${P_peak.x + capWidth/2},${P_peak.y + capOffsetY}`
-  );
-  ridgeCap.setAttribute('fill', `url(#${patId})`);
+
+
+  // PATTERN tylko dla kapturka (nie używa EDGE_IMG)
+const capPatId = `capPat-${id}-${Date.now()}`;
+{
+  const defsCap  = document.createElementNS(SVGN, 'defs');
+  const capPat   = document.createElementNS(SVGN, 'pattern');
+  capPat.setAttribute('id', capPatId);
+  capPat.setAttribute('patternUnits', 'userSpaceOnUse');
+  capPat.setAttribute('width',  basePx);
+  capPat.setAttribute('height', EDGE_THICK * 2.2); // zbliżone do capHeight
+
+  const capImg = document.createElementNS(SVGN, 'image');
+  capImg.setAttribute('href', CAP_IMG);
+  capImg.setAttribute('x', 0);
+  capImg.setAttribute('y', 0);
+  capImg.setAttribute('width',  basePx);
+  capImg.setAttribute('height', EDGE_THICK * 2.2);
+  capImg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+
+  capPat.appendChild(capImg);
+  defsCap.appendChild(capPat);
+  svg.appendChild(defsCap);
+}
+// --- KAPTUREK ---
+const capWidth  = EDGE_THICK * 3;
+const capHeight = EDGE_THICK * 2.2;
+const capOffsetY = 5;
+
+const ridgeCap = document.createElementNS(SVGN, 'polygon');
+ridgeCap.setAttribute(
+  'points',
+  `${P_peak.x},${P_peak.y - capHeight + capOffsetY} ` +
+  `${P_peak.x - capWidth/2},${P_peak.y + capOffsetY} ` +
+  `${P_peak.x + capWidth/2},${P_peak.y + capOffsetY}`
+);
+// BYŁO: ridgeCap.setAttribute('fill', `url(#${patId})`);
+ridgeCap.setAttribute('fill', `url(#${capPatId})`); // <-- teraz używa CAP_IMG
+
+
+
+leftStrip.setAttribute('filter', `url(#${edgeShadowId})`);
+rightStrip.setAttribute('filter', `url(#${edgeShadowId})`);
+
+// ⬇️ to dopisz:
+leftStrip.setAttribute('clip-path', `url(#${shadowClipId})`);
+rightStrip.setAttribute('clip-path', `url(#${shadowClipId})`);
+
+
 
   // --- KOLEJNOŚĆ ---
   svg.append(
     groundRect,
-    wallImg, wallTopLine,
-    roofImg,
+    wallRect, wallTopLine, // ściana: pattern z luzem po bokach
+    roofPoly,              // dach: pattern (tiling)
     rightStrip, leftStrip, ridgeCap
   );
 
   map.appendChild(svg);
 }
 </script>
+
 
 
 
