@@ -134,7 +134,7 @@
         <h2 class="h4 mb-3">9. Dane kontaktowe</h2>
         <p>W sprawach związanych z zamówieniami prosimy o kontakt:</p>
         <ul>
-          <li>E-mail: <a href="mailto:zamowienia@zabudo.pl">zamowienia@zabudo.pl</a></li>
+          <li>E-mail: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></li>
           <li>Telefon: <a href="tel:+48503702467">+48 503 702 467</a></li>
         </ul>
       </section>
@@ -150,6 +150,99 @@
       </div>
     </div>
   </main>
+
+      <!-- Załącznik: Przykładowe umowy -->
+      <section id="umowy-przykladowe" class="mb-5" style="width: 98%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <h2 class="h4 mb-3">Załącznik: Przykładowe umowy</h2>
+
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <p class="mb-3">Udostępniamy wzory umów stosowane przy realizacjach Zabudo.pl. Dokumenty mają charakter informacyjny i mogą być dostosowane do specyfiki zamówienia.</p>
+
+            <div class="row g-3">
+              <!-- Umowa 1 -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded-3 h-100">
+                  <h3 class="h6 mb-2">Umowa nr 1 — produkt</h3>
+                  <div class="d-flex flex-wrap gap-2">
+
+                    <a class="btn btn-primary" href="przykladowa_umowa_sprzedaz_produktu.pdf" target="_blank" rel="noopener">
+                      📄 Otwórz / Pobierz PDF
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Umowa 2 -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded-3 h-100">
+                  <h3 class="h6 mb-2">Umowa nr 2 — usługa</h3>
+                  <div class="d-flex flex-wrap gap-2">
+
+                    <a class="btn btn-primary" href="przykladowa_umowa_usluga_budowlana.pdf" target="_blank" rel="noopener">
+                      📄 Otwórz / Pobierz PDF
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-muted mt-3 mb-0 small">
+              Uwaga: Wersje ostateczne są każdorazowo przekazywane do akceptacji przy konkretnym zamówieniu.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modal: Umowa 1 -->
+      <div class="modal fade" id="umowa1Modal" tabindex="-1" aria-labelledby="umowa1ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="umowa1ModalLabel">Przykładowa umowa nr 1 – podgląd</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+            </div>
+            <div class="modal-body">
+              <div class="ratio ratio-16x9">
+                <!-- Podmień ścieżkę na właściwą -->
+                <object data="/assets/docs/umowa-1.pdf" type="application/pdf" width="100%" height="100%">
+                  <iframe src="/assets/docs/umowa-1.pdf" title="Umowa nr 1" loading="lazy" style="width:100%;height:100%;border:0;"></iframe>
+                </object>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a class="btn btn-primary" href="/assets/docs/umowa-1.pdf" target="_blank" rel="noopener">📄 Otwórz / Pobierz PDF</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Umowa 2 -->
+      <div class="modal fade" id="umowa2Modal" tabindex="-1" aria-labelledby="umowa2ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="umowa2ModalLabel">Przykładowa umowa nr 2 – podgląd</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+            </div>
+            <div class="modal-body">
+              <div class="ratio ratio-16x9">
+                <!-- Podmień ścieżkę na właściwą -->
+                <object data="/assets/docs/umowa-2.pdf" type="application/pdf" width="100%" height="100%">
+                  <iframe src="/assets/docs/umowa-2.pdf" title="Umowa nr 2" loading="lazy" style="width:100%;height:100%;border:0;"></iframe>
+                </object>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a class="btn btn-primary" href="/assets/docs/umowa-2.pdf" target="_blank" rel="noopener">📄 Otwórz / Pobierz PDF</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 
   <!-- Stopka -->
   <footer class="py-4 bg-light text-center">
