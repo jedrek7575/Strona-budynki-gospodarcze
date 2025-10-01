@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zabudo.pl - Profesjonalne rozwiązania Twojego ogrodu</title>
+  <title>Zabudo.pl - Wszystko zaczyna się od marzenia</title>
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -177,6 +177,363 @@ function setRangeValue(rangeEl, value) {
 
 
 
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<script>
+(() => {
+  let _last = { pdf: null, dataUrl: null, filename: null };
+
+  // ——— Utils ——————————————————————————————————————————————————
+  function getActiveContainer(){
+    return document.querySelector('.build-container.active') || document.getElementById('container1');
+  }
+  function getActiveId(){
+    const c = getActiveContainer();
+    return c ? c.id.replace('container','') : '1';
+  }
+  function getTypeNameById(id){
+    return id === '2' ? 'garaż dwustanowiskowy' : 'garaż jednostanowiskowy';
+  }
+  function getActiveDims(){
+    const active = getActiveContainer();
+    const w = parseFloat(active?.querySelector('input[id^="widthRange"]')?.value || '0');
+    const l = parseFloat(active?.querySelector('input[id^="lengthRange"]')?.value || '0');
+    const e = parseFloat(active?.querySelector('input[id^="heightRange"]')?.value || '0');
+    const p = parseFloat(active?.querySelector('input[id^="heightPeakRange"]')?.value || '0');
+    return { width:w, length:l, eave:e, peak:p, area: (Number.isFinite(w)&&Number.isFinite(l)) ? w*l : 0 };
+  }
+  function getSelectedOptionsWithPrices(){
+    const { area } = getActiveDims();
+    const out = [];
+    document.querySelectorAll('.usługi-menu-wyboru .pole-wyboru').forEach(pole => {
+      const main = pole.querySelector('.main-check');
+      if (!main || !main.checked) return;
+      const t = pole.querySelector('.pole-wyboru-tytuł')?.cloneNode(true);
+      t?.querySelector('input')?.remove();
+      const groupName = (t?.textContent || 'Opcja').trim().replace(/\s+/g,' ');
+      const checked = pole.querySelector('.opcje input[type="checkbox"]:checked');
+      if (!checked){
+        out.push({ group: groupName, label: '(brak wyboru)', type: '-', unit: 0, add: 0 });
+        return;
+      }
+      const label = (checked.closest('label')?.innerText || '').replace(/\(\+\d[\d\s.,]* zł\)\s*$/,'').trim();
+      const type  = (checked.dataset.type || 'fixed').toLowerCase();
+      const unit  = parseFloat(checked.dataset.price || '0') || 0;
+      const add   = Math.round(type === 'sqm' ? unit * area : unit);
+      out.push({ group: groupName, label, type, unit, add });
+    });
+    return out;
+  }
+
+  // Podsumowanie jako tekst (później renderowane Arialem do obrazka)
+// ↓ helper: czytamy bieżącą cenę z aktywnego kontenera
+function readShownPrice(){
+  const active = getActiveContainer();
+  if (!active) return '';
+  const id = active.id.replace('container','');
+  const el = active.querySelector(`#priceEstimate${id}`);
+  const t = (el?.textContent || '').trim();
+  // pomiń placeholdery typu "(Dostosuj wymiary)"
+  if (!t || /\(.*\)|Dostosuj/i.test(t)) return '';
+  return t;
+}
+
+// ↓ ZAMIANA: nowa wersja buildSummaryText()
+function buildSummaryText(){
+  const id = getActiveId();
+  const typeName = getTypeNameById(id);
+  const { width, length, eave, peak } = getActiveDims();
+  const lines = [];
+
+  lines.push(`Typ: ${typeName}`);
+  if (Number.isFinite(width) && Number.isFinite(length)) lines.push(`Wymiary: ${width.toFixed(1)} × ${length.toFixed(1)} m`);
+  if (Number.isFinite(eave)) lines.push(`Okap: ${eave.toFixed(1)} m`);
+  if (Number.isFinite(peak)) lines.push(`Kalenica: ${peak.toFixed(1)} m`);
+
+  const opts = getSelectedOptionsWithPrices();
+  if (opts.length){
+    lines.push('');
+    lines.push('Wybrane opcje:');
+    opts.forEach(o => {
+      const ty = o.type === 'sqm' ? ' (zł/m²)' : '';
+      const unitTxt = o.unit ? ` [${o.unit.toLocaleString('pl-PL')}${ty}]` : '';
+      lines.push(`• ${o.group}: ${o.label}${unitTxt} → +${(o.add||0).toLocaleString('pl-PL')} zł`);
+    });
+  }
+
+  const shown = readShownPrice();
+  if (shown){
+    lines.push('');
+    lines.push(`Szacunkowa cena (łącznie): ${shown}`);
+  }
+
+  return lines.join('\n');
+}
+
+  // ——— RENDER: blok tekstu -> obrazek z Arialem ————————————————
+  async function renderSummaryToCanvas(){
+    const txt = buildSummaryText();
+    const holder = document.createElement('div');
+    holder.style.position = 'fixed';
+    holder.style.left = '-10000px';
+    holder.style.top = '0';
+    holder.style.width = '720px';             // szerokość bloku do PDF
+    holder.style.background = '#fff';
+    holder.style.padding = '12px 12px 8px 12px';
+    holder.style.border = '0';
+    holder.style.fontFamily = 'Arial, Helvetica, sans-serif';
+    holder.style.fontSize = '12px';
+    holder.style.lineHeight = '1.45';
+    holder.style.whiteSpace = 'pre-wrap';
+    holder.innerText = 'Projekt budynku – podsumowanie konfiguracji\n\n' + txt;
+
+    document.body.appendChild(holder);
+    await new Promise(r => requestAnimationFrame(r));
+    const cv = await html2canvas(holder, { backgroundColor:'#fff', scale:2, useCORS:true });
+    holder.remove();
+    return cv;
+  }
+
+  // ——— RENDER: rzut z góry (łapiemy cały wrapper .dimensions-map) ————
+  async function renderPlanToCanvas(){
+    const active = getActiveContainer();
+    if (typeof updateBuildingMap === 'function') { try{ updateBuildingMap(); }catch(e){} }
+    const wrap = active?.querySelector('.dimensions-map') || active?.querySelector('.building-map');
+    if (!wrap) return null;
+    await new Promise(r => requestAnimationFrame(r));
+    return await html2canvas(wrap, { backgroundColor:'#fff', scale:2, useCORS:true });
+  }
+
+  // ——— RENDER: elewacja — rasteryzacja SVG z inline obrazkami ————————
+  async function renderElevationToCanvas(){
+    const active = getActiveContainer();
+    if (typeof updateBuildingElevation === 'function') { try{ updateBuildingElevation(); }catch(e){} }
+    const svg = active?.querySelector('.building-map-height svg');
+    if (!svg) return null;
+
+    // 1) sklonuj SVG
+    const clone = svg.cloneNode(true);
+    clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    clone.setAttribute('xmlns:xlink','http://www.w3.org/1999/xlink');
+
+    // 2) inline obrazki w <image>
+    const imgNodes = clone.querySelectorAll('image');
+    for (const img of imgNodes){
+      const href = img.getAttribute('href') || img.getAttributeNS('http://www.w3.org/1999/xlink','href');
+      if (!href || href.startsWith('data:')) continue;
+      try{
+        const resp = await fetch(href, { mode:'cors' });
+        const blob = await resp.blob();
+        const dataUrl = await new Promise((res) => {
+          const fr = new FileReader();
+          fr.onload = () => res(fr.result);
+          fr.readAsDataURL(blob);
+        });
+        img.setAttribute('href', dataUrl);
+        img.removeAttribute('crossorigin');
+      }catch(e){
+        // zostaw jak jest — często i tak zadziała, jeśli same-origin
+      }
+    }
+
+    // 3) szer/wys z CSS albo z viewBox
+    const comp = getComputedStyle(svg);
+    let w = parseFloat(comp.width) || svg.viewBox?.baseVal?.width || 600;
+    let h = parseFloat(comp.height) || svg.viewBox?.baseVal?.height || 400;
+
+    // 4) serializacja -> <img> -> canvas
+    const svgString = new XMLSerializer().serializeToString(clone);
+    const blob = new Blob([svgString], { type:'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+
+    const img = new Image();
+    const cv = document.createElement('canvas');
+    const scale = 2; // retina
+    cv.width  = Math.max(1, Math.round(w * scale));
+    cv.height = Math.max(1, Math.round(h * scale));
+    const ctx = cv.getContext('2d');
+
+    await new Promise((resolve, reject) => {
+      img.onload = () => {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0,0,cv.width,cv.height);
+        ctx.drawImage(img, 0, 0, cv.width, cv.height);
+        URL.revokeObjectURL(url);
+        resolve();
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+
+    return cv;
+  }
+
+  // ——— PDF builder ————————————————————————————————————————————————
+  async function buildPdfDoc(){
+    // dopilnuj aktualnego rysunku
+    try {
+      if (typeof updateBuildingMap === 'function') updateBuildingMap();
+      if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
+    } catch(e) {}
+
+    // canvasy
+    const [summaryCv, planCv, elevCv] = await Promise.all([
+      renderSummaryToCanvas(),
+      renderPlanToCanvas(),
+      renderElevationToCanvas()
+    ]);
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit:'mm', format:'a4' });
+    const margin = 12;
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const maxW  = pageW - margin*2;
+    let y = margin;
+
+    function addCanvas(cv){
+      if (!cv) return;
+      const ratio = cv.width / cv.height;
+      const imgWmm = maxW;
+      const imgHmm = imgWmm / ratio;
+      if (y + imgHmm > pageH - margin){ pdf.addPage(); y = margin; }
+      pdf.addImage(cv.toDataURL('image/png'), 'PNG', margin, y, imgWmm, imgHmm, undefined, 'FAST');
+      y += imgHmm + 8;
+    }
+
+    // 1) Podsumowanie (Arial przez html2canvas)
+    addCanvas(summaryCv);
+
+    // 2) Rzut z góry — cała mapka
+    addCanvas(planCv);
+
+    // 3) Elewacja — cała mapka (SVG -> raster)
+    addCanvas(elevCv);
+
+    // stopka (ASCII, żeby uniknąć znaków spoza standardowego fontu)
+    pdf.setFont('helvetica','normal');
+    pdf.setFontSize(9);
+    pdf.text('Wygenerowano na Zabudo.pl', margin, pageH - margin);
+
+    const ts  = new Date().toISOString().slice(0,10);
+    const id  = getActiveId();
+    const typ = getTypeNameById(id);
+    const filename = `projekt-${typ.replace(/\s+/g,'_')}-${ts}.pdf`;
+
+    const dataUrl = pdf.output('datauristring');
+    _last = { pdf, dataUrl, filename };
+
+    const preview = document.getElementById('pdfPreview');
+    if (preview){
+      preview.innerHTML = `<iframe src="${dataUrl}" style="width:100%;height:320px;border:0;"></iframe>`;
+    }
+    return _last;
+  }
+
+  async function handleDownloadPdf(){
+    try{
+      if (!_last.pdf) await buildPdfDoc();
+      _last.pdf.save(_last.filename || 'projekt.pdf');
+    }catch(e){
+      console.error('Błąd pobierania PDF:', e);
+      const preview = document.getElementById('pdfPreview');
+      if (preview) preview.innerHTML =
+        `<div class="text-danger">Nie udało się wygenerować/pobrać PDF. Szczegóły w konsoli – ${e?.message || e}</div>`;
+    }
+  }
+
+  // ——— EmailJS w modalu (PDF jako Variable Attachment) ————————
+  function injectClonedForm(){
+    const slot = document.getElementById('modalFormSlot');
+    if (!slot) return;
+    slot.innerHTML = '';
+    const original = document.getElementById('contact-form');
+    if (!original) return;
+
+    const clone = original.cloneNode(true);
+    clone.id = 'contact-form-popup';
+
+    let statusEl = clone.querySelector('.js-modal-form-status');
+    if (!statusEl){
+      statusEl = document.createElement('div');
+      statusEl.className = 'js-modal-form-status small mt-2';
+      clone.appendChild(statusEl);
+    }
+
+    const btn = clone.querySelector('button[type="submit"]');
+    if (btn) btn.textContent = 'Wyślij wiadomość (PDF w załączniku)';
+
+    clone.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try{
+        const fd = new FormData(clone);
+        const templateParams = {};
+        fd.forEach((v,k) => { templateParams[k] = v; });
+
+        // treść maila = to samo podsumowanie co w PDF (Arial zapewni przeglądarka)
+        templateParams.message = (templateParams.message || '') + '\n\n' + buildSummaryText();
+
+        if (!_last.dataUrl) await buildPdfDoc();
+        templateParams.pdf_content = _last.dataUrl; // Variable Attachment (EmailJS)
+
+        const SERVICE_ID  = 'service_yabzq3j';
+        const TEMPLATE_ID = 'template_4s8ii9u';
+
+        const sndBtn = clone.querySelector('button[type="submit"]');
+        const prevHtml = sndBtn ? sndBtn.innerHTML : '';
+        if (sndBtn){ sndBtn.disabled = true; sndBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…'; }
+        statusEl.textContent = '';
+
+        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+
+        statusEl.textContent = 'Wiadomość wysłana (PDF w załączniku).';
+        statusEl.style.color = 'green';
+        clone.reset();
+      }catch(err){
+        console.error('EmailJS error:', err);
+        statusEl.textContent = 'Błąd podczas wysyłania. Spróbuj ponownie.';
+        statusEl.style.color = 'red';
+      }finally{
+        const sndBtn = clone.querySelector('button[type="submit"]');
+        if (sndBtn){ sndBtn.disabled = false; sndBtn.innerHTML = 'Wyślij wiadomość (PDF w załączniku)'; }
+      }
+    });
+
+    slot.appendChild(clone);
+  }
+
+  // ——— init ————————————————————————————————————————————————
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.js-save-project').forEach(btn => {
+      btn.addEventListener('click', () => { _last = { pdf:null, dataUrl:null, filename:null }; });
+    });
+
+    const modalEl = document.getElementById('saveProjectModal');
+    if (modalEl){
+      modalEl.addEventListener('shown.bs.modal', async () => {
+        injectClonedForm();
+        try { await buildPdfDoc(); }
+        catch (e) {
+          console.error('PDF init error:', e);
+          const preview = document.getElementById('pdfPreview');
+          if (preview) preview.innerHTML =
+            `<div class="text-danger">Nie udało się wygenerować podglądu PDF. ${e?.message || e}</div>`;
+        }
+      });
+    }
+
+    const dl = document.getElementById('downloadPdfBtn');
+    if (dl) dl.addEventListener('click', handleDownloadPdf);
+  });
+})();
+</script>
+
+
+
 <body>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg fixed-top">
@@ -337,7 +694,14 @@ function setRangeValue(rangeEl, value) {
             Szacowana cena: <strong id="priceEstimate1">(Dostosuj wymiary)</strong> 
 
             <div class="price-box-buttons">
-                        <a  class="btn btn-secondary mt-3">Zapisz projekt</a>
+
+                   <button type="button"
+        class="btn btn-secondary mt-3 js-save-project"
+        data-bs-toggle="modal"
+        data-bs-target="#saveProjectModal">
+  Zapisz projekt
+</button>
+
             <a href="podsumowanie.html" class="btn btn-secondary mt-3">Zamów teraz!</a>
           </div>
           
@@ -391,7 +755,14 @@ function setRangeValue(rangeEl, value) {
       <div class="price-box">
         Szacowana cena: <strong id="priceEstimate2">(Dostosuj wymiary)</strong>
             <div class="price-box-buttons">
-                        <a class="btn btn-secondary mt-3">Zapisz projekt</a>
+
+              <button type="button"
+        class="btn btn-secondary mt-3 js-save-project"
+        data-bs-toggle="modal"
+        data-bs-target="#saveProjectModal">
+  Zapisz projekt
+</button>
+
             <a href="podsumowanie.html" class="btn btn-secondary mt-3">Zamów teraz!</a>
           </div>
       </div>
@@ -1262,14 +1633,14 @@ const estimatedPrice = Math.round(area * baseRate * heightMultiplier)
 
 
 
-// Funkcja do aktualizacji mapki budynku w aktywnym kontenerze
 function updateBuildingMap() {
   const activeContainer = document.querySelector('.build-container.active');
+  if (!activeContainer) return;
 
-  const width  = parseFloat(activeContainer.querySelector('input[id^="widthRange"]').value);
-  const length = parseFloat(activeContainer.querySelector('input[id^="lengthRange"]').value);
-
+  const width  = parseFloat(activeContainer.querySelector('input[id^="widthRange"]')?.value);
+  const length = parseFloat(activeContainer.querySelector('input[id^="lengthRange"]')?.value);
   const buildingMap = activeContainer.querySelector('.building-map');
+
   if (!buildingMap || !Number.isFinite(width) || !Number.isFinite(length)) return;
 
   // 1rem w px (z CSS html { font-size: ... })
@@ -1288,11 +1659,138 @@ function updateBuildingMap() {
 
   buildingMap.style.width  = `${mapWidthRem}rem`;
   buildingMap.style.height = `${mapHeightRem}rem`;
-
-  // żeby nic nie wychodziło poza krawędzie (zostaje w Twoim layoucie)
   buildingMap.style.maxWidth  = '100%';
   buildingMap.style.maxHeight = '100%';
   buildingMap.style.overflow  = 'hidden';
+
+  // === SVG z dwiema teksturami + kalenica ===
+  const NS = 'http://www.w3.org/2000/svg';
+  const TILE_W = 100;
+  const TILE_H = 100;
+
+  const LEFT_IMG   = 'dachl.webp';
+  const RIGHT_IMG  = 'dach.webp';
+  const RIDGE_IMG  = 'kalenica.webp';
+
+  // wyczyść poprzedni rysunek
+  buildingMap.innerHTML = '';
+
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${mapWidthPx} ${mapHeightPx}`);
+  svg.setAttribute('width', mapWidthPx);
+  svg.setAttribute('height', mapHeightPx);
+  svg.style.width = '100%';
+  svg.style.height = '100%';
+  svg.style.display = 'block';
+  svg.style.background = '#fff';
+
+  const defs = document.createElementNS(NS, 'defs');
+
+  // --- lewa połać (pattern) ---
+  const patLeftId  = `roofLeft-${Date.now()}`;
+  const patLeft = document.createElementNS(NS, 'pattern');
+  patLeft.setAttribute('id', patLeftId);
+  patLeft.setAttribute('patternUnits', 'userSpaceOnUse');
+  patLeft.setAttribute('width', TILE_W);
+  patLeft.setAttribute('height', TILE_H);
+  const imgLeft = document.createElementNS(NS, 'image');
+  imgLeft.setAttribute('href', LEFT_IMG);
+  imgLeft.setAttribute('x', 0);
+  imgLeft.setAttribute('y', 0);
+  imgLeft.setAttribute('width', TILE_W);
+  imgLeft.setAttribute('height', TILE_H);
+  imgLeft.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+  patLeft.appendChild(imgLeft);
+  defs.appendChild(patLeft);
+
+  // --- prawa połać (pattern) ---
+  const patRightId = `roofRight-${Date.now()}`;
+  const patRight = document.createElementNS(NS, 'pattern');
+  patRight.setAttribute('id', patRightId);
+  patRight.setAttribute('patternUnits', 'userSpaceOnUse');
+  patRight.setAttribute('width', TILE_W);
+  patRight.setAttribute('height', TILE_H);
+  const imgRight = document.createElementNS(NS, 'image');
+  imgRight.setAttribute('href', RIGHT_IMG);
+  imgRight.setAttribute('x', 0);
+  imgRight.setAttribute('y', 0);
+  imgRight.setAttribute('width', TILE_W);
+  imgRight.setAttribute('height', TILE_H);
+  imgRight.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+  patRight.appendChild(imgRight);
+  defs.appendChild(patRight);
+
+  // --- kalenica (pattern z kontrolą gęstości przez liczbę powtórzeń) ---
+  const RIDGE_REPEATS = 10; // więcej = gęściej
+  const ridgeTileW = 32;
+  const ridgeTileH = Math.max(6, Math.round(mapHeightPx / RIDGE_REPEATS));
+  const ridgePatId = `ridgePat-${Date.now()}`;
+  const ridgePat = document.createElementNS(NS, 'pattern');
+  ridgePat.setAttribute('id', ridgePatId);
+  ridgePat.setAttribute('patternUnits', 'userSpaceOnUse');
+  ridgePat.setAttribute('width', ridgeTileW);
+  ridgePat.setAttribute('height', ridgeTileH);
+  const ridgeImg = document.createElementNS(NS, 'image');
+  ridgeImg.setAttribute('href', RIDGE_IMG);
+  ridgeImg.setAttribute('x', 0);
+  ridgeImg.setAttribute('y', 0);
+  ridgeImg.setAttribute('width', ridgeTileW);
+  ridgeImg.setAttribute('height', ridgeTileH);
+  ridgeImg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+  ridgePat.appendChild(ridgeImg);
+  defs.appendChild(ridgePat);
+
+  svg.appendChild(defs);
+
+  // cień
+  const shadow = document.createElementNS(NS, 'rect');
+  shadow.setAttribute('x', 3);
+  shadow.setAttribute('y', 3);
+  shadow.setAttribute('width', mapWidthPx);
+  shadow.setAttribute('height', mapHeightPx);
+  shadow.setAttribute('fill', 'rgba(0,0,0,0.06)');
+  svg.appendChild(shadow);
+
+  // podział na pół
+  const midX = mapWidthPx / 2;
+
+  // lewa połać
+  const leftRect = document.createElementNS(NS, 'rect');
+  leftRect.setAttribute('x', 0);
+  leftRect.setAttribute('y', 0);
+  leftRect.setAttribute('width', Math.ceil(midX) + 0.5);
+  leftRect.setAttribute('height', mapHeightPx);
+  leftRect.setAttribute('fill', `url(#${patLeftId})`);
+  leftRect.setAttribute('stroke', '#111');
+  leftRect.setAttribute('stroke-width', '2');
+  svg.appendChild(leftRect);
+
+  // prawa połać
+  const rightRect = document.createElementNS(NS, 'rect');
+  rightRect.setAttribute('x', Math.floor(midX) - 0.5);
+  rightRect.setAttribute('y', 0);
+  rightRect.setAttribute('width', Math.ceil(midX) + 0.5);
+  rightRect.setAttribute('height', mapHeightPx);
+  rightRect.setAttribute('fill', `url(#${patRightId})`);
+  rightRect.setAttribute('stroke', '#111');
+  rightRect.setAttribute('stroke-width', '2');
+  svg.appendChild(rightRect);
+
+  // pasek kalenicy
+
+  const DENSITY_Y = 3; // 2 = gęściej
+ridgePat.setAttribute('patternTransform', `scale(1, ${1 / DENSITY_Y})`);
+  const RIDGE_W = 8; // grubość paska
+  const ridge = document.createElementNS(NS, 'rect');
+  ridge.setAttribute('x', midX - RIDGE_W / 2);
+  ridge.setAttribute('y', 0);
+  ridge.setAttribute('width', RIDGE_W);
+  ridge.setAttribute('height', mapHeightPx);
+  ridge.setAttribute('fill', `url(#${ridgePatId})`);
+  svg.appendChild(ridge);
+
+  // >>> WAŻNE: wstaw SVG do DOM
+  buildingMap.appendChild(svg);
 }
 
 // Funkcja do ustawienia nasłuchiwania na kliknięcie przycisku w burger menu
@@ -1781,6 +2279,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
+
+
+
+<!-- SAVE PROJECT MODAL -->
+<div class="modal fade" id="saveProjectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Twój projekt – zapis i kontakt</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 1) PDF -->
+        <div class="mb-3">
+          <button id="downloadPdfBtn" class="btn btn-primary w-100">
+            <i class="fa-solid fa-file-pdf me-2"></i>Pobierz PDF z projektem
+          </button>
+          <div class="form-text">
+            Ten sam PDF dołączymy automatycznie do maila wysyłanego z formularza poniżej.
+          </div>
+          <div id="pdfPreview" class="border rounded p-2 mt-2 text-center small" style="min-height:120px;">
+            Podgląd pojawi się po wygenerowaniu…
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- 2) Kontakt telefoniczny -->
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <img src="asystent.jpg" width="64" height="64" class="rounded-circle object-fit-cover" alt="Asystent Zabudo">
+          <div>
+            <div class="fw-semibold">Twój asystent: Adam</div>
+            <a href="tel:+48503702467" class="btn btn-outline-success mt-2">
+              <i class="fa-solid fa-phone me-2"></i>+48 503 702 467
+            </a>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- 3) Formularz (klon) -->
+        <div id="modalFormSlot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* rozmiary modala */
+  #saveProjectModal .modal-body{ max-height:80vh; overflow:auto; }
+  @media (min-width: 992px){
+    #saveProjectModal .modal-dialog{ max-width:40vw; }
+  }
+  @media (max-width: 991.98px){
+    #saveProjectModal .modal-dialog{ max-width:95vw; margin:1rem auto; }
+  }
+</style>
 
 
 
