@@ -1900,6 +1900,13 @@ font-size: 0.9rem;
   align-self: center;
 }
 
+.dimensions-map-height { 
+  position: relative; 
+  display: flex;
+  align-self: center;
+}
+
+
 /* Kotwica skalowania i brak wychodzenia poza kontener */
 .building-map { transform-origin: top left; }
 .dimensions-map { overflow: hidden; }  /* nic nie "wyjdzie" poza swój div */
@@ -1930,7 +1937,7 @@ justify-self: center ;
 
 
 .dimensions-map-height {
-  width: 100vw;
+  width: 95vw;
 display: flex;
 justify-self: center ;
 }

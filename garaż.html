@@ -177,17 +177,23 @@ function setRangeValue(rangeEl, value) {
 
 
 
-
-
-
-<script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <script>
 (() => {
-  let _last = { pdf: null, dataUrl: null, filename: null };
+  // ————————————————————————————————
+  // KONFIG
+  // ————————————————————————————————
+  const SCALE = 2; // raster 2x (retina)
 
-  // ——— Utils ——————————————————————————————————————————————————
+  // DejaVu Sans z Latin-Extended (ma polskie znaki)
+  const FONT_URL = 'https://cdn.jsdelivr.net/npm/dejavu-fonts-ttf@2.37/ttf/DejaVuSans.ttf';
+  const FONT_NAME = 'DejaVu';      // logiczna nazwa w jsPDF
+  const FONT_FILE = 'DejaVuSans.ttf';
+
+  // ————————————————————————————————
+  // UTILS (Twoje podstawowe)
+  // ————————————————————————————————
   function getActiveContainer(){
     return document.querySelector('.build-container.active') || document.getElementById('container1');
   }
@@ -198,324 +204,349 @@ function setRangeValue(rangeEl, value) {
   function getTypeNameById(id){
     return id === '2' ? 'garaż dwustanowiskowy' : 'garaż jednostanowiskowy';
   }
-  function getActiveDims(){
+
+  function buildSummaryLines(){
     const active = getActiveContainer();
-    const w = parseFloat(active?.querySelector('input[id^="widthRange"]')?.value || '0');
-    const l = parseFloat(active?.querySelector('input[id^="lengthRange"]')?.value || '0');
-    const e = parseFloat(active?.querySelector('input[id^="heightRange"]')?.value || '0');
-    const p = parseFloat(active?.querySelector('input[id^="heightPeakRange"]')?.value || '0');
-    return { width:w, length:l, eave:e, peak:p, area: (Number.isFinite(w)&&Number.isFinite(l)) ? w*l : 0 };
+    if (!active) return [];
+
+    const id = getActiveId();
+    const type = getTypeNameById(id);
+    const w = parseFloat(active.querySelector(`#widthRange${id}`)?.value || '0');
+    const l = parseFloat(active.querySelector(`#lengthRange${id}`)?.value || '0');
+    const e = parseFloat(active.querySelector(`#heightRange${id}`)?.value || '0');
+    const p = parseFloat(active.querySelector(`#heightPeakRange${id}`)?.value || '0');
+    const priceTxt = active.querySelector(`#priceEstimate${id}`)?.textContent?.trim() || '';
+
+    const lines = [];
+    lines.push('Projekt budynku – podsumowanie konfiguracji');
+    lines.push('');
+    lines.push(`Typ: ${type}`);
+    if (Number.isFinite(w) && Number.isFinite(l)) lines.push(`Wymiary: ${w.toFixed(1)} × ${l.toFixed(1)} m`);
+    if (Number.isFinite(e)) lines.push(`Okap: ${e.toFixed(1)} m`);
+    if (Number.isFinite(p)) lines.push(`Kalenica: ${p.toFixed(1)} m`);
+    if (priceTxt && !/\(.*\)|Dostosuj/i.test(priceTxt)) {
+      lines.push('');
+      lines.push(`Szacunkowa cena (łącznie): ${priceTxt}`);
+    }
+    return lines;
   }
-  function getSelectedOptionsWithPrices(){
-    const { area } = getActiveDims();
-    const out = [];
-    document.querySelectorAll('.usługi-menu-wyboru .pole-wyboru').forEach(pole => {
-      const main = pole.querySelector('.main-check');
-      if (!main || !main.checked) return;
-      const t = pole.querySelector('.pole-wyboru-tytuł')?.cloneNode(true);
-      t?.querySelector('input')?.remove();
-      const groupName = (t?.textContent || 'Opcja').trim().replace(/\s+/g,' ');
-      const checked = pole.querySelector('.opcje input[type="checkbox"]:checked');
-      if (!checked){
-        out.push({ group: groupName, label: '(brak wyboru)', type: '-', unit: 0, add: 0 });
-        return;
+
+  async function loadImageSmart(url){
+    if (!url) return null;
+    if (url.startsWith('data:')) {
+      return await new Promise(res => {
+        const img = new Image();
+        img.onload = () => res(img);
+        img.onerror = () => res(null);
+        img.src = url;
+      });
+    }
+    try{
+      const resp = await fetch(url, { mode: 'cors' });
+      const blob = await resp.blob();
+      const dataUrl = await new Promise(r => {
+        const fr = new FileReader();
+        fr.onload = () => r(fr.result);
+        fr.readAsDataURL(blob);
+      });
+      return await loadImageSmart(dataUrl);
+    }catch(_){
+      return await new Promise(res => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => res(img);
+        img.onerror = () => res(null);
+        img.src = url;
+      });
+    }
+  }
+
+  function extractBgUrl(cs){
+    const bi = cs.backgroundImage || '';
+    const m = bi.match(/url\((['"]?)(.+?)\1\)/i);
+    return m ? m[2] : '';
+  }
+
+  function computeBgDrawBox(imgW, imgH, boxW, boxH, sizeStr){
+    let dw = imgW, dh = imgH;
+    const toPx = (v, total) => {
+      if (typeof v !== 'string') return v;
+      if (v.endsWith('%')) return parseFloat(v)/100 * total;
+      return parseFloat(v);
+    };
+    const parts = (sizeStr || '').trim().toLowerCase().split(/\s+/);
+    if (parts.length === 1) {
+      const s = parts[0];
+      if (!s || s === 'auto') {
+        // natural
+      } else if (s === 'cover') {
+        const arI = imgW / imgH, arB = boxW / boxH;
+        if (arI > arB) { dh = boxH; dw = dh * arI; }
+        else           { dw = boxW; dh = dw / arI; }
+      } else if (s === 'contain') {
+        const arI = imgW / imgH, arB = boxW / boxH;
+        if (arI > arB) { dw = boxW; dh = dw / arI; }
+        else           { dh = boxH; dw = dh * arI; }
+      } else if (s.endsWith('px') || s.endsWith('%') || !isNaN(parseFloat(s))) {
+        dw = toPx(s, boxW);
+        const ar = imgW / imgH;
+        dh = dw / ar;
       }
-      const label = (checked.closest('label')?.innerText || '').replace(/\(\+\d[\d\s.,]* zł\)\s*$/,'').trim();
-      const type  = (checked.dataset.type || 'fixed').toLowerCase();
-      const unit  = parseFloat(checked.dataset.price || '0') || 0;
-      const add   = Math.round(type === 'sqm' ? unit * area : unit);
-      out.push({ group: groupName, label, type, unit, add });
+    } else if (parts.length >= 2) {
+      const wStr = parts[0], hStr = parts[1];
+      const w = (wStr === 'auto') ? null : toPx(wStr, boxW);
+      const h = (hStr === 'auto') ? null : toPx(hStr, boxH);
+      if (w && h) { dw = w; dh = h; }
+      else if (w) { dw = w; dh = w * (imgH / imgW); }
+      else if (h) { dh = h; dw = h * (imgW / imgH); }
+    }
+    const dx = (boxW - dw) / 2;
+    const dy = (boxH - dh) / 2;
+    return { dx, dy, dw, dh };
+  }
+
+  async function renderWrapperToCanvas(wrapper){
+    if (!wrapper) return null;
+    const rect = wrapper.getBoundingClientRect();
+    const w = Math.max(1, Math.round(rect.width));
+    const h = Math.max(1, Math.round(rect.height));
+
+    const cv = document.createElement('canvas');
+    cv.width = w * SCALE;
+    cv.height = h * SCALE;
+    const ctx = cv.getContext('2d');
+    ctx.scale(SCALE, SCALE);
+
+    const cs = getComputedStyle(wrapper);
+    const bgColor = cs.backgroundColor && cs.backgroundColor !== 'transparent'
+      ? cs.backgroundColor : '#ffffff';
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0,0,w,h);
+
+    const bgUrl = extractBgUrl(cs);
+    if (bgUrl) {
+      const img = await loadImageSmart(bgUrl);
+      if (img && img.naturalWidth && img.naturalHeight) {
+        const box = computeBgDrawBox(
+          img.naturalWidth, img.naturalHeight,
+          w, h,
+          cs.backgroundSize || 'cover'
+        );
+        ctx.drawImage(img, box.dx, box.dy, box.dw, box.dh);
+      }
+    }
+
+    const toLocal = (r) => ({
+      x: r.left - rect.left,
+      y: r.top  - rect.top,
+      w: r.width,
+      h: r.height
     });
-    return out;
-  }
 
-  // Podsumowanie jako tekst (później renderowane Arialem do obrazka)
-// ↓ helper: czytamy bieżącą cenę z aktywnego kontenera
-function readShownPrice(){
-  const active = getActiveContainer();
-  if (!active) return '';
-  const id = active.id.replace('container','');
-  const el = active.querySelector(`#priceEstimate${id}`);
-  const t = (el?.textContent || '').trim();
-  // pomiń placeholdery typu "(Dostosuj wymiary)"
-  if (!t || /\(.*\)|Dostosuj/i.test(t)) return '';
-  return t;
-}
+    // IMG
+    const imgEls = wrapper.querySelectorAll('img');
+    for (const el of imgEls){
+      const r = toLocal(el.getBoundingClientRect());
+      if (r.w <= 0 || r.h <= 0) continue;
+      const src = el.currentSrc || el.src;
+      const img = await loadImageSmart(src);
+      if (img) ctx.drawImage(img, r.x, r.y, r.w, r.h);
+    }
 
-// ↓ ZAMIANA: nowa wersja buildSummaryText()
-function buildSummaryText(){
-  const id = getActiveId();
-  const typeName = getTypeNameById(id);
-  const { width, length, eave, peak } = getActiveDims();
-  const lines = [];
+    // SVG
+    const svgs = wrapper.querySelectorAll('svg');
+    for (const svg of svgs){
+      const r = toLocal(svg.getBoundingClientRect());
+      if (r.w <= 0 || r.h <= 0) continue;
 
-  lines.push(`Typ: ${typeName}`);
-  if (Number.isFinite(width) && Number.isFinite(length)) lines.push(`Wymiary: ${width.toFixed(1)} × ${length.toFixed(1)} m`);
-  if (Number.isFinite(eave)) lines.push(`Okap: ${eave.toFixed(1)} m`);
-  if (Number.isFinite(peak)) lines.push(`Kalenica: ${peak.toFixed(1)} m`);
+      const clone = svg.cloneNode(true);
+      clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+      clone.setAttribute('xmlns:xlink','http://www.w3.org/1999/xlink');
+      const imgs = clone.querySelectorAll('image');
+      for (const im of imgs){
+        const href = im.getAttribute('href') || im.getAttributeNS('http://www.w3.org/1999/xlink','href');
+        if (!href) continue;
+        const img = await loadImageSmart(href);
+        if (img){
+          try {
+            const c2 = document.createElement('canvas');
+            c2.width = img.naturalWidth; c2.height = img.naturalHeight;
+            const ct2 = c2.getContext('2d');
+            ct2.drawImage(img,0,0);
+            const data = c2.toDataURL('image/png');
+            im.setAttribute('href', data);
+            im.removeAttribute('crossorigin');
+          } catch(_){}
+        }
+      }
 
-  const opts = getSelectedOptionsWithPrices();
-  if (opts.length){
-    lines.push('');
-    lines.push('Wybrane opcje:');
-    opts.forEach(o => {
-      const ty = o.type === 'sqm' ? ' (zł/m²)' : '';
-      const unitTxt = o.unit ? ` [${o.unit.toLocaleString('pl-PL')}${ty}]` : '';
-      lines.push(`• ${o.group}: ${o.label}${unitTxt} → +${(o.add||0).toLocaleString('pl-PL')} zł`);
-    });
-  }
+      const s = new XMLSerializer().serializeToString(clone);
+      const blob = new Blob([s], { type:'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      await new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, r.x, r.y, r.w, r.h);
+          URL.revokeObjectURL(url);
+          resolve();
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+        img.src = url;
+      });
+    }
 
-  const shown = readShownPrice();
-  if (shown){
-    lines.push('');
-    lines.push(`Szacunkowa cena (łącznie): ${shown}`);
-  }
-
-  return lines.join('\n');
-}
-
-  // ——— RENDER: blok tekstu -> obrazek z Arialem ————————————————
-  async function renderSummaryToCanvas(){
-    const txt = buildSummaryText();
-    const holder = document.createElement('div');
-    holder.style.position = 'fixed';
-    holder.style.left = '-10000px';
-    holder.style.top = '0';
-    holder.style.width = '720px';             // szerokość bloku do PDF
-    holder.style.background = '#fff';
-    holder.style.padding = '12px 12px 8px 12px';
-    holder.style.border = '0';
-    holder.style.fontFamily = 'Arial, Helvetica, sans-serif';
-    holder.style.fontSize = '12px';
-    holder.style.lineHeight = '1.45';
-    holder.style.whiteSpace = 'pre-wrap';
-    holder.innerText = 'Projekt budynku – podsumowanie konfiguracji\n\n' + txt;
-
-    document.body.appendChild(holder);
-    await new Promise(r => requestAnimationFrame(r));
-    const cv = await html2canvas(holder, { backgroundColor:'#fff', scale:2, useCORS:true });
-    holder.remove();
     return cv;
   }
 
-  // ——— RENDER: rzut z góry (łapiemy cały wrapper .dimensions-map) ————
   async function renderPlanToCanvas(){
     const active = getActiveContainer();
-    if (typeof updateBuildingMap === 'function') { try{ updateBuildingMap(); }catch(e){} }
-    const wrap = active?.querySelector('.dimensions-map') || active?.querySelector('.building-map');
-    if (!wrap) return null;
-    await new Promise(r => requestAnimationFrame(r));
-    return await html2canvas(wrap, { backgroundColor:'#fff', scale:2, useCORS:true });
+    try { if (typeof updateBuildingMap === 'function') updateBuildingMap(); } catch(_){}
+    return await renderWrapperToCanvas(active?.querySelector('.dimensions-map'));
   }
-
-  // ——— RENDER: elewacja — rasteryzacja SVG z inline obrazkami ————————
   async function renderElevationToCanvas(){
     const active = getActiveContainer();
-    if (typeof updateBuildingElevation === 'function') { try{ updateBuildingElevation(); }catch(e){} }
-    const svg = active?.querySelector('.building-map-height svg');
-    if (!svg) return null;
-
-    // 1) sklonuj SVG
-    const clone = svg.cloneNode(true);
-    clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
-    clone.setAttribute('xmlns:xlink','http://www.w3.org/1999/xlink');
-
-    // 2) inline obrazki w <image>
-    const imgNodes = clone.querySelectorAll('image');
-    for (const img of imgNodes){
-      const href = img.getAttribute('href') || img.getAttributeNS('http://www.w3.org/1999/xlink','href');
-      if (!href || href.startsWith('data:')) continue;
-      try{
-        const resp = await fetch(href, { mode:'cors' });
-        const blob = await resp.blob();
-        const dataUrl = await new Promise((res) => {
-          const fr = new FileReader();
-          fr.onload = () => res(fr.result);
-          fr.readAsDataURL(blob);
-        });
-        img.setAttribute('href', dataUrl);
-        img.removeAttribute('crossorigin');
-      }catch(e){
-        // zostaw jak jest — często i tak zadziała, jeśli same-origin
-      }
-    }
-
-    // 3) szer/wys z CSS albo z viewBox
-    const comp = getComputedStyle(svg);
-    let w = parseFloat(comp.width) || svg.viewBox?.baseVal?.width || 600;
-    let h = parseFloat(comp.height) || svg.viewBox?.baseVal?.height || 400;
-
-    // 4) serializacja -> <img> -> canvas
-    const svgString = new XMLSerializer().serializeToString(clone);
-    const blob = new Blob([svgString], { type:'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-
-    const img = new Image();
-    const cv = document.createElement('canvas');
-    const scale = 2; // retina
-    cv.width  = Math.max(1, Math.round(w * scale));
-    cv.height = Math.max(1, Math.round(h * scale));
-    const ctx = cv.getContext('2d');
-
-    await new Promise((resolve, reject) => {
-      img.onload = () => {
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0,0,cv.width,cv.height);
-        ctx.drawImage(img, 0, 0, cv.width, cv.height);
-        URL.revokeObjectURL(url);
-        resolve();
-      };
-      img.onerror = reject;
-      img.src = url;
-    });
-
-    return cv;
+    try { if (typeof updateBuildingElevation === 'function') updateBuildingElevation(); } catch(_){}
+    return await renderWrapperToCanvas(active?.querySelector('.dimensions-map-height'));
   }
 
-  // ——— PDF builder ————————————————————————————————————————————————
+  // ————————————————————————————————
+  // FONT: osadzenie TTF do jsPDF (PL znaki)
+  // ————————————————————————————————
+async function ensureEmbeddedFont(jsPDF, pdf){
+  // jeśli już mamy zcache’owaną bazę64, po prostu zarejestruj na podanym pdf
+  if (window.__dejavu_ready__ && window.__dejavu_b64){
+    pdf.addFileToVFS(FONT_FILE, window.__dejavu_b64);
+    pdf.addFont(FONT_FILE, FONT_NAME, 'normal');
+    return;
+  }
+
+  // pobierz i zakoduj TTF -> base64 (raz, cache w window)
+  const resp = await fetch(FONT_URL);
+  const buf = await resp.arrayBuffer();
+  let binary = '';
+  const bytes = new Uint8Array(buf);
+  for (let i=0; i<bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+  const b64 = btoa(binary);
+
+  // cache
+  window.__dejavu_b64 = b64;
+  window.__dejavu_ready__ = true;
+
+  // rejestracja na aktualnym egzemplarzu PDF
+  pdf.addFileToVFS(FONT_FILE, b64);
+  pdf.addFont(FONT_FILE, FONT_NAME, 'normal');
+}
+
+  // ————————————————————————————————
+  // PDF builder (Blob URL preview + font z PL znakami)
+  // ————————————————————————————————
+
   async function buildPdfDoc(){
-    // dopilnuj aktualnego rysunku
-    try {
-      if (typeof updateBuildingMap === 'function') updateBuildingMap();
-      if (typeof updateBuildingElevation === 'function') updateBuildingElevation();
-    } catch(e) {}
+  const { jsPDF } = window.jspdf;
 
-    // canvasy
-    const [summaryCv, planCv, elevCv] = await Promise.all([
-      renderSummaryToCanvas(),
-      renderPlanToCanvas(),
-      renderElevationToCanvas()
-    ]);
+  // 1) Pobierz canvasy (może być przed lub po utworzeniu pdf — bez znaczenia)
+  const [planCv, elevCv] = await Promise.all([
+    renderPlanToCanvas(),
+    renderElevationToCanvas()
+  ]);
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ unit:'mm', format:'a4' });
-    const margin = 12;
-    const pageW = pdf.internal.pageSize.getWidth();
-    const pageH = pdf.internal.pageSize.getHeight();
-    const maxW  = pageW - margin*2;
-    let y = margin;
+  // 2) Utwórz JEDEN egzemplarz PDF i osadź na nim font
+  const pdf = new jsPDF({ unit:'mm', format:'a4' });
+  await ensureEmbeddedFont(jsPDF, pdf);
 
-    function addCanvas(cv){
-      if (!cv) return;
-      const ratio = cv.width / cv.height;
-      const imgWmm = maxW;
-      const imgHmm = imgWmm / ratio;
-      if (y + imgHmm > pageH - margin){ pdf.addPage(); y = margin; }
-      pdf.addImage(cv.toDataURL('image/png'), 'PNG', margin, y, imgWmm, imgHmm, undefined, 'FAST');
-      y += imgHmm + 8;
+  // 3) Dalej normalnie rysuj
+  const margin = 12;
+  const pageW = pdf.internal.pageSize.getWidth();
+  const pageH = pdf.internal.pageSize.getHeight();
+  const maxW  = pageW - margin*2;
+  let y = margin;
+
+  // — podsumowanie tekstem z polskimi ogonkami
+  pdf.setFont(FONT_NAME, 'normal');
+  pdf.setFontSize(12);
+  const lines = buildSummaryLines();
+  const wrapped = pdf.splitTextToSize(lines.join('\n'), maxW);
+  pdf.text(wrapped, margin, y, { baseline: 'top' });
+  y += (wrapped.length * 5) + 8;
+
+  function addCanvas(cv){
+    if (!cv) return;
+    const ratio = cv.width / cv.height;
+    let imgWmm = maxW;
+    let imgHmm = imgWmm / ratio;
+    if (y + imgHmm > pageH - margin){
+      pdf.addPage();
+      pdf.setFont(FONT_NAME, 'normal');
+      y = margin;
     }
+    const maxHmm = pageH - margin - y;
+    if (imgHmm > maxHmm){ imgHmm = maxHmm; imgWmm = imgHmm * ratio; }
+    pdf.addImage(cv.toDataURL('image/png'), 'PNG', margin, y, imgWmm, imgHmm, undefined, 'FAST');
+    y += imgHmm + 8;
+  }
 
-    // 1) Podsumowanie (Arial przez html2canvas)
-    addCanvas(summaryCv);
+  addCanvas(planCv);
+  addCanvas(elevCv);
 
-    // 2) Rzut z góry — cała mapka
-    addCanvas(planCv);
+  pdf.setFontSize(9);
+  pdf.text('Wygenerowano na Zabudo.pl', margin, pageH - margin);
 
-    // 3) Elewacja — cała mapka (SVG -> raster)
-    addCanvas(elevCv);
+  const blobUrl = pdf.output('bloburl');
 
-    // stopka (ASCII, żeby uniknąć znaków spoza standardowego fontu)
-    pdf.setFont('helvetica','normal');
-    pdf.setFontSize(9);
-    pdf.text('Wygenerowano na Zabudo.pl', margin, pageH - margin);
+  const preview = document.getElementById('pdfPreview');
+  if (preview){
+    preview.innerHTML = '';
+    const ifr = document.createElement('iframe');
+    ifr.style.width = '100%';
+    ifr.style.height = '320px';
+    ifr.style.border = '0';
+    ifr.src = blobUrl;
+    preview.appendChild(ifr);
 
+    ifr.addEventListener('error', () => {
+      preview.innerHTML = '';
+      const obj = document.createElement('object');
+      obj.type = 'application/pdf';
+      obj.data = blobUrl;
+      obj.style.width = '100%';
+      obj.style.height = '320px';
+      preview.appendChild(obj);
+    });
+  }
+
+  return { pdf, blobUrl, filename: makeFilename() };
+}
+
+
+  function makeFilename(){
     const ts  = new Date().toISOString().slice(0,10);
     const id  = getActiveId();
     const typ = getTypeNameById(id);
-    const filename = `projekt-${typ.replace(/\s+/g,'_')}-${ts}.pdf`;
-
-    const dataUrl = pdf.output('datauristring');
-    _last = { pdf, dataUrl, filename };
-
-    const preview = document.getElementById('pdfPreview');
-    if (preview){
-      preview.innerHTML = `<iframe src="${dataUrl}" style="width:100%;height:320px;border:0;"></iframe>`;
-    }
-    return _last;
+    return `projekt-${typ.replace(/\s+/g,'_')}-${ts}.pdf`;
   }
 
   async function handleDownloadPdf(){
     try{
-      if (!_last.pdf) await buildPdfDoc();
-      _last.pdf.save(_last.filename || 'projekt.pdf');
+      const res = await buildPdfDoc();
+      res.pdf.save(res.filename || 'projekt.pdf');
     }catch(e){
-      console.error('Błąd pobierania PDF:', e);
+      console.error(e);
       const preview = document.getElementById('pdfPreview');
       if (preview) preview.innerHTML =
         `<div class="text-danger">Nie udało się wygenerować/pobrać PDF. Szczegóły w konsoli – ${e?.message || e}</div>`;
     }
   }
 
-  // ——— EmailJS w modalu (PDF jako Variable Attachment) ————————
-  function injectClonedForm(){
-    const slot = document.getElementById('modalFormSlot');
-    if (!slot) return;
-    slot.innerHTML = '';
-    const original = document.getElementById('contact-form');
-    if (!original) return;
-
-    const clone = original.cloneNode(true);
-    clone.id = 'contact-form-popup';
-
-    let statusEl = clone.querySelector('.js-modal-form-status');
-    if (!statusEl){
-      statusEl = document.createElement('div');
-      statusEl.className = 'js-modal-form-status small mt-2';
-      clone.appendChild(statusEl);
-    }
-
-    const btn = clone.querySelector('button[type="submit"]');
-    if (btn) btn.textContent = 'Wyślij wiadomość (PDF w załączniku)';
-
-    clone.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      try{
-        const fd = new FormData(clone);
-        const templateParams = {};
-        fd.forEach((v,k) => { templateParams[k] = v; });
-
-        // treść maila = to samo podsumowanie co w PDF (Arial zapewni przeglądarka)
-        templateParams.message = (templateParams.message || '') + '\n\n' + buildSummaryText();
-
-        if (!_last.dataUrl) await buildPdfDoc();
-        templateParams.pdf_content = _last.dataUrl; // Variable Attachment (EmailJS)
-
-        const SERVICE_ID  = 'service_yabzq3j';
-        const TEMPLATE_ID = 'template_4s8ii9u';
-
-        const sndBtn = clone.querySelector('button[type="submit"]');
-        const prevHtml = sndBtn ? sndBtn.innerHTML : '';
-        if (sndBtn){ sndBtn.disabled = true; sndBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…'; }
-        statusEl.textContent = '';
-
-        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
-
-        statusEl.textContent = 'Wiadomość wysłana (PDF w załączniku).';
-        statusEl.style.color = 'green';
-        clone.reset();
-      }catch(err){
-        console.error('EmailJS error:', err);
-        statusEl.textContent = 'Błąd podczas wysyłania. Spróbuj ponownie.';
-        statusEl.style.color = 'red';
-      }finally{
-        const sndBtn = clone.querySelector('button[type="submit"]');
-        if (sndBtn){ sndBtn.disabled = false; sndBtn.innerHTML = 'Wyślij wiadomość (PDF w załączniku)'; }
-      }
-    });
-
-    slot.appendChild(clone);
-  }
-
-  // ——— init ————————————————————————————————————————————————
+  // ————————————————————————————————
+  // INIT
+  // ————————————————————————————————
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.js-save-project').forEach(btn => {
-      btn.addEventListener('click', () => { _last = { pdf:null, dataUrl:null, filename:null }; });
-    });
+    const dl = document.getElementById('downloadPdfBtn');
+    if (dl) dl.addEventListener('click', handleDownloadPdf);
 
     const modalEl = document.getElementById('saveProjectModal');
     if (modalEl){
       modalEl.addEventListener('shown.bs.modal', async () => {
-        injectClonedForm();
         try { await buildPdfDoc(); }
         catch (e) {
           console.error('PDF init error:', e);
@@ -525,12 +556,13 @@ function buildSummaryText(){
         }
       });
     }
-
-    const dl = document.getElementById('downloadPdfBtn');
-    if (dl) dl.addEventListener('click', handleDownloadPdf);
   });
 })();
 </script>
+
+
+
+
 
 
 
@@ -1434,25 +1466,83 @@ if (scrollTrigger && target) {
   });
 }
 
+
 // Funkcja do uzupełniania treści wiadomości
 function updateMessageText() {
   const activeContainer = document.querySelector('.build-container.active');
-  const width = activeContainer.querySelector('input[id^="widthRange"]').value;
-  const length = activeContainer.querySelector('input[id^="lengthRange"]').value;
+  if (!activeContainer) return;
 
+  // Pobranie danych z suwaków
+  const width  = activeContainer.querySelector('input[id^="widthRange"]')?.value || '?';
+  const length = activeContainer.querySelector('input[id^="lengthRange"]')?.value || '?';
+  const eave   = activeContainer.querySelector('input[id^="heightRange"]')?.value || '';
+  const peak   = activeContainer.querySelector('input[id^="heightPeakRange"]')?.value || '';
+
+  // Pole wiadomości
   const messageField = document.getElementById('message');
-  
-  if (messageField) {
-    let containerName = 'Narzędziówka'; // Default name
-    const buttons = document.querySelectorAll("#burgerMenu button[data-target]");
-    buttons.forEach(button => {
-      if (button.classList.contains('active')) {
-        containerName = button.textContent.trim();
-      }
-    });
+  if (!messageField) return;
 
-    messageField.value = `Dzień dobry! Interesuje mnie ${containerName} o wymiarach ${width} x ${length} m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.`;
+  // Typ budynku (z burger menu)
+  let containerName = 'Narzędziówka';
+  document.querySelectorAll("#burgerMenu button[data-target]").forEach(button => {
+    if (button.classList.contains('active')) {
+      containerName = button.textContent.trim();
+    }
+  });
+
+  // Podstawowa treść
+  let baseMsg = `Dzień dobry! Interesuje mnie ${containerName} o wymiarach ${width} × ${length} m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.`;
+
+  // Pełna konfiguracja
+  const lines = [];
+  if (width && length) lines.push(`Wymiary: ${width} × ${length} m`);
+  if (eave) lines.push(`Okap: ${parseFloat(eave).toFixed(1)} m`);
+  if (peak) lines.push(`Kalenica: ${parseFloat(peak).toFixed(1)} m`);
+
+// helper: tytuł grupy (bez checkboxa)
+function getGroupTitleFrom(chk) {
+  const group = chk.closest('.pole-wyboru');
+  if (!group) return '';
+  const titleEl = group.querySelector('.pole-wyboru-tytuł');
+  if (!titleEl) return '';
+  const clone = titleEl.cloneNode(true);
+  const inp = clone.querySelector('input');
+  if (inp) inp.remove();
+  return clone.textContent.trim().replace(/\s+/g, ' ');
+}
+
+// Opcje dodatkowe (z nazwą grupy + etykietą)
+document.querySelectorAll('.usługi-menu-wyboru input[type=checkbox]:checked').forEach(chk => {
+  // nazwa grupy (np. "Ocieplenie", "Fundament")
+  const groupTitle = getGroupTitleFrom(chk);
+
+  // etykieta opcji (np. "150 mm"), bez dopisków (+... zł) i bez "on"
+  let optLabel = '';
+  const labelEl = chk.closest('label');
+  if (labelEl) {
+    const clone = labelEl.cloneNode(true);
+    clone.querySelectorAll('input, .price-tag').forEach(n => n.remove()); // wytnij input i dynamiczne ceny
+    optLabel = clone.textContent.trim()
+      .replace(/\(\+\s*[\d\s.,]+ zł\)\s*$/i, ''); // usuń "(+ ... zł)" z końca
   }
+  if (!optLabel || optLabel.toLowerCase() === 'on') {
+    optLabel = (chk.value && chk.value.toLowerCase() !== 'on') ? chk.value : '';
+  }
+
+  if (groupTitle && optLabel) {
+    lines.push(`Opcja: ${groupTitle} ${optLabel}`);
+  } else if (optLabel) {
+    lines.push(`Opcja: ${optLabel}`);
+  }
+});
+
+  // Dopisz konfigurację jeśli są jakieś linie
+  if (lines.length) {
+    baseMsg += "\n\nPełna konfiguracja budynku:\n" + lines.map(l => `• ${l}`).join("\n");
+  }
+
+  // Wstaw do pola wiadomości
+  messageField.value = baseMsg;
 }
 
 // Funkcja do nasłuchiwania zmian na suwakach tylko dla aktywnego kontenera
@@ -2063,12 +2153,15 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 </script>
 
+
+
+
 <!-- Handler formularza: wysyłka przez EmailJS + dopięcie zgód -->
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('contact-form');
-    const msg  = document.getElementById('form-message');
+  // uniwersalny „drut” dla dowolnego formularza kontaktowego
+  function wireContactForm(form, msgEl) {
     if (!form) return;
+    const msg = msgEl || form.querySelector('#form-message') || document.getElementById('form-message');
 
     function addHidden(form, name, value) {
       let input = form.querySelector('input[name="'+name+'"]');
@@ -2080,6 +2173,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       input.value = value;
     }
+
+    // Zabezpieczenie: nie duplikuj listenera przy ponownym wywołaniu
+    if (form.__wired__) return;
+    form.__wired__ = true;
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -2106,7 +2203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addHidden(form, 'newsletter_consent_source', newsletterSource);
       addHidden(form, 'consent_cookies', cookiesConsent);
 
-      // --- NEW: dopisz "Konfiguracja budynku" do treści wiadomości ---
+      // --- dopisz „Konfiguracja budynku” do wiadomości (jak było) ---
       try {
         const messageField = form.querySelector('textarea[name="message"]');
         if (messageField) {
@@ -2119,12 +2216,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (Number.isFinite(build.width) && Number.isFinite(build.length)) {
               lines.push(`Wymiary: ${build.width.toFixed(1)} × ${build.length.toFixed(1)} m`);
             }
-            if (Number.isFinite(build.height_eave)) {
-              lines.push(`Wysokość (najniższy pkt): ${build.height_eave.toFixed(1)} m`);
-            }
-            if (Number.isFinite(build.height_peak)) {
-              lines.push(`Wysokość (najwyższy pkt): ${build.height_peak.toFixed(1)} m`);
-            }
+            if (Number.isFinite(build.height_eave)) lines.push(`Wysokość (najniższy pkt): ${build.height_eave.toFixed(1)} m`);
+            if (Number.isFinite(build.height_peak)) lines.push(`Wysokość (najwyższy pkt): ${build.height_peak.toFixed(1)} m`);
           }
           if (Array.isArray(services) && services.length) {
             services.forEach(s => {
@@ -2133,20 +2226,30 @@ document.addEventListener('DOMContentLoaded', () => {
               lines.push(`${group}: ${label}`);
             });
           }
+if (lines.length) {
+  // Szukamy miejsca po "(wpisz miejscowość)" i wklejamy tam konfigurację
+  const konfTxt = 
+    '\n\nPełna konfiguracja budynku:\n' +
+    lines.map(l => `• ${l}`).join('\n');
 
-          if (lines.length) {
-            messageField.value =
-              messageField.value.replace(/\s+$/,'') +
-              '\n\nKonfiguracja budynku:\n' +
-              lines.map(l => `• ${l}`).join('\n');
-          }
+  const baseMsg = messageField.value;
+  const marker = '(wpisz miejscowość)';
+
+  if (baseMsg.includes(marker)) {
+    // wstawiamy tuż po markerze
+    const pos = baseMsg.indexOf(marker) + marker.length;
+    messageField.value = baseMsg.slice(0, pos) + konfTxt + baseMsg.slice(pos);
+  } else {
+    // fallback: dopisz na końcu
+    messageField.value = baseMsg.replace(/\s+$/,'') + konfTxt;
+  }
+}
         }
       } catch (err) {
         console.warn('Nie udało się dołączyć konfiguracji do wiadomości:', err);
       }
-      // --- /NEW ---
 
-      // --- Stan przycisku (jak było) ---
+      // --- Stan przycisku + wysyłka EmailJS (jak było) ---
       const btn = form.querySelector('button[type="submit"]');
       const original = btn ? btn.innerHTML : '';
       if (btn) {
@@ -2166,8 +2269,84 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btn) { btn.disabled = false; btn.innerHTML = original; }
       });
     });
+  }
+
+  // Podłącz oryginalny formularz ze strony
+  document.addEventListener('DOMContentLoaded', function () {
+    const pageForm = document.getElementById('contact-form');
+    const pageMsg  = document.getElementById('form-message');
+    if (pageForm) wireContactForm(pageForm, pageMsg);
+  });
+
+
+
+  
+</script>
+
+
+
+
+<script>
+  // sklonuj formularz z aktualnymi wartościami
+  function cloneFormIntoModal() {
+    const slot = document.getElementById('modalFormSlot');
+    const source = document.getElementById('contact-form');
+    if (!slot || !source) return;
+
+    // głęboka kopia
+    const clone = source.cloneNode(true);
+
+    // unikamy duplikatów ID w DOM:
+    clone.id = 'contact-form-modal';
+    // zmień potencjalne duplikaty ID pól wewnątrz (np. #message)
+    clone.querySelectorAll('[id]').forEach(el => {
+      el.id = el.id + '-modal';
+    });
+
+    // przenieś wartości (cloneNode nie przenosi dynamicznych .value pewnych elementów)
+    const srcFields = source.querySelectorAll('input, textarea, select');
+    const dstFields = clone.querySelectorAll('input, textarea, select');
+    srcFields.forEach((s, i) => {
+      const d = dstFields[i];
+      if (!d) return;
+      if (d.type === 'checkbox' || d.type === 'radio') d.checked = s.checked;
+      else d.value = s.value;
+    });
+
+    // osobny „msg” dla modala
+    let modalMsg = clone.querySelector('#form-message-modal');
+    if (!modalMsg) {
+      modalMsg = document.createElement('p');
+      modalMsg.id = 'form-message-modal';
+      modalMsg.style.marginTop = '10px';
+      clone.appendChild(modalMsg);
+    }
+
+    // wstaw do slotu
+    slot.innerHTML = '';
+    slot.appendChild(clone);
+
+    // podłącz funkcjonalność EmailJS do klona
+    if (typeof wireContactForm === 'function') {
+      wireContactForm(clone, modalMsg);
+    }
+  }
+
+  // przy każdym otwarciu modala generuj PDF (jak masz) + wstaw klon formularza
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalEl = document.getElementById('saveProjectModal');
+    if (!modalEl) return;
+
+    modalEl.addEventListener('shown.bs.modal', () => {
+      // 1) PDF (masz już taki handler — ten może współistnieć)
+      try { if (typeof buildPdfDoc === 'function') buildPdfDoc(); } catch(e){ console.error(e); }
+
+      // 2) klon formularza
+      try { cloneFormIntoModal(); } catch(e){ console.error('Błąd klonowania formularza:', e); }
+    });
   });
 </script>
+
 
 
 
