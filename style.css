@@ -1249,10 +1249,11 @@ footer {
     align-items: center;
           background-image: url('tlomapa.webp'); 
   background-size: cover;
-  background-repeat: no-repeat;
 
-  background-position: 50% 50%;
-    
+
+
+    justify-self: center;
+    align-self: center;
 }
 
 
@@ -1265,6 +1266,8 @@ footer {
     position: relative;
     justify-self: center;
     align-self: center;
+    top: 0%;
+    left: 0%
   }
   /* Napisy pomocnicze w SVG */
   .elev-dim {
@@ -1908,11 +1911,7 @@ font-size: 0.9rem;
   align-self: center;
 }
 
-.dimensions-map-height { 
-  position: relative; 
-  display: flex;
-  align-self: center;
-}
+
 
 
 /* Kotwica skalowania i brak wychodzenia poza kontener */
@@ -1946,8 +1945,6 @@ justify-self: center ;
 
 .dimensions-map-height {
   width: 95vw;
-display: flex;
-justify-self: center ;
 }
   .usługi-menu-wyboru {
     width: 98%;
