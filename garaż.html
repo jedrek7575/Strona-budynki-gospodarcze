@@ -205,31 +205,70 @@ function setRangeValue(rangeEl, value) {
     return id === '2' ? 'garaż dwustanowiskowy' : 'garaż jednostanowiskowy';
   }
 
-  function buildSummaryLines(){
-    const active = getActiveContainer();
-    if (!active) return [];
+function buildSummaryLines(){
+  const active = getActiveContainer();
+  if (!active) return [];
 
-    const id = getActiveId();
-    const type = getTypeNameById(id);
-    const w = parseFloat(active.querySelector(`#widthRange${id}`)?.value || '0');
-    const l = parseFloat(active.querySelector(`#lengthRange${id}`)?.value || '0');
-    const e = parseFloat(active.querySelector(`#heightRange${id}`)?.value || '0');
-    const p = parseFloat(active.querySelector(`#heightPeakRange${id}`)?.value || '0');
-    const priceTxt = active.querySelector(`#priceEstimate${id}`)?.textContent?.trim() || '';
+  const id = getActiveId();
+  const type = getTypeNameById(id);
+  const w = parseFloat(active.querySelector(`#widthRange${id}`)?.value || '0');
+  const l = parseFloat(active.querySelector(`#lengthRange${id}`)?.value || '0');
+  const e = parseFloat(active.querySelector(`#heightRange${id}`)?.value || '0');
+  const p = parseFloat(active.querySelector(`#heightPeakRange${id}`)?.value || '0');
+  const priceTxt = active.querySelector(`#priceEstimate${id}`)?.textContent?.trim() || '';
 
-    const lines = [];
-    lines.push('Projekt budynku – podsumowanie konfiguracji');
+  const lines = [];
+  lines.push('Projekt budynku – podsumowanie konfiguracji');
+  lines.push('');
+  lines.push(`Typ: ${type}`);
+  if (Number.isFinite(w) && Number.isFinite(l)) lines.push(`Wymiary: ${w.toFixed(1)} × ${l.toFixed(1)} m`);
+  if (Number.isFinite(e)) lines.push(`Okap: ${e.toFixed(1)} m`);
+  if (Number.isFinite(p)) lines.push(`Kalenica: ${p.toFixed(1)} m`);
+  if (priceTxt && !/\(.*\)|Dostosuj/i.test(priceTxt)) {
     lines.push('');
-    lines.push(`Typ: ${type}`);
-    if (Number.isFinite(w) && Number.isFinite(l)) lines.push(`Wymiary: ${w.toFixed(1)} × ${l.toFixed(1)} m`);
-    if (Number.isFinite(e)) lines.push(`Okap: ${e.toFixed(1)} m`);
-    if (Number.isFinite(p)) lines.push(`Kalenica: ${p.toFixed(1)} m`);
-    if (priceTxt && !/\(.*\)|Dostosuj/i.test(priceTxt)) {
-      lines.push('');
-      lines.push(`Szacunkowa cena (łącznie): ${priceTxt}`);
-    }
-    return lines;
+    lines.push(`Szacunkowa cena (łącznie): ${priceTxt}`);
   }
+
+  // === DODATKOWA KONFIGURACJA ===
+  // helper: tytuł grupy bez inputa
+  const getGroupTitleFromPole = (pole) => {
+    const t = pole.querySelector('.pole-wyboru-tytuł');
+    if (!t) return 'Opcja';
+    const clone = t.cloneNode(true);
+    const inp = clone.querySelector('input');
+    if (inp) inp.remove();
+    return clone.textContent.trim().replace(/\s+/g, ' ') || 'Opcja';
+  };
+
+  const extras = [];
+  // BIERZEMY KAŻDĄ ZAZNACZONĄ POD-OPCJĘ, nie patrzymy na .main-check
+  document.querySelectorAll('.usługi-menu-wyboru .pole-wyboru .opcje input[type="checkbox"]:checked')
+    .forEach(checked => {
+      const pole = checked.closest('.pole-wyboru');
+      const groupTitle = getGroupTitleFromPole(pole);
+
+      let label = '';
+      const lblEl = checked.closest('label');
+      if (lblEl) {
+        const clone = lblEl.cloneNode(true);
+        clone.querySelectorAll('input, .price-tag').forEach(n => n.remove());
+        label = clone.textContent.trim()
+                 .replace(/\(\+\s*[\d\s.,]+ zł\)\s*$/i, ''); // usuń „(+ … zł)”
+      }
+      if (!label || label.toLowerCase() === 'on') {
+        label = (checked.value && checked.value.toLowerCase() !== 'on') ? checked.value : '';
+      }
+      if (label) extras.push(`${groupTitle}: ${label}`);
+    });
+
+  if (extras.length) {
+    lines.push('');
+    lines.push('Dodatkowa konfiguracja:');
+    extras.forEach(x => lines.push(`- ${x}`));
+  }
+
+  return lines;
+}
 
   async function loadImageSmart(url){
     if (!url) return null;
@@ -662,6 +701,33 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
   </div>
       </div>
+
+
+
+           <div class="pole-wyboru">
+        
+<div class="pole-wyboru-tytuł">
+      <input type="checkbox" class="main-check" /> Okna
+</div>
+
+  <div class="opcje">
+    
+     <label class="opcja-1">
+      <input type="checkbox" data-type="fixed" data-price="0"/> brak
+    </label>
+
+        <label class="opcja-2">
+      <input type="checkbox" data-type="fixed" data-price="2458"/> jedno
+    </label>
+
+    <label class="opcja-3">
+      <input type="checkbox" data-type="fixed" data-price="4365"/> dwa
+    </label>
+
+  </div>
+      </div>
+
+
 
 
 
