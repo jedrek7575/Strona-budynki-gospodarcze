@@ -714,7 +714,7 @@ align-items: space-between;
   display: flex;
   align-self: center;
   justify-self: center;
-
+  width: 100%;
 }
 
 .price-box-buttons {
@@ -764,7 +764,7 @@ align-items: space-between;
 @media (max-width: 768px) {
 
 .price-box {
-  width: 95vw;
+  width: 110%;
 }
 
 .price-box-buttons .btn {
