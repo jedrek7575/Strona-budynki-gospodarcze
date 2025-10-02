@@ -1953,3 +1953,15 @@ justify-self: center ;
   display: none;
 }
 
+
+
+.asystent-numer {
+ color: #b33434;
+ border: 2px solid #b33434;
+}
+
+.asystent-numer:hover {
+ color: white;
+ border: 2px solid #b33434;
+ background-color: #b33434;
+}
