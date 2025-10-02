@@ -1189,7 +1189,7 @@ footer {
     display: flex;
 
       background-image: url('tlomapa.webp'); 
-  background-size: 110%;
+  background-size: cover;
   background-repeat: no-repeat;
 
   background-position: 50% 50%;
@@ -1216,7 +1216,7 @@ footer {
     left: 50%;
 
     transform: translate(-50%, -50%); /* Centrowanie budynku na mapie */
-    background-color: #ffffff;
+
     width: 0px;  /* Początkowa szerokość */
     height: 0px; /* Początkowa wysokość */
   
@@ -1224,8 +1224,8 @@ footer {
     
     background-size: 100% 100%; /* Rozciągnięcie obrazu, ignorując proporcje */
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center; /* Centrowanie obrazu */
+
+
 }
 
 
@@ -1235,12 +1235,12 @@ footer {
     height: 70vh; /* Możesz to dostosować w zależności od potrzeby */
 
     margin-top: 20px; /* Odstęp od reszty elementów */
-    border: 1px solid #ddd; /* Obramowanie mapki */
+
     display: flex;
     justify-content: center;
     align-items: center;
           background-image: url('tlomapa.webp'); 
-  background-size: 110%;
+  background-size: cover;
   background-repeat: no-repeat;
 
   background-position: 50% 50%;
