@@ -1075,7 +1075,7 @@ function updateBuildingElevation() {
   if (peakSpan) peakSpan.textContent = Number(heightPeakInput.value).toFixed(1);
 
   // --- SKALA RYSUNKU ---
-  const PX = 60; // px na metr
+  const PX = 45; // px na metr
   const basePx = Math.max(80, Math.round(L * PX));
   const peakPx = Math.max(100, Math.round(H_peak * PX));
 
@@ -1651,8 +1651,8 @@ function updateBuildingMap() {
   const scale = isMobile ? 0.75 : 1;
 
   // Twoje „piksele logiczne” × skala, a na końcu w rem
-  const mapWidthPx  = width  * 50 * scale;
-  const mapHeightPx = length * 50 * scale;
+  const mapWidthPx  = width  * 45 * scale;
+  const mapHeightPx = length * 45 * scale;
 
   const mapWidthRem  = mapWidthPx  / rootPx;
   const mapHeightRem = mapHeightPx / rootPx;

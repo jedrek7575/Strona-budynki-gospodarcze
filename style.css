@@ -1894,7 +1894,11 @@ font-size: 0.9rem;
 
 .building-map { position: relative; }
 
-.dimensions-map { position: relative; }
+.dimensions-map { 
+  position: relative; 
+  display: flex;
+  align-self: center;
+}
 
 /* Kotwica skalowania i brak wychodzenia poza kontener */
 .building-map { transform-origin: top left; }
@@ -1919,7 +1923,7 @@ font-size: 0.9rem;
 @media (max-width: 576px) {
 
 .dimensions-map {
-width: 100vw;
+width: 95vw;
 display: flex;
 justify-self: center ;
 }
