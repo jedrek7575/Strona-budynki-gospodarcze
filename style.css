@@ -711,6 +711,9 @@ align-items: space-between;
   color: #d2601a;
   display: flex;
   flex-direction: column;
+  display: flex;
+  align-self: center;
+  justify-self: center;
 
 }
 
@@ -759,6 +762,11 @@ align-items: space-between;
  }
 
 @media (max-width: 768px) {
+
+.price-box {
+  width: 95vw;
+}
+
 .price-box-buttons .btn {
   width: 80% !important;
   display: flex;
