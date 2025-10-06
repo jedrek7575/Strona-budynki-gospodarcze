@@ -703,6 +703,16 @@ tabButtons.forEach(btn => {
         <div class="mb-2">
           <textarea id="message" name="message" rows="6" class="form-control" required>Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.</textarea>
         </div>
+
+<!-- Turnstile widget -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<div class="cf-turnstile"
+     data-sitekey="0x4AAAAAAB5Dri7HbhagljpE"
+     data-theme="light"
+     data-language="pl">
+</div>
+
         <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
         <a href="tel:+48503702467" class="btn btn-primary">Zadzwoń teraz!</a>
       </form>

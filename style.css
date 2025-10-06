@@ -845,7 +845,8 @@ align-items: space-between;
 }
 
 .contact-form {
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   position: relative;
  
 }
@@ -860,7 +861,8 @@ align-items: space-between;
   align-items: center;
   padding-bottom: 1%;
   padding-top: 1%;
-  height: 70vh;
+  min-height: 70vh;
+  height: auto;
 }
 
 .contact-name {
