@@ -682,44 +682,212 @@ tabButtons.forEach(btn => {
 </script>
 
   
-  <!-- Contact -->
-  <section id="contact" class="full-screen-section d-flex align-items-center justify-content-center text-center">
-    <div class="container" style="max-width: 600px;">
-      <h2 class="section-title">Skontaktuj się z nami</h2>
 
-      <div class="footer-description">
-        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
-        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+
+<!-- Contact -->
+<section id="contact" class="full-screen-section d-flex align-items-center justify-content-center text-center">
+  <div class="container" style="max-width: 600px;">
+    <h2 class="section-title">Skontaktuj się z nami</h2>
+
+    <div class="footer-description">
+      <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+      <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+    </div>
+
+    <!-- Formularz kontaktowy -->
+    <form id="contact-form" method="POST" action="/api/contact" novalidate>
+      <div class="mb-2">
+        <input type="text" name="user_name" placeholder="Imię i nazwisko" class="form-control" required />
+      </div>
+      <div class="mb-2">
+        <input type="email" name="user_email" placeholder="Adres e-mail" class="form-control" required />
+      </div>
+      <div class="mb-2">
+        <textarea id="message" name="message" rows="6" class="form-control" required>
+Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.
+        </textarea>
       </div>
 
-      <!-- Formularz kontaktowy -->
-      <form id="contact-form">
-        <div class="mb-2">
-          <input type="text" name="user_name" placeholder="Imię i nazwisko" class="form-control" required />
-        </div>
-        <div class="mb-2">
-          <input type="email" name="user_email" placeholder="Adres e-mail" class="form-control" required />
-        </div>
-        <div class="mb-2">
-          <textarea id="message" name="message" rows="6" class="form-control" required>Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.</textarea>
-        </div>
+      <!-- Turnstile (Captcha) -->
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <div class="cf-turnstile"
+           data-sitekey="0x4AAAAAAB5Dri7HbhagljpE"
+           data-theme="light"
+           data-language="pl"></div>
 
-<!-- Turnstile widget -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+      <a href="tel:+48503702467" class="btn btn-primary">Zadzwoń teraz!</a>
+    </form>
 
-<div class="cf-turnstile"
-     data-sitekey="0x4AAAAAAB5Dri7HbhagljpE"
-     data-theme="light"
-     data-language="pl">
-</div>
+    <p id="form-message" style="margin-top: 10px;"></p>
+  </div>
+</section>
 
-        <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
-        <a href="tel:+48503702467" class="btn btn-primary">Zadzwoń teraz!</a>
-      </form>
 
-      <p id="form-message" style="margin-top: 10px;"></p>
-    </div>
-  </section>
+ <!-- OBSŁUGO FORMULARZA EMAIL -->
+
+
+<script>
+
+
+(function() {
+  const SERVICE_ENDPOINT = '/api/contact'; // to samo co action w <form>
+
+  function addHidden(form, name, value) {
+    let input = form.querySelector('input[name="'+name+'"]');
+    if (!input) {
+      input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      form.appendChild(input);
+    }
+    input.value = value;
+  }
+
+  // —— zbierz konfigurację budynku (wykorzystuje Twoje funkcje, jeśli są) ——
+  function appendBuildConfigurationToMessage(form) {
+    try {
+      const messageField = form.querySelector('textarea[name="message"]');
+      if (!messageField) return;
+
+      const build = (typeof collectActiveBuildConfig === 'function') ? collectActiveBuildConfig() : null;
+      const services = (typeof collectServicesConfig === 'function') ? collectServicesConfig(document) : [];
+
+      const lines = [];
+      if (build) {
+        if (build.buildType) lines.push(`Typ: ${build.buildType}`);
+        if (Number.isFinite(build.width) && Number.isFinite(build.length)) {
+          lines.push(`Wymiary: ${build.width.toFixed(1)} × ${build.length.toFixed(1)} m`);
+        }
+        if (Number.isFinite(build.height_eave)) lines.push(`Wysokość (najniższy pkt): ${build.height_eave.toFixed(1)} m`);
+        if (Number.isFinite(build.height_peak)) lines.push(`Wysokość (najwyższy pkt): ${build.height_peak.toFixed(1)} m`);
+        if (build.shownPrice) lines.push(`Szacunkowa cena: ${build.shownPrice}`);
+      }
+      if (Array.isArray(services) && services.length) {
+        services.forEach(s => {
+          const label = s?.selected?.label || '(brak wyboru)';
+          const group = s?.group || 'Opcja';
+          lines.push(`${group}: ${label}`);
+        });
+      }
+
+      if (lines.length) {
+        const konfTxt =
+          '\n\nPełna konfiguracja budynku:\n' +
+          lines.map(l => `• ${l}`).join('\n');
+
+        const baseMsg = messageField.value || '';
+        const marker = '(wpisz miejscowość)';
+
+        if (baseMsg.includes(marker)) {
+          const pos = baseMsg.indexOf(marker) + marker.length;
+          messageField.value = baseMsg.slice(0, pos) + konfTxt + baseMsg.slice(pos);
+        } else {
+          messageField.value = baseMsg.replace(/\s+$/,'') + konfTxt;
+        }
+      }
+    } catch (err) {
+      console.warn('Nie udało się dołączyć konfiguracji do wiadomości:', err);
+    }
+  }
+
+  // —— dopnij zgody z localStorage ——
+  function appendConsents(form) {
+    // newsletter
+    let newsletterConsent = 'NIE', newsletterTs = '', newsletterSource = '';
+    try {
+      const meta = JSON.parse(localStorage.getItem('newsletterConsentMeta') || '{}');
+      if (meta?.consent) {
+        newsletterConsent = 'TAK';
+        newsletterTs = meta.ts || '';
+        newsletterSource = meta.source || '';
+      }
+    } catch (e) {}
+
+    let cookiesConsent = 'NIE';
+    try {
+      const cons = JSON.parse(localStorage.getItem('consents') || '{}');
+      cookiesConsent = cons.cookies ? 'TAK' : 'NIE';
+    } catch (e) {}
+
+    addHidden(form, 'newsletter_consent', newsletterConsent);
+    addHidden(form, 'newsletter_consent_ts', newsletterTs);
+    addHidden(form, 'newsletter_consent_source', newsletterSource);
+    addHidden(form, 'consent_cookies', cookiesConsent);
+  }
+
+  // —— obsługa submitu ——
+  function wireContactForm(form, msgEl) {
+    if (!form) return;
+    const msg = msgEl || document.getElementById('form-message');
+
+    if (form.__wired__) return;
+    form.__wired__ = true;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // 1) UX: sprawdź lokalnie token Turnstile (backend i tak sprawdzi jeszcze raz)
+      const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+      if (!tokenInput || !tokenInput.value) {
+        if (msg) { msg.textContent = 'Zaznacz zabezpieczenie (captcha).'; msg.style.color = 'red'; }
+        return;
+      }
+
+      // 2) dopnij zgody + konfigurację
+      appendConsents(form);
+      appendBuildConfigurationToMessage(form);
+
+      // 3) spinner
+      const btn = form.querySelector('button[type="submit"]');
+      const original = btn ? btn.innerHTML : '';
+      if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…'; }
+
+      // 4) fetch do backendu (FormData)
+      try {
+        const fd = new FormData(form);
+        const resp = await fetch(SERVICE_ENDPOINT, {
+          method: 'POST',
+          body: fd,
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+
+        let json = {};
+        try { json = await resp.json(); } catch(_) {}
+
+        if (!resp.ok || json.ok === false) {
+          if (msg) { msg.textContent = 'Nie udało się wysłać. Sprawdź dane i captcha.'; msg.style.color = 'red'; }
+        } else {
+          if (msg) { msg.textContent = 'Dziękujemy! Wiadomość wysłana.'; msg.style.color = 'green'; }
+          form.reset();
+          // zresetuj Turnstile po sukcesie
+          if (window.turnstile) turnstile.reset();
+        }
+      } catch (err) {
+        if (msg) { msg.textContent = 'Błąd sieci/serwera. Spróbuj ponownie.'; msg.style.color = 'red'; }
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = original; }
+      }
+    });
+  }
+
+  // — init —
+  document.addEventListener('DOMContentLoaded', function () {
+    const pageForm = document.getElementById('contact-form');
+    const pageMsg  = document.getElementById('form-message');
+    if (pageForm) wireContactForm(pageForm, pageMsg);
+  });
+})();
+</script>
+
+
+
+
+
+
+
+
+
 
 
 <!-- Testimonials section (moved to follow the offer) -->
@@ -842,143 +1010,7 @@ tabButtons.forEach(btn => {
 
 
   
-  <!-- EmailJS -->
-  <!-- EmailJS SDK + init -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  emailjs.init({ publicKey: '0rODOdXhUGV-z--Ya' }); // Twój PUBLIC KEY
-});
-</script>
 
-
-
-<!-- Handler formularza: wysyłka przez EmailJS + dopięcie zgód -->
-<script>
-  // uniwersalny „drut” dla dowolnego formularza kontaktowego
-  function wireContactForm(form, msgEl) {
-    if (!form) return;
-    const msg = msgEl || form.querySelector('#form-message') || document.getElementById('form-message');
-
-    function addHidden(form, name, value) {
-      let input = form.querySelector('input[name="'+name+'"]');
-      if (!input) {
-        input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        form.appendChild(input);
-      }
-      input.value = value;
-    }
-
-    // Zabezpieczenie: nie duplikuj listenera przy ponownym wywołaniu
-    if (form.__wired__) return;
-    form.__wired__ = true;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      // --- Zgody (jak było) ---
-      let newsletterConsent = 'NIE', newsletterTs = '', newsletterSource = '';
-      try {
-        const meta = JSON.parse(localStorage.getItem('newsletterConsentMeta') || '{}');
-        if (meta?.consent) {
-          newsletterConsent = 'TAK';
-          newsletterTs = meta.ts || '';
-          newsletterSource = meta.source || '';
-        }
-      } catch (e) {}
-
-      let cookiesConsent = 'NIE';
-      try {
-        const cons = JSON.parse(localStorage.getItem('consents') || '{}');
-        cookiesConsent = cons.cookies ? 'TAK' : 'NIE';
-      } catch (e) {}
-
-      addHidden(form, 'newsletter_consent', newsletterConsent);
-      addHidden(form, 'newsletter_consent_ts', newsletterTs);
-      addHidden(form, 'newsletter_consent_source', newsletterSource);
-      addHidden(form, 'consent_cookies', cookiesConsent);
-
-      // --- dopisz „Konfiguracja budynku” do wiadomości (jak było) ---
-      try {
-        const messageField = form.querySelector('textarea[name="message"]');
-        if (messageField) {
-          const build = (typeof collectActiveBuildConfig === 'function') ? collectActiveBuildConfig() : null;
-          const services = (typeof collectServicesConfig === 'function') ? collectServicesConfig(document) : [];
-
-          const lines = [];
-          if (build) {
-            if (build.buildType) lines.push(`Typ: ${build.buildType}`);
-            if (Number.isFinite(build.width) && Number.isFinite(build.length)) {
-              lines.push(`Wymiary: ${build.width.toFixed(1)} × ${build.length.toFixed(1)} m`);
-            }
-            if (Number.isFinite(build.height_eave)) lines.push(`Wysokość (najniższy pkt): ${build.height_eave.toFixed(1)} m`);
-            if (Number.isFinite(build.height_peak)) lines.push(`Wysokość (najwyższy pkt): ${build.height_peak.toFixed(1)} m`);
-          }
-          if (Array.isArray(services) && services.length) {
-            services.forEach(s => {
-              const label = s?.selected?.label || '(brak wyboru)';
-              const group = s?.group || 'Opcja';
-              lines.push(`${group}: ${label}`);
-            });
-          }
-if (lines.length) {
-  // Szukamy miejsca po "(wpisz miejscowość)" i wklejamy tam konfigurację
-  const konfTxt = 
-    '\n\nPełna konfiguracja budynku:\n' +
-    lines.map(l => `• ${l}`).join('\n');
-
-  const baseMsg = messageField.value;
-  const marker = '(wpisz miejscowość)';
-
-  if (baseMsg.includes(marker)) {
-    // wstawiamy tuż po markerze
-    const pos = baseMsg.indexOf(marker) + marker.length;
-    messageField.value = baseMsg.slice(0, pos) + konfTxt + baseMsg.slice(pos);
-  } else {
-    // fallback: dopisz na końcu
-    messageField.value = baseMsg.replace(/\s+$/,'') + konfTxt;
-  }
-}
-        }
-      } catch (err) {
-        console.warn('Nie udało się dołączyć konfiguracji do wiadomości:', err);
-      }
-
-      // --- Stan przycisku + wysyłka EmailJS (jak było) ---
-      const btn = form.querySelector('button[type="submit"]');
-      const original = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…';
-      }
-
-      const SERVICE_ID  = 'service_yabzq3j';
-      const TEMPLATE_ID = 'template_4s8ii9u';
-
-      emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form).then(() => {
-        if (msg) { msg.textContent = 'Wiadomość wysłana pomyślnie!'; msg.style.color = 'green'; }
-        form.reset();
-      }).catch(() => {
-        if (msg) { msg.textContent = 'Błąd podczas wysyłania. Spróbuj ponownie.'; msg.style.color = 'red'; }
-      }).finally(() => {
-        if (btn) { btn.disabled = false; btn.innerHTML = original; }
-      });
-    });
-  }
-
-  // Podłącz oryginalny formularz ze strony
-  document.addEventListener('DOMContentLoaded', function () {
-    const pageForm = document.getElementById('contact-form');
-    const pageMsg  = document.getElementById('form-message');
-    if (pageForm) wireContactForm(pageForm, pageMsg);
-  });
-
-
-
-  
-</script>
 
 
   <!-- Twój główny skrypt (jeśli używasz) -->
