@@ -1678,6 +1678,7 @@ margin-bottom: 2vh;
   padding: 2%;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .karty1 {
@@ -1950,9 +1951,17 @@ justify-self: center ;
 
 
 
+.kreator-welcome {
+  padding-bottom: 5%;
+  font-weight: 900;
+}
+
+.kreator-welcome h1 {
+  font-weight: 900 ;
+}
 
 .burger-menu {
-  display: block;
+  display: flex;
   font-weight: 900;
   
  
@@ -1969,6 +1978,7 @@ justify-self: center ;
   font-weight: 900;
   border: 3px solid rgb(0, 0, 0);
   background-color: #ffffff74;
+  font-size: 0.9rem;
 }
 
 
