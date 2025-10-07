@@ -295,6 +295,7 @@ min-height: 50vh;
 display: flex;
 justify-content: center;
 align-items: space-between;
+ background-color: #f8f6f3 !important;
 }
 
 #proces h2 {
@@ -405,8 +406,10 @@ align-items: space-between;
 
 
 .oferta{
-  height: 100vh;
-  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+ 
 }
 
 .menuoferta{
@@ -469,7 +472,7 @@ align-items: space-between;
 
 .sklepkarta1 {
 
-  width: 96% !important;
+  width: 100% !important;
 }
 
 .sklepkarta2 {
@@ -498,25 +501,25 @@ align-items: space-between;
 
 
 .panel { 
-
+  height: 120vh;
   width: 100vw;
   justify-content: center;
   align-items: center;
-  margin-top: ;
+  
 
 }
 
 
 
 .sklepkarta{
-
+  position: relative;
   height: 20vh;
   width: 100%;
   display: flex;
-  background-color: #ffffff;
+  background-color: #0071c200;
   margin-bottom: 2%;
   margin-top: 2%;
-   box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+   box-shadow: 0 0px 20px rgba(0,0,0,0.1);
    transition: 0.1s ease-in-out;
  justify-content: space-between;
  align-items: center;
@@ -524,23 +527,41 @@ align-items: space-between;
 
 }
 
-.sklepkarta:hover {
-  transform: scale(105%);
- 
-  box-shadow: 0 2px 60px rgba(0,0,0,0.2);
+.sklepkarta::after {
+  content: "";
+  position: absolute;
+  inset: 0;                    /* top:0; right:0; bottom:0; left:0 */
+  background: #b334341a;  /* dowolny kolor + przezroczystość */
+  pointer-events: none; 
+  opacity: 0;       /* kliknięcia przechodzą do treści */
+}
+
+.sklepkarta:hover::after {
+  opacity: 1;                 /* na hover: pokaż nakładkę */
 }
 
 .sklepkarta1 {
   width: 50%;
-  height: 100%;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
-  padding-left: 2% ;
-  padding-right: 2% ;
+  padding-left: 0% ;
+  padding-right: 0% ;
   gap: 2%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   transition: 0.3s ease-in-out;
+  background-color: white;
+     box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+.sklepkarta1 h1 {
+  font-weight: 900;
+  align-self: center;
+  margin-bottom: 10%;
+  margin-top: 5%;
+
 }
 
 .sklepkarta1-obrazy {
@@ -1790,8 +1811,47 @@ transition: 0.1s ease-in-out;
 
 
 
-/* Usługi */
 
+
+
+
+
+
+
+
+/* === LANDING PAGE - uniwersalny === */
+
+
+
+.kreator-welcome {
+  padding-bottom: 5%;
+  font-weight: 900;
+}
+
+.kreator-welcome h1 {
+  font-weight: 900 ;
+}
+
+.burger-menu {
+  display: flex;
+  font-weight: 900;
+  
+ 
+  top: 0;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+  
+  
+  border-radius: 10%;
+}
+
+.burger-menu .btn {
+  font-weight: 900;
+  border: 3px solid rgb(0, 0, 0);
+  background-color: #ffffff74;
+  font-size: 0.9rem;
+}
 
 .konfiguracja {
 
@@ -1801,6 +1861,12 @@ transition: 0.1s ease-in-out;
   margin-top: 1%;
   margin-bottom: 1%;
   font-weight: 900;
+}
+
+@media (max-width: 576px) {
+  .konfiguracja {
+    margin-top: 3%;
+  }
 }
 
 .konfiguracja:hover {
@@ -1832,10 +1898,8 @@ transition: 0.1s ease-in-out;
   padding: 2%;
   flex-direction: column;
   font-weight: 900;
-
-
-
 }
+
 
 .pole-wyboru-tytuł {
     border: 3px solid rgb(0, 0, 0);
@@ -1875,6 +1939,14 @@ font-size: 0.9rem;
   font-weight: 800;
   font-style: italic;
   font-size:  0.9rem;
+}
+
+
+
+/*Mapki*/
+
+.build-type-wrapper { 
+  height: auto;
 }
 
 .building-map { position: relative; }
@@ -1943,48 +2015,4 @@ justify-self: center ;
  color: white;
  border: 2px solid #b33434;
  background-color: #b33434;
-}
-
-
-
-/* === LANDING PAGE - uniwersalny === */
-
-
-
-.kreator-welcome {
-  padding-bottom: 5%;
-  font-weight: 900;
-}
-
-.kreator-welcome h1 {
-  font-weight: 900 ;
-}
-
-.burger-menu {
-  display: flex;
-  font-weight: 900;
-  
- 
-  top: 0;
-  gap: 0.5rem;
-  position: relative;
-  z-index: 1;
-  
-  
-  border-radius: 10%;
-}
-
-.burger-menu .btn {
-  font-weight: 900;
-  border: 3px solid rgb(0, 0, 0);
-  background-color: #ffffff74;
-  font-size: 0.9rem;
-}
-
-
-
-/*Mapki*/
-
-.build-type-wrapper { 
-  height: auto;
 }
