@@ -158,7 +158,7 @@
             <small class="text-muted d-block mt-2">
   Klikając przycisk <strong>„Złóż zamówienie”</strong>:
   <ul class="small mb-0">
-    <li>zawierasz umowę sprzedaży/świadczenia usług z <strong>Zabudo.pl sp. z o.o.</strong>,</li>
+
     <li>potwierdzasz, że zapoznałeś(-aś) się i akceptujesz <a href="regulamin-sprzedazy.html" target="_blank">Regulamin sprzedaży</a>, 
         <a href="polityka-prywatnosci.html" target="_blank">Politykę prywatności</a> oraz zasady korzystania z plików cookies,</li>
     <li>wyrażasz zgodę na przetwarzanie podanych danych osobowych w celu realizacji zamówienia zgodnie z RODO.</li>
@@ -198,253 +198,562 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // ===== Helpers =====
-    const fmtPLN = (grosze) => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN'}).format((grosze||0)/100);
-    function parsePLNToGrosze(txt){
-      if(!txt) return 0;
-      const n=(txt+"").replace(/[^0-9,\.]/g,'').replace(',', '.');
-      return Math.round((parseFloat(n)||0)*100);
-    }
-    function qs(name){ return new URLSearchParams(location.search).get(name); }
-
-    // ===== Źródło danych: sessionStorage.orderConfig (pełna konfiguracja) =====
-    function loadOrderConfig(){
-      try {
-        const raw = sessionStorage.getItem('orderConfig');
-        if (!raw) return null;
-        return JSON.parse(raw);
-      } catch(e){ return null; }
-    }
-
-    // Fallback: minimalne dane z query/localStorage (gdyby ktoś odświeżył stronę po czasie)
-    function loadFallback(){
-      const type   = qs('type') || localStorage.getItem('zabudo_type') || 'Garaż';
-      const width  = qs('width') || localStorage.getItem('zabudo_width') || '—';
-      const length = qs('length')|| localStorage.getItem('zabudo_length')|| '—';
-      const priceParam = qs('price');
-      let priceGross = 0;
-      if (priceParam && /^\d+$/.test(priceParam)) priceGross = parseInt(priceParam,10);
-      else if (priceParam) priceGross = parsePLNToGrosze(priceParam);
-      else priceGross = parseInt(localStorage.getItem('zabudo_price_grosze')||'0',10);
-
-      return {
-        version: 1,
-        ts: new Date().toISOString(),
-        build: {
-          buildType: type,
-          width: parseFloat(width)||width,
-          length: parseFloat(length)||length,
-          height_eave: null,
-          height_peak: null,
-          shownPrice: priceGross ? fmtPLN(priceGross) : ''
-        },
-        services: []
-      };
-    }
-
-    function computeDepositGrosze(total){
-      const pct = Math.round((total * 20) / 100);
-      const min = 300 * 100;
-      return Math.max(pct, min);
-    }
-
-// PLN bez groszy, jak w konfiguratorze: "12 345 zł"
-const fmtZl = (pln) => `${(pln||0).toLocaleString('pl-PL')} zł`;
-
-// wartość opcji w PLN (typ "sqm" mnożymy przez m², "fixed" to kwota stała)
-function optionValuePLN(sel, area){
-  const unit = Number(sel?.price) || 0;
-  const type = String(sel?.type || 'fixed').toLowerCase();
-  return Math.round(type === 'sqm' ? unit * (area || 0) : unit);
-}
 
 
-function renderOptions(services, area){
-  if (!services || !services.length) {
-    return '<p class="text-muted m-0">Brak dodatkowych opcji.</p>';
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ===== Helpers =====
+  const fmtPLN = (grosze) => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN'}).format((grosze||0)/100);
+  function parsePLNToGrosze(txt){
+    if(!txt) return 0;
+    const n=(txt+"").replace(/[^0-9,\.]/g,'').replace(',', '.');
+    return Math.round((parseFloat(n)||0)*100);
   }
-  return `
-    <ul class="m-0">
-      ${services.map(s => {
-        const g = s.group || 'Opcja';
-        const sel = s.selected || s; // obsługa obu formatów
-        const label = (sel?.label || '—').replace(/\s+/g,' ').trim();
-        const val = optionValuePLN(sel, area); // PLN
-        return `<li><strong>${g}</strong>: ${label} <span class="text-muted">(+${fmtZl(val)})</span></li>`;
-      }).join('')}
-    </ul>`;
-}
+  function qs(name){ return new URLSearchParams(location.search).get(name); }
 
-function renderSummary(){
-  const saved = loadOrderConfig() || loadFallback();
-  const b = saved.build || {};
-  const services = saved.services || [];
-
-  const type   = b.buildType || b.type || 'Garaż';
-  const width  = Number(b.width);
-  const length = Number(b.length);
-  const hEave  = b.height_eave;
-  const hPeak  = b.height_peak;
-
-  let priceGross = 0;
-  if (typeof b.priceGrosze === 'number') priceGross = b.priceGrosze;
-  else if (b.shownPrice) priceGross = parsePLNToGrosze(b.shownPrice);
-
-  document.getElementById('sum-type').textContent = type;
-  document.getElementById('sum-dim').textContent = `${b.width} × ${b.length} m`;
-  document.getElementById('sum-heights').textContent =
-    (hEave || hPeak) ? `okap ${hEave ?? '—'} m / kalenica ${hPeak ?? '—'} m` : 'wysokość: —';
-
-  document.getElementById('sum-price').textContent = priceGross ? fmtPLN(priceGross) : '—';
-  const deposit = computeDepositGrosze(priceGross||0);
-  document.getElementById('sum-deposit').textContent = fmtPLN(deposit);
-
-  // powierzchnia m² do przeliczeń "sqm"
-  const area = (Number.isFinite(width) && Number.isFinite(length)) ? width * length : 0;
-
-  // TU przekazujemy area → pokaże "(+ X zł)" przy każdej opcji
-  document.getElementById('sum-options').innerHTML = renderOptions(services, area);
-
-  window.__zabudo_summary = {
-    type, width: b.width, length: b.length,
-    height_eave: hEave, height_peak: hPeak,
-    priceGross, deposit, services
-  };
-}
-
-
-
-function getOrderCustomerData() {
-  const name  = document.getElementById('custName').value.trim();
-  const phone = document.getElementById('custPhone').value.trim();
-  const email = document.getElementById('custEmail').value.trim();
-  const street = document.getElementById('addrStreet').value.trim();
-  const postal = document.getElementById('addrPostal').value.trim();
-  const city   = document.getElementById('addrCity').value.trim();
-
-  return {
-    name, phone, email,
-    address_street: street,
-    address_postal: postal,
-    address_city: city,
-    address_full: [street, postal, city].filter(Boolean).join(', ')
-  };
-}
-
-function validateOrderForm() {
-  const form = document.getElementById('orderForm');
-  let ok = true;
-
-  // czyść poprzednie stany
-  form.querySelectorAll('input').forEach(el => el.classList.remove('is-invalid'));
-
-  // HTML5 validity + własne patterny
-  form.querySelectorAll('input[required]').forEach(el => {
-    if (!el.checkValidity()) {
-      el.classList.add('is-invalid');
-      ok = false;
-    }
-  });
-
-  // extra: minimalna długość imienia i nazwiska
-  const name = document.getElementById('custName');
-  if (name.value.trim().length < 3) { name.classList.add('is-invalid'); ok = false; }
-
-  if (!ok) {
-    // scroll do pierwszego błędu
-    const first = form.querySelector('.is-invalid');
-    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // ===== Źródło danych: sessionStorage.orderConfig (pełna konfiguracja) =====
+  function loadOrderConfig(){
+    try {
+      const raw = sessionStorage.getItem('orderConfig');
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch(e){ return null; }
   }
-  return ok;
-}
 
+  // Fallback: minimalne dane z query/localStorage (gdyby ktoś odświeżył stronę po czasie)
+  function loadFallback(){
+    const type   = qs('type') || localStorage.getItem('zabudo_type') || 'Garaż';
+    const width  = qs('width') || localStorage.getItem('zabudo_width') || '—';
+    const length = qs('length')|| localStorage.getItem('zabudo_length')|| '—';
+    const priceParam = qs('price');
+    let priceGross = 0;
+    if (priceParam && /^\d+$/.test(priceParam)) priceGross = parseInt(priceParam,10);
+    else if (priceParam) priceGross = parsePLNToGrosze(priceParam);
+    else priceGross = parseInt(localStorage.getItem('zabudo_price_grosze')||'0',10);
 
+    return {
+      version: 1,
+      ts: new Date().toISOString(),
+      build: {
+        buildType: type,
+        width: parseFloat(width)||width,
+        length: parseFloat(length)||length,
+        height_eave: null,
+        height_peak: null,
+        shownPrice: priceGross ? fmtPLN(priceGross) : ''
+      },
+      services: []
+    };
+  }
 
-    async function startPayment(){
-  // walidacja wymaganych danych
-  if (!validateOrderForm()) return;
+  function computeDepositGrosze(total){
+    const pct = Math.round((total * 20) / 100);
+    const min = 300 * 100;
+    return Math.max(pct, min);
+  }
 
-  const S = window.__zabudo_summary || {};
-  const btn = document.getElementById('payDepositBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Przekierowuję…';
+  // PLN bez groszy, jak w konfiguratorze: "12 345 zł"
+  const fmtZl = (pln) => `${(pln||0).toLocaleString('pl-PL')} zł`;
 
-  // dane klienta
-  const C = getOrderCustomerData();
-  // pamiętaj e-mail na później (np. dla autouzupełniania)
-  sessionStorage.setItem('customerEmail', C.email || '');
-  sessionStorage.setItem('customerPhone', C.phone || '');
-  sessionStorage.setItem('customerName', C.name || '');
-  sessionStorage.setItem('customerAddress', C.address_full || '');
+  // wartość opcji w PLN (typ "sqm" mnożymy przez m², "fixed" to kwota stała)
+  function optionValuePLN(sel, area){
+    const unit = Number(sel?.price) || 0;
+    const type = String(sel?.type || 'fixed').toLowerCase();
+    return Math.round(type === 'sqm' ? unit * (area || 0) : unit);
+  }
 
-  // metadata: cała konfiguracja + dane klienta/adres
-  const metadata = {
-    type: String(S.type||''),
-    width: String(S.width||''),
-    length: String(S.length||''),
-    height_eave: String(S.height_eave ?? ''),
-    height_peak: String(S.height_peak ?? ''),
-    estimate_grosze: String(S.priceGross||0),
-    services_json: JSON.stringify(S.services||[]),
+  function renderOptions(services, area){
+    if (!services || !services.length) {
+      return '<p class="text-muted m-0">Brak dodatkowych opcji.</p>';
+    }
+    return `
+      <ul class="m-0">
+        ${services.map(s => {
+          const g = s.group || 'Opcja';
+          const sel = s.selected || s; // obsługa obu formatów
+          const label = (sel?.label || '—').replace(/\s+/g,' ').trim();
+          const val = optionValuePLN(sel, area); // PLN
+          return `<li><strong>${g}</strong>: ${label} <span class="text-muted">(+${fmtZl(val)})</span></li>`;
+        }).join('')}
+      </ul>`;
+  }
 
-    customer_name: C.name,
-    customer_phone: C.phone,
-    customer_email: C.email,
-    delivery_address: C.address_full,
-    delivery_street: C.address_street,
-    delivery_postal: C.address_postal,
-    delivery_city: C.address_city
-  };
+  function renderSummary(){
+    const saved = loadOrderConfig() || loadFallback();
+    const b = saved.build || {};
+    const services = saved.services || [];
 
-  try{
-    // TODO: jeśli używasz Cloudflare Worker + P24, zmień endpoint na /api/p24/register:
-    // const res = await fetch('https://TWÓJ-WORKER.workers.dev/api/p24/register', { ... })
+    const type   = b.buildType || b.type || 'Garaż';
+    const width  = Number(b.width);
+    const length = Number(b.length);
+    const hEave  = b.height_eave;
+    const hPeak  = b.height_peak;
 
-    const res = await fetch('/api/create-checkout-session', {
-      method:'POST',
-      headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify({
-        amount: S.deposit || 0, // grosze
-        currency: 'pln',
-        description: `Zaliczka – ${S.type} ${S.width}×${S.length} m`,
-        metadata
-      })
+    let priceGross = 0;
+    if (typeof b.priceGrosze === 'number') priceGross = b.priceGrosze;
+    else if (b.shownPrice) priceGross = parsePLNToGrosze(b.shownPrice);
+
+    document.getElementById('sum-type').textContent = type;
+    document.getElementById('sum-dim').textContent = `${b.width} × ${b.length} m`;
+    document.getElementById('sum-heights').textContent =
+      (hEave || hPeak) ? `okap ${hEave ?? '—'} m / kalenica ${hPeak ?? '—'} m` : 'wysokość: —';
+
+    document.getElementById('sum-price').textContent = priceGross ? fmtPLN(priceGross) : '—';
+    const deposit = computeDepositGrosze(priceGross||0);
+    document.getElementById('sum-deposit').textContent = fmtPLN(deposit);
+
+    // powierzchnia m² do przeliczeń "sqm"
+    const area = (Number.isFinite(width) && Number.isFinite(length)) ? width * length : 0;
+
+    // TU przekazujemy area → pokaże "(+ X zł)" przy każdej opcji
+    document.getElementById('sum-options').innerHTML = renderOptions(services, area);
+
+    window.__zabudo_summary = {
+      type, width: b.width, length: b.length,
+      height_eave: hEave, height_peak: hPeak,
+      priceGross, deposit, services
+    };
+  }
+
+  function getOrderCustomerData() {
+    const name  = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const email = document.getElementById('custEmail').value.trim();
+    const street = document.getElementById('addrStreet').value.trim();
+    const postal = document.getElementById('addrPostal').value.trim();
+    const city   = document.getElementById('addrCity').value.trim();
+
+    return {
+      name, phone, email,
+      address_street: street,
+      address_postal: postal,
+      address_city: city,
+      address_full: [street, postal, city].filter(Boolean).join(', ')
+    };
+  }
+
+  function validateOrderForm() {
+    const form = document.getElementById('orderForm');
+    let ok = true;
+
+    // czyść poprzednie stany
+    form.querySelectorAll('input').forEach(el => el.classList.remove('is-invalid'));
+
+    // HTML5 validity + własne patterny
+    form.querySelectorAll('input[required]').forEach(el => {
+      if (!el.checkValidity()) {
+        el.classList.add('is-invalid');
+        ok = false;
+      }
     });
 
-    const data = await res.json();
-    if (data && data.url) {
-      location.href = data.url;
-    } else {
-      throw new Error('Brak URL kasy.');
+    // extra: minimalna długość imienia i nazwiska
+    const name = document.getElementById('custName');
+    if (name.value.trim().length < 3) { name.classList.add('is-invalid'); ok = false; }
+
+    if (!ok) {
+      // scroll do pierwszego błędu
+      const first = form.querySelector('.is-invalid');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  } catch (err) {
-    console.error(err);
-    alert('Nie udało się zainicjować płatności. Spróbuj ponownie.');
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-shield"></i> Złóż zamówienie';
+    return ok;
+  }
+
+  async function startPayment(){
+    // walidacja wymaganych danych
+    if (!validateOrderForm()) return;
+
+    const S = window.__zabudo_summary || {};
+    const btn = document.getElementById('?????xxxx');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Przekierowuję…';
+
+    // dane klienta
+    const C = getOrderCustomerData();
+
+    // pamiętaj e-mail/telefon na później (np. dla autouzupełniania)
+    sessionStorage.setItem('customerEmail', C.email || '');
+    sessionStorage.setItem('customerPhone', C.phone || '');
+    sessionStorage.setItem('customerName', C.name || '');
+    sessionStorage.setItem('customerAddress', C.address_full || '');
+
+    // payload do backendu – BEZ amount/currency (serwer policzy cenę i zaliczkę)
+    const payload = {
+      build: {
+        type: String(S.type || ''),
+        width: String(S.width || ''),
+        length: String(S.length || ''),
+        height_eave: String(S.height_eave ?? ''),
+        height_peak: String(S.height_peak ?? ''),
+        services: S.services || []
+      },
+      customer: C,
+      description: `Zaliczka – ${S.type} ${S.width}×${S.length} m`,
+
+      // (opcjonalnie) migawka UI – do logów/analityki po Twojej stronie.
+      // Backend NIE powinien na tym polegać do wyliczenia ceny:
+      clientSnapshot: {
+        shown_total_grosze: Number(S.priceGross || 0),
+        shown_deposit_grosze: Number(S.deposit || 0)
+      }
+    };
+
+    try{
+      const res = await fetch('/api/create-checkout-session', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify(payload),
+        credentials: 'same-origin'
+      });
+
+      // jeżeli backend zwróci błąd – pokaż userowi info i odblokuj przycisk
+      if (!res.ok) {
+        const t = await res.text().catch(()=> '');
+        throw new Error(t || ('HTTP ' + res.status));
+      }
+
+      const data = await res.json().catch(()=> ({}));
+      if (data && data.url) {
+        location.href = data.url; // redirect do P24
+      } else {
+        throw new Error('Brak URL kasy.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Nie udało się zainicjować płatności. Spróbuj ponownie.');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-shield"></i> Złóż zamówienie';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderSummary();
+
+    // autouzupełnij, jeśli były wcześniej wpisane
+    const email = sessionStorage.getItem('customerEmail') || '';
+    const phone = sessionStorage.getItem('customerPhone') || '';
+    const name  = sessionStorage.getItem('customerName') || '';
+    const addr  = (sessionStorage.getItem('customerAddress') || '').split(',').map(s=>s.trim());
+
+    if (document.getElementById('custEmail')) document.getElementById('custEmail').value = email;
+    if (document.getElementById('custPhone')) document.getElementById('custPhone').value = phone;
+    if (document.getElementById('custName'))  document.getElementById('custName').value  = name;
+
+    document.getElementById('payDepositBtn').addEventListener('click', startPayment);
+  });
+</script>
+
+
+
+<!-- MODAL: Potwierdzenie → Płatność -->
+<div class="modal fade" id="orderFlowModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- HEADER (wspólny) -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="ofmTitle">
+          <i class="fa-solid fa-clipboard-check me-2"></i> Potwierdzenie zamówienia
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+      </div>
+
+      <!-- KROK 1: POTWIERDZENIE -->
+      <div class="modal-body" id="ofmStepConfirm">
+        <p class="mb-2">Przechodząc dalej oświadczam, że:</p>
+        <div class="p-3 rounded-4" style="border:1px solid rgba(0,0,0,.08);background:#fafbfc">
+          <ul class="mb-0">
+            <li>zapoznałem(-am) się i akceptuję <a href="regulamin-sprzedazy.html" target="_blank">Regulamin sprzedaży</a>,</li>
+            <li>zapoznałem(-am) się z <a href="polityka-prywatnosci.html" target="_blank">Polityką prywatności</a>,</li>
+            <li><strong>składam zamówienie i zobowiązuję się do zapłaty.</strong></li>
+          </ul>
+        </div>
+        <div class="small text-muted mt-3">
+          <p>Kliknięcie przycisku ,,Przejdź dalej" oznacza zawarcie umowy sprzedaży z ZABUDO.PL sp. z o.o.</p>
+          <p>Płatność zaliczki (20%) stanowi część ceny zamówienia i jest warunkiem rozpoczęcia realizacji.
+Pozostała kwota płatna jest zgodnie z zasadami określonymi w Regulaminie sprzedaży.</p>
+        </div>
+      </div>
+
+      <!-- KROK 2: PŁATNOŚĆ (początkowo ukryty) -->
+      <div class="modal-body d-none" id="ofmStepPayment">
+        <p class="mb-2">Dane do przelewu:</p>
+        <div class="p-3 rounded-4" style="border:1px solid rgba(0,0,0,.08);background:#fafbfc">
+          <div><small class="text-muted">Odbiorca</small><div class="fw-semibold" id="bank-rec"></div></div>
+          <div class="mt-2"><small class="text-muted">Bank</small><div id="bank-name"></div></div>
+          <div class="mt-2"><small class="text-muted">Numer rachunku (IBAN)</small><div id="bank-iban" style="font-family:ui-monospace,Consolas,monospace"></div></div>
+          <div class="mt-2"><small class="text-muted">Tytuł przelewu</small><div id="bank-title" style="font-family:ui-monospace,Consolas,monospace"></div></div>
+          <div class="mt-2"><small class="text-muted">Kwota zaliczki</small><div class="fw-semibold" id="bank-amount"></div></div>
+        </div>
+        <div class="alert alert-info d-flex align-items-start gap-2 mt-3 mb-0">
+          <i class="fa-regular fa-circle-question mt-1"></i>
+          <div class="small">Po zaksięgowaniu wpłaty wyślemy e-mail z potwierdzeniem.</div>
+        </div>
+      </div>
+
+      <!-- FOOTER: przyciski zmienne zależnie od kroku -->
+      <div class="modal-footer">
+        <!-- Krok 1 -->
+        <div id="ofmFooterConfirm" class="w-100 d-flex justify-content-between" style="gap: 2%;">
+                    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Anuluj</button>
+          <button id="ofmConfirmBtn" class="btn btn-primary">
+            Przejdź dalej
+          </button>
+
+        </div>
+
+        <!-- Krok 2 (ukryty na start) -->
+        <div id="ofmFooterPayment" class="w-100 d-none justify-content-between">
+          <button id="onlinePayBtn" class="btn btn-primary" style="display:none">
+            <i class="fa-solid fa-credit-card"></i> Płatność online
+          </button>
+          <a href="dziękujemy-za-zamówienie.html" class="btn btn-outline-secondary">Zakończ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// =======================
+// K O N F I G U R A C J A
+// =======================
+
+// Uzupełnij własnymi danymi do przelewu:
+const BANK_DETAILS = {
+  recipient: 'ZABUDO.PL sp. z o.o., ul. Przykładowa 1, 00-000 Miasto',
+  bankName: 'Twój Bank S.A.',
+  iban: 'PL00 0000 0000 0000 0000 0000 0000',
+  titlePrefix: 'Zaliczka za zamówienie'
+};
+
+// =======================
+//  P O M O C N I C Z E
+// =======================
+
+// Bezpieczniejsza losowość niż Math.random()
+function genOrderRef(){
+  const d = new Date(), pad = n => String(n).padStart(2,'0');
+  const stamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+  const bytes = new Uint8Array(4);
+  (window.crypto || window.msCrypto).getRandomValues(bytes);
+  const rand = Array.from(bytes, b => (b % 36).toString(36)).join('').toUpperCase();
+  return `ZB-${stamp}-${rand}`; // np. ZB-20251007 142355-8Q1A7C
+}
+
+// Użyj istniejącego fmtPLN, a jeśli go nie ma – zdefiniuj
+const _fmtPLN = typeof window.fmtPLN === 'function'
+  ? window.fmtPLN
+  : (g) => new Intl.NumberFormat('pl-PL', { style:'currency', currency:'PLN' }).format((g||0)/100);
+
+function fillPaymentStep(orderRef, depositGrosze){
+  const rec  = document.getElementById('bank-rec');
+  const bank = document.getElementById('bank-name');
+  const iban = document.getElementById('bank-iban');
+  const ttl  = document.getElementById('bank-title');
+  const amt  = document.getElementById('bank-amount');
+
+  if (rec)  rec.textContent  = BANK_DETAILS.recipient;
+  if (bank) bank.textContent = BANK_DETAILS.bankName;
+  if (iban) iban.textContent = BANK_DETAILS.iban;
+  if (ttl)  ttl.textContent  = `${BANK_DETAILS.titlePrefix} ${orderRef}`;
+  if (amt)  amt.textContent  = _fmtPLN(depositGrosze);
+}
+
+function showStep(step){ // 'confirm' | 'payment'
+  const title    = document.getElementById('ofmTitle');
+  const s1Body   = document.getElementById('ofmStepConfirm');
+  const s1Footer = document.getElementById('ofmFooterConfirm');
+  const s2Body   = document.getElementById('ofmStepPayment');
+  const s2Footer = document.getElementById('ofmFooterPayment');
+
+  if (!title || !s1Body || !s1Footer || !s2Body || !s2Footer) return;
+
+  if (step === 'confirm'){
+    title.innerHTML = '<i class="fa-solid fa-clipboard-check me-2"></i>Potwierdzenie zamówienia';
+    s1Body.classList.remove('d-none');  s1Footer.classList.remove('d-none');
+    s2Body.classList.add('d-none');     s2Footer.classList.add('d-none');
+  } else {
+    title.innerHTML = '<i class="fa-solid fa-wallet me-2"></i>Płatność';
+    s1Body.classList.add('d-none');     s1Footer.classList.add('d-none');
+    s2Body.classList.remove('d-none');  s2Footer.classList.remove('d-none');
   }
 }
 
+function openOrderConfirmModal(){
+  showStep('confirm');
+  const el = document.getElementById('orderFlowModal');
+  if (el) new bootstrap.Modal(el).show();
+}
+
+// =======================
+//  G Ł Ó W N Y   F L O W
+// =======================
+
+
+// --- FORMATY POMOCNICZE ---
+const PLN = (g) => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN'}).format((+g||0)/100);
+
+function optionsToHtml(services){
+  if (!Array.isArray(services) || !services.length) return '<em>Brak</em>';
+  return '<ul style="margin:0;padding-left:18px;">' + services.map(s=>{
+    const g   = s.group || 'Opcja';
+    const sel = s.selected || s;
+    const lbl = (sel?.label || '—').toString().trim();
+    const typ = (sel?.type  || 'fixed');
+    const prc = (sel?.price ?? '');
+    return `<li><strong>${g}:</strong> ${lbl} <small>(typ: ${typ}, cena: ${prc})</small></li>`;
+  }).join('') + '</ul>';
+}
+
+function buildEmailVars(orderRef, S, C){
+  // S = window.__zabudo_summary (masz to), C = getOrderCustomerData()
+  return {
+    // nagłówek
+    order_ref: orderRef,
+
+    // kwoty
+    total_pln: PLN(S.priceGross || 0),
+    deposit_pln: PLN(S.deposit || 0),
+
+    // konfiguracja
+    build_type: String(S.type || '—'),
+    build_dimensions: `${S.width || '—'} × ${S.length || '—'} m`,
+    build_heights: `okap ${S.height_eave ?? '—'} m / kalenica ${S.height_peak ?? '—'} m`,
+    options_html: optionsToHtml(S.services || []),
+
+    // klient
+    cust_name: C?.name || '—',
+    cust_phone: C?.phone || '—',
+    cust_email: C?.email || '—',
+    cust_address: C?.address_full || [C?.address_street, C?.address_postal, C?.address_city].filter(Boolean).join(', ') || '—'
+  };
+}
+
+// --- WYSYŁKA DWÓCH MAILI PRZEZ EMAILJS ---
+// Ustaw swoje identyfikatory:
+const EMAILJS_SERVICE_ID    = 'service_yabzq3j';
+const EMAILJS_TEMPLATE_ADMIN = 'template_4s8ii9u';    // szablon do Ciebie
+const EMAILJS_TEMPLATE_USER  = 'template_h8ktkzk'; // szablon do klienta
+const ADMIN_EMAIL = 'adam@zabudo.pl';
+
+async function sendOrderEmails(orderRef, S, C){
+  const vars = buildEmailVars(orderRef, S, C);
+
+  // 1) Do Ciebie
+  const toAdmin = {
+    ...vars,
+    to_email: ADMIN_EMAIL,           // utwórz w szablonie {{to_email}} lub użyj defaultowego odbiorcy
+    subject: `Nowe zamówienie ${orderRef}`
+  };
+
+  // 2) Do klienta
+  const toUser = {
+    ...vars,
+    to_email: C?.email || '',        // w szablonie ustaw odbiorcę jako {{to_email}}
+    subject: `Potwierdzenie zamówienia ${orderRef}`
+  };
+
+  // 2 równoległe wysyłki
+  await Promise.all([
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, toAdmin),
+    C?.email ? emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_USER, toUser) : Promise.resolve()
+  ]);
+}
+
+
+
+
+
+
+
+
+async function finalizeOrderAndShowPayment(){
+  // 1) Walidacja – używasz Twojej funkcji
+  if (typeof validateOrderForm === 'function' && !validateOrderForm()) return;
+
+  // 2) Dane z Twojego istniejącego kodu
+  const S = window.__zabudo_summary || {}; // {priceGross, deposit, type, width, length, services, ...}
+  const C = typeof getOrderCustomerData === 'function' ? getOrderCustomerData() : null;
+  const orderRef = genOrderRef();
+
+
+ const confirmBtn = document.getElementById('ofmConfirmBtn');
+  const prevLabel = confirmBtn ? confirmBtn.innerHTML : '';
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam potwierdzenia…';
+  }
+
+  // [NOWE] – wyślij 2 maile przez EmailJS (do Ciebie i do klienta)
+  try {
+    await sendOrderEmails(orderRef, S, C);
+    // (opcjonalnie) zachowaj w sessionStorage, jakbyś chciał użyć później
+    sessionStorage.setItem('last_order_ref', orderRef);
+  } catch (e) {
+    console.error('Błąd wysyłki maili:', e);
+    alert('Nie udało się wysłać potwierdzeń e-mail. Spróbuj ponownie lub skontaktuj się z nami.');
+    if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.innerHTML = prevLabel; }
+    return; // przerwij – nie pokazuj kroku płatności, jeśli mail nie poszedł
+  }
+
+
+
+  showStep('payment');
+  fillPaymentStep(orderRef, Number(S.deposit || 0));
+}
+
+// =======================
+//  P O D P I Ę C I A
+// =======================
+
 document.addEventListener('DOMContentLoaded', ()=>{
-  document.getElementById('year').textContent = new Date().getFullYear();
-  renderSummary();
+  // A) Upewnij się, że przycisk NIE wywołuje starego startPayment
+  const btn = document.getElementById('payDepositBtn');
+  if (btn){
+    btn.setAttribute('type','button');
+    btn.onclick = null; // na wypadek inline onclick
+    const clone = btn.cloneNode(true);  // usuwa wszystkie wcześniejsze addEventListener
+    btn.replaceWith(clone);
+    clone.addEventListener('click', (e)=>{
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      openOrderConfirmModal(); // -> Krok 1
+    });
+  }
 
-  // autouzupełnij, jeśli były wcześniej wpisane
-  const email = sessionStorage.getItem('customerEmail') || '';
-  const phone = sessionStorage.getItem('customerPhone') || '';
-  const name  = sessionStorage.getItem('customerName') || '';
-  const addr  = (sessionStorage.getItem('customerAddress') || '').split(',').map(s=>s.trim());
+  // B) Przyciski w modalu
+  const confirmBtn = document.getElementById('ofmConfirmBtn');
+  if (confirmBtn){
+    confirmBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      finalizeOrderAndShowPayment(); // Krok 1 -> Krok 2
+    });
+  }
 
-  if (document.getElementById('custEmail')) document.getElementById('custEmail').value = email;
-  if (document.getElementById('custPhone')) document.getElementById('custPhone').value = phone;
-  if (document.getElementById('custName'))  document.getElementById('custName').value  = name;
-
-  // jeśli chcesz rozbić adres automatycznie – zostaw ręcznie wpisywane; tu tylko przykład
-  document.getElementById('payDepositBtn').addEventListener('click', startPayment);
+  // C) (opcjonalnie) Enter na formularzu otwiera potwierdzenie zamiast submit
+  const form = document.getElementById('orderForm');
+  if (form){
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      openOrderConfirmModal();
+    });
+  }
 });
+</script>
 
-  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){ emailjs.init('0rODOdXhUGV-z--Ya'); })();
+</script>
+
 </body>
 </html>
