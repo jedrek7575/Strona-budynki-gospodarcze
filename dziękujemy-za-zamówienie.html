@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dziękujemy za zamówienie | Zabudo.pl</title>
+  <meta name="description" content="Potwierdzenie złożenia zamówienia – Zabudo.pl" />
+  <meta name="robots" content="noindex,nofollow" />
+
+  <!-- Fonts & CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root { --brand:#1e2022; --accent:#0d6efd; }
+    body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif; color:#1a1a1a; }
+    .navbar { box-shadow: 0 8px 24px rgba(0,0,0,.05); background:#fff; }
+    .logo { height: 36px; }
+    .hero { padding: 96px 0 32px; background:linear-gradient(180deg, rgba(13,110,253,.06), transparent); }
+    .hero h1 { font-weight:700; font-size: clamp(1.5rem, 2.5vw, 2.25rem); }
+    .hero .lead { color:#495057; }
+    .card { border: 1px solid rgba(0,0,0,.08); box-shadow: 0 10px 30px rgba(0,0,0,.05); border-radius: 16px; }
+    .muted { color:#6c757d; }
+    .divider { height:1px; background:rgba(0,0,0,.08); margin:16px 0; }
+    .badge-pill { border-radius: 999px; font-weight:600; }
+    .order-badge { font-size:.95rem; }
+    .icon-circle { width:56px; height:56px; border-radius:50%; display:grid; place-items:center; }
+    .icon-success { background:rgba(25,135,84,.1); color:#198754; }
+    .summary-list { list-style:none; padding-left:0; margin:0; }
+    .summary-list li { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px dashed rgba(0,0,0,.08); }
+    .summary-list li:last-child { border-bottom:none; }
+    .price { font-weight:700; }
+    .footer-note { font-size:.9rem; color:#6c757d; }
+    html, body { height:100%; }
+    body { display:flex; flex-direction:column; }
+  </style>
+
+  <!-- Twój globalny CSS, jeśli masz -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top bar -->
+  <nav class="navbar white navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img class="logo" src="logo_zabudo_black.webp" alt="Zabudo.pl" loading="lazy" />
+      </a>
+      <div class="ms-auto d-none d-lg-flex align-items-center gap-3">
+        <a class="text-decoration-none text-dark" href="tel:+48503702467"><i class="fa-solid fa-phone"></i> +48 503 702 467</a>
+        <a class="btn btn-sm btn-outline-dark" href="/#contact">Kontakt</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero text-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="d-inline-flex align-items-center justify-content-center gap-3 mb-3">
+            <div class="icon-circle icon-success"><i class="fa-solid fa-check fa-lg"></i></div>
+            <h1 class="m-0">Dziękujemy za zamówienie!</h1>
+          </div>
+          <p class="lead m-0">Twoje zamówienie zostało złożone. Szczegóły potwierdziliśmy wiadomością e‑mail.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="flex-grow-1 py-3 py-md-4">
+    <div class="container">
+      <div class="row justify-content-center g-4">
+        <div class="col-lg-8">
+          <div class="card p-3 p-md-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between" style="gap:12px;">
+              <span class="badge text-bg-light border badge-pill order-badge"><i class="fa-solid fa-hashtag me-1"></i>Numer zamówienia: <span id="orderRef">—</span></span>
+              <span class="badge text-bg-light border badge-pill order-badge"><i class="fa-regular fa-envelope me-1"></i><span id="custEmail">—</span></span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <h6 class="fw-semibold mb-2">Podsumowanie płatności</h6>
+                <ul class="summary-list small">
+                  <li><span>Kwota zaliczki</span><span class="price" id="depositAmount">—</span></li>
+                  <li><span>Wartość zamówienia</span><span class="price" id="totalAmount">—</span></li>
+                </ul>
+                <div class="footer-note mt-2">Po zaksięgowaniu wpłaty skontaktujemy się, aby ustalić termin montażu.</div>
+              </div>
+              <div class="col-md-6">
+                <h6 class="fw-semibold mb-2">Konfiguracja</h6>
+                <div class="small">
+                  <div><small class="text-muted">Typ</small><div id="buildType" class="fw-semibold">—</div></div>
+                  <div class="mt-2"><small class="text-muted">Wymiary</small><div id="buildDims" class="fw-semibold">—</div></div>
+                  <div class="mt-2"><small class="text-muted">Wysokości</small><div id="buildHeights" class="fw-semibold">—</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h6 class="fw-semibold">Wybrane opcje</h6>
+            <div id="optionsList" class="small"></div>
+
+            <div class="mt-4 d-flex flex-wrap gap-2 justify-content-end">
+              <a class="btn btn-primary" href="/">
+                <i class="fa-solid fa-house"></i> Wróć do strony głównej
+              </a>
+              <a class="btn btn-outline-secondary" href="/garaż.html">Złóż kolejne zamówienie</a>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <small class="text-muted d-block mt-2">
+              Jeśli nie otrzymałeś(-aś) wiadomości e-mail w ciągu kilku minut, sprawdź folder „Spam” lub skontaktuj się z nami.
+            </small>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card p-3 p-md-4">
+            <h6 class="fw-semibold mb-2">Dane kontaktowe</h6>
+            <ul class="list-unstyled small m-0">
+              <li>ZABUDO.PL spółka z o.o.</li>
+              <li>NIP 6252502129</li>
+              <li>KRS 0001194079</li>
+              <li><i class="fa-solid fa-phone me-2"></i><a class="text-decoration-none text-dark" href="tel:+48503702467">+48 503 702 467</a></li>
+              <li class="mt-1"><i class="fa-regular fa-envelope me-2"></i><a class="text-decoration-none text-dark" href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></li>
+            </ul>
+            <div class="divider"></div>
+            <div class="small text-muted">Masz pytania? Zadzwoń lub napisz – chętnie pomożemy.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Zabudo.pl</p>
+      <p>NIP: 6252502129</p>
+      <div class="footer-description">
+        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
+        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
+        <a href="polityka-prywatności.html">Polityka prywatności</a> | <a href="regulamin-sprzedaży.html">Regulamin sprzedaży</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Formatowanie PLN
+    const PLN = (g) => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN'}).format((+g||0)/100);
+
+    function renderOptions(services){
+      if (!Array.isArray(services) || !services.length) return '<p class="text-muted m-0">Brak dodatkowych opcji.</p>';
+      return '<ul class="m-0">' + services.map(s=>{
+        const g = s.group || 'Opcja';
+        const sel = s.selected || s; // kompatybilność z dwoma formatami
+        const label = (sel?.label || '—').toString().trim();
+        return `<li><strong>${g}</strong>: ${label}</li>`;
+      }).join('') + '</ul>';
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Odczyt danych z sessionStorage (z poprzedniej strony)
+      const orderRef = sessionStorage.getItem('last_order_ref') || '—';
+      const custEmail = sessionStorage.getItem('customerEmail') || '—';
+
+      // Jeżeli zapisano snapshota konfiguracji w window.__zabudo_summary na poprzedniej stronie,
+      // spróbujemy odczytać przybliżone wartości z local/sessionStorage
+      let S = null;
+      try {
+        const raw = sessionStorage.getItem('orderConfig') || sessionStorage.getItem('zabudo_order_summary');
+        if (raw) S = JSON.parse(raw);
+      } catch (e) { S = null; }
+
+      // Alternatywne źródła – to, co zapisaliśmy wcześniej w implementacji checkoutu
+      const fallback = {
+        priceGross: Number(sessionStorage.getItem('priceGross')||0),
+        deposit: Number(sessionStorage.getItem('deposit')||0),
+        type: sessionStorage.getItem('buildType') || localStorage.getItem('zabudo_type') || 'Garaż',
+        width: sessionStorage.getItem('buildWidth') || localStorage.getItem('zabudo_width') || '—',
+        length: sessionStorage.getItem('buildLength') || localStorage.getItem('zabudo_length') || '—',
+        height_eave: sessionStorage.getItem('height_eave') || '—',
+        height_peak: sessionStorage.getItem('height_peak') || '—',
+        services: []
+      };
+
+      // Spróbujmy też wyłuskać dane z poprzedniego skryptu, jeżeli były serializowane:
+      let prev = null;
+      try {
+        const prevRaw = sessionStorage.getItem('__zabudo_summary');
+        if (prevRaw) prev = JSON.parse(prevRaw);
+      } catch (e) { prev = null; }
+
+      // Zmontuj finalny model danych z priorytetem: prev -> S -> fallback
+      const model = {
+        orderRef,
+        priceGross: prev?.priceGross ?? S?.build?.priceGrosze ?? fallback.priceGross,
+        deposit: prev?.deposit ?? fallback.deposit,
+        type: prev?.type ?? S?.build?.buildType ?? fallback.type,
+        width: prev?.width ?? S?.build?.width ?? fallback.width,
+        length: prev?.length ?? S?.build?.length ?? fallback.length,
+        height_eave: prev?.height_eave ?? S?.build?.height_eave ?? fallback.height_eave,
+        height_peak: prev?.height_peak ?? S?.build?.height_peak ?? fallback.height_peak,
+        services: prev?.services ?? S?.services ?? fallback.services
+      };
+
+      // Render podstawowych pól
+      const $ = (id) => document.getElementById(id);
+      if ($('orderRef')) $('orderRef').textContent = model.orderRef;
+      if ($('custEmail')) $('custEmail').textContent = custEmail;
+      if ($('depositAmount')) $('depositAmount').textContent = model.deposit ? PLN(model.deposit) : '—';
+      if ($('totalAmount')) $('totalAmount').textContent = model.priceGross ? PLN(model.priceGross) : '—';
+      if ($('buildType')) $('buildType').textContent = model.type || '—';
+      if ($('buildDims')) $('buildDims').textContent = `${model.width || '—'} × ${model.length || '—'} m`;
+      if ($('buildHeights')) $('buildHeights').textContent = `okap ${model.height_eave ?? '—'} m / kalenica ${model.height_peak ?? '—'} m`;
+      if ($('optionsList')) $('optionsList').innerHTML = renderOptions(model.services);
+
+      // Zapisz model jako snapshot (pomocne przy debugowaniu lub ewentualnym powrocie)
+      try { sessionStorage.setItem('zabudo_thanks_snapshot', JSON.stringify(model)); } catch(_){ }
+    });
+  </script>
+</body>
+</html>
