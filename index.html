@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+
+  <link rel="preload" as="image" href="tlo2.webp" fetchpriority="high">
+
+
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zabudo.pl - Wszystko zaczyna się od marzenia</title>
@@ -137,45 +142,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const hero = document.getElementById('hero');
   if (!hero) return;
 
-  // Twoja lista obrazów (podaj pełne ścieżki względne/absolutne)
-  const images = ['tlo2.webp','tlo1.webp','tlo3.webp','tlo5.webp'];
+  // Pełne ścieżki!
+  const images = ['tlo2.webp','tlo1.webp','tlo5.webp','tlo3.webp'];
 
   let index = 0;
   let timer = null;
 
-  // Preload jednego obrazka i dopiero wtedy podmiana tła
-  const preload = (url) => new Promise((resolve) => {
+  // Proste API do „rozgrzewania” obrazów (równolegle)
+  const warm = (url, priority = 'auto') => new Promise((resolve) => {
     const img = new Image();
-    img.fetchPriority = 'low';           // nie blokuj LCP
+    // Priority Hints działają na <img>, również tworzonym przez new Image()
+    img.fetchPriority = priority;           // 'high' dla pierwszego, 'low' dla reszty
+    img.decoding = 'async';
     img.src = url;
-    if (img.decode) {
-      img.decode().then(resolve).catch(resolve);
-    } else {
-      img.onload = img.onerror = resolve;
-    }
+    img.onload = img.onerror = () => resolve(url);
   });
 
-  const swap = async () => {
-    const nextUrl = images[(index + 1) % images.length];
-    await preload(nextUrl);                              // dociągnij dopiero teraz
-    index = (index + 1) % images.length;
-    hero.style.backgroundImage = `url("${images[index]}")`;
-    timer = setTimeout(swap, 6000);                     // następna rotacja
-  };
+  // Rozpocznij od razu: pierwszy kadr wysoko, reszta w tle nisko
+  const firstReady = warm(images[0], 'high');
+  const othersReady = images.slice(1).map(u => warm(u, 'low'));
 
-  // Zacznij dopiero, gdy hero jest blisko widoku (lazy start)
-  const io = new IntersectionObserver(async ([entry], obs) => {
-    if (!entry.isIntersecting) return;
-    obs.disconnect();
-
-    await preload(images[0]);                           // pierwszy obraz „na żądanie”
+  // Ustawienie pierwszego tła jak tylko będzie gotowe
+  firstReady.then(() => {
+    index = 0;
     hero.style.backgroundImage = `url("${images[0]}")`;
     timer = setTimeout(swap, 6000);
-  }, { rootMargin: '200px 0px' });                      // prefetch ~200px przed wejściem
+  });
 
-  io.observe(hero);
+  // Rotacja NIE czeka na sieć – zakładamy, że obrazy są już w cache,
+  // bo poszły równolegle na starcie
+  const swap = () => {
+    index = (index + 1) % images.length;
+    hero.style.backgroundImage = `url("${images[index]}")`;
+    timer = setTimeout(swap, 6000);
+  };
 
-  // Oszczędzaj transfer: pauzuj w tle, wznawiaj na powrót
+  // Pauza gdy karta w tle
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       clearTimeout(timer);
@@ -184,9 +186,20 @@ document.addEventListener('DOMContentLoaded', () => {
       timer = setTimeout(swap, 6000);
     }
   });
+
+  // (Opcjonalnie) jeżeli chcesz wstrzymać start aż hero będzie blisko,
+  // to i tak rozgrzewaj obrazy od razu; tylko pokazanie pierwszego opóźnij:
+  // const io = new IntersectionObserver(([entry], obs) => {
+  //   if (!entry.isIntersecting) return;
+  //   obs.disconnect();
+  //   firstReady.then(() => {
+  //     hero.style.backgroundImage = `url("${images[0]}")`;
+  //     timer = setTimeout(swap, 6000);
+  //   });
+  // }, { rootMargin: '200px 0px' });
+  // io.observe(hero);
 });
 </script>
-
 
   <!-- Hero -->
   <section id="hero" class="text-center d-flex">
