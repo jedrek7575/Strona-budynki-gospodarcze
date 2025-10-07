@@ -76,7 +76,7 @@
           <div class="card p-3 p-md-4">
             <div class="d-flex flex-wrap align-items-center justify-content-between" style="gap:12px;">
               <span class="badge text-bg-light border badge-pill order-badge"><i class="fa-solid fa-hashtag me-1"></i>Numer zamówienia: <span id="orderRef">—</span></span>
-              <span class="badge text-bg-light border badge-pill order-badge"><i class="fa-regular fa-envelope me-1"></i><span id="custEmail">—</span></span>
+              
             </div>
 
             <div class="divider"></div>
@@ -153,8 +153,18 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Formatowanie PLN
+    // Formatowanie PLN + pomocnicze parsowanie i obliczenie zaliczki
     const PLN = (g) => new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN'}).format((+g||0)/100);
+    const parsePLNToGrosze = (txt) => {
+      if (!txt) return 0;
+      const n = (txt+"").replace(/[^0-9,\.]/g,'').replace(',', '.');
+      return Math.round((parseFloat(n)||0)*100);
+    };
+    const computeDepositGrosze = (totalGrosze) => {
+      const pct = Math.round((+totalGrosze * 20) / 100);
+      const min = 300 * 100; // 300 PLN
+      return Math.max(pct, min);
+    };
 
     function renderOptions(services){
       if (!Array.isArray(services) || !services.length) return '<p class="text-muted m-0">Brak dodatkowych opcji.</p>';
@@ -169,19 +179,25 @@
     document.addEventListener('DOMContentLoaded', ()=>{
       document.getElementById('year').textContent = new Date().getFullYear();
 
-      // Odczyt danych z sessionStorage (z poprzedniej strony)
+      // Odczyt danych podstawowych
       const orderRef = sessionStorage.getItem('last_order_ref') || '—';
       const custEmail = sessionStorage.getItem('customerEmail') || '—';
 
-      // Jeżeli zapisano snapshota konfiguracji w window.__zabudo_summary na poprzedniej stronie,
-      // spróbujemy odczytać przybliżone wartości z local/sessionStorage
+      // 1) Spróbuj pełnej konfiguracji z sessionStorage (ustawianej przez konfigurator)
       let S = null;
       try {
         const raw = sessionStorage.getItem('orderConfig') || sessionStorage.getItem('zabudo_order_summary');
         if (raw) S = JSON.parse(raw);
       } catch (e) { S = null; }
 
-      // Alternatywne źródła – to, co zapisaliśmy wcześniej w implementacji checkoutu
+      // 2) Spróbuj migawki z poprzedniej strony, jeśli ktoś ją zapisał
+      let prev = null;
+      try {
+        const prevRaw = sessionStorage.getItem('__zabudo_summary');
+        if (prevRaw) prev = JSON.parse(prevRaw);
+      } catch (e) { prev = null; }
+
+      // 3) Fallbacki do pojedynczych kluczy
       const fallback = {
         priceGross: Number(sessionStorage.getItem('priceGross')||0),
         deposit: Number(sessionStorage.getItem('deposit')||0),
@@ -193,18 +209,18 @@
         services: []
       };
 
-      // Spróbujmy też wyłuskać dane z poprzedniego skryptu, jeżeli były serializowane:
-      let prev = null;
-      try {
-        const prevRaw = sessionStorage.getItem('__zabudo_summary');
-        if (prevRaw) prev = JSON.parse(prevRaw);
-      } catch (e) { prev = null; }
+      // Wyciągnij cenę z różnych możliwych miejsc w S
+      const priceFromS = (()=>{
+        if (!S) return 0;
+        if (typeof S?.build?.priceGrosze === 'number') return S.build.priceGrosze;
+        if (S?.build?.shownPrice) return parsePLNToGrosze(S.build.shownPrice);
+        return 0;
+      })();
 
-      // Zmontuj finalny model danych z priorytetem: prev -> S -> fallback
       const model = {
         orderRef,
-        priceGross: prev?.priceGross ?? S?.build?.priceGrosze ?? fallback.priceGross,
-        deposit: prev?.deposit ?? fallback.deposit,
+        priceGross: prev?.priceGross ?? priceFromS ?? fallback.priceGross,
+        deposit: prev?.deposit ?? fallback.deposit, // jeśli tu brak – policzymy niżej
         type: prev?.type ?? S?.build?.buildType ?? fallback.type,
         width: prev?.width ?? S?.build?.width ?? fallback.width,
         length: prev?.length ?? S?.build?.length ?? fallback.length,
@@ -213,7 +229,12 @@
         services: prev?.services ?? S?.services ?? fallback.services
       };
 
-      // Render podstawowych pól
+      // Jeżeli nie mamy zaliczki, oblicz ją z całkowitej
+      if (!model.deposit && model.priceGross) {
+        model.deposit = computeDepositGrosze(model.priceGross);
+      }
+
+      // Render
       const $ = (id) => document.getElementById(id);
       if ($('orderRef')) $('orderRef').textContent = model.orderRef;
       if ($('custEmail')) $('custEmail').textContent = custEmail;
@@ -224,7 +245,7 @@
       if ($('buildHeights')) $('buildHeights').textContent = `okap ${model.height_eave ?? '—'} m / kalenica ${model.height_peak ?? '—'} m`;
       if ($('optionsList')) $('optionsList').innerHTML = renderOptions(model.services);
 
-      // Zapisz model jako snapshot (pomocne przy debugowaniu lub ewentualnym powrocie)
+      // Opcjonalnie: zapisz snapshot do debugowania
       try { sessionStorage.setItem('zabudo_thanks_snapshot', JSON.stringify(model)); } catch(_){ }
     });
   </script>
