@@ -656,17 +656,14 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 <div class="sklep-wrapper" id="top">
 
   <div class="kreator-welcome" id="kreator-budynku">
-<h1>Zaprojektuj garaż swoich marzeń!</h1>
+<h1>Zaprojektuj dom swoich marzeń!</h1>
 
   </div>
 
 
 
 
-    <div id="burgerMenu" class="burger-menu">
-      <button data-target="container1" class="btn btn-sm btn-outline-dark active">garaż jednostanowiskowy</button>
-      <button data-target="container2" class="btn btn-sm btn-outline-dark">garaż dwustanowiskowy</button>
-    </div>
+
 
     <button class="konfiguracja">szczegółowa konfiguracja</button>
 
@@ -683,16 +680,55 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
   <div class="opcje">
     
-     <label class="opcja-1">
-      <input type="checkbox" data-type="sqm" data-price="74"/> 50 mm
-    </label>
 
-        <label class="opcja-2">
+        <label class="opcja-1">
       <input type="checkbox" data-type="sqm" data-price="134"/> 100 mm
     </label>
 
-    <label class="opcja-3">
+    <label class="opcja-2">
       <input type="checkbox" data-type="sqm" data-price="157"/> 150 mm
+    </label>
+
+  </div>
+      </div>
+
+
+
+      <div class="pole-wyboru">
+        
+<div class="pole-wyboru-tytuł">
+      <input type="checkbox" class="main-check" /> Ocieplenie podłogi
+</div>
+
+  <div class="opcje">
+    
+
+        <label class="opcja-1">
+      <input type="checkbox" data-type="sqm" data-price="48"/> 100 mm
+    </label>
+
+    <label class="opcja-2">
+      <input type="checkbox" data-type="sqm" data-price="64"/> 150 mm
+    </label>
+
+  </div>
+      </div>
+
+      <div class="pole-wyboru">
+        
+<div class="pole-wyboru-tytuł">
+      <input type="checkbox" class="main-check" /> Taras
+</div>
+
+  <div class="opcje">
+    
+
+        <label class="opcja-1">
+      <input type="checkbox" data-type="fixed" data-price="4897"/> 4.5m²
+    </label>
+
+    <label class="opcja-2">
+      <input type="checkbox" data-type="fixed" data-price="6894"/> 7m²
     </label>
 
   </div>
@@ -708,20 +744,13 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
   <div class="opcje">
     
-     <label class="opcja-1">
-      <input type="checkbox" data-type="sqm" data-price="97"/> Płyty chodnikowe na podsypce piaskowej
+
+    <label class="opcja-1">
+      <input type="checkbox" data-type="sqm" data-price="186"/> Płyta betonowa
     </label>
 
         <label class="opcja-2">
-      <input type="checkbox" data-type="sqm" data-price="138"/> Płyty chodnikowe z dodatkowym utwardzeniem podłoża
-    </label>
-
-    <label class="opcja-3">
-      <input type="checkbox" data-type="sqm" data-price="156"/> Płyta betonowa
-    </label>
-
-        <label class="opcja-4">
-      <input type="checkbox" data-type="sqm" data-price="185"/> Płyta betonowa z dodatkowym utwardzeniem podłoża
+      <input type="checkbox" data-type="sqm" data-price="217"/> Płyta betonowa z dodatkowym utwardzeniem podłoża
     </label>
 
   </div>
@@ -747,6 +776,10 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
     <label class="opcja-3">
       <input type="checkbox" data-type="fixed" data-price="6365"/> trzy
+    </label>
+
+        <label class="opcja-4">
+      <input type="checkbox" data-type="fixed" data-price="8561"/> cztery
     </label>
 
   </div>
@@ -775,13 +808,13 @@ async function ensureEmbeddedFont(jsPDF, pdf){
         <div class="range-section">
    
           <div class="mb-3">
-            <label for="widthRange1">Szerokość (3–10 m):</label>
-            <input type="range"  id="widthRange1" min="3" max="10" step="0.1" value="6" />
+            <label for="widthRange1">Szerokość (5–10 m):</label>
+            <input type="range"  id="widthRange1" min="5" max="10" step="0.1" value="6" />
             <span id="widthValue1">6</span> m
           </div>
           <div class="mb-3">
-            <label for="lengthRange1">Długość (3–10 m):</label>
-            <input type="range" id="lengthRange1" min="3" max="10" step="0.1" value="6" />
+            <label for="lengthRange1">Długość (5–10 m):</label>
+            <input type="range" id="lengthRange1" min="5" max="10" step="0.1" value="6" />
             <span id="lengthValue1">6</span> m
           </div>
 
@@ -797,8 +830,8 @@ async function ensureEmbeddedFont(jsPDF, pdf){
         <div class="range-selection-height">
          
   <div class="mb-3">
-  <label for="heightRange1">Okap (2–5.8 m):</label>
-  <input type="range" id="heightRange1" min="2" max="5.8" step="0.1" value="3.5" />
+  <label for="heightRange1">Okap (2.5–5.8 m):</label>
+  <input type="range" id="heightRange1" min="2.5" max="5.8" step="0.1" value="3.5" />
   <span id="heightValue1">3.5</span> m
 </div>
 
@@ -838,64 +871,7 @@ async function ensureEmbeddedFont(jsPDF, pdf){
       </div>
 
 
-      <!-- Kontener 2: Garaż 2 stanowiska -->
 
- <div id="container2" class="build-container">
-  <h2 class="section-title">Garaż dwustanowiskowy</h2>
-
-  <div class="range-section">
-    <p>Wybierz przybliżone wymiary budynku i poznaj szacunkową cenę:</p>
-
-    <div class="mb-3">
-      <label for="widthRange2">Szerokość (5–10 m):</label>
-      <input type="range" id="widthRange2" min="5" max="10" step="0.1" value="7" />
-      <span id="widthValue2">7</span> m
-    </div>
-
-    <div class="mb-3">
-      <label for="lengthRange2">Długość (3–10 m):</label>
-      <input type="range" id="lengthRange2" min="3" max="10" step="0.1" value="6" />
-      <span id="lengthValue2">6</span> m
-    </div>
-
-    <div class="dimensions-map">
-      <div class="building-map map2"></div>
-    </div>
-
-    <div class="range-selection-height">
-      <div class="mb-3">
-        <label for="heightRange2">Wysokość w najniższym punkcie (2–5.8 m):</label>
-        <input type="range" id="heightRange2" min="2" max="5.8" step="0.1" value="3.5" />
-        <span id="heightValue2">3.5</span> m
-      </div>
-
-      <div class="mb-3">
-        <label for="heightPeakRange2">Wysokość w najwyższym punkcie (2–6 m):</label>
-        <input type="range" id="heightPeakRange2" min="2" max="6" step="0.1" value="4.2" />
-        <span id="heightPeakValue2">4.2</span> m
-      </div>
-
-      <div class="dimensions-map-height">
-        <div class="building-map-height mapheight"></div>
-      </div>
-
-      <div class="price-box">
-        Szacowana cena: <strong id="priceEstimate2">(Dostosuj wymiary)</strong>
-            <div class="price-box-buttons">
-
-              <button type="button"
-        class="btn btn-secondary mt-3 js-save-project"
-        data-bs-toggle="modal"
-        data-bs-target="#saveProjectModal">
-  Zapisz projekt
-</button>
-
-            <a href="podsumowanie.html" class="btn btn-secondary mt-3">Zamów teraz!</a>
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
 
     </div>  
 
@@ -1954,8 +1930,8 @@ function updateCalculator(containerId) {
   const area   = width * length;
 
   const pricePerSquareMeter = {
-    container1: 318,
-    container2: 318,
+    container1: 618,
+    
   };
 
   const baseRate = pricePerSquareMeter[`container${containerId}`] || 0;
