@@ -9,7 +9,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-weight: 900;
   margin: 0;
-  background-color: #f8f6f3;
+  background-color: #f4f4f4;
   color: #333;
   overflow-x: hidden !important;
   line-height: 1.6;
@@ -122,7 +122,7 @@ background-color: rgb(0, 0, 0);
 
 .navbar-brand,
 .nav-link {
-  color: #fff !important;
+  color: #fff;
 }
 .navbar.white .navbar-brand,
 .navbar.white .nav-link {
@@ -135,7 +135,7 @@ background-color: rgb(0, 0, 0);
 
 /* === HERO === */
 #hero {
-  background: url('tlo2.webp') center/cover no-repeat;
+  background: url('tloosiedle.webp') center/cover no-repeat;
   min-height: 110vh;
   position: relative;
   color: white;
@@ -712,11 +712,11 @@ align-items: space-between;
 }
 
 .range-section {
-  background: #fff;
+  background: #ffffff00;
   padding: 2rem;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  width: 60%;
+ 
+  width: 100%;
  display: flex;
  flex-direction: column;
   margin: auto;
@@ -726,37 +726,56 @@ align-items: space-between;
 
 
 .price-box {
-  margin-top: 1rem;
+  margin-top: 3rem;
   font-weight: bold;
   font-size: 1.5rem;
-  color: #d2601a;
+  color: #000000;
   display: flex;
-  flex-direction: column;
+  flex-direction: row !important;
+  gap: 10%;
   display: flex;
-  align-self: center;
+  align-self: flex-end;
   justify-self: center;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  background-color: rgb(255, 255, 255) !important;
+
+  transform: scale(80%);
 }
 
 .price-box-buttons {
   display: flex;
+  flex-direction: column;
   gap: 2%;
   align-items: center;
   justify-content: center;
+  width: 50%;
+
+  
+}
+
+.price-box-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  font-weight: 400;
 }
 
 .price-box-buttons .btn {
-  width: 50% !important;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 
 
   color: #fff;
-  font-weight: 600;
+  font-weight: 400;
   border: none;
   padding: 0.75rem 2rem;
-  border-radius: 20px;
+  border-radius: 10px;
   transition: 0.1s ;
   cursor: pointer;
   width: 100%; /* Ustawiamy pełną szerokość w ramach price-box */
@@ -847,11 +866,12 @@ align-items: space-between;
   text-align: center;
   min-height: 80vh;
   height: auto;
-  width: 50vw;
+  width: 100vw;
   position: relative;
   align-self: center;
   justify-self: center;
-  
+  z-index: 2;
+  background-color: #f4f4f4;
 }
 
 #contact .btn {
@@ -1120,10 +1140,11 @@ footer {
 
 #container1 {
   position: relative;
-  width: 100vw;
+  width: 90%;
   top: 2%;
   left: 0;
   height: auto;
+  
 }
 
 #container2 {
@@ -1688,18 +1709,33 @@ margin-bottom: 2vh;
 
 /*Sklep*/
 
-.sklep-wrapper {
-  height: auto;
-  max-width: 100vw;
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  display: flex;
-  flex-direction: column;
-  gap: 2%;
-  padding: 2%;
+
+
+.kreator-menu-wyboru {
+  width: 35vw;
+  float: right;
+  height: 100vh;
+ 
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  display: flex;
+  padding-top: 4%;
+  position: relative;
+  z-index: 1;
+}
+
+.kreator-menu-wyboru-wrapper {
+  position: fixed;
+}
+
+.sklep-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100vw;
+  min-height: 80vh;
 }
 
 .karty1 {
@@ -1819,7 +1855,25 @@ transition: 0.1s ease-in-out;
 
 
 
-/* === LANDING PAGE - uniwersalny === */
+/* === konfigurator === */
+
+.navbar {
+  background-color: rgb(167, 110, 40);
+  transition: 0.3s ease-in-out;
+  width: auto;
+  z-index: 1000;
+  position: fixed;
+  
+}
+
+#ikonablackkonfigurator {
+  height: 30px;
+  width: auto;
+  margin-right: 1%;
+  transition: 0.1s ease-in-out;
+}
+
+
 
 
 #zwijane-menu-btn {
@@ -1928,12 +1982,14 @@ transition: 0.1s ease-in-out;
 
 .usługi-menu-wyboru {
   display: none;
-  background-color: white;
-   box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  
+  
   padding: 2%;
-  width: 95vw;
+  width: 100%;
   justify-content: center;
   align-items: start;
+  position: absolute;
+  top: 20%;
 }
 
 .usługi-menu-wyboru.aktywny {
@@ -1996,13 +2052,14 @@ font-size: 0.9rem;
 
 .build-type-wrapper { 
   height: auto;
-  max-width: 100vw;
+  width: 65vw;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   overflow-x: hidden;
   position: relative;
+  float: left;
 }
 
 .building-map { position: relative; }
@@ -2073,3 +2130,4 @@ justify-self: center ;
  border: 2px solid #b33434;
  background-color: #b33434;
 }
+

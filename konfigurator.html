@@ -607,10 +607,10 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
 <body>
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav class="navbar konfigurator navbar-expand-lg fixed-top" style="background-color: transparent;">
     <div class="container">
-     <a href="index.html"> <img id="ikonazab" src="logo_zabudo_white.webp" alt="Logo białe"  loading="lazy" /></a>
-      <a href="index.html"> <img id="ikonablack" src="logo_zabudo_black.webp" alt="Logo czarne"  loading="lazy" /></a>
+    
+      <a href="index.html"> <img id="ikonablackkonfigurator" src="logo_zabudo_black.webp" alt="Logo czarne"  loading="lazy" /></a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <div class="line"></div>
@@ -619,12 +619,12 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto" style="color: black;">
  
 
-          <li class="nav-item"><a class="nav-link" href="#top">Kreator budynku</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
-           <li class="nav-item"><a class="nav-link" href="#footer">Wizytówka</a></li>
+          <li class="nav-item"><a style="color: black;" class="nav-link" href="#top">Kreator budynku</a></li>
+          <li class="nav-item"><a style="color: black;" class="nav-link" href="#contact">Kontakt</a></li>
+           <li class="nav-item"><a style="color: black;" class="nav-link" href="#footer">Wizytówka</a></li>
   
         </ul>
       </div>
@@ -655,15 +655,9 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
 <div class="sklep-wrapper" id="top">
 
-  <div class="kreator-welcome" id="kreator-budynku">
-<h1>Zaprojektuj dom swoich marzeń!</h1>
 
-  </div>
-
-
-
-
-
+<div class="kreator-menu-wyboru">
+  <div class="kreator-menu-wyboru-wrapper">
 
     <button class="konfiguracja">szczegółowa konfiguracja</button>
 
@@ -674,9 +668,9 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
       <div class="pole-wyboru">
         
-<div class="pole-wyboru-tytuł">
+<label class="pole-wyboru-tytuł">
       <input type="checkbox" class="main-check" /> Ocieplenie
-</div>
+</label>
 
   <div class="opcje">
     
@@ -696,9 +690,9 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
       <div class="pole-wyboru">
         
-<div class="pole-wyboru-tytuł">
+<label class="pole-wyboru-tytuł">
       <input type="checkbox" class="main-check" /> Ocieplenie podłogi
-</div>
+</label>
 
   <div class="opcje">
     
@@ -716,9 +710,9 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
       <div class="pole-wyboru">
         
-<div class="pole-wyboru-tytuł">
+<label class="pole-wyboru-tytuł">
       <input type="checkbox" class="main-check" /> Taras
-</div>
+</label>
 
   <div class="opcje">
     
@@ -738,9 +732,9 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
        <div class="pole-wyboru">
         
-<div class="pole-wyboru-tytuł">
+<label class="pole-wyboru-tytuł">
       <input type="checkbox" class="main-check" /> Fundament
-</div>
+</label>
 
   <div class="opcje">
     
@@ -760,9 +754,9 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
            <div class="pole-wyboru">
         
-<div class="pole-wyboru-tytuł">
+<label class="pole-wyboru-tytuł">
       <input type="checkbox" class="main-check" /> Okna
-</div>
+</label>
 
   <div class="opcje">
     
@@ -788,9 +782,9 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
  <div class="pole-wyboru" style="display: none;">
         
-<div class="pole-wyboru-tytuł">
+<label class="pole-wyboru-tytuł">
       <input type="checkbox" class="main-check" /> Warstwa wykończeniowa podłogi
-</div>
+</label>
 
   <div class="opcje">
     
@@ -815,16 +809,50 @@ async function ensureEmbeddedFont(jsPDF, pdf){
     </div>
 
 
+</div>
 
+</div>
 
     
 
     <div class="build-type-wrapper text-center mb-3">
 
+
+
+
+
+
+      
       <!-- Kontener 1: Garaż 1 -->
 
       <div id="container1" class="build-container active">
-        <h2 class="section-title">Domek letniskowy</h2>
+     
+          <div class="price-box">
+
+
+          <div class="price-box-text">
+          
+            <p>Szacowana cena: </p> <p id="priceEstimate1">(Dostosuj wymiary) </p>
+</div>
+
+
+            <div class="price-box-buttons">
+
+                   <button type="button"
+        class="btn btn-secondary mt-3 js-save-project"
+        data-bs-toggle="modal"
+        data-bs-target="#saveProjectModal">
+  Zapisz projekt
+</button>
+
+
+            <a href="podsumowanie.html" class="btn btn-secondary mt-3">Zamów teraz!</a>
+          </div>
+
+
+
+          </div>
+
 
 
         <div class="range-section">
@@ -872,22 +900,8 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
 
 
-          <div class="price-box">
-            Szacowana cena: <strong id="priceEstimate1">(Dostosuj wymiary)</strong> 
 
-            <div class="price-box-buttons">
-
-                   <button type="button"
-        class="btn btn-secondary mt-3 js-save-project"
-        data-bs-toggle="modal"
-        data-bs-target="#saveProjectModal">
-  Zapisz projekt
-</button>
-
-            <a href="podsumowanie.html" class="btn btn-secondary mt-3">Zamów teraz!</a>
-          </div>
           
-          </div>
         </div>
       </div>
       </div>
@@ -896,6 +910,15 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
 
     </div>  
+
+
+
+</div>
+
+
+
+
+
 
 
       <!-- Obsługa pól wyboru -->
@@ -1700,7 +1723,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Ustawiamy odpowiednią nazwę budynku w formularzu
       const buildingNameField = document.querySelector('textarea[name="message"]');
-      buildingNameField.value = `Dzień dobry! Interesuje mnie ${title} z dostawą do (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.`;
+      buildingNameField.value = `Dzień dobry! Interesuje mnie budynek z dostawą do (wpisz miejscowość). Proszę o jak najszybszą odpowiedź.`;
 
       // Usuwamy fragment o wymiarach z formularza
       const dimensionsField = document.getElementById('dimensions1');

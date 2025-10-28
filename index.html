@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!hero) return;
 
   // Pełne ścieżki!
-  const images = ['tlo2.webp','tlo1.webp','tlo5.webp','tlo3.webp'];
+  const images = ['tloosiedle.webp','konstrukcja.webp','tlo5.webp','tlo1.webp'];
 
   let index = 0;
   let timer = null;
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="container hero-content">
       <h1>Wszystko zaczyna się od marzenia</h1>
       <p>Budujemy wiaty, garaże i domki letniskowe, tworząc inwestycje, które przeniosą Twój biznes i Twoje życie na wyższy poziom.</p>
-      <a href="#advantages" id="scrollToDimensions" class="btn btn-primary btn-desktop">Dowiedz się, dlaczego jesteśmy najlepsi</a>
+      <a href="konfigurator.html" id="scrollToDimensions" class="btn btn-primary btn-desktop">Skonfiguruj swój wymarzony budynek</a>
             <a href="#advantages-mobilne" id="scrollToDimensions" class="btn btn-primary btn-mobilne">Dowiedz się, dlaczego jesteśmy najlepsi</a>
     </div>
 
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-<div id="oferta" class="oferta">
+<div id="oferta" class="oferta" style="display: none;">
 
 <div class="menuoferta">
   <button class="sklep" data-target="sklep">SKLEP</button>
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     </a>
 
-
+</div>
 </div>
 
 
@@ -972,7 +972,7 @@ Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz 
 
 
   <!-- Gallery -->
-  <section id="gallery">
+  <section id="gallery" style="display: none;">
     <div class="container">
       <h2 class="section-title">Galeria realizacji</h2>
       <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
