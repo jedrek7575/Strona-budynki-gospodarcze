@@ -1955,11 +1955,11 @@ transition: 0.1s ease-in-out;
 }
 
 .konfiguracja {
-
+display: none;;
     border: 3px solid rgb(0, 0, 0);
   background-color: #ffffff74;
   border-radius: 4px;
-  margin-top: 1%;
+ 
   margin-bottom: 1%;
   font-weight: 900;
 }
@@ -1981,14 +1981,14 @@ transition: 0.1s ease-in-out;
 }
 
 .usługi-menu-wyboru {
-  display: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
   
-  
-  padding: 2%;
   width: 100%;
   justify-content: center;
   align-items: start;
-  position: absolute;
+ 
   top: 20%;
 }
 
@@ -1999,6 +1999,7 @@ transition: 0.1s ease-in-out;
 
 .pole-wyboru {
   display: flex;
+  
   padding: 2%;
   flex-direction: column;
   font-weight: 900;
