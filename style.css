@@ -1325,6 +1325,9 @@ footer {
     border: 1px solid #ddd; /* Obramowanie mapki */
 }
 
+#container1 {
+  width: 100% !important;
+}
 
 }
 
@@ -1825,14 +1828,18 @@ margin-bottom: 2vh;
 .kreator-menu-wyboru {
   width: 35vw;
   float: right;
-  height: 100vh;
+  height: auto !important;
  
   justify-content: center;
   align-items: flex-start;
-  display: none !important;
+  
   padding-top: 4%;
   position: relative;
   z-index: 1;
+}
+
+.konfiguracja {
+  display: none !important;
 }
 
 }
@@ -1847,7 +1854,7 @@ margin-bottom: 2vh;
   flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: space-between;
-
+  
   width: 100vw;
   min-height: 80vh;
 }
@@ -1990,6 +1997,29 @@ transition: 0.1s ease-in-out;
   width: auto;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
+
+.spot.vert {
+  display: none;
+}
+
+@media (max-width: 576px) {
+
+.sekcjawideo {
+  height: 100vh;
+      padding-top: 0vh;
+}
+
+  .spot {
+    display: none;
+    height: 100vh;
+
+  }
+
+  .spot.vert {
+    display: block;
+  }
+}
+
 
 .navbar {
   background-color: rgb(167, 110, 40);
