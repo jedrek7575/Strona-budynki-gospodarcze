@@ -123,8 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
  
-           <li class="nav-item"><a class="nav-link onasdesk" href="#advantages">O nas</a></li>
-            <li class="nav-item"><a class="nav-link onasmob" href="#advantages-mobilne">O nas</a></li>
+           <li class="nav-item"><a class="nav-link" href="#proces">Nasz proces</a></li>
+
           <li class="nav-item"><a class="nav-link" href="#oferta">Oferta</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
           <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
@@ -135,191 +135,186 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+<section id="hero" class="text-center d-flex">
 
-  <!-- Rotacja tła hero -->
+  <!-- Minimalistyczny przycisk odmutowania -->
+  <button id="unmuteBtn" class="unmute-btn" title="Włącz dźwięk">
+    <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
+  </button>
+
+  <!-- DESKTOP -->
+  <video id="heroVideoDesktop" class="hero-video-desktop" muted playsinline preload="none"></video>
+
+  <!-- MOBILE -->
+  <div id="heroVideosMobile" class="hero-videos-mobile">
+    <div class="video-screen">
+      <video src="/Spoty/Spot1vert.webm" muted playsinline preload="none"></video>
+      <div class="scroll-arrow animated-arrows">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="video-screen">
+      <video src="/Spoty/Spot3vert.webm" playsinline preload="none"></video>
+      <div class="scroll-arrow animated-arrows">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="video-screen">
+      <video src="/Spoty/Spot1vert.webm"  playsinline preload="none"></video>
+      <div class="scroll-arrow animated-arrows">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="video-screen">
+      <video src="/Spoty/Spot1vert.webm"  playsinline preload="none"></video>
+      <a href="#proces" class="scroll-arrow animated-arrows" style="display: none;">
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
+      <a href="konfigurator.html" class="konfigurator">
+  Przejdź do konfiguratora
+</a>
+    </div>
+  </div>
+
+</section>
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const hero = document.getElementById('hero');
-  if (!hero) return;
+document.addEventListener("DOMContentLoaded", function() {
 
-  // Pełne ścieżki!
-  const images = ['tloosiedle.webp','konstrukcja.webp','tlo2.webp','tlo5.webp'];
+  // ========================
+  // OBSŁUGA WIDOKU
+  // ========================
+  const isDesktop = window.innerWidth >= 768;
+  const desktopPlayer = document.getElementById("heroVideoDesktop");
+  const mobileContainer = document.getElementById("heroVideosMobile");
+  const mobileScreens = document.querySelectorAll('.video-screen');
 
-  let index = 0;
-  let timer = null;
+  if(isDesktop){
+    // pokaż desktop, ukryj mobilne
+    desktopPlayer.style.display = 'block';
+    mobileContainer.style.display = 'none';
+    desktopPlayer.preload = 'auto';
+    desktopPlayer.autoplay = true;
+  } else {
+    // pokaż mobilne, ukryj desktop
+    desktopPlayer.style.display = 'none';
+    mobileContainer.style.display = 'block';
+  }
 
-  // Proste API do „rozgrzewania” obrazów (równolegle)
-  const warm = (url, priority = 'auto') => new Promise((resolve) => {
-    const img = new Image();
-    // Priority Hints działają na <img>, również tworzonym przez new Image()
-    img.fetchPriority = priority;           // 'high' dla pierwszego, 'low' dla reszty
-    img.decoding = 'async';
-    img.src = url;
-    img.onload = img.onerror = () => resolve(url);
-  });
+  // ========================
+  // ZMIENNE AKTUALNEGO WIDEO
+  // ========================
+  let currentVideo = isDesktop ? desktopPlayer : null;
 
-  // Rozpocznij od razu: pierwszy kadr wysoko, reszta w tle nisko
-  const firstReady = warm(images[0], 'high');
-  const othersReady = images.slice(1).map(u => warm(u, 'low'));
+  // ========================
+  // DESKTOP – sekwencja filmów
+  // ========================
+  if(isDesktop){
+    const films = ["/Spoty/Spot1.webm","/Spoty/Spot1.webm","/Spoty/Spot1.webm","/Spoty/Spot1.webm"];
+    let index = 0;
 
-  // Ustawienie pierwszego tła jak tylko będzie gotowe
-  firstReady.then(() => {
-    index = 0;
-    hero.style.backgroundImage = `url("${images[0]}")`;
-    timer = setTimeout(swap, 6000);
-  });
-
-  // Rotacja NIE czeka na sieć – zakładamy, że obrazy są już w cache,
-  // bo poszły równolegle na starcie
-  const swap = () => {
-    index = (index + 1) % images.length;
-    hero.style.backgroundImage = `url("${images[index]}")`;
-    timer = setTimeout(swap, 6000);
-  };
-
-  // Pauza gdy karta w tle
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      clearTimeout(timer);
-      timer = null;
-    } else if (!timer) {
-      timer = setTimeout(swap, 6000);
+    function playNext(){
+      desktopPlayer.src = films[index];
+      desktopPlayer.play().catch(()=>{});
+      currentVideo = desktopPlayer;
+      index++;
+      if(index >= films.length) index = 0;
     }
-  });
 
-  // (Opcjonalnie) jeżeli chcesz wstrzymać start aż hero będzie blisko,
-  // to i tak rozgrzewaj obrazy od razu; tylko pokazanie pierwszego opóźnij:
-  // const io = new IntersectionObserver(([entry], obs) => {
-  //   if (!entry.isIntersecting) return;
-  //   obs.disconnect();
-  //   firstReady.then(() => {
-  //     hero.style.backgroundImage = `url("${images[0]}")`;
-  //     timer = setTimeout(swap, 6000);
-  //   });
-  // }, { rootMargin: '200px 0px' });
-  // io.observe(hero);
+    desktopPlayer.addEventListener("ended", playNext);
+    playNext();
+  }
+
+  // ========================
+  // MOBILE – Intersection Observer
+  // ========================
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const video = entry.target.querySelector('video');
+      const arrow = entry.target.querySelector('.scroll-arrow');
+      if(!video || !arrow) return;
+
+      if(entry.isIntersecting){
+        currentVideo = video; // ustaw aktualne wideo
+        video.play().catch(()=>{});
+
+        if(!arrow.classList.contains('show')){
+          setTimeout(()=>{ arrow.classList.add('show'); },2000);
+        }
+
+        const index = Array.from(mobileScreens).indexOf(entry.target);
+        const isLast = index === mobileScreens.length-1;
+
+        arrow.onclick = () => {
+          if(isLast){
+            const next = document.querySelector('#proces');
+            if(next) next.scrollIntoView({behavior:'smooth'});
+          } else {
+            mobileScreens[index+1].scrollIntoView({behavior:'smooth'});
+          }
+        }
+
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  }, {threshold:0.6});
+
+  mobileScreens.forEach(screen=>observer.observe(screen));
+
+  // ========================
+  // PRZYCISK ODŁUCHU
+  // ========================
+document.addEventListener('click', () => {
+  if(currentVideo){
+    currentVideo.muted = false;
+    currentVideo.volume = 1;
+  }
+  const unmuteBtn = document.getElementById("unmuteBtn");
+  if(unmuteBtn) unmuteBtn.style.display = 'none';
+});
+
 });
 </script>
 
 
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const button = document.querySelector(".hero-wysun");
-    const heroContent = document.querySelector(".hero-content");
-    const advantages = document.querySelector(".advantages-desktop");
 
-    button.addEventListener("click", function() {
-      button.classList.toggle("wysun");
-      heroContent.classList.toggle("wysun");
-      advantages.classList.toggle("wysun");
-    });
-  });
-</script>
-
-
-  <!-- Hero -->
-  <section id="hero" class="text-center d-flex">
-
-    <div class="container hero-content">
-      <h1>Wszystko zaczyna się od marzenia</h1>
-      <p>Budujemy wiaty, garaże i domki letniskowe, tworząc inwestycje, które przeniosą Twój biznes i Twoje życie na wyższy poziom.</p>
-      <a href="konfigurator.html" id="scrollToDimensions" class="btn btn-primary btn-desktop">Skonfiguruj swój wymarzony budynek</a>
-            <a href="konfigurator.html" id="scrollToDimensions" class="btn btn-primary btn-mobilne">Skonfiguruj swój wymarzony budynek</a>
-    </div>
-
-    <div class="hero-wysun">
-<div class="hero-wysun-ramie1"></div>
-<div class="hero-wysun-ramie2"></div>
-    </div>
-
-
-   <!-- Ikony - zalety -->
-  <div class="py-5 advantages-desktop" id="advantages">
-    <div class="container">
-      <h2 class="text-center mb-4 zalety-tytuł">Dlaczego Zabudo?</h2>
-      <div class="row g-4">
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-helmet-safety fa-3x ikona-zalety text-primary mb-3"></i>
-        <h5>Świeże spojrzenie</h5>
-          <p>Łączymy nowoczesne pomysły z praktycznym podejściem – zawsze szukamy najlepszego rozwiązania dla Ciebie.</p>
-        </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-building fa-3x ikona-zalety text-primary mb-3"></i>
-            <h5>Prostota</h5>
-          <p>Od konfiguracji po montaż – cały proces jest jasny i uporządkowany, bez zbędnych komplikacji.</p>
-        </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-users fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Indywidualne podejście</h5>
-          <p>Każdy projekt dopasowujemy do potrzeb i marzeń naszych klientów.</p>
-        </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-star fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Jakość bez kompromisów</h5>
-          <p>Korzystamy z najlepszych materiałów i sprawdzonych technologii.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  </section>
-
-   <!-- Ikony - zalety - mobilne -->
-  <div class="py-5 advantages-mobilne" id="advantages-mobilne">
-    <div class="container">
-      <h2 class="text-center mb-4 zalety-tytuł">Dlaczego Zabudo?</h2>
-      <div class="row g-4">
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-helmet-safety fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Świeże spojrzenie</h5>
-          <p>Łączymy nowoczesne pomysły z praktycznym podejściem – zawsze szukamy najlepszego rozwiązania dla Ciebie.</p>
-        </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-building fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Prostota</h5>
-          <p>Od konfiguracji po montaż – cały proces jest jasny i uporządkowany, bez zbędnych komplikacji.</p>
-        </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-users fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Indywidualne podejście</h5>
-          <p>Każdy projekt dopasowujemy do potrzeb i marzeń naszych klientów.</p>
-        </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-star fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Jakość bez kompromisów</h5>
-          <p>Korzystamy z najlepszych materiałów i sprawdzonych technologii.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
   <!-- Proces section -->
   <section class="py-5 bg-light" id="proces">
     <div class="container">
-      <h2 class="text-center mb-4 zalety-tytuł">Nasz proces</h2>
+
       <div class="row g-4">
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-comments fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Konsultacja</h5>
-          <p>Rozmawiamy z Tobą, aby zrozumieć potrzeby i stworzyć wstępną koncepcję inwestycji.</p>
+          <i class="fa-solid fa-pencil-ruler fa-3x ikona-zalety text-primary mb-3"></i>
+          <h5>Projekt</h5>
+          <p>Przygotowujemy zgłoszenie projektu budowlanego do urzędu, aby móc zacząć budowę już za 21 dni.</p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-drafting-compass fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Projekt</h5>
-          <p>Przygotowujemy szczegółowy projekt dopasowany do Twojej działki oraz budżetu.</p>
+          <i class="fa-solid fa-lightbulb fa-3x ikona-zalety text-primary mb-3"></i>
+          <h5>Koncepcja</h5>
+          <p></p>
         </div>
         <div class="col-md-3 text-center">
           <i class="fa-solid fa-hammer fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Produkcja</h5>
-          <p>W naszym zakładzie powstają prefabrykaty, które następnie montujemy na miejscu.</p>
+          <h5>Budowa</h5>
+          <p></p>
         </div>
         <div class="col-md-3 text-center">
-          <i class="fa-solid fa-truck fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Dostawa i montaż</h5>
-          <p>Transportujemy gotowe elementy i sprawnie montujemy budynek w umówionym terminie.</p>
+          <i class="fa-solid fa-credit-card fa-3x ikona-zalety text-primary mb-3"></i>
+          <h5>Płatności</h5>
+          <p></p>
         </div>
       </div>
     </div>
@@ -927,7 +922,7 @@ Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz 
 
 
 <!-- Testimonials section (moved to follow the offer) -->
-  <section class="py-5" id="opinie">
+  <section class="py-5" id="opinie" style="display: none;">
     <div class="container">
       <h2 class="text-center mb-4">Opinie naszych klientów</h2>
       <div class="row g-4">
@@ -964,7 +959,7 @@ Dzień dobry! Interesuje mnie budynek o wymiarach 3.5 x 5.5 m na terenie (wpisz 
 
 
 <!-- Blog section -->
-  <section class="py-5" id="blog">
+  <section class="py-5" id="blog" style="display: none;">
     <div class="container">
       <h2 class="text-center mb-4">Blog</h2>
       <div class="row g-4">
@@ -1243,6 +1238,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+
+
 
 </body>
 </html>

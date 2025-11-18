@@ -22,26 +22,36 @@ a {
 
 /* === NAWIGACJA === */
 .navbar {
-  background-color: rgb(167, 110, 40);
+  
   transition: 0.3s ease-in-out;
   width: auto;
   z-index: 1000;
   position: fixed;
-  
+  color: white;
+  background-color: rgba(255, 0, 0, 0) !important;
 }
-.navbar.white {
-  background: transparent !important;
-}
+
 .navbar-toggler {
   color: white;
  
-  border: 3px solid white;
+ border: none !important;
   
 }
 
-.navbar-toggler:not(.collapsed){
+ #navbar:has(#navbarNav.show) {
+    background-color: rgba(191, 191, 191, 0.599) !important; /* Twój wybrany kolor */
+}
 
-
+.navbar-toggler:focus,
+.navbar-toggler:active {
+    /* Usuwa domyślny pierścień fokusu (focus ring) przeglądarki */
+    outline: none !important; 
+    
+    /* Usuwa ewentualny domyślny cień Bootstrapa w stanie focus/active */
+    box-shadow: none !important; 
+    
+    /* Zapewnia brak tła przy zaznaczeniu, jeśli nie jest to intencjonalne */
+    background-color: transparent !important;
 }
 
 .navbar-toggler:not(.collapsed) .line:nth-child(1){
@@ -53,6 +63,7 @@ a {
 .navbar-toggler:not(.collapsed) .line:nth-child(3){
   transform: translateY(-12px) rotate(-45deg);
 }
+
 
 .line {
   width: 25px;
@@ -83,9 +94,9 @@ background-color: white;
 
 }
 
-#navbar.white .navbar-toggler {
-  color: rgb(0, 0, 0);
-  border-color: rgb(0, 0, 0);
+#navbar.white .line {
+  background-color: rgb(0, 0, 0) !important;
+  
   
   
 }
@@ -100,33 +111,17 @@ background-color: white;
   border: black solid 0.001px;
 }
 
-#navbar.white .navbar-toggler .line:nth-child(1) {
- background-color: rgb(0, 0, 0); 
-
- 
+#navbar.white {
+  color: black !important;
 }
-
-
-#navbar.white .navbar-toggler .line:nth-child(2) {
- background-color: rgb(0, 0, 0); 
-}
-
-
-#navbar.white .navbar-toggler .line:nth-child(3) {
-background-color: rgb(0, 0, 0);
-
-
-
-}
-
 
 .navbar-brand,
 .nav-link {
   color: #fff;
 }
-.navbar.white .navbar-brand,
+.navbar.white,
 .navbar.white .nav-link {
-  color: #000 !important;
+  color: #000000 !important;
 }
 .navbar.white .nav-link:hover,
 .nav-link:hover {
@@ -135,8 +130,8 @@ background-color: rgb(0, 0, 0);
 
 /* === HERO === */
 #hero {
-  background: url('tloosiedle.webp') center/cover no-repeat;
-  min-height: 110vh;
+  background: transparent;
+  height: 100vh;
   position: relative;
   color: white;
   display: flex;
@@ -146,127 +141,227 @@ background-color: rgb(0, 0, 0);
   flex-direction: column;
     transition: 0.5s ;
     z-index: 100;
+   
 }
 
-.hero-content {
-  min-height: 60vh;
+#heroVideosMobile {
+  overflow: hidden; /* usuwa pasek przewijania */
+  height: 100vh;    /* upewnij się, że wysokość wideo mieści się w ekranie */
 }
+
 
 #hero h1 {
   font-weight: 900;
 }
 
-#hero::before {
-  content: "";
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.6);
-  inset: 0;
-}
-.hero-content {
-    z-index: 1;
-  display: flex;
-  flex-direction: column;
 
-  width: 100vw;
-
-  align-items: center;
-  justify-content: end;
-  transition: 0.3s ease-in-out;
-  
-}
-
-.hero-content.wysun {
-  opacity: 0;
-}
-
-.hero-wysun {
-  
-  width: 5.5rem;
-  height: 3.5rem;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/* DESKTOP */
+.hero-video-desktop {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-  transition: 0.3s ease-in-out;
-  position: absolute;
-  z-index: 10001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  
 }
 
-@media (max-width: 576px) {
-.hero-wysun{
+@media (max-width: 768px) {
+  .hero-video-desktop {
+    display: none;
+  }
+}
+
+/* MOBILE */
+.hero-videos-mobile {
   display: none;
+}
+
+@media (max-width: 768px) {
+  .hero-videos-mobile {
+    display: block;
+    overflow-y: auto;
+    height: 100vh;
+    scroll-snap-type: y mandatory;
   }
 
-.hero-content {
-    z-index: 1;
+  .hero-videos-mobile .video-screen {
+    height: 100vh;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  .hero-videos-mobile video {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+  }
+
+
+.video-screen {
+  position: relative;
+  height: 100vh;
+}
+
+.scroll-arrow {
+  display: none; /* ukryte domyślnie */
+  position: absolute;
+  bottom: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  text-decoration: none;
+
+}
+
+.scroll-arrow.show {
+  display: block;
+}
+
+.animated-arrows {
   display: flex;
   flex-direction: column;
+  gap: 5px;
+}
 
-  width: 100vw;
 
+.konfigurator {
+  display: inline-flex;
+  flex-direction: column; /* jeśli chcesz mieć tekst i strzałki */
   align-items: center;
   justify-content: center;
-  transition: 0.3s ease-in-out;
-  
-}
-
-}
-
-
-.hero-wysun:hover {
-  
-  transform: translate(-50%, -50%) scale(1.3);
-
-}
-
-.hero-wysun-ramie1 {
-  width: 3rem;
-  height: 0.5rem;
-  background-color: white;
-  border-radius: 25px;
-   transform: rotate(-45deg) translateY(150%);
-
-}
-
-.hero-wysun-ramie2 {
-  width: 3rem;
-  height: 0.5rem;
-  background-color: white;
-  border-radius: 25px;
- transform: rotate(45deg) translateY(150%);
- 
-
-}
-
-.hero-wysun.wysun .hero-wysun-ramie1 {
-  transform: rotate(45deg) translateY(-150%);
-}
-
-.hero-wysun.wysun .hero-wysun-ramie2 {
-    transform: rotate(-45deg) translateY(-150%);
-}
-
-.hero-wysun.wysun {
-    top: 50%;
-  left: 50%;
-}
-
-
-#hero .btn-primary {
-  background-color: rgb(167, 110, 40);
-  border: none;
-  padding: 0.75rem 2rem;
+  background-color: #007bff; /* główny kolor przycisku */
+  color: #fff;
   font-weight: 600;
-  margin-top: 1.5rem;
   font-size: 1rem;
+  text-decoration: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  position: absolute; /* np. na dole sekcji hero */
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 20;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
 }
-#hero .btn-primary:hover {
-  background-color: #b33434;
+
+.konfigurator:hover {
+  background-color: #0056b3;
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
+
+/* Animowane strzałki pod tekstem */
+.konfigurator .arrow {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+  transform: rotate(45deg);
+  margin: 4px 0 0 0;
+  animation: arrowBounce 1.2s infinite;
+}
+
+.konfigurator .arrow:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.konfigurator .arrow:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes arrowBounce {
+  0% { transform: translateY(0) rotate(45deg); opacity: 0; }
+  50% { transform: translateY(6px) rotate(45deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(45deg); opacity: 0; }
+}
+
+
+.scroll-arrow span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-bottom: 3px solid white;
+  border-right: 3px solid white;
+  transform: rotate(45deg) !important;
+  margin: 3px auto;
+  animation: arrowMove 1s infinite;
+}
+
+.scroll-arrow span:nth-child(2){ animation-delay: 0.2s; }
+.scroll-arrow span:nth-child(3){ animation-delay: 0.4s; }
+
+@keyframes arrowMove{
+  0% { opacity: 0; transform: rotate(45deg) translateY(-5px);}
+  50% { opacity: 1; transform: rotate(45deg) translateY(0);}
+  100% { opacity: 0; transform: rotate(45deg) translateY(5px);}
+}
+
+}
+
+.konfigurator {
+  display: inline-block;
+  padding: 15px 30px;
+    background-color: #d2601a;;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute; /* np. na dole sekcji hero */
+  bottom: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 20;
+}
+
+.konfigurator:hover {
+  background-color: #b34800;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+
+.unmute-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.1); /* delikatne przezroczyste tło */
+  border: none;
+  border-radius: 50%;
+  padding: 20px;
+  cursor: pointer;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: pulse 1.5s infinite; /* pulsowanie */
+  transition: transform 0.2s, background 0.2s;
+}
+
+.unmute-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.unmute-btn img {
+  width: 50px; /* rozmiar Twojej ikony */
+  height: 50px;
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+}
+
+
+
 
 .advantages-desktop {
   min-height: 50vh;
@@ -279,23 +374,10 @@ background-color: rgb(0, 0, 0);
   transition: 0.3s ease-in-out;
 }
 
-.advantages-desktop.wysun {
-  opacity: 1;
-  transform: translateY(0);
-}
 
-#advantages .container {
-  
-  height: auto;
-}
 
-.advantages-mobilne {
 
-  background-color: rgba(255, 255, 255, 0.599);
-  z-index: 1;
-  color: black;
-  display: none ;
-}
+
 
 .btn-mobilne {
   display: none;
@@ -320,7 +402,7 @@ background-color: rgb(0, 0, 0);
 }
 
 .navbar.white {
-  background: rgba(255, 255, 255, 0.329) !important;
+  background: rgba(255, 255, 255, 0) !important;
 }
 
 
@@ -338,23 +420,12 @@ background-color: rgb(0, 0, 0);
   display: block;
 }
 
-.advantages-desktop {
-  min-height: 0vh;
-  background-color: rgba(255, 255, 255, 0.599);
-  z-index: 1;
-  color: black;
-  display: none;
-}
 
-.advantages-mobilne {
 
-  background-color: rgba(255, 255, 255, 0.599);
-  z-index: 1;
-  color: black;
-  display: block ;
-}
+
 
 }
+
 
 
 /* === SEKCJE === */
@@ -836,6 +907,7 @@ align-items: space-between;
   bottom: 5%;
   left: -3%;
   border-radius: 20px;
+  display: ;
 }
 
 .price-box-buttons {
@@ -1839,7 +1911,9 @@ margin-bottom: 2vh;
 }
 
 .konfiguracja {
-  display: none !important;
+  display: block !important;
+  background-color: white !important;
+  color: black !important;
 }
 
 }
@@ -2166,13 +2240,13 @@ display: none;;
 }
 
 .konfiguracja:hover {
-    background-color: #b33434;
-  color: white;
+    background-color: #b33434 !important;
+  color: white !important;
 }
 
 .konfiguracja.aktywny {
-    background-color: #b33434;
-  color: white;
+    background-color: #b33434 !important;
+  color: white !important;
 }
 
 .usługi-menu-wyboru {
@@ -2331,7 +2405,7 @@ justify-self: center ;
   .usługi-menu-wyboru {
     width: 98%;
     flex-direction: column;
-    
+    display: none;
     align-items: center;
   }
 }

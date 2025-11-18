@@ -607,15 +607,15 @@ async function ensureEmbeddedFont(jsPDF, pdf){
 
 <body>
   <!-- Navigation -->
-  <nav class="navbar konfigurator navbar-expand-lg fixed-top" style="background-color: transparent;">
+  <nav class="navbar" style="display: flex; width: 100vw;">
     <div class="container">
     
       <a href="index.html"> <img id="ikonablackkonfigurator" src="logo_zabudo_black.webp" alt="Logo czarne"  loading="lazy" /></a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="color: black;">
+                <div style="background-color: black;" class="line"></div>
+        <div style="background-color: black;" class="line"></div>
+        <div style="background-color: black;" class="line"></div>
 
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -631,7 +631,7 @@ async function ensureEmbeddedFont(jsPDF, pdf){
     </div>
   </nav>
 
-<div class="sekcjawideo">
+<div class="sekcjawideo" style="display: none;">
 
   <video class="spot" controls autoplay>
   <source src="spot2.webm" type="video/webm">
