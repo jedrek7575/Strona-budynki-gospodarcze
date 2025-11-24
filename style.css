@@ -65,6 +65,7 @@ a {
 }
 
 
+
 .line {
   width: 25px;
   margin-top: 5px;
@@ -451,17 +452,13 @@ background-color: white;
 
 
 #proces {
-min-height: 50vh;
+
 display: flex;
 justify-content: center;
 align-items: space-between;
  background-color: #f8f6f3 !important;
 }
 
-#proces h2 {
-
-  margin-bottom: 5% !important ;
-}
 
 
 
@@ -485,387 +482,319 @@ align-items: space-between;
   margin-top: 2%;
 }
 
-#advantages .container {
-  
+
+/* Sekcja oferta */
+
+
+/* --- ZMIENNE I PODSTAWY NOWEGO STYLU --- */
+/* Zgodnie z analizą: mocne kolory */
+:root {
+  --zabudo-burgund: #b33434;
+  --zabudo-akcent: #d2601a;
+  --bg-light-soft: #f8f6f3; /* Użyte w #proces i #oferta */
+  --font-heavy: 900;
+  --white: #fff;
+  --dark: #212529;
 }
 
-/* === OFERTA === */
-#offer {
-  display: none;
-  justify-content: end;
-  align-items: end;
-  font-weight: 900;
+.lead-text-bold {
+  font-weight: var(--font-heavy);
+  font-size: 1.15rem;
+  color: var(--dark);
+}
 
-  height: 100vh;
-  width: 100%;
-  background-image: url('tlo.webp'); 
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: 100% 100%;
+.bg-light-soft {
+  background-color: var(--bg-light-soft) !important;
+}
+
+/* --- OFERTA (Galeria Marzeń) --- */
+/* --- ZMIENNE I PODSTAWY NOWEGO STYLU --- */
+:root {
+  --zabudo-burgund: #b33434;
+  --zabudo-akcent: #d2601a;
+  --bg-light-soft: #f8f6f3;
+  --font-heavy: 900;
+  --white: #fff;
+  --dark: #212529;
+}
+
+.lead-text-bold {
+  font-weight: var(--font-heavy);
+  font-size: 1.15rem;
+  color: var(--dark);
+}
+
+.bg-light-soft {
+  background-color: var(--bg-light-soft) !important;
+}
+
+/* --- OFERTA (Galeria Marzeń) --- */
+#oferta {
+  padding-top: 0.1rem;
+  padding-bottom: 5rem;
+  background-color: var(--bg-light-soft);
+}
+
+.section-title {
+  color: var(--zabudo-akcent); /* Użyjemy akcentu dla tytułu sekcji */
+}
+
+/* NIEREGULARNA SIATKA (Asymetryczna) */
+.asymetric-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Domyślny układ 4 kolumny */
+  grid-auto-rows: minmax(auto, 1fr); 
+  gap: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-card {
   position: relative;
-
-  z-index: 1;
-}
-
-#offer .container {
-  width: 100%;
-}
-
-.offer-column {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: end;
-  
-}
-
-#offer .card-text {
-  font-size: 0.9vw;
-}
-
-#offer .card1 {
-  max-width: 600px;
-  margin: 1rem auto;
-  border-left: 5px solid #8a4f27;
-  padding: 1rem;
-  transition: transform 0.2s ease;
-  background: rgba(255, 255, 255, 0.754);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  display: none;
-  align-self: flex-end;
-  justify-self: flex-end;
+  overflow: hidden;
   border-radius: 10px;
-  height: 30vh;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  aspect-ratio: 1 / 1; 
+  display: block;
+  cursor: pointer;
 }
 
-#offer .card2 {
-  max-width: 600px;
-  margin: 1rem auto;
-  border-left: 5px solid #8a4f27;
-  padding: 1rem;
-  transition: transform 0.2s ease;
-  background: rgba(255, 255, 255, 0.754);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  display: none;
-  align-self: flex-end;
-  justify-self: flex-end;
-  border-radius: 10px;
-  height: 30vh;
+/* Duże karty zajmują 2 kolumny / 2 wiersze (na desktop) */
+.gallery-card.large {
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: 1 / 1;
 }
 
-.card-title {
-  font-weight: 700;
-  color: #8a4f27;
-}
-.card-text {
-  font-size: 1rem;
-  
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(179, 52, 52, 0.4), 0 0 0 3px var(--zabudo-burgund);
 }
 
-
-
-.oferta{
-  display: flex;
-  flex-direction: column;
-  height: auto;
- 
-}
-
-.menuoferta{
-  display: none;
-  height: 12vh;
-  padding: 2%;
-  width: 50vw;
-  justify-self: center;
-  justify-content: space-between;
-  gap: 10%;
- 
-}
-
-.menuoferta button {
-  height: 5vh;
-  padding: 1%;
+.gallery-card img {
   width: 100%;
-  border-radius: 10px;
-  border: none;
-  background-color: rgb(255, 236, 213);
-  color: rgb(167, 110, 40);
-  font-weight: 900;
-  font-size: 1.2vw;
-  transition: 0.1s ease-in-out;
-  margin-top: 1%;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-}
-
-@media (max-width: 576px) {
-
-.menuoferta {
-  width: 100vw;
-  padding: 4%;
-}
-
-#usługi {
-    padding: 0% !important;
-  margin-left: 0%  !important;
-  margin-right: 0%  !important;
-
-}
-
-#sklep {
-  padding: 0% !important;
-  margin-left: 0%  !important;
-  margin-right: 0%  !important;
-
-  
-}
-
-.sklepkarta1-tytuł {
-  font-size: 3.5vw !important;
-
-}
-
-.menuoferta button {
-
-  font-size: 3.5vw;
-}
-
-.sklepkarta1 {
-
-  width: 100% !important;
-}
-
-.sklepkarta2 {
-  display: none !important;
-}
-
-}
-
-.menuoferta button:hover {
-  background-color: #b33434;
-   color: rgb(255, 255, 255);
-}
-
-.panel {
-  display: none;
-}
-
-.menuoferta button.pokazane {
-  background-color: #b33434;
-   color: rgb(255, 255, 255);
-}
-
-.panel.pokazane {
-  display: flex !important;
-}
-
-
-.panel { 
-  height: 120vh;
-  width: 100vw;
-  justify-content: center;
-  align-items: center;
-  
-
-}
-
-
-
-.sklepkarta{
-  position: relative;
-  height: 20vh;
-  width: 100%;
-  display: flex;
-  background-color: #0071c200;
-  margin-bottom: 2%;
-  margin-top: 2%;
-   box-shadow: 0 0px 20px rgba(0,0,0,0.1);
-   transition: 0.1s ease-in-out;
- justify-content: space-between;
- align-items: center;
- gap: 2%;
-
-}
-
-.sklepkarta::after {
-  content: "";
-  position: absolute;
-  inset: 0;                    /* top:0; right:0; bottom:0; left:0 */
-  background: #b334341a;  /* dowolny kolor + przezroczystość */
-  pointer-events: none; 
-  opacity: 0;       /* kliknięcia przechodzą do treści */
-}
-
-.sklepkarta:hover::after {
-  opacity: 1;                 /* na hover: pokaż nakładkę */
-}
-
-.sklepkarta1 {
-  width: 50%;
-  min-height: 100vh;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  padding-left: 0% ;
-  padding-right: 0% ;
-  gap: 2%;
-  justify-content: space-between;
-  align-items: center;
-  transition: 0.3s ease-in-out;
-  background-color: white;
-     box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-}
-
-.sklepkarta1 h1 {
-  font-weight: 900;
-  align-self: center;
-  margin-bottom: 10%;
-  margin-top: 5%;
-
-}
-
-.sklepkarta1-obrazy {
-  
- 
-   position: relative;
-   overflow: hidden;
-   width: 20vw;
-   
-   height: 100%;
-   margin-left: 5%;
-  
-}
-
-
-@media (max-width: 768px) {
-.sklepkarta1-obrazy {
-  
- 
-   position: relative;
-   overflow: hidden;
-   width: auto;
-   min-width: 40vw;
-   height: 100%;
-   margin-left: 5%;
-  
-}
-
-}
-
-.sklepkarta1-obrazy-obraz {
   height: 100%;
-  width: 100%;
-  position: absolute; 
-  inset: 0;
-  object-fit:cover;
-    object-position: center; 
-   opacity: 0;
-     inset: 0;
-  transition: 0.2s ease-in-out;
-}
-
-.sklepkarta1-tytuł {
-  font-size: 1.5vw;
-  font-family: Arial, Helvetica, sans-serif !important;
-  font-weight: 900 !important;
-}
-
-.sklepkarta1-tekst {
-  width: 50vw;
-  margin-right: 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-weight: 200;
-  text-align: center;
-}
-
-.sklepkarta1-tekst h1 {
-  font-weight: 400;
-}
-
-.sklepkarta1-obrazy > img.is-active {
-  opacity: 1;
-  z-index: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sklepkarta1-obrazy > img { transition: none; }
-}
-
-.galeria-produktów {
-  width: 100%;
-  height: auto;
-}
-
-.sklepkarta2 {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  
-  justify-content: center;
-  align-items: center;
-  padding: 2% ;
-}
-
-.sklepkarta2-obrazy {
-  
- 
-   position: relative;
-   overflow: hidden;
-   width: 100%;
-   height: 100%;
-
-}
-
-.sklepkarta2-obrazy-obraz {
-  height: 100%;
-  width: 100%;
-  position: absolute; 
-  inset: 0;
   object-fit: cover;
-  transition: 0.2s ease-in-out;
- 
+  transition: transform 0.3s ease;
 }
 
-.galeria-produktów {
+.gallery-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Nakładka przy hover (CTA na obrazie) */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(179, 52, 52, 0.65);
+  color: var(--white);
   display: flex;
-  background-color: white;
-  height: 90vh;
-  
-  
-     box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 15px;
+  text-align: center;
 }
 
-/* === WYMIARY === */
-#usługi {
-  z-index: 100;
-  
-  align-items: center;
-  justify-content: center;
-  
-  
-  text-align: center;
-  padding-right: 4%;
-  overflow: hidden;
-  position: relative;
-  min-height: auto;  /* Ważne! Zmienna wysokość */
+.gallery-card:hover .card-overlay {
+  opacity: 1;
 }
 
-#sklep {
-  z-index: 100;
-  width: 100vw;
+.card-overlay span {
+  font-weight: var(--font-heavy);
+  font-size: 1.1rem;
+}
+
+/* --- Sekcja CTA (Przycisk + Zachęta) --- */
+.btn-cta {
+  background-color: var(--zabudo-burgund);
+  border-color: var(--zabudo-burgund);
+  color: var(--white);
+  font-weight: var(--font-heavy) !important;
+  font-size: 1.25rem;
+  padding: 15px 40px;
+  border-radius: 50px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 6px 15px rgba(179, 52, 52, 0.4);
+}
+.btn-cta:hover {
+  background-color: #8a2929;
+  border-color: #8a2929;
+}
+
+.contact-prompt-box {
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.scroll-down-prompt {
+  color: var(--dark);
+  text-align: center;
+  margin-top: 2rem;
+  cursor: pointer;
+  max-width: 350px;
+}
+.animated-arrows-down span {
+  border-bottom: 3px solid var(--zabudo-burgund);
+  border-right: 3px solid var(--zabudo-burgund);
+}
+
+/* --- Lightbox Styles (Nowoczesny, Czysty, Mocny) --- */
+
+.dog-lightbox {
+  background: rgba(0, 0, 0, 0.95) !important; 
+  /* Uwaga: Upewnij się, że .dog-lightbox jest w globalnym CSS i ma position: fixed oraz z-index: >1000 */
+}
+
+.dog-lightbox-close {
+  color: var(--white);
+  top: 40px;
+  right: 50px;
+  transition: color 0.3s, transform 0.3s;
+  font-size: 50px; 
+  line-height: 1;
+  font-weight: 300; 
+  opacity: 0.8;
+}
+
+.dog-lightbox-close:hover {
+  color: var(--zabudo-burgund) !important;
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.dog-lightbox-content {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-left: 4%;
-  
-  text-align: center;
-  
-  overflow: hidden;
-  position: relative;
-  min-height: auto;  /* Ważne! Zmienna wysokość */
+  width: 90%;
+  max-width: 1200px;
+  padding: 20px;
 }
+
+.lightbox-info {
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 15px;
+}
+#lightbox-title {
+  font-weight: var(--font-heavy);
+  color: var(--white);
+  margin-bottom: 5px;
+  font-size: 2rem;
+}
+#lightbox-desc {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+/* Główne zdjęcie i kontener */
+.dog-lightbox-main {
+  width: 100%;
+  max-height: 75vh;
+  margin-bottom: 20px;
+}
+.dog-lightbox-main img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain; 
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Przyciski CTA */
+.lightbox-cta-buttons {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap; 
+}
+
+.btn-lightbox {
+  font-weight: var(--font-heavy) !important;
+  font-size: 1rem;
+  padding: 12px 25px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  max-width: 300px;
+  width: 100%; 
+}
+
+/* Stylizacja przycisków Lightboxa */
+.btn-primary-custom {
+  background-color: var(--zabudo-burgund);
+  border: 2px solid var(--zabudo-burgund);
+  color: var(--white);
+}
+.btn-primary-custom:hover {
+  background-color: var(--white);
+  color: var(--zabudo-burgund);
+}
+
+.btn-secondary-custom {
+  background-color: transparent;
+  border: 2px solid var(--white);
+  color: var(--white);
+}
+.btn-secondary-custom:hover {
+  background-color: var(--white);
+  color: var(--zabudo-burgund);
+}
+
+/* Miniatury */
+.dog-lightbox-thumbs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  max-width: 100%;
+  overflow-x: auto; 
+  padding-bottom: 10px;
+}
+
+.dog-lightbox-thumbs img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 3px solid transparent;
+  border-radius: 5px;
+  opacity: 0.6;
+}
+.dog-lightbox-thumbs img.active {
+  border-color: var(--zabudo-burgund);
+  opacity: 1;
+}
+
+/* Responsywność dla Galerii i Lightboxa */
+@media (max-width: 768px) {
+  .asymetric-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .gallery-card.large {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  .dog-lightbox-close {
+    top: 20px;
+    right: 20px;
+  }
+  .lightbox-cta-buttons {
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+  }
+}
+
+
+
+
+
 
 .mb-3 {
   margin-top: 1%;
