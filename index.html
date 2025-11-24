@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
     <div class="video-screen">
-      <video src="/Spoty/Spot3vert.webm" playsinline preload="none"></video>
+      <video src="/Spoty/Spot2vert.webm" muted playsinline preload="none"></video>
       <div class="scroll-arrow animated-arrows">
         <span></span>
         <span></span>
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
     <div class="video-screen">
-      <video src="/Spoty/Spot1vert.webm"  playsinline preload="none"></video>
+      <video src="/Spoty/Spot3vert.webm" muted playsinline preload="none"></video>
       <div class="scroll-arrow animated-arrows">
         <span></span>
         <span></span>
@@ -172,13 +172,13 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
     <div class="video-screen">
-      <video src="/Spoty/Spot1vert.webm"  playsinline preload="none"></video>
+      <video src="/Spoty/Spot4vert.webm" muted playsinline preload="none"></video>
       <a href="#proces" class="scroll-arrow animated-arrows" style="display: none;">
         <span></span>
         <span></span>
         <span></span>
       </a>
-      <a href="konfigurator.html" class="konfigurator">
+      <a href="konfigurator.html" class="konfigurator_hero">
   Przejdź do konfiguratora
 </a>
     </div>
@@ -186,47 +186,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </section>
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
   // ========================
-  // OBSŁUGA WIDOKU
+  // ELEMENTY
   // ========================
   const isDesktop = window.innerWidth >= 768;
   const desktopPlayer = document.getElementById("heroVideoDesktop");
   const mobileContainer = document.getElementById("heroVideosMobile");
   const mobileScreens = document.querySelectorAll('.video-screen');
+  const unmuteBtn = document.getElementById("unmuteBtn");
+  let currentVideo = null;
 
+  // ========================
+  // OBSŁUGA WIDOKU
+  // ========================
   if(isDesktop){
-    // pokaż desktop, ukryj mobilne
     desktopPlayer.style.display = 'block';
     mobileContainer.style.display = 'none';
     desktopPlayer.preload = 'auto';
     desktopPlayer.autoplay = true;
+    currentVideo = desktopPlayer;
   } else {
-    // pokaż mobilne, ukryj desktop
     desktopPlayer.style.display = 'none';
     mobileContainer.style.display = 'block';
   }
 
   // ========================
-  // ZMIENNE AKTUALNEGO WIDEO
-  // ========================
-  let currentVideo = isDesktop ? desktopPlayer : null;
-
-  // ========================
   // DESKTOP – sekwencja filmów
   // ========================
   if(isDesktop){
-    const films = ["/Spoty/Spot1.webm","/Spoty/Spot1.webm","/Spoty/Spot1.webm","/Spoty/Spot1.webm"];
+    const films = ["/Spoty/Spot1.webm","/Spoty/Spot2.webm","/Spoty/Spot3.webm"];
     let index = 0;
 
     function playNext(){
       desktopPlayer.src = films[index];
       desktopPlayer.play().catch(()=>{});
       currentVideo = desktopPlayer;
-      index++;
-      if(index >= films.length) index = 0;
+      index = (index + 1) % films.length;
     }
 
     desktopPlayer.addEventListener("ended", playNext);
@@ -234,33 +234,85 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // ========================
+  // FUNKCJA ODŁUCHU WSZYSTKICH WIDEO
+  // ========================
+  function unmuteAllVideos(){
+    if(desktopPlayer){
+      desktopPlayer.muted = false;
+      desktopPlayer.volume = 1;
+    }
+    mobileScreens.forEach(screen => {
+      const video = screen.querySelector('video');
+      if(video){
+        video.muted = false;
+        video.volume = 1;
+      }
+    });
+    if(unmuteBtn) unmuteBtn.style.display = 'none';
+  }
+
+  // kliknięcie przycisku odmute
+  if(unmuteBtn){
+    unmuteBtn.addEventListener('click', unmuteAllVideos);
+  }
+
+  // ========================
   // MOBILE – Intersection Observer
   // ========================
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
       const video = entry.target.querySelector('video');
       const arrow = entry.target.querySelector('.scroll-arrow');
       if(!video || !arrow) return;
 
       if(entry.isIntersecting){
-        currentVideo = video; // ustaw aktualne wideo
+        currentVideo = video;
         video.play().catch(()=>{});
 
         if(!arrow.classList.contains('show')){
-          setTimeout(()=>{ arrow.classList.add('show'); },2000);
+          setTimeout(()=> arrow.classList.add('show'), 2000);
         }
 
         const index = Array.from(mobileScreens).indexOf(entry.target);
-        const isLast = index === mobileScreens.length-1;
+        const isLast = index === mobileScreens.length - 1;
 
+        // kliknięcie strzałki przewijania
         arrow.onclick = () => {
           if(isLast){
             const next = document.querySelector('#proces');
             if(next) next.scrollIntoView({behavior:'smooth'});
           } else {
-            mobileScreens[index+1].scrollIntoView({behavior:'smooth'});
+            // preload i autoplay następnego wideo
+            const nextVideo = mobileScreens[index + 1].querySelector('video');
+            if(nextVideo){
+              nextVideo.preload = 'auto';
+              nextVideo.load();
+              nextVideo.muted = true;
+              nextVideo.play().catch(()=>{});
+            }
+            mobileScreens[index + 1].scrollIntoView({behavior:'smooth'});
           }
+
+          // odmute wszystkich wideo
+          unmuteAllVideos();
         }
+
+        // automatyczne scrollowanie po zakończeniu wideo
+        video.addEventListener('ended', () => {
+          if(!isLast){
+            const nextVideo = mobileScreens[index + 1].querySelector('video');
+            if(nextVideo){
+              nextVideo.preload = 'auto';
+              nextVideo.load();
+              nextVideo.muted = true;
+              nextVideo.play().catch(()=>{});
+            }
+            mobileScreens[index + 1].scrollIntoView({behavior:'smooth'});
+          } else {
+            const next = document.querySelector('#proces');
+            if(next) next.scrollIntoView({behavior:'smooth'});
+          }
+        });
 
       } else {
         video.pause();
@@ -269,23 +321,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }, {threshold:0.6});
 
-  mobileScreens.forEach(screen=>observer.observe(screen));
-
-  // ========================
-  // PRZYCISK ODŁUCHU
-  // ========================
-document.addEventListener('click', () => {
-  if(currentVideo){
-    currentVideo.muted = false;
-    currentVideo.volume = 1;
-  }
-  const unmuteBtn = document.getElementById("unmuteBtn");
-  if(unmuteBtn) unmuteBtn.style.display = 'none';
-});
+  mobileScreens.forEach(screen => observer.observe(screen));
 
 });
 </script>
-
 
 
 
