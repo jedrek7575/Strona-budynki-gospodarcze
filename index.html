@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <div id="heroVideosMobile"> 
     
     <div class="video-screen">
-      <video muted playsinline loop preload="metadata">
+      <video muted autoplay playsinline loop preload="metadata">
           <source src="/Spoty/Spot1vert.webm" type="video/webm" media="(max-width: 768px)">
           <source src="/Spoty/Spot1.webm" type="video/webm">
       </video>
@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video muted playsinline loop preload="metadata">
+      <video muted autoplay playsinline loop preload="metadata">
           <source src="/Spoty/Spot2vert.webm" type="video/webm" media="(max-width: 768px)">
           <source src="/Spoty/Spot2.webm" type="video/webm">
       </video>
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video muted playsinline loop preload="metadata">
+      <video muted autoplay playsinline loop preload="metadata">
           <source src="/Spoty/Spot3vert.webm" type="video/webm" media="(max-width: 768px)">
           <source src="/Spoty/Spot3.webm" type="video/webm">
       </video>
@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video muted playsinline loop preload="metadata">
+      <video muted autoplay playsinline loop preload="metadata">
           <source src="/Spoty/Spot4vert.webm" type="video/webm" media="(max-width: 768px)">
           <source src="/Spoty/Spot4.webm" type="video/webm">
       </video>
@@ -369,64 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-  const screens = document.querySelectorAll('.video-screen');
-  const muteButtons = document.querySelectorAll('.unmute-btn');
-
-  // 1. OBSŁUGA ODTWARZANIA (WIDZISZ = GRAJ)
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target.querySelector('video');
-      const hint = entry.target.querySelector('.scroll-hint');
-      
-      if (!video) return;
-
-      if (entry.isIntersecting) {
-        // Wideo wchodzi na ekran
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log("Auto-play zablokowany (norma na mobile przy low power mode):", error);
-          });
-        }
-        // Pokaż strzałkę po chwili (opcjonalne, skoro jest loop)
-        if(hint) setTimeout(() => hint.classList.add('visible'), 500);
-
-      } else {
-        // Wideo znika z ekranu
-        video.pause();
-        if(hint) hint.classList.remove('visible');
-      }
-    });
-  }, { threshold: 0.5 }); // 50% widoczności wyzwala akcję
-
-  // Odpalamy obserwatora
-  screens.forEach(screen => observer.observe(screen));
-
-  // 2. OBSŁUGA DŹWIĘKU
-  muteButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Nie pauzuj filmu kliknięciem
-      // Włącz dźwięk wszędzie
-      document.querySelectorAll('video').forEach(v => v.muted = false);
-      // Ukryj przyciski
-      muteButtons.forEach(b => b.style.display = 'none');
-    });
-  });
-
-  // 3. PAUZA/START KLIKNIĘCIEM W EKRAN (DODATEK)
-  screens.forEach(screen => {
-      screen.addEventListener('click', () => {
-          const v = screen.querySelector('video');
-          if(v.paused) v.play();
-          else v.pause();
-      });
-  });
-
-});
-</script>
 
 
   <section class="py-5 bg-light" id="proces">
