@@ -83,12 +83,16 @@
         width: 100%;
         overflow: hidden;
         background-color: #000;
+        display: flex; /* Centrowanie contentu */
+        justify-content: center;
+        align-items: center;
     }
     .video-screen video {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
+        background: #000; /* Zapobiega mignięciu bieli */
     }
     
     /* Przycisk odmutowania */
@@ -259,7 +263,6 @@
       .gallery-card.large { grid-column: span 1; grid-row: span 1; }
       #lightbox-title { font-size: 1.5rem; }
       .dog-lightbox-close { top: 20px; right: 20px; }
-      /* Na mobile centrujemy start miniatur */
       .dog-lightbox-thumbs { justify-content: flex-start; }
     }
   </style>
@@ -317,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <div id="heroVideosMobile"> 
     
     <div class="video-screen">
-      <video src="/Spoty/Spot1vert.webm" muted playsinline preload="auto"></video>
+      <video muted playsinline loop preload="auto"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -325,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot2vert.webm" muted playsinline preload="none"></video>
+      <video muted playsinline loop preload="none"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -333,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot3vert.webm" muted playsinline preload="none"></video>
+      <video muted playsinline loop preload="none"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -341,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot4vert.webm" muted playsinline preload="none"></video>
+      <video muted playsinline loop preload="none"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -355,10 +358,11 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   
-  const mobileScreens = document.querySelectorAll('.video-screen');
+  const screens = document.querySelectorAll('.video-screen');
   const muteButtons = document.querySelectorAll('.unmute-btn');
   const heroContainer = document.getElementById('hero');
 
+  // Ścieżki do plików
   const desktopFilms = [
     "/Spoty/Spot1.webm", "/Spoty/Spot2.webm", "/Spoty/Spot3.webm", "/Spoty/Spot4.webm"
   ];
@@ -366,98 +370,119 @@ document.addEventListener("DOMContentLoaded", function() {
     "/Spoty/Spot1vert.webm", "/Spoty/Spot2vert.webm", "/Spoty/Spot3vert.webm", "/Spoty/Spot4vert.webm"
   ];
 
-  const isDesktopFormat = window.innerWidth >= 768;
-  const filmList = isDesktopFormat ? desktopFilms : mobileFilms;
+  // Wykrywanie wersji mobilnej/desktopowej i przypisanie źródeł
+  const isDesktop = window.innerWidth >= 768;
+  const currentFilms = isDesktop ? desktopFilms : mobileFilms;
 
-  // 1. Konfiguracja i Eventy
-  mobileScreens.forEach((screen, index) => {
-      const video = screen.querySelector('video');
-      const hint = screen.querySelector('.scroll-hint');
-
-      if (video && index < filmList.length) {
-          video.src = filmList[index];
-          video.removeAttribute('loop'); 
-          video.muted = true;
-          video.playsInline = true;
-
-          video.addEventListener('ended', () => {
-            if (hint) hint.classList.add('visible');
-          });
-
-          video.addEventListener('play', () => {
-             if (hint) hint.classList.remove('visible');
-          });
-
-          // Klik w ekran "budzi" film, jeśli ten się zaciął
-          screen.addEventListener('click', () => {
-            if (video.paused) {
-                if (video.readyState === 0) video.load(); // Wymuś załadowanie
-                video.play().catch(()=>{});
-            } else {
-                video.pause();
-            }
-          });
+  // 1. Inicjalizacja źródeł
+  screens.forEach((screen, index) => {
+    const video = screen.querySelector('video');
+    const hint = screen.querySelector('.scroll-hint');
+    
+    if (video && index < currentFilms.length) {
+      video.src = currentFilms[index];
+      video.muted = true;
+      video.playsInline = true; // Kluczowe dla iOS
+      video.removeAttribute('controls');
+      
+      // Pierwszy film ładujemy od razu, reszta na żądanie
+      if (index === 0) {
+        video.preload = 'auto';
+      } else {
+        video.preload = 'none';
       }
+
+      // Pokazywanie strzałki po zakończeniu (jeśli nie jest loop)
+      video.addEventListener('ended', () => {
+        if (hint) hint.classList.add('visible');
+      });
+
+      // Jeśli user kliknie w ekran -> pauza/play
+      screen.addEventListener('click', () => {
+        if (video.paused) {
+           video.play().catch(err => console.log('Klik play error:', err));
+        } else {
+           video.pause();
+        }
+      });
+    }
   });
 
-  // 2. Dźwięk
+  // 2. Globalne odmutowanie
   function unmuteAllVideos() {
-    mobileScreens.forEach(screen => {
-      const video = screen.querySelector('video');
-      if(video) video.muted = false;
+    screens.forEach(screen => {
+      const v = screen.querySelector('video');
+      if (v) v.muted = false;
     });
     muteButtons.forEach(btn => btn.style.display = 'none');
   }
 
   muteButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-          e.stopPropagation(); 
-          unmuteAllVideos();
-      });
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      unmuteAllVideos();
+    });
   });
 
-  // 3. Observer - Logika Budzenia Androida
+  // 3. Observer - Logika Odtwarzania
+  const observerOptions = {
+    root: heroContainer, // Obserwujemy wewnątrz kontenera #hero
+    threshold: 0.5       // 50% widoczności uruchamia wideo
+  };
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      const video = entry.target.querySelector('video');
-      if(!video) return;
+      const screen = entry.target;
+      const video = screen.querySelector('video');
+      const hint = screen.querySelector('.scroll-hint');
+
+      if (!video) return;
 
       if (entry.isIntersecting) {
-        // Jeśli film był "zamrożony" (preload=none) lub pusty (readyState=0)
-        if (video.preload === 'none' || video.readyState === 0) {
-            video.preload = 'auto'; // Zmień tryb
-            video.load();           // Wymuś pobranie danych
+        // --- JESTEŚMY NA EKRANIE ---
+        
+        // Jeśli wideo nie było ładowane, zmieniamy preload.
+        // WAŻNE: Nie wywołujemy video.load() jeśli src się nie zmieniło,
+        // bo to powoduje czarny ekran na Androidzie/iOS.
+        if (video.preload === 'none') {
+          video.preload = 'auto';
         }
 
+        // Ukryj strzałkę, jeśli jest widoczna
+        if (hint) hint.classList.remove('visible');
+
+        // Próba odtworzenia
         const playPromise = video.play();
         if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                // Ignorujemy błędy autoplay, bo użytkownik może kliknąć w ekran
-                console.log("Autoplay wstrzymany - czekam na gest");
-            });
+          playPromise.catch(error => {
+            console.log("Autoplay zablokowany lub błąd:", error);
+            // Czasem przeglądarka wymaga wyciszenia, by ruszyć
+            if (!video.muted) {
+                // video.muted = true; // Opcjonalnie: wymuś mute jeśli fail
+                // video.play();
+            }
+          });
         }
 
-        // --- PRELOAD NASTĘPNEGO ---
-        const nextScreen = entry.target.nextElementSibling;
+        // --- PRELOAD NASTĘPNEGO FILMU (Dla płynności) ---
+        const nextScreen = screen.nextElementSibling;
         if (nextScreen && nextScreen.classList.contains('video-screen')) {
-            const nextVideo = nextScreen.querySelector('video');
-            // Budzimy następny film już teraz w tle
-            if (nextVideo && nextVideo.preload === 'none') {
-                nextVideo.preload = 'auto';
-                // Nie robimy .load(), żeby nie zatykać łącza, samo preload=auto wystarczy przeglądarce
-            }
+          const nextVid = nextScreen.querySelector('video');
+          if (nextVid && nextVid.preload === 'none') {
+             nextVid.preload = 'metadata'; // Ładujemy tylko początek
+          }
         }
 
       } else {
+        // --- WIDEO ZNIKA ---
         video.pause();
-        const hint = entry.target.querySelector('.scroll-hint');
-        if (hint) hint.classList.remove('visible');
+        // Opcjonalnie: przewiń do początku, żeby startowało od zera przy powrocie
+        // video.currentTime = 0; 
       }
     });
-  }, { threshold: 0.4, root: heroContainer });
+  }, observerOptions);
 
-  mobileScreens.forEach(screen => observer.observe(screen));
-
+  screens.forEach(s => observer.observe(s));
 });
 </script>
 
@@ -689,18 +714,6 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       console.log("Rozpoczynam wysyłanie formularza...");
 
-      // --- SEKCJA CAPTCHA (ZAKOMENTOWANA DO TESTÓW) ---
-      // Aby włączyć zabezpieczenie, usuń '/*' i '*/'
-      /*
-      const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
-      if (!tokenInput || !tokenInput.value) {
-        console.warn("Brak tokenu Captcha");
-        if (msg) { msg.textContent = 'Zaznacz zabezpieczenie (captcha).'; msg.style.color = 'red'; }
-        return;
-      }
-      */
-      // ------------------------------------------------
-
       appendConsents(form);
       appendBuildConfigurationToMessage(form);
 
@@ -708,13 +721,11 @@ document.addEventListener("DOMContentLoaded", function() {
       const original = btn ? btn.innerHTML : '';
       if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…'; }
 
-      // Wysyłka przez EmailJS
       emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', this)
         .then(function(response) {
             console.log('SUKCES!', response.status, response.text);
             if (msg) { msg.textContent = 'Dziękujemy! Wiadomość wysłana.'; msg.style.color = 'green'; }
             form.reset();
-            // Resetujemy turnstile tylko jeśli istnieje
             if (window.turnstile) { try { turnstile.reset(); } catch(e){} }
         })
         .catch(function(error) {
