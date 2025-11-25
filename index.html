@@ -315,45 +315,39 @@ document.addEventListener('DOMContentLoaded', () => {
 <section id="hero" class="text-center"> 
   
   <div id="heroVideosMobile"> 
+    
     <div class="video-screen">
-      <video src="/Spoty/Spot1vert.webm" muted playsinline preload="metadata"></video>
+      <video src="/Spoty/Spot1vert.webm" muted playsinline preload="auto"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
-      <div class="scroll-hint">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="scroll-hint"><span></span><span></span><span></span></div>
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot2vert.webm" muted playsinline loading="lazy"></video>
+      <video src="/Spoty/Spot2vert.webm" muted playsinline preload="none"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
-      <div class="scroll-hint">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="scroll-hint"><span></span><span></span><span></span></div>
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot3vert.webm" muted playsinline loading="lazy"></video>
+      <video src="/Spoty/Spot3vert.webm" muted playsinline preload="none"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
-      <div class="scroll-hint">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="scroll-hint"><span></span><span></span><span></span></div>
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot4vert.webm" muted playsinline loading="lazy"></video>
+      <video src="/Spoty/Spot4vert.webm" muted playsinline preload="none"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
-      <div class="scroll-hint">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="scroll-hint"><span></span><span></span><span></span></div>
     </div>
+
   </div>
 
 </section>
@@ -364,9 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const mobileScreens = document.querySelectorAll('.video-screen');
   const muteButtons = document.querySelectorAll('.unmute-btn');
   const heroContainer = document.getElementById('hero');
-  let currentPlayingVideo = null; 
 
-  // Definicje plików (dla pewności, że JS ma poprawne ścieżki)
   const desktopFilms = [
     "/Spoty/Spot1.webm", "/Spoty/Spot2.webm", "/Spoty/Spot3.webm", "/Spoty/Spot4.webm"
   ];
@@ -374,27 +366,20 @@ document.addEventListener("DOMContentLoaded", function() {
     "/Spoty/Spot1vert.webm", "/Spoty/Spot2vert.webm", "/Spoty/Spot3vert.webm", "/Spoty/Spot4vert.webm"
   ];
 
-  // Wybór źródła
   const isDesktopFormat = window.innerWidth >= 768;
   const filmList = isDesktopFormat ? desktopFilms : mobileFilms;
 
-  // 1. Konfiguracja wstępna
+  // 1. Konfiguracja i Eventy
   mobileScreens.forEach((screen, index) => {
       const video = screen.querySelector('video');
       const hint = screen.querySelector('.scroll-hint');
-      const btn = screen.querySelector('.unmute-btn');
 
       if (video && index < filmList.length) {
           video.src = filmList[index];
-          // Usunięcie loop tutaj, jeśli chcesz obsługiwać to ręcznie, 
-          // ale dla płynności na mobile 'loop' w HTML jest bezpieczniejszy.
-          // Jeśli chcesz wymusić 1 odtworzenie i stop, usuń atrybut loop w HTML i odkomentuj linię niżej:
           video.removeAttribute('loop'); 
-          
-          video.muted = true; // Wymagane do autoplay
-          video.playsInline = true; // Wymagane dla iOS
+          video.muted = true;
+          video.playsInline = true;
 
-          // Logika końca filmu -> pokaż strzałki
           video.addEventListener('ended', () => {
             if (hint) hint.classList.add('visible');
           });
@@ -403,46 +388,23 @@ document.addEventListener("DOMContentLoaded", function() {
              if (hint) hint.classList.remove('visible');
           });
 
-          // FIX NA ZACIĘCIA: Kliknięcie w ekran wymusza play/pause
+          // Klik w ekran "budzi" film, jeśli ten się zaciął
           screen.addEventListener('click', () => {
             if (video.paused) {
-                video.play().catch(e => console.log("Klik play error:", e));
+                if (video.readyState === 0) video.load(); // Wymuś załadowanie
+                video.play().catch(()=>{});
             } else {
-                // Opcjonalnie: pauza po kliknięciu
-                // video.pause(); 
+                video.pause();
             }
           });
       }
   });
 
-  // 2. Funkcja bezpiecznego odtwarzania (Promise)
-  const playVideoSafe = (video) => {
-      // Wymuś załadowanie jeśli wideo 'wisi'
-      if (video.readyState < 3) {
-          video.load();
-      }
-      
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-          playPromise.then(_ => {
-              // Autoplay wystartował
-          })
-          .catch(error => {
-              console.warn("Autoplay zablokowany przez przeglądarkę (Low Power Mode?). Czekam na interakcję.", error);
-              // Tutaj film nie wystartował. Użytkownik musi kliknąć/przesunąć.
-              // Dzięki zdarzeniu 'click' na kontenerze (wyżej), tapnięcie go uruchomi.
-          });
-      }
-  };
-
-  // 3. Logika Dźwięku
+  // 2. Dźwięk
   function unmuteAllVideos() {
     mobileScreens.forEach(screen => {
       const video = screen.querySelector('video');
-      if(video){ 
-        video.muted = false; 
-        // Nie ustawiamy volume na 1 na siłę na iOS, bo to system steruje głośnością
-      }
+      if(video) video.muted = false;
     });
     muteButtons.forEach(btn => btn.style.display = 'none');
   }
@@ -454,51 +416,47 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   });
 
-  // 4. Zaawansowany Observer
-  const observerOptions = {
-      root: heroContainer, // Kontener hero
-      threshold: 0.5        // Film musi być widoczny w 50%
-  };
-
+  // 3. Observer - Logika Budzenia Androida
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const video = entry.target.querySelector('video');
       if(!video) return;
 
       if (entry.isIntersecting) {
-        currentPlayingVideo = video;
-        
-        // Reset czasu, żeby startował od początku (efekt TikToka)
-        // video.currentTime = 0; 
-        
-        playVideoSafe(video);
+        // Jeśli film był "zamrożony" (preload=none) lub pusty (readyState=0)
+        if (video.preload === 'none' || video.readyState === 0) {
+            video.preload = 'auto'; // Zmień tryb
+            video.load();           // Wymuś pobranie danych
+        }
 
-        // PRELOAD NASTĘPNEGO FILMU (FIX BIAŁEGO EKRANU)
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                // Ignorujemy błędy autoplay, bo użytkownik może kliknąć w ekran
+                console.log("Autoplay wstrzymany - czekam na gest");
+            });
+        }
+
+        // --- PRELOAD NASTĘPNEGO ---
         const nextScreen = entry.target.nextElementSibling;
         if (nextScreen && nextScreen.classList.contains('video-screen')) {
             const nextVideo = nextScreen.querySelector('video');
-            if (nextVideo) {
-                // preload="auto" to czasem za mało. .load() wymusza pobranie nagłówków
-                nextVideo.preload = 'auto'; 
-                // Mały hack: ładujemy, ale nie odtwarzamy
-                if (nextVideo.readyState === 0) nextVideo.load();
+            // Budzimy następny film już teraz w tle
+            if (nextVideo && nextVideo.preload === 'none') {
+                nextVideo.preload = 'auto';
+                // Nie robimy .load(), żeby nie zatykać łącza, samo preload=auto wystarczy przeglądarce
             }
         }
 
       } else {
         video.pause();
-        // Ukryj strzałki jak film znika
         const hint = entry.target.querySelector('.scroll-hint');
         if (hint) hint.classList.remove('visible');
       }
     });
-  }, observerOptions);
+  }, { threshold: 0.4, root: heroContainer });
 
   mobileScreens.forEach(screen => observer.observe(screen));
-  
-  // Start pierwszego filmu "na sztywno"
-  const firstVideo = mobileScreens[0].querySelector('video');
-  if (firstVideo) playVideoSafe(firstVideo);
 
 });
 </script>
@@ -531,136 +489,6 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
   </section>
 
-
-<script>
-// Skrypt Lightbox/Oferta
-(() => {
-  const scope = document.getElementById('oferta');
-  const lightbox = document.getElementById('dog-lightbox');
-  const mainImg = document.getElementById('dog-lightbox-main-img');
-  const thumbsBox = document.getElementById('dog-lightbox-thumbs');
-  const content = lightbox ? lightbox.querySelector('.dog-lightbox-content') : null;
-  const closeX = lightbox ? lightbox.querySelector('.dog-lightbox-close') : null;
-  const titleEl = document.getElementById('lightbox-title');
-  const descEl = document.getElementById('lightbox-desc');
-  const contactBtn = lightbox ? lightbox.querySelector('.lightbox-close-on-click') : null;
-
-  if (!lightbox || !scope || !mainImg || !thumbsBox || !content) {
-      console.warn("Lightbox: Nie znaleziono wszystkich wymaganych elementów.");
-      return;
-  }
-
-  let gallery = [];
-  let idx = 0;
-
-  const toAbs = (src) => {
-      const path = src.includes('/') || src.startsWith('http') ? src : ('/' + src);
-      return new URL(path, location.href).href;
-  };
-
-  const getGalleryData = (card) => {
-    const mainSrc = card.querySelector('img').src;
-    let rawGallery = card.getAttribute('data-gallery');
-    let images = [];
-    
-    if (rawGallery) {
-      try { 
-        let jsonStr = rawGallery.replace(/'/g, '"');
-        images = JSON.parse(jsonStr).map(toAbs); 
-      } catch (e) { 
-        images = [toAbs(mainSrc)]; 
-      }
-    } else {
-      images = [toAbs(mainSrc)];
-    }
-
-    if (!images.includes(toAbs(mainSrc))) { 
-        images.unshift(toAbs(mainSrc)); 
-    }
-
-    return {
-        images: images,
-        title: card.getAttribute('data-title') || 'Nasza Realizacja',
-        description: card.getAttribute('data-desc') || 'Brak dodatkowego opisu.',
-        mainSrc: toAbs(mainSrc)
-    };
-  };
-
-  const setActive = (i) => {
-    idx = i;
-    mainImg.src = gallery[idx];
-    
-    const thumbs = Array.from(thumbsBox.children);
-    thumbs.forEach((t, k) => {
-        if (k === idx) {
-            t.classList.add('active');
-            t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        } else {
-            t.classList.remove('active');
-        }
-    });
-  };
-
-  const renderThumbs = () => {
-    thumbsBox.innerHTML = '';
-    if (gallery.length > 1) {
-        gallery.forEach((src, i) => {
-          const t = document.createElement('img');
-          t.src = src; 
-          t.alt = `miniatura ${i+1}`;
-          if (i === idx) t.classList.add('active');
-          t.onclick = (e) => { e.stopPropagation(); setActive(i); }; 
-          thumbsBox.appendChild(t);
-        });
-    }
-  };
-
-  const openLightbox = (data) => {
-    gallery = data.images;
-    const start = data.images.findIndex(url => url === data.mainSrc);
-    idx = start !== -1 ? start : 0;
-
-    if (titleEl) titleEl.textContent = data.title;
-    if (descEl) descEl.textContent = data.description;
-    
-    renderThumbs(); 
-    setActive(idx);
-    
-    lightbox.style.display = 'flex';
-    document.documentElement.style.overflow = 'hidden';
-  };
-
-  const closeLightbox = () => {
-    lightbox.style.display = 'none';
-    document.documentElement.style.overflow = '';
-  };
-  
-  if (closeX) closeX.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
-  lightbox.addEventListener('click', () => closeLightbox());
-  if (content) content.addEventListener('click', (e) => e.stopPropagation()); 
-  
-  if (contactBtn) contactBtn.addEventListener('click', () => { 
-    setTimeout(closeLightbox, 100); 
-  });
-
-  scope.addEventListener('click', (e) => {
-    const card = e.target.closest('.gallery-card');
-    if (!card) return;
-
-    const data = getGalleryData(card);
-    if (!data.images.length) return;
-
-    openLightbox(data);
-  });
-  
-  document.addEventListener('keydown', (e) => {
-    if (lightbox.style.display === 'none') return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowRight' && gallery.length > 1) setActive((idx + 1) % gallery.length);
-    if (e.key === 'ArrowLeft'  && gallery.length > 1) setActive((idx - 1 + gallery.length) % gallery.length);
-  });
-})();
-</script>
 
 <section id="oferta" class="py-5 bg-light-soft">
   <div class="container">
@@ -812,8 +640,6 @@ document.addEventListener("DOMContentLoaded", function() {
 </section>
 
 
-
-
 <script>
 (function() {
 
@@ -864,6 +690,7 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log("Rozpoczynam wysyłanie formularza...");
 
       // --- SEKCJA CAPTCHA (ZAKOMENTOWANA DO TESTÓW) ---
+      // Aby włączyć zabezpieczenie, usuń '/*' i '*/'
       /*
       const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
       if (!tokenInput || !tokenInput.value) {
@@ -910,8 +737,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 })();
 </script>
-
-
 
 <section class="py-5" id="opinie" style="display: none;">...</section>
   <section class="py-5" id="blog" style="display: none;">...</section>
@@ -982,7 +807,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const scope = document.getElementById('oferta');
   const lightbox = document.getElementById('dog-lightbox');
   const mainImg = document.getElementById('dog-lightbox-main-img');
-  const thumbsBox = document.getElementById('dog-lightbox-thumbs'); // Przywrócono
+  const thumbsBox = document.getElementById('dog-lightbox-thumbs');
   const content = lightbox ? lightbox.querySelector('.dog-lightbox-content') : null;
   const closeX = lightbox ? lightbox.querySelector('.dog-lightbox-close') : null;
   const titleEl = document.getElementById('lightbox-title');
