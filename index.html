@@ -320,7 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
   <div id="heroVideosMobile"> 
     
     <div class="video-screen">
-      <video src="/Spoty/Spot1vert.webm" muted playsinline  preload="auto"></video>
+      <video muted playsinline loop preload="metadata">
+          <source src="/Spoty/Spot1vert.webm" type="video/webm" media="(max-width: 768px)">
+          <source src="/Spoty/Spot1.webm" type="video/webm">
+      </video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -328,7 +331,10 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot2vert.webm" muted playsinline  preload="none"></video>
+      <video muted playsinline loop preload="metadata">
+          <source src="/Spoty/Spot2vert.webm" type="video/webm" media="(max-width: 768px)">
+          <source src="/Spoty/Spot2.webm" type="video/webm">
+      </video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -336,7 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot3vert.webm" muted playsinline  preload="none"></video>
+      <video muted playsinline loop preload="metadata">
+          <source src="/Spoty/Spot3vert.webm" type="video/webm" media="(max-width: 768px)">
+          <source src="/Spoty/Spot3.webm" type="video/webm">
+      </video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -344,7 +353,10 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot4vert.webm" muted playsinline  preload="none"></video>
+      <video muted playsinline loop preload="metadata">
+          <source src="/Spoty/Spot4vert.webm" type="video/webm" media="(max-width: 768px)">
+          <source src="/Spoty/Spot4.webm" type="video/webm">
+      </video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
@@ -355,134 +367,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </section>
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  
+
   const screens = document.querySelectorAll('.video-screen');
   const muteButtons = document.querySelectorAll('.unmute-btn');
-  const heroContainer = document.getElementById('hero');
 
-  // Ścieżki do plików
-  const desktopFilms = [
-    "/Spoty/Spot1.webm", "/Spoty/Spot2.webm", "/Spoty/Spot3.webm", "/Spoty/Spot4.webm"
-  ];
-  const mobileFilms = [
-    "/Spoty/Spot1vert.webm", "/Spoty/Spot2vert.webm", "/Spoty/Spot3vert.webm", "/Spoty/Spot4vert.webm"
-  ];
-
-  // Wykrywanie wersji mobilnej/desktopowej i przypisanie źródeł
-  const isDesktop = window.innerWidth >= 768;
-  const currentFilms = isDesktop ? desktopFilms : mobileFilms;
-
-  // 1. Inicjalizacja źródeł
-  screens.forEach((screen, index) => {
-    const video = screen.querySelector('video');
-    const hint = screen.querySelector('.scroll-hint');
-    
-    if (video && index < currentFilms.length) {
-      video.src = currentFilms[index];
-      video.muted = true;
-      video.playsInline = true; // Kluczowe dla iOS
-      video.removeAttribute('controls');
-      
-      // Pierwszy film ładujemy od razu, reszta na żądanie
-      if (index === 0) {
-        video.preload = 'auto';
-      } else {
-        video.preload = 'none';
-      }
-
-      // Pokazywanie strzałki po zakończeniu (jeśli nie jest loop)
-      video.addEventListener('ended', () => {
-        if (hint) hint.classList.add('visible');
-      });
-
-      // Jeśli user kliknie w ekran -> pauza/play
-      screen.addEventListener('click', () => {
-        if (video.paused) {
-           video.play().catch(err => console.log('Klik play error:', err));
-        } else {
-           video.pause();
-        }
-      });
-    }
-  });
-
-  // 2. Globalne odmutowanie
-  function unmuteAllVideos() {
-    screens.forEach(screen => {
-      const v = screen.querySelector('video');
-      if (v) v.muted = false;
-    });
-    muteButtons.forEach(btn => btn.style.display = 'none');
-  }
-
-  muteButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      unmuteAllVideos();
-    });
-  });
-
-  // 3. Observer - Logika Odtwarzania
-  const observerOptions = {
-    root: heroContainer, // Obserwujemy wewnątrz kontenera #hero
-    threshold: 0.5       // 50% widoczności uruchamia wideo
-  };
-
+  // 1. OBSŁUGA ODTWARZANIA (WIDZISZ = GRAJ)
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      const screen = entry.target;
-      const video = screen.querySelector('video');
-      const hint = screen.querySelector('.scroll-hint');
-
+      const video = entry.target.querySelector('video');
+      const hint = entry.target.querySelector('.scroll-hint');
+      
       if (!video) return;
 
       if (entry.isIntersecting) {
-        // --- JESTEŚMY NA EKRANIE ---
-        
-        // Jeśli wideo nie było ładowane, zmieniamy preload.
-        // WAŻNE: Nie wywołujemy video.load() jeśli src się nie zmieniło,
-        // bo to powoduje czarny ekran na Androidzie/iOS.
-        if (video.preload === 'none') {
-          video.preload = 'auto';
-        }
-
-        // Ukryj strzałkę, jeśli jest widoczna
-        if (hint) hint.classList.remove('visible');
-
-        // Próba odtworzenia
+        // Wideo wchodzi na ekran
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.catch(error => {
-            console.log("Autoplay zablokowany lub błąd:", error);
-            // Czasem przeglądarka wymaga wyciszenia, by ruszyć
-            if (!video.muted) {
-                // video.muted = true; // Opcjonalnie: wymuś mute jeśli fail
-                // video.play();
-            }
+            console.log("Auto-play zablokowany (norma na mobile przy low power mode):", error);
           });
         }
-
-        // --- PRELOAD NASTĘPNEGO FILMU (Dla płynności) ---
-        const nextScreen = screen.nextElementSibling;
-        if (nextScreen && nextScreen.classList.contains('video-screen')) {
-          const nextVid = nextScreen.querySelector('video');
-          if (nextVid && nextVid.preload === 'none') {
-             nextVid.preload = 'metadata'; // Ładujemy tylko początek
-          }
-        }
+        // Pokaż strzałkę po chwili (opcjonalne, skoro jest loop)
+        if(hint) setTimeout(() => hint.classList.add('visible'), 500);
 
       } else {
-        // --- WIDEO ZNIKA ---
+        // Wideo znika z ekranu
         video.pause();
-        // Opcjonalnie: przewiń do początku, żeby startowało od zera przy powrocie
-        // video.currentTime = 0; 
+        if(hint) hint.classList.remove('visible');
       }
     });
-  }, observerOptions);
+  }, { threshold: 0.5 }); // 50% widoczności wyzwala akcję
 
-  screens.forEach(s => observer.observe(s));
+  // Odpalamy obserwatora
+  screens.forEach(screen => observer.observe(screen));
+
+  // 2. OBSŁUGA DŹWIĘKU
+  muteButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Nie pauzuj filmu kliknięciem
+      // Włącz dźwięk wszędzie
+      document.querySelectorAll('video').forEach(v => v.muted = false);
+      // Ukryj przyciski
+      muteButtons.forEach(b => b.style.display = 'none');
+    });
+  });
+
+  // 3. PAUZA/START KLIKNIĘCIEM W EKRAN (DODATEK)
+  screens.forEach(screen => {
+      screen.addEventListener('click', () => {
+          const v = screen.querySelector('video');
+          if(v.paused) v.play();
+          else v.pause();
+      });
+  });
+
 });
 </script>
 
