@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zabudo.pl - Wszystko zaczyna się od marzenia</title>
 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -744,7 +746,7 @@ document.addEventListener("DOMContentLoaded", function() {
       <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
     </div>
 
-    <form id="contact-form" method="POST" action="/api/contact">
+    <form id="contact-form">
       <div class="mb-2">
         <input type="text" name="user_name" placeholder="Imię i nazwisko*" class="form-control" required />
       </div>
@@ -786,7 +788,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
  <script>
 (function() {
-  const SERVICE_ENDPOINT = '/api/contact'; 
 
   function addHidden(form, name, value) {
     let input = form.querySelector('input[name="'+name+'"]');
@@ -799,9 +800,7 @@ document.addEventListener("DOMContentLoaded", function() {
     input.value = value;
   }
   
-  function appendBuildConfigurationToMessage(form) {
-    
-  }
+  function appendBuildConfigurationToMessage(form) { }
 
   function appendConsents(form) {
     let newsletterConsent = 'NIE', newsletterTs = '', newsletterSource = '';
@@ -828,8 +827,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (form.__wired__) return;
     form.__wired__ = true;
+    
+    // Inicjalizacja EmailJS - PODMIEŃ KLUCZ TUTAJ
+    emailjs.init("0rODOdXhUGV-z--Ya"); 
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
@@ -845,24 +847,20 @@ document.addEventListener("DOMContentLoaded", function() {
       const original = btn ? btn.innerHTML : '';
       if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…'; }
 
-      try {
-        const fd = new FormData(form);
-        const resp = await fetch(SERVICE_ENDPOINT, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-        let json = {};
-        try { json = await resp.json(); } catch(_) {}
-
-        if (!resp.ok || json.ok === false) {
-          if (msg) { msg.textContent = 'Nie udało się wysłać. Sprawdź dane i captcha.'; msg.style.color = 'red'; }
-        } else {
-          if (msg) { msg.textContent = 'Dziękujemy! Wiadomość wysłana.'; msg.style.color = 'green'; }
-          form.reset();
-          if (window.turnstile) turnstile.reset();
-        }
-      } catch (err) {
-        if (msg) { msg.textContent = 'Błąd sieci/serwera. Spróbuj ponownie.'; msg.style.color = 'red'; }
-      } finally {
-        if (btn) { btn.disabled = false; btn.innerHTML = original; }
-      }
+      // Wysyłka przez EmailJS
+      // PODMIEŃ SERVICE ID i TEMPLATE ID TUTAJ
+      emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', this)
+        .then(function() {
+            if (msg) { msg.textContent = 'Dziękujemy! Wiadomość wysłana.'; msg.style.color = 'green'; }
+            form.reset();
+            if (window.turnstile) turnstile.reset();
+        }, function(error) {
+            console.error('FAILED...', error);
+            if (msg) { msg.textContent = 'Błąd wysyłki: ' + JSON.stringify(error); msg.style.color = 'red'; }
+        })
+        .finally(() => {
+            if (btn) { btn.disabled = false; btn.innerHTML = original; }
+        });
     });
   }
 
