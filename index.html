@@ -316,56 +316,47 @@ document.addEventListener('DOMContentLoaded', () => {
   
   <div id="heroVideosMobile"> 
     <div class="video-screen">
-      <video src="/Spoty/Spot1vert.webm" muted playsinline preload="metadata"></video>
+      <video src="/Spoty/Spot1vert.webm" muted playsinline loop preload="metadata"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
       <div class="scroll-hint">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </div>
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot2vert.webm" muted playsinline preload="metadata"></video>
+      <video src="/Spoty/Spot2vert.webm" muted playsinline loop preload="metadata"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
       <div class="scroll-hint">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </div>
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot3vert.webm" muted playsinline preload="metadata"></video>
+      <video src="/Spoty/Spot3vert.webm" muted playsinline loop preload="metadata"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
       <div class="scroll-hint">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </div>
     </div>
 
     <div class="video-screen">
-      <video src="/Spoty/Spot4vert.webm" muted playsinline preload="metadata"></video>
+      <video src="/Spoty/Spot4vert.webm" muted playsinline loop preload="metadata"></video>
       <button class="unmute-btn" title="Włącz dźwięk">
         <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
       </button>
       <div class="scroll-hint">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </div>
     </div>
   </div>
 
 </section>
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -375,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const heroContainer = document.getElementById('hero');
   let currentPlayingVideo = null; 
 
-  // Definicje plików
+  // Definicje plików (dla pewności, że JS ma poprawne ścieżki)
   const desktopFilms = [
     "/Spoty/Spot1.webm", "/Spoty/Spot2.webm", "/Spoty/Spot3.webm", "/Spoty/Spot4.webm"
   ];
@@ -383,19 +374,27 @@ document.addEventListener("DOMContentLoaded", function() {
     "/Spoty/Spot1vert.webm", "/Spoty/Spot2vert.webm", "/Spoty/Spot3vert.webm", "/Spoty/Spot4vert.webm"
   ];
 
-  // Inicjalizacja Wideo
+  // Wybór źródła
   const isDesktopFormat = window.innerWidth >= 768;
   const filmList = isDesktopFormat ? desktopFilms : mobileFilms;
 
+  // 1. Konfiguracja wstępna
   mobileScreens.forEach((screen, index) => {
       const video = screen.querySelector('video');
       const hint = screen.querySelector('.scroll-hint');
+      const btn = screen.querySelector('.unmute-btn');
 
       if (video && index < filmList.length) {
           video.src = filmList[index];
+          // Usunięcie loop tutaj, jeśli chcesz obsługiwać to ręcznie, 
+          // ale dla płynności na mobile 'loop' w HTML jest bezpieczniejszy.
+          // Jeśli chcesz wymusić 1 odtworzenie i stop, usuń atrybut loop w HTML i odkomentuj linię niżej:
           video.removeAttribute('loop'); 
-          video.preload = index === 0 ? 'auto' : 'metadata'; 
           
+          video.muted = true; // Wymagane do autoplay
+          video.playsInline = true; // Wymagane dla iOS
+
+          // Logika końca filmu -> pokaż strzałki
           video.addEventListener('ended', () => {
             if (hint) hint.classList.add('visible');
           });
@@ -403,34 +402,49 @@ document.addEventListener("DOMContentLoaded", function() {
           video.addEventListener('play', () => {
              if (hint) hint.classList.remove('visible');
           });
+
+          // FIX NA ZACIĘCIA: Kliknięcie w ekran wymusza play/pause
+          screen.addEventListener('click', () => {
+            if (video.paused) {
+                video.play().catch(e => console.log("Klik play error:", e));
+            } else {
+                // Opcjonalnie: pauza po kliknięciu
+                // video.pause(); 
+            }
+          });
       }
   });
 
-  // Odpalamy pierwsze wideo
-  const firstVideo = mobileScreens[0].querySelector('video');
-  if (firstVideo) {
-      firstVideo.muted = true; 
-      firstVideo.play().catch(()=>{});
-  }
+  // 2. Funkcja bezpiecznego odtwarzania (Promise)
+  const playVideoSafe = (video) => {
+      // Wymuś załadowanie jeśli wideo 'wisi'
+      if (video.readyState < 3) {
+          video.load();
+      }
+      
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+          playPromise.then(_ => {
+              // Autoplay wystartował
+          })
+          .catch(error => {
+              console.warn("Autoplay zablokowany przez przeglądarkę (Low Power Mode?). Czekam na interakcję.", error);
+              // Tutaj film nie wystartował. Użytkownik musi kliknąć/przesunąć.
+              // Dzięki zdarzeniu 'click' na kontenerze (wyżej), tapnięcie go uruchomi.
+          });
+      }
+  };
 
-
-  // FUNKCJA ODŁUCHU WSZYSTKICH WIDEO
+  // 3. Logika Dźwięku
   function unmuteAllVideos() {
     mobileScreens.forEach(screen => {
       const video = screen.querySelector('video');
       if(video){ 
         video.muted = false; 
-        video.volume = 1; 
+        // Nie ustawiamy volume na 1 na siłę na iOS, bo to system steruje głośnością
       }
     });
-
-    muteButtons.forEach(btn => {
-        btn.style.display = 'none';
-    });
-    
-    if (currentPlayingVideo) {
-         currentPlayingVideo.play().catch(()=>{});
-    }
+    muteButtons.forEach(btn => btn.style.display = 'none');
   }
 
   muteButtons.forEach(btn => {
@@ -440,39 +454,51 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   });
 
+  // 4. Zaawansowany Observer
+  const observerOptions = {
+      root: heroContainer, // Kontener hero
+      threshold: 0.5        // Film musi być widoczny w 50%
+  };
 
-  // INTERSECTION OBSERVER
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const video = entry.target.querySelector('video');
       if(!video) return;
 
-      if(entry.isIntersecting){
-        currentPlayingVideo = video; 
+      if (entry.isIntersecting) {
+        currentPlayingVideo = video;
         
-        video.play().catch(e => console.log("Autoplay blocked or waiting for interaction", e));
+        // Reset czasu, żeby startował od początku (efekt TikToka)
+        // video.currentTime = 0; 
         
+        playVideoSafe(video);
+
+        // PRELOAD NASTĘPNEGO FILMU (FIX BIAŁEGO EKRANU)
         const nextScreen = entry.target.nextElementSibling;
         if (nextScreen && nextScreen.classList.contains('video-screen')) {
             const nextVideo = nextScreen.querySelector('video');
-            if (nextVideo && nextVideo.preload !== 'auto') {
+            if (nextVideo) {
+                // preload="auto" to czasem za mało. .load() wymusza pobranie nagłówków
                 nextVideo.preload = 'auto'; 
+                // Mały hack: ładujemy, ale nie odtwarzamy
+                if (nextVideo.readyState === 0) nextVideo.load();
             }
         }
 
       } else {
         video.pause();
+        // Ukryj strzałki jak film znika
         const hint = entry.target.querySelector('.scroll-hint');
         if (hint) hint.classList.remove('visible');
-
-        if (currentPlayingVideo === video) {
-             currentPlayingVideo = null;
-        }
       }
     });
-  }, {threshold: 0.5, root: heroContainer}); 
+  }, observerOptions);
 
   mobileScreens.forEach(screen => observer.observe(screen));
+  
+  // Start pierwszego filmu "na sztywno"
+  const firstVideo = mobileScreens[0].querySelector('video');
+  if (firstVideo) playVideoSafe(firstVideo);
 
 });
 </script>
