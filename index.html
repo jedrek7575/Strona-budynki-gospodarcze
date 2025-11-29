@@ -310,11 +310,13 @@
             <h2>Rozpocznij procedurę</h2>
             <p style="margin-bottom: 40px;">Zaufaj procesowi. Sprawdź swoją działkę.</p>
             
-            <form>
-                <input type="text" class="minimal-input" placeholder="Wpisz numer działki" required>
-                <input type="text" class="minimal-input" placeholder="Wpisz numer telefonu" required>
-                <button type="submit" class="btn">ZGŁOŚ BUDOWĘ ZA 1 ZŁ</button>
-            </form>
+<form id="contact-form">
+    <input type="text" name="numer_dzialki" class="minimal-input" placeholder="Wpisz numer działki" required>
+    
+    <input type="text" name="telefon" class="minimal-input" placeholder="Wpisz numer telefonu" required>
+    
+    <button type="submit" class="btn">ZGŁOŚ BUDOWĘ ZA 1 ZŁ</button>
+</form>
 
             <div class="promise">
                 Z ZABUDO nie wracasz zawiedziony, bo cały proces jest pod kontrolą.
@@ -367,6 +369,42 @@
       </div>
     </div>
   </footer>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script type="text/javascript">
+   (function(){
+      // TUTAJ WKLEJ SWÓJ PUBLIC KEY z zakładki 'Account' w EmailJS
+      emailjs.init({
+        publicKey: "TWOJ_PUBLIC_KEY_TUTAJ",
+      });
+   })();
+
+   window.onload = function() {
+      document.getElementById('contact-form').addEventListener('submit', function(event) {
+         event.preventDefault(); // Zatrzymuje przeładowanie strony
+
+         // Zmień tekst przycisku na "Wysyłanie..."
+         const btn = this.querySelector('button');
+         const originalText = btn.innerText;
+         btn.innerText = 'WYSYŁANIE...';
+
+         // Wysyłka formularza
+         // Podmień SERVICE_ID i TEMPLATE_ID na swoje z dashboardu EmailJS
+         emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+            .then(() => {
+                alert('Zgłoszenie wysłane pomyślnie! Skontaktujemy się wkrótce.');
+                btn.innerText = originalText;
+                this.reset(); // Czyści formularz
+            }, (error) => {
+                alert('Wystąpił błąd podczas wysyłania: ' + JSON.stringify(error));
+                btn.innerText = originalText;
+            });
+      });
+   }
+</script>
+
 
 </body>
 </html>
