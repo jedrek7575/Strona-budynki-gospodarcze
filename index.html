@@ -377,7 +377,7 @@
    (function(){
       // TUTAJ WKLEJ SWÓJ PUBLIC KEY z zakładki 'Account' w EmailJS
       emailjs.init({
-        publicKey: "TWOJ_PUBLIC_KEY_TUTAJ",
+        publicKey: "0rODOdXhUGV-z--Ya",
       });
    })();
 
@@ -392,7 +392,7 @@
 
          // Wysyłka formularza
          // Podmień SERVICE_ID i TEMPLATE_ID na swoje z dashboardu EmailJS
-         emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+         emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', this)
             .then(() => {
                 alert('Zgłoszenie wysłane pomyślnie! Skontaktujemy się wkrótce.');
                 btn.innerText = originalText;
