@@ -1,746 +1,531 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-
-  <link rel="preload" as="image" href="tlo2.webp" fetchpriority="high">
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zabudo.pl - Wszystko zaczyna się od marzenia</title>
-
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Zabudo.pl",
-    "description": "Budynki gospodarcze na wymiar – hale stalowe, wiaty, garaże blaszane, konstrukcje rolnicze. Montaż Śląsk i Małopolska.",
-    "url": "https://www.zabudo.pl",
-    "telephone": "+48503702467",
-    "email": "adam@zabudo.pl",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "ul. Parkowa 20",
-      "addressLocality": "Siewierz",
-      "addressRegion": "Śląskie",
-      "postalCode": "42-470",
-      "addressCountry": "PL"
-    },
-    "areaServed": ["Śląsk", "Małopolska", "Siewierz", "Zawiercie", "Myszków", "Łazy", "Poręba", "Żarki", "Koziegłowy", "Ożarowice", "Wojkowice Kościelne"],
-    "openingHours": "Mo-Fr 08:00-16:00",
-    "sameAs": []
-  }
-  </script>
-
-  <meta name="description" content="Wyznaczamy standardy w budownictwie. Szybka realizacja, montaż i atrakcyjne ceny.">
-  <meta name="keywords" content="budynki gospodarcze, domki letniskowe, wiaty, altany, konstrukcje drewniane, Śląsk, Małopolska, Siewierz, budowa, montaż, solidne budynki, na wymiar, blaszaki, Zabudo.pl">
-  <meta name="author" content="Zabudo.pl">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Zabudo.pl | Wszystko zaczyna się od marzenia">
-  <meta property="og:description" content="Budowa i montaż budynków gospodarczych dopasowanych do Twoich potrzeb. Działamy na Śląsku i w Małopolsce.">
-  <meta property="og:image" content="tlo.webp">
-  <meta property="og:url" content="https://www.zabudo.pl">
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="style.css" />
-
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="mstile-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  
-  <style>
-    :root {
-      --zabudo-burgund: #b33434;
-      --zabudo-akcent: #8a4f27;
-      --bg-light-soft: #f8f6f3;
-      --font-heavy: 900;
-      --white: #fff;
-      --dark: #212529;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZABUDO | Wszystko zaczyna się od marzenia.</title>
     
-    /* UNIFIKACJA HERO SCROLL */
-    #hero {
-        height: 100vh;
-        position: relative;
-        overflow-y: scroll;
-        scroll-snap-type: y mandatory;
-        -webkit-overflow-scrolling: touch;
-        display: block !important;
-        background-color: #000;
-    }
-    .video-screen {
-        scroll-snap-align: start;
-        height: 100vh;
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-        background-color: #000;
-    }
-    .video-screen video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-    
-    /* Przycisk odmutowania */
-    .unmute-btn {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 20;
-        background: rgba(0, 0, 0, 0.4);
-        border: 2px solid rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: background 0.3s, transform 0.3s;
-        animation: pulse-btn 2s infinite;
-    }
-    .unmute-btn img {
-        width: 35px;
-        height: 35px;
-        pointer-events: none;
-    }
-    .unmute-btn:hover {
-        background: var(--zabudo-burgund);
-        border-color: var(--zabudo-burgund);
-        transform: translate(-50%, -50%) scale(1.1);
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    /* Animowane strzałki przewijania */
-    .scroll-hint {
-        position: absolute;
-        bottom: 100px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 15;
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-        pointer-events: none;
-    }
-    .scroll-hint.visible {
-        opacity: 1;
-    }
-    .scroll-hint span {
-        display: block;
-        width: 30px;
-        height: 30px;
-        border-bottom: 3px solid rgba(255, 255, 255, 0.8);
-        border-right: 3px solid rgba(255, 255, 255, 0.8);
-        transform: rotate(45deg);
-        margin: -10px auto;
-        animation: scroll-anim 2s infinite;
-    }
-    .scroll-hint span:nth-child(2) { animation-delay: -0.2s; }
-    .scroll-hint span:nth-child(3) { animation-delay: -0.4s; }
-
-    @keyframes scroll-anim {
-        0% { opacity: 0; transform: rotate(45deg) translate(-20px, -20px); }
-        50% { opacity: 1; }
-        100% { opacity: 0; transform: rotate(45deg) translate(20px, 20px); }
-    }
-    
-    @keyframes pulse-btn {
-        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-        70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-    }
-
-    /* Usunięcie elementów desktopowych (w tle) i mobilnych (kontenera) */
-    #heroVideoDesktop { display: none !important; } 
-    #heroVideosMobile { 
-        display: block !important;
-        overflow: visible !important;
-        position: static !important;
-        height: auto !important;
-        width: 100% !important;
-    }
-    
-    /* Zachowanie stylów Lightboxa i Galerii */
-    .bg-light-soft { background-color: var(--bg-light-soft) !important; }
-    .lead-text-bold { font-weight: var(--font-heavy); font-size: 1.15rem; color: var(--dark); }
-    .section-title { color: var(--zabudo-akcent); font-weight: var(--font-heavy); }
-    .asymetric-gallery {
-      display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(auto, 1fr); 
-      gap: 15px; max-width: 1200px; margin: 0 auto;
-    }
-    .gallery-card { position: relative; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); transition: transform 0.3s ease, box-shadow 0.3s ease; aspect-ratio: 1 / 1; display: block; cursor: pointer; }
-    .gallery-card.large { grid-column: span 2; grid-row: span 2; aspect-ratio: 1 / 1; }
-    .gallery-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(179, 52, 52, 0.4), 0 0 0 3px var(--zabudo-burgund); }
-    .gallery-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-    .card-overlay { position: absolute; inset: 0; background: rgba(179, 52, 52, 0.65); color: var(--white); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; padding: 15px; text-align: center; }
-    .gallery-card:hover .card-overlay { opacity: 1; }
-    .card-overlay span { font-weight: var(--font-heavy); font-size: 1.1rem; }
-    .btn-cta { font-weight: var(--font-heavy) !important; background-color: var(--zabudo-burgund); border-color: var(--zabudo-burgund); }
-    
-    /* --- LIGHTBOX POPRAWKI --- */
-    .dog-lightbox { background: rgba(0, 0, 0, 0.95) !important; z-index: 99999; }
-    .dog-lightbox-close { color: var(--white); top: 40px; right: 50px; font-size: 50px; font-weight: 300; opacity: 0.8; }
-    .dog-lightbox-close:hover { color: var(--zabudo-burgund) !important; transform: scale(1.1); opacity: 1; }
-    
-    .lightbox-info { 
-        text-align: center; 
-        color: var(--white); 
-        margin-bottom: 15px; 
-        width: 100%; 
-        max-width: 800px; 
-        padding: 0 20px;
-        word-wrap: break-word;
-    }
-    #lightbox-title { 
-        font-weight: var(--font-heavy); 
-        color: var(--white); 
-        font-size: 2rem; 
-        margin-bottom: 10px;
-        word-wrap: break-word;
-    }
-    #lightbox-desc { 
-        font-weight: 400; 
-        color: #ccc; 
-        word-wrap: break-word;
-    }
-    
-    .dog-lightbox-main img { max-height: 60vh; box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); object-fit: contain; }
-    
-    /* Poprawka dla miniatur - Przewijanie poziome bez paska */
-    .dog-lightbox-thumbs {
-        display: flex;
-        gap: 10px;
-        justify-content: flex-start; /* Ważne dla scrollowania */
-        flex-wrap: nowrap; /* Nie zawijaj - jedna linia */
-        overflow-x: auto; /* Pozwól na scrollowanie */
-        width: 100%;
-        max-width: 800px; /* Ograniczenie szerokości */
-        padding: 10px 0;
-        margin-top: 15px;
+    <style>
+        /* =================================================================
+           ZABUDO DESIGN SYSTEM | SYMETRIA & HARMONIA
+           ================================================================= */
         
-        /* Ukrycie suwaka (Scrollbar) */
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-    }
-    /* Ukrycie suwaka dla Chrome, Safari i Opera */
-    .dog-lightbox-thumbs::-webkit-scrollbar {
+        :root {
+            /* PALETA BARW (80/15/5) */
+            --bg-white: #FFFFFF;
+            --bg-subtle: #F9F9F9;
+            --text-main: #1F1F1F;  /* Głęboki grafit, nie czerń */
+            --text-muted: #666666; /* Subtelniejszy tekst */
+            --accent: #FF6B00;     /* ZABUDO Orange */
+            --border: #ECECEC;     /* Linie podziału */
+
+            /* GEOMETRIA & ODSTĘPY (Liczby pierwsze / Złoty podział) */
+            --gap-section: 120px;
+            --gap-element: 40px;
+            --container-width: 1140px;
+            
+            /* TYPOGRAFIA */
+            --font-stack: 'Inter', sans-serif;
+            --leading-loose: 1.7; /* Oddech w tekście */
+        }
+
+        /* GLOBAL RESET & FLOW */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Płynne przewijanie - przyjemność */
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-white);
+            color: var(--text-main);
+            line-height: var(--leading-loose);
+            font-weight: 300; /* Light - luksusowy standard */
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* STRUKTURA */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+        }
+
+        section {
+            padding: var(--gap-section) 0;
+            position: relative;
+        }
+
+        /* DEKORACJE TŁA (Subtelne linie prowadzące) */
+        section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: var(--container-width);
+            height: 1px;
+            background-color: var(--border);
+            opacity: 0.6;
+        }
+        section:last-child::after, #hero::after { display: none; }
+
+        /* TYPOGRAFIA NAGŁÓWKÓW */
+        h1, h2, h3 {
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: -0.03em; /* Swiss Style tight tracking */
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 3.8rem;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 2.4rem;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 0;
+            font-weight: 900;
+        }
+
+        /* ELEMENTY INTERAKTYWNE */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 48px;
+            background-color: var(--accent);
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            border-radius: 4px; /* Minimalne zmiękczenie */
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.15);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.25);
+            background-color: #E65C00;
+        }
+
+        /* IKONY SVG */
+        .icon {
+            width: 42px;
+            height: 42px;
+            stroke: var(--text-main);
+            stroke-width: 1.2; /* Cienkie linie premium */
+            fill: none;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        /* =================================================================
+           SEKCJE
+           ================================================================= */
+
+
+        #navbar {
+        width: 100vw;
+        height: 50px;
+        background-color: rgba(145, 145, 145, 0.07);
+        
+        z-index: 9999;
+        position: fixed;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        padding-left: 50px;
+
+        }
+
+
+        /* 1. HERO - Perfekcyjna Centrowana Symetria */
+        #hero {
+            height: 90vh; /* Prawie pełny ekran */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #FFFFFF 0%, #FAFAFA 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero-sub {
+            font-size: 1.4rem;
+            margin-bottom: 48px;
+            font-weight: 300;
+            color: var(--text-main);
+        }
+
+        /* 2. DOWÓD (Grid 4-kolumnowy) */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .feature-card {
+            padding: 20px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .feature-card:hover { transform: translateY(-5px); }
+
+        /* 3. OPIEKA (Lista Symetryczna - Split) */
+        #care { background-color: var(--bg-subtle); }
+        
+        .care-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .check-list li {
+            list-style: none;
+            margin-bottom: 24px;
+            padding-left: 32px;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .check-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 16px;
+            height: 1px;
+            background-color: var(--accent); /* Minimalistyczny myślnik */
+        }
+
+        /* 4. KROKI (Grid 3-kolumnowy) */
+        .steps-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            text-align: center;
+            counter-reset: steps;
+        }
+
+        .step-item { position: relative; }
+
+        .step-number {
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--bg-subtle); /* Bardzo jasne tło numeru */
+            -webkit-text-stroke: 1px var(--border); /* Obrys */
+            line-height: 1;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-item h3 { color: var(--accent); }
+
+        /* 7. TARGET (Grid 2-kolumnowy) */
+        #target {      background: #332e29; color: white; }
+        #target h2 { color: white; }
+        #target h3 { color: white; }
+        #target p { color: #ffffff; }
+        
+        .target-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* 5. FORMULARZ (Concierge) */
+        .form-wrapper {
+            text-align: center;
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .minimal-input {
+            width: 100%;
+            padding: 24px;
+            border: none;
+            border-bottom: 2px solid var(--border);
+            font-size: 1.2rem;
+            font-family: var(--font-stack);
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 40px;
+            transition: border-color 0.3s;
+        }
+
+        .minimal-input:focus {
+            border-color: var(--accent);
+        }
+
+        .promise {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* 6. ZASADY */
+        .rules-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .rule-item {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--bg-subtle);
+            padding-bottom: 40px;
+        }
+        
+        .rule-num {
+            font-family: monospace;
+            color: var(--accent);
+            margin-right: 24px;
+            font-size: 1.2rem;
+        }
+
+
+
+        /* RESPONSIVENESS */
+        @media (max-width: 900px) {
+            .grid-4, .steps-wrapper, .care-grid, .target-grid {
+                grid-template-columns: 1fr; /* Wszystko w pion na mobilu */
+                gap: 40px;
+                text-align: center;
+            }
+            h1 { font-size: 2.8rem; }
+            .check-list li { text-align: left; display: inline-block; }
+            #hero { height: auto; padding: 100px 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === STOPKA === */
+        footer {
+        background: #332e29;
+        color: #ccc;
+        text-align: center;
+        padding: 1.5rem 1rem;
+        z-index: 1001;
+        position: relative;
+        }
+        .seo {
         display: none;
-    }
+        }
+        .footer-description p {
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+        }
+        .footer-description a {
+        color: #d2601a;
+        text-decoration: none;
+        }
+        .footer-description a:hover {
+        text-decoration: underline;
+        }
 
-    .dog-lightbox-thumbs img { 
-        width: 80px; 
-        height: 80px; 
-        object-fit: cover; 
-        border: 2px solid transparent; 
-        border-radius: 5px; 
-        opacity: 0.6; 
-        cursor: pointer;
-        transition: 0.3s;
-        flex-shrink: 0; /* Zapobiega ściskaniu miniatur */
-    }
-    .dog-lightbox-thumbs img.active { 
-        border-color: var(--zabudo-burgund); 
-        opacity: 1; 
-        transform: scale(1.1); 
-    }
-    
-    @media (max-width: 768px) {
-      .asymetric-gallery { grid-template-columns: repeat(2, 1fr); }
-      .gallery-card.large { grid-column: span 1; grid-row: span 1; }
-      #lightbox-title { font-size: 1.5rem; }
-      .dog-lightbox-close { top: 20px; right: 20px; }
-      /* Na mobile centrujemy start miniatur */
-      .dog-lightbox-thumbs { justify-content: flex-start; }
-    }
-  </style>
-  
+    </style>
 </head>
-
 <body>
 
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const nav  = document.querySelector('#navbar');
-  const hero = document.querySelector('#hero');
-  if (!nav || !hero) return;
+  <nav id="navbar">
 
-  const update = () => {
-    const isPastHero = window.scrollY > 50; 
-    nav.classList.toggle('white', isPastHero);
-  };
-  
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  window.addEventListener('load', update);
-  update();
+     <a href="#"> <img id="ikonazab" width="50px" height="50px" src="/Ikony/logo.webp" alt="Logo białe"   /></a>
 
-  document.querySelector('.navbar-toggler')?.classList.add('collapsed');
-});
-</script>
-
-
-  <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-     <a href="#"> <img id="ikonazab" src="logo_zabudo_white.webp" alt="Logo białe"   /></a>
-      <a href="#"> <img id="ikonablack" src="logo_zabudo_black.webp" alt="Logo czarne"  /></a>
-
-      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-           <li class="nav-item"><a class="nav-link" href="#proces">Nasz proces</a></li>
-          <li class="nav-item"><a class="nav-link" href="#oferta">Oferta</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
-
-        </ul>
-      </div>
-    </div>
   </nav>
 
 
-<section id="hero" class="text-center"> 
-  
-  <div id="heroVideosMobile"> 
-    
-    <div class="video-screen">
-      <video src="/Spoty/Spot1vert.mp4" muted playsinline preload="auto"></video>
-      <button class="unmute-btn" title="Włącz dźwięk">
-        <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
-      </button>
-      <div class="scroll-hint"><span></span><span></span><span></span></div>
-    </div>
-
-    <div class="video-screen">
-      <video src="/Spoty/Spot2vert.mp4" muted playsinline preload="none"></video>
-      <button class="unmute-btn" title="Włącz dźwięk">
-        <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
-      </button>
-      <div class="scroll-hint"><span></span><span></span><span></span></div>
-    </div>
-
-    <div class="video-screen">
-      <video src="/Spoty/Spot3vert.mp4" muted playsinline preload="none"></video>
-      <button class="unmute-btn" title="Włącz dźwięk">
-        <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
-      </button>
-      <div class="scroll-hint"><span></span><span></span><span></span></div>
-    </div>
-
-    <div class="video-screen">
-      <video src="/Spoty/Spot4vert.mp4" muted playsinline preload="none"></video>
-      <button class="unmute-btn" title="Włącz dźwięk">
-        <img src="/Ikony/muted.webp" alt="Włącz dźwięk">
-      </button>
-      <div class="scroll-hint"><span></span><span></span><span></span></div>
-    </div>
-
-  </div>
-
-</section>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  
-  const mobileScreens = document.querySelectorAll('.video-screen');
-  const muteButtons = document.querySelectorAll('.unmute-btn');
-  const heroContainer = document.getElementById('hero');
-
-  const desktopFilms = [
-    "/Spoty/Spot1.webm", "/Spoty/Spot2.webm", "/Spoty/Spot3.webm", "/Spoty/Spot4.webm"
-  ];
-  const mobileFilms = [
-    "/Spoty/Spot1vert.mp4", "/Spoty/Spot2vert.mp4", "/Spoty/Spot3vert.mp4", "/Spoty/Spot4vert.mp4"
-  ];
-
-  const isDesktopFormat = window.innerWidth >= 768;
-  const filmList = isDesktopFormat ? desktopFilms : mobileFilms;
-
-  // 1. Konfiguracja i Eventy
-  mobileScreens.forEach((screen, index) => {
-      const video = screen.querySelector('video');
-      const hint = screen.querySelector('.scroll-hint');
-
-      if (video && index < filmList.length) {
-          video.src = filmList[index];
-          video.removeAttribute('loop'); 
-          video.muted = true;
-          video.playsInline = true;
-
-          video.addEventListener('ended', () => {
-            if (hint) hint.classList.add('visible');
-          });
-
-          video.addEventListener('play', () => {
-             if (hint) hint.classList.remove('visible');
-          });
-
-          // Klik w ekran "budzi" film, jeśli ten się zaciął
-          screen.addEventListener('click', () => {
-            if (video.paused) {
-                if (video.readyState === 0) video.load(); // Wymuś załadowanie
-                video.play().catch(()=>{});
-            } else {
-                video.pause();
-            }
-          });
-      }
-  });
-
-  // 2. Dźwięk
-  function unmuteAllVideos() {
-    mobileScreens.forEach(screen => {
-      const video = screen.querySelector('video');
-      if(video) video.muted = false;
-    });
-    muteButtons.forEach(btn => btn.style.display = 'none');
-  }
-
-  muteButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-          e.stopPropagation(); 
-          unmuteAllVideos();
-      });
-  });
-
-  // 3. Observer - Logika Budzenia Androida
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target.querySelector('video');
-      if(!video) return;
-
-      if (entry.isIntersecting) {
-        // Jeśli film był "zamrożony" (preload=none) lub pusty (readyState=0)
-        if (video.preload === 'none' || video.readyState === 0) {
-            video.preload = 'auto'; // Zmień tryb
-            video.load();           // Wymuś pobranie danych
-        }
-
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                // Ignorujemy błędy autoplay, bo użytkownik może kliknąć w ekran
-                console.log("Autoplay wstrzymany - czekam na gest");
-            });
-        }
-
-        // --- PRELOAD NASTĘPNEGO ---
-        const nextScreen = entry.target.nextElementSibling;
-        if (nextScreen && nextScreen.classList.contains('video-screen')) {
-            const nextVideo = nextScreen.querySelector('video');
-            // Budzimy następny film już teraz w tle
-            if (nextVideo && nextVideo.preload === 'none') {
-                nextVideo.preload = 'auto';
-                // Nie robimy .load(), żeby nie zatykać łącza, samo preload=auto wystarczy przeglądarce
-            }
-        }
-
-      } else {
-        video.pause();
-        const hint = entry.target.querySelector('.scroll-hint');
-        if (hint) hint.classList.remove('visible');
-      }
-    });
-  }, { threshold: 0.4, root: heroContainer });
-
-  mobileScreens.forEach(screen => observer.observe(screen));
-
-});
-</script>
-
-
-  <section class="py-5 bg-light" id="proces">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-pencil-ruler fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Projekt</h5>
-          <p></p>
+    <section id="hero">
+        <div class="container hero-content">
+            <h1>Budowa zaczyna się od zgłoszenia.<br>Robimy je za Ciebie.</h1>
+            <p class="hero-sub">Twój pierwszy krok za złotówkę. <br>Resztą zajmujemy się my.</p>
+            <a href="#form" class="btn">ZACZNIJ PROCES</a>
         </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-lightbulb fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Koncepcja</h5>
-          <p></p>
+    </section>
+
+    <section id="proof">
+        <div class="container">
+            <h2>Nasz proces</h2>
+            <div class="grid-4">
+                <div class="feature-card">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    <h3>Specjalizacja</h3>
+                    <p>Składamy 10-20 zgłoszeń w miesiącu.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="icon" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                    <h3>Tylko nr działki</h3>
+                    <p>Resztę danych pobieramy z ewidencji.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <h3>21 dni</h3>
+                    <p>Tyle zajmuje oficjalna odpowiedź urzędu.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-8a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v8"/></svg>
+                    <h3>Projekt + Ekipa</h3>
+                    <p>Jasny proces.</p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-hammer fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Budowa</h5>
-          <p></p>
+    </section>
+
+    <section id="care">
+        <div class="container">
+            <h2>Opieka Procesowa: Co zdejmujemy z Twojej głowy?</h2>
+            <div class="care-grid">
+                <ul class="check-list">
+                    <li>Nie musisz uganiać się za ekipą</li>
+                    <li>Nie musisz dzwonić po urzędach</li>
+                    <li>Nie musisz znać przepisów</li>
+                </ul>
+                <ul class="check-list">
+                    <li>Nie musisz umawiać architekta</li>
+                    <li>Nie musisz porównywać ofert</li>
+                    <li>Nie musisz pilnować terminów</li>
+                </ul>
+            </div>
+            <p style="text-align: center; margin-top: 60px; font-weight: 500; color: var(--text-main);">
+                Prowadzimy Cię od A do Z. Dlatego z ZABUDO nie wracasz zawiedziony.
+            </p>
         </div>
-        <div class="col-md-3 text-center">
-          <i class="fa-solid fa-credit-card fa-3x ikona-zalety text-primary mb-3"></i>
-          <h5>Płatności</h5>
-          <p></p>
+    </section>
+
+    <section id="steps">
+        <div class="container">
+            <h2>Jak wygląda procedura?</h2>
+            <div class="steps-wrapper">
+                <div class="step-item">
+                    <div class="step-number">01</div>
+                    <h3>Zgłoszenie (1 zł)</h3>
+                    <p>Działanie. Sprawdzamy działkę, składamy dokumenty.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">02</div>
+                    <h3>Koncepcja</h3>
+                    <p>Wspólne ustalenia. Wybór projektu i zakresu.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">03</div>
+                    <h3>Budowa</h3>
+                    <p>Sprawdzona ekipa. Realizacja do stanu deweloperskiego.</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-
-<section id="oferta" class="py-5 bg-light-soft">
-  <div class="container">
-    <h2 class="section-title">Wszystko zaczyna się od marzenia</h2>
-    <p class="lead-text-bold text-center mb-5">
-      Całoroczne domy szkieletowe – spełniamy ekskluzywne marzenia.
-    </p>
-
-    <div class="asymetric-gallery">
-      
-      <div class="gallery-card large" 
-           data-title="Nowoczesna Harmonia" 
-           data-desc="Idealne połączenie funkcjonalności z estetyką. Konstrukcja, która naturalnie wpisuje się w każdy krajobraz, zapewniając trwałość na lata.">
-        <img src="/Wizualizacje/wiz1.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-      
-      <div class="gallery-card large" 
-           data-title="Twój Prywatny Azyl" 
-           data-desc="Przestrzeń zaprojektowana z myślą o spokoju i komforcie. Solidne wykonanie gwarantuje bezpieczeństwo, a design cieszy oko każdego dnia.">
-        <img src="/Wizualizacje/wiz2.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-      
-      <div class="gallery-card large" 
-           data-title="Skandynawska Prostota" 
-           data-desc="Minimalistyczna forma, która kryje w sobie maksymalną użyteczność. To rozwiązanie dla tych, którzy cenią porządek i jasne, przestronne wnętrza.">
-        <img src="/Wizualizacje/wiz3.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-      
-      <div class="gallery-card large" 
-           data-title="Przestrzeń Możliwości" 
-           data-desc="Uniwersalny projekt, który dostosowuje się do Twoich potrzeb. Niezależnie od przeznaczenia, ten budynek spełni swoje zadanie w 100%.">
-        <img src="/Wizualizacje/wiz4.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-
-      <div class="gallery-card small" 
-           data-title="Solidna Baza" 
-           data-desc="Konstrukcja oparta na sprawdzonych rozwiązaniach. Wytrzymałość i odporność na warunki atmosferyczne to fundament tego projektu.">
-        <img src="/Wizualizacje/wiz5.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-
-      <div class="gallery-card small" 
-           data-title="Oaza Spokoju" 
-           data-desc="Miejsce, w którym czas płynie wolniej. Ciepło naturalnego drewna i przemyślany układ tworzą atmosferę idealną do wypoczynku lub pracy.">
-        <img src="/Wizualizacje/wiz6.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-
-      <div class="gallery-card small" 
-           data-title="Elegancja w Drewnie" 
-           data-desc="Klasyczne piękno w nowoczesnym wydaniu. Ten budynek to dowód na to, że wysoka jakość wykonania jest najlepszą ozdobą ogrodu.">
-        <img src="/Wizualizacje/wiz11.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-
-      <div class="gallery-card small" 
-           data-title="Komfort na Wymiar" 
-           data-desc="Projekt stworzony, by ułatwiać życie. Ergonomiczne rozwiązania i precyzyjny montaż sprawiają, że korzystanie z niego to czysta przyjemność.">
-        <img src="/Wizualizacje/wiz8.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-
-      <div class="gallery-card small" 
-            data-title="Leśna Inspiracja" 
-            data-desc="Budynek, który oddycha w rytmie natury. Ekologiczne materiały i solidna konstrukcja szkieletowa zapewniają zdrowy mikroklimat.">
-        <img src="/Wizualizacje/wiz9.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-
-      <div class="gallery-card small" 
-           data-title="Definicja Trwałości" 
-           data-desc="Inwestycja, która procentuje. Bezkompromisowa jakość materiałów sprawia, że ten obiekt będzie służył kolejnym pokoleniom.">
-        <img src="/Wizualizacje/wiz12.webp" alt="wizualizacja_dom_szkieletowy" loading="lazy">
-        <div class="card-overlay"><span>KLIKNIJ, ABY ZOBACZYĆ WIĘCEJ.</span></div>
-      </div>
-
-    </div>
-
-    <div class="offer-cta text-center mt-5">
-      <a href="konfigurator.html" class="btn btn-cta" style="margin-bottom: 2%;">
-        DO KONFIGURATORA! <i class="fa-solid fa-gears ms-2"></i>
-      </a>
-      
-      <a href="#contact" class="scroll-down-prompt mt-4">
-        <div class="p-3 bg-white shadow-sm contact-prompt-box">
-           <p class="mb-0 lead-text-bold">Masz więcej pytań?</p>
-           <p class="mb-0 small">Napisz do nas lub zadzwoń!</p>
+    <section id="target">
+        <div class="container">
+            <h2>Dla kogo jest ZABUDO?</h2>
+            <div class="target-grid">
+                <div class="target-item">
+                    <h3>Dla ceniących czas</h3>
+                    <p>Pracujemy z ludźmi, którzy nie lubią marnować życia na formalności i chcą efektów A→Z.</p>
+                </div>
+                <div class="target-item">
+                    <h3>Dla wymagających spokoju</h3>
+                    <p>Eliminujemy chaos. Jeśli szukasz przewidywalności i pewności – jesteś w domu.</p>
+                </div>
+            </div>
         </div>
-        <div class="animated-arrows-down">
-          
+    </section>
+
+    <section id="form">
+        <div class="container form-wrapper">
+            <h2>Rozpocznij procedurę</h2>
+            <p style="margin-bottom: 40px;">Zaufaj procesowi. Sprawdź swoją działkę.</p>
+            
+            <form>
+                <input type="text" class="minimal-input" placeholder="Wpisz numer działki" required>
+                <input type="text" class="minimal-input" placeholder="Wpisz numer telefonu" required>
+                <button type="submit" class="btn">ZGŁOŚ BUDOWĘ ZA 1 ZŁ</button>
+            </form>
+
+            <div class="promise">
+                Z ZABUDO nie wracasz zawiedziony, bo cały proces jest pod kontrolą.
+            </div>
         </div>
-      </a>
-    </div>
+    </section>
 
-  </div>
-</section>
-
-
-<section id="contact" class="full-screen-section d-flex align-items-center justify-content-center text-center">
-  <div class="container" style="max-width: 600px;">
-    <h2 class="section-title">Skontaktuj się z nami</h2>
-
-    <div class="footer-description">
-      <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
-      <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
-    </div>
-
-    <form id="contact-form">
-      <div class="mb-2">
-        <input type="text" name="user_name" placeholder="Imię i nazwisko*" class="form-control" required />
-      </div>
-      <div class="mb-2">
-        <input type="email" name="user_email" placeholder="Adres e-mail*" class="form-control" required />
-      </div>
-      
-      <div class="mb-2">
-        <input type="tel" name="phone" placeholder="Numer telefonu*" class="form-control" required />
-      </div>
-      <div class="mb-2">
-        <input type="text" name="street_address" placeholder="Ulica i numer działki*" class="form-control" required />
-      </div>
-      <div class="mb-2">
-        <input type="text" name="city" placeholder="Miejscowość*" class="form-control" required />
-      </div>
-      <div class="mb-2">
-        <input type="text" name="postal_code" placeholder="Kod pocztowy*" class="form-control" required />
-      </div>
-
-      <div class="mb-2">
-        <textarea id="message" name="message" rows="6" class="form-control" placeholder="Napisz swoją wiadomość*" required></textarea>
-      </div>
-
-      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-      <div class="cf-turnstile"
-           data-sitekey="0x4AAAAAAB5Dri7HbhagljpE"
-           data-theme="light"
-           data-language="pl"></div>
-
-      <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
-      <a href="tel:+48503702467" class="btn btn-primary">Zadzwoń teraz!</a>
-    </form>
-
-    <p id="form-message" style="margin-top: 10px;"></p>
-  </div>
-</section>
-
-
-<script>
-(function() {
-
-  function addHidden(form, name, value) {
-    let input = form.querySelector('input[name="'+name+'"]');
-    if (!input) {
-      input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = name;
-      form.appendChild(input);
-    }
-    input.value = value;
-  }
-  
-  function appendBuildConfigurationToMessage(form) { }
-
-  function appendConsents(form) {
-    let newsletterConsent = 'NIE', newsletterTs = '', newsletterSource = '';
-    try {
-      const meta = JSON.parse(localStorage.getItem('newsletterConsentMeta') || '{}');
-      if (meta?.consent) { newsletterConsent = 'TAK'; newsletterTs = meta.ts || ''; newsletterSource = meta.source || ''; }
-    } catch (e) {}
-
-    let cookiesConsent = 'NIE';
-    try {
-      const cons = JSON.parse(localStorage.getItem('consents') || '{}');
-      cookiesConsent = cons.cookies ? 'TAK' : 'NIE';
-    } catch (e) {}
-
-    addHidden(form, 'newsletter_consent', newsletterConsent);
-    addHidden(form, 'newsletter_consent_ts', newsletterTs);
-    addHidden(form, 'newsletter_consent_source', newsletterSource);
-    addHidden(form, 'consent_cookies', cookiesConsent);
-  }
-
-  function wireContactForm(form, msgEl) {
-    if (!form) return;
-    const msg = msgEl || document.getElementById('form-message');
-
-    if (form.__wired__) return;
-    form.__wired__ = true;
-    
-    // Inicjalizacja EmailJS
-    emailjs.init("0rODOdXhUGV-z--Ya"); 
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      console.log("Rozpoczynam wysyłanie formularza...");
-
-      // --- SEKCJA CAPTCHA (ZAKOMENTOWANA DO TESTÓW) ---
-      // Aby włączyć zabezpieczenie, usuń '/*' i '*/'
-      /*
-      const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
-      if (!tokenInput || !tokenInput.value) {
-        console.warn("Brak tokenu Captcha");
-        if (msg) { msg.textContent = 'Zaznacz zabezpieczenie (captcha).'; msg.style.color = 'red'; }
-        return;
-      }
-      */
-      // ------------------------------------------------
-
-      appendConsents(form);
-      appendBuildConfigurationToMessage(form);
-
-      const btn = form.querySelector('button[type="submit"]');
-      const original = btn ? btn.innerHTML : '';
-      if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Wysyłam…'; }
-
-      // Wysyłka przez EmailJS
-      emailjs.sendForm('service_yabzq3j', 'template_4s8ii9u', this)
-        .then(function(response) {
-            console.log('SUKCES!', response.status, response.text);
-            if (msg) { msg.textContent = 'Dziękujemy! Wiadomość wysłana.'; msg.style.color = 'green'; }
-            form.reset();
-            // Resetujemy turnstile tylko jeśli istnieje
-            if (window.turnstile) { try { turnstile.reset(); } catch(e){} }
-        })
-        .catch(function(error) {
-            console.error('BŁĄD WYSYŁKI:', error);
-            if (msg) { 
-                msg.textContent = 'Błąd wysyłki. Sprawdź konsolę (F12). Kod: ' + JSON.stringify(error); 
-                msg.style.color = 'red'; 
-            }
-        })
-        .finally(() => {
-            if (btn) { btn.disabled = false; btn.innerHTML = original; }
-        });
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    const pageForm = document.getElementById('contact-form');
-    const pageMsg  = document.getElementById('form-message');
-    if (pageForm) wireContactForm(pageForm, pageMsg);
-  });
-})();
-</script>
-
-<section class="py-5" id="opinie" style="display: none;">...</section>
-  <section class="py-5" id="blog" style="display: none;">...</section>
-  <section id="gallery" style="display: none;">...</section>
+    <section id="rules">
+        <div class="container rules-container">
+            <h2>Jak pracujemy – nasze zasady</h2>
+            <div class="rule-item">
+                <span class="rule-num">01.</span>
+                <div>
+                    <h3>Zaczynamy od zgłoszenia – nie od wyceny.</h3>
+                    <p>Bo tylko zgłoszenie daje realne dane i bezpieczeństwo inwestycji.</p>
+                </div>
+            </div>
+            <div class="rule-item">
+                <span class="rule-num">02.</span>
+                <div>
+                    <h3>Pracujemy tylko z klientami A→Z.</h3>
+                    <p>Nie budujemy półśrodków. Bierzemy odpowiedzialność za całość.</p>
+                </div>
+            </div>
+            <div class="rule-item">
+                <span class="rule-num">03.</span>
+                <div>
+                    <h3>Nie ma realizacji bez terminu.</h3>
+                    <p>Unikamy rozczarowań. Jeśli się nie da, mówimy to wprost.</p>
+                </div>
+            </div>
+            <div class="rule-item" style="border: none;">
+                <span class="rule-num">04.</span>
+                <div>
+                    <h3>Nie pracujemy na "ekipie klienta".</h3>
+                    <p>Nie pracujemy na cudzych błędach. Gwarancja wymaga naszych ludzi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
   <footer>
     <div class="container">
@@ -754,183 +539,5 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-
-  <div id="cookie-banner" class="text-center" style="display:none;">
-    Ta strona korzysta z plików cookies...
-  </div>
-  <script>
-  
-  function loadAnalytics() { ... }
-  document.addEventListener('DOMContentLoaded', function() {
-    
-  });
-  </script>
-
-<div id="dog-lightbox" class="dog-lightbox">
-  
-  <div class="dog-lightbox-close">&times;</div>
-  
-  <div class="dog-lightbox-content">
-    
-    <div class="lightbox-info">
-      <h3 id="lightbox-title">Tytuł Realizacji</h3>
-      <p id="lightbox-desc">Opis techniczny projektu.</p>
-    </div>
-
-    <div class="dog-lightbox-main">
-      <img id="dog-lightbox-main-img" src="" alt="Pełnoekranowa wizualizacja">
-    </div>
-
-    <div class="dog-lightbox-thumbs" id="dog-lightbox-thumbs">
-        </div>
-
-    <div class="lightbox-cta-buttons" style="display: flex; justify-content: center; align-items: center;">
-      <a href="konfigurator.html" class="btn btn-lightbox btn-primary-custom">
-        <i class="fa-solid fa-gears me-2"></i> PRZEJDŹ DO KONFIGURATORA
-      </a>
-      <a href="#contact" class="btn btn-lightbox btn-secondary-custom lightbox-close-on-click">
-        <i class="fa-solid fa-phone me-2"></i> SKONTAKTUJ SIĘ
-      </a>
-    </div>
-
-
-  </div>
-</div>
-
-<script>
-(() => {
-  const scope = document.getElementById('oferta');
-  const lightbox = document.getElementById('dog-lightbox');
-  const mainImg = document.getElementById('dog-lightbox-main-img');
-  const thumbsBox = document.getElementById('dog-lightbox-thumbs');
-  const content = lightbox ? lightbox.querySelector('.dog-lightbox-content') : null;
-  const closeX = lightbox ? lightbox.querySelector('.dog-lightbox-close') : null;
-  const titleEl = document.getElementById('lightbox-title');
-  const descEl = document.getElementById('lightbox-desc');
-  const contactBtn = lightbox ? lightbox.querySelector('.lightbox-close-on-click') : null;
-
-  if (!lightbox || !scope || !mainImg || !thumbsBox || !content) {
-      console.warn("Lightbox: Nie znaleziono wszystkich wymaganych elementów.");
-      return;
-  }
-
-  let gallery = [];
-  let idx = 0;
-
-  const toAbs = (src) => {
-      const path = src.includes('/') || src.startsWith('http') ? src : ('/' + src);
-      return new URL(path, location.href).href;
-  };
-
-  const getGalleryData = (card) => {
-    const mainSrc = card.querySelector('img').src;
-    let rawGallery = card.getAttribute('data-gallery');
-    let images = [];
-    
-    if (rawGallery) {
-      try { 
-        let jsonStr = rawGallery.replace(/'/g, '"');
-        images = JSON.parse(jsonStr).map(toAbs); 
-      } catch (e) { 
-        images = [toAbs(mainSrc)]; 
-      }
-    } else {
-      images = [toAbs(mainSrc)];
-    }
-
-    if (!images.includes(toAbs(mainSrc))) { 
-        images.unshift(toAbs(mainSrc)); 
-    }
-
-    return {
-        images: images,
-        title: card.getAttribute('data-title') || 'Nasza Realizacja',
-        description: card.getAttribute('data-desc') || 'Brak dodatkowego opisu.',
-        mainSrc: toAbs(mainSrc)
-    };
-  };
-
-  const setActive = (i) => {
-    idx = i;
-    mainImg.src = gallery[idx];
-    
-    // Aktualizacja klas i PRZEWIJANIE
-    const thumbs = Array.from(thumbsBox.children);
-    thumbs.forEach((t, k) => {
-        if (k === idx) {
-            t.classList.add('active');
-            t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        } else {
-            t.classList.remove('active');
-        }
-    });
-  };
-
-  const renderThumbs = () => {
-    thumbsBox.innerHTML = '';
-    if (gallery.length > 1) {
-        gallery.forEach((src, i) => {
-          const t = document.createElement('img');
-          t.src = src; 
-          t.alt = `miniatura ${i+1}`;
-          if (i === idx) t.classList.add('active');
-          t.onclick = (e) => { e.stopPropagation(); setActive(i); }; 
-          thumbsBox.appendChild(t);
-        });
-    }
-  };
-
-  const openLightbox = (data) => {
-    gallery = data.images;
-    const start = data.images.findIndex(url => url === data.mainSrc);
-    idx = start !== -1 ? start : 0;
-
-    if (titleEl) titleEl.textContent = data.title;
-    if (descEl) descEl.textContent = data.description;
-    
-    renderThumbs(); 
-    setActive(idx);
-    
-    lightbox.style.display = 'flex';
-    document.documentElement.style.overflow = 'hidden';
-  };
-
-  const closeLightbox = () => {
-    lightbox.style.display = 'none';
-    document.documentElement.style.overflow = '';
-  };
-  
-  if (closeX) closeX.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
-  lightbox.addEventListener('click', () => closeLightbox());
-  if (content) content.addEventListener('click', (e) => e.stopPropagation()); 
-  
-  if (contactBtn) contactBtn.addEventListener('click', () => { 
-    setTimeout(closeLightbox, 100); 
-  });
-
-  scope.addEventListener('click', (e) => {
-    const card = e.target.closest('.gallery-card');
-    if (!card) return;
-
-    const data = getGalleryData(card);
-    if (!data.images.length) return;
-
-    openLightbox(data);
-  });
-  
-  document.addEventListener('keydown', (e) => {
-    if (lightbox.style.display === 'none') return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowRight' && gallery.length > 1) setActive((idx + 1) % gallery.length);
-    if (e.key === 'ArrowLeft'  && gallery.length > 1) setActive((idx - 1 + gallery.length) % gallery.length);
-  });
-})();
-</script>
-
 </body>
-</html> 
+</html>
