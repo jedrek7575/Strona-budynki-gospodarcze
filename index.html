@@ -145,7 +145,7 @@
  
 
         #care { background-color: var(--bg-subtle); }
-        .care-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 900px; margin: 0 auto; }
+        .care-grid { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 80px; max-width: 900px; margin: 0 auto; }
         .check-list li { list-style: none; margin-bottom: 24px; padding-left: 32px; position: relative; font-size: 1.1rem; }
         .check-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 16px; height: 1px; background-color: var(--accent); }
 
@@ -156,7 +156,7 @@
         #target { background: #332e29; color: white; }
         #target h2, #target h3 { color: white; }
         #target p { color: #dddddd; font-weight: 300; }
-        .target-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 900px; margin: 0 auto; }
+        .target-grid { display: flex; gap: 60px; max-width: 100%; margin: 0 auto; }
 
         .form-wrapper { text-align: center; max-width: 580px; margin: 0 auto; }
         .minimal-input {
@@ -186,10 +186,10 @@
 
         @media (max-width: 768px) {
             :root { --gap-section: 60px; }
-            .container { padding: 0 20px; }
+            .container {  padding: 0 20px; }
             #navbar { padding-left: 20px; height: 55px; }
             h1 { font-size: 2.4rem; margin-bottom: 20px; }
-            h2 { font-size: 1.8rem; margin-bottom: px; }
+            h2 { font-size: 1.4rem; margin-bottom: px; }
             .hero-sub { font-size: 1.1rem; margin-bottom: 30px; }
             .grid-4, .steps-wrapper, .care-grid, .target-grid { grid-template-columns: 1fr; gap: 40px; }
             #hero { min-height: auto; padding: 120px 0 60px 0; }
@@ -199,6 +199,7 @@
             .minimal-input { font-size: 1rem; padding: 18px; }
             .rule-item { flex-direction: column; align-items: flex-start; gap: 10px; }
             .rule-num { margin-right: 0; margin-bottom: 5px; }
+            .target-grid { display: flex; flex-direction: column; gap: 60px; max-width: 100%; margin: 0 auto; }
         }
     </style>
 </head>
@@ -210,134 +211,110 @@
 
     <section id="hero">
         <div class="container hero-content">
-            <h2>Budowa zaczyna się od zgłoszenia.
-                <p>Robimy je za Ciebie w 15 minut.</p>
+            <h2>Budowa zaczyna się od decyzji.
+                <p>ZABUDO realizuje tylko projekty gotowe wejść w proces A→Z.</p>
             </h2> 
                
-            <p class="hero-sub">Pierwszy krok za złotówkę.<br>Resztą zajmujemy się my.</p>
-            <a href="#proof" class="btn">ZACZNIJ PROCES</a>
+            <p class="hero-sub">Sprawdzamy działkę i wchodzimy w realizację — albo kończymy temat.</p>
+            <a href="#proof" class="btn">ROZPOCZNIJ PROCES ZABUDO</a>
         </div>
     </section>
 
-    <section id="proof">
+
+    <section id="target">
         <div class="container">
-            <h2>Dlaczego to działa?</h2>
-            <div class="grid-4">
-                <div class="feature-card">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                    <h3>Zgłoszenia robimy codziennie</h3>
-                    <p>Składamy 10-20 zgłoszeń w miesiącu.</p>
+            <h2>ZABUDO jest dla Ciebie, jeśli:</h2>
+            <div class="target-grid">
+                <div class="target-item">
+                    <h3>- chcesz jednej decyzji, a nie porównywania ofert</h3>
+                   
                 </div>
-                <div class="feature-card">
-                    <svg class="icon" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-                    <h3>Potrzebujemy tylko numer działki</h3>
-                    <p>Resztę danych pobieramy z ewidencji.</p>
+                <div class="target-item">
+                    <h3>- zależy Ci na terminie i przewidywalności, nie na „okazji”</h3>
+
                 </div>
-                <div class="feature-card">
-                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <h3>Po 21 dniach masz oficjalną odpowiedź</h3>
-                    <p>Zgodnie z prawem. Bez ryzyka.</p>
-                </div>
-                <div class="feature-card">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-8a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v8"/></svg>
-                    <h3>Jeśli się da budujemy od razu</h3>
-                    <p>Projekt i ekipa w jednym procesie</p>
+                                <div class="target-item">
+                    <h3>- szukasz systemu A→Z, nie pojedynczej usługi</h3>
+
                 </div>
             </div>
         </div>
     </section>
 
+
+   
     <section id="care">
         <div class="container">
-            <h2>Co dostajesz?</h2>
+            <h2>ZABUDO NIE JEST dla Ciebie, jeśli:</h2>
             <div class="care-grid">
                 <ul class="check-list">
-                    <li>Nie musisz uganiać się za ekipą</li>
-                    <li>Nie musisz dzwonić po urzędach</li>
-                    <li>Nie musisz znać przepisów</li>
+                    <li>chcesz „tylko sprawdzić działkę”</li>
+                    <li>planujesz porównywać wykonawców</li>
+                    <li>odkładasz decyzję „na wiosnę”</li>
                 </ul>
-                <ul class="check-list">
-                    <li>Nie musisz umawiać architekta</li>
-                    <li>Nie musisz porównywać ofert</li>
-                    <li>Nie musisz pilnować terminów</li>
-                </ul>
+
             </div>
-            <p style="text-align: center; margin-top: 60px; font-weight: 500; color: var(--text-main);">
-                Prowadzimy Cię od A do Z. Dlatego z ZABUDO nie wracasz zawiedziony.
-            </p>
+
         </div>
     </section>
 
     <section id="steps">
         <div class="container">
-            <h2>Jak wygląda proces?</h2>
+            <h2>JAK DZIAŁA PROCES</h2>
             <div class="steps-wrapper">
                 <div class="step-item">
      
-                    <h3>Zgłoszenie</h3>
-                    <p>Tego samego dnia</p>
+                    <h3>1. Wchodzisz do procesu</h3>
+                    <p> Podajesz numer działki i telefon.</p>
                 </div>
                 <div class="step-item">
  
-                    <h3>Koncepcja</h3>
-                    <p>Ustalamy wspólnie.</p>
+                    <h3>2. Rozmowa decyzyjna</h3>
+                    <p> Sprawdzamy możliwości i mówimy wprost, czy wchodzimy w realizację.</p>
                 </div>
                 <div class="step-item">
 
-                    <h3>Budowa</h3>
-                    <p>Sprawdzona ekipa.</p>
+                    <h3>3. Rezerwacja terminu</h3>
+                    <p> Projekt trafia do realizacji.
+ Bez rezerwacji — termin przechodzi dalej.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="target">
-        <div class="container">
-            <h2>Dla kogo jest ZABUDO?</h2>
-            <div class="target-grid">
-                <div class="target-item">
-                    <h3>Dla ceniących czas</h3>
-                    <p>Pracujemy z ludźmi, którzy nie lubią marnować życia na formalności i chcą efektów A→Z.</p>
-                </div>
-                <div class="target-item">
-                    <h3>Dla wymagających spokoju</h3>
-                    <p>Eliminujemy chaos. Jeśli szukasz przewidywalności i pewności – jesteś w domu.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
 
 
     <section id="rules">
         <div class="container rules-container">
-            <h2>Jak pracujemy – nasze zasady</h2>
+            <h2>ZASADY ZABUDO</h2>
             <div class="rule-item">
                 <span class="rule-num">01.</span>
                 <div>
-                    <h3>Zaczynamy od zgłoszenia – nie od wyceny.</h3>
-                    <p>(Bo tylko zgłoszenie daje realne dane)</p>
+                    <h3>Pracujemy wyłącznie na zarezerwowanych terminach.</h3>
+        
                 </div>
             </div>
             <div class="rule-item">
                 <span class="rule-num">02.</span>
                 <div>
-                    <h3>Pracujemy tylko z klientami, którzy chcą procesu A→Z.</h3>
-                    <p>(Bo nie budujemy półśrodków)</p>
+                    <h3>Projekty „do porównania” odpadają.</h3>
+  
                 </div>
             </div>
             <div class="rule-item">
                 <span class="rule-num">03.</span>
                 <div>
-                    <h3>Nie przyjmujemy projektów bez możliwości realizacji w terminie.</h3>
-                    <p>(Bo unikamy rozczarowań)</p>
+                    <h3>Po rezerwacji cena się nie zmienia.</h3>
+          
                 </div>
             </div>
             <div class="rule-item" style="border: none;">
                 <span class="rule-num">04.</span>
                 <div>
-                    <h3>Nie współpracujemy ze “swoją ekipą klienta”.</h3>
-                    <p>(Bo nie pracujemy na cudzych błędach)</p>
+                    <h3>Jeśli nie możemy dotrzymać terminu — nie zaczynamy.</h3>
+ 
                 </div>
             </div>
         </div>
@@ -348,31 +325,31 @@
 
     <section id="form">
         <div class="container form-wrapper">
-            <h2>Rozpocznij procedurę</h2>
-            <p style="margin-bottom: 40px;">Zaufaj procesowi.</p>
+            <h2> Wejście do procesu ZABUDO</h2>
+            <p style="margin-bottom: 40px;">Oddzwaniamy wyłącznie do osób gotowych wejść w realizację po rozmowie.</p>
             
 <form id="contact-form">
     <input type="text" name="numer_dzialki" class="minimal-input" placeholder="Wpisz numer działki" required>
     
     <input type="text" name="telefon" class="minimal-input" placeholder="Wpisz numer telefonu" required>
     
-    <button type="submit" class="btn">SPRAWDŹ SWOJĄ DZIAŁKĘ</button>
+    <button type="submit" class="btn"> WEJDŹ W PROCES A→Z</button>
 </form>
 
             <div class="promise">
-                Z ZABUDO nie wracasz zawiedziony, bo cały proces jest pod kontrolą.
+         Po rozmowie albo rezerwujemy termin, albo się rozchodzimy.
             </div>
         </div>
     </section>
 
   <footer>
     <div class="container">
-      <p>&copy; <span id="year">2025</span> Zabudo.pl</p>
+      <p2>&copy; <span id="year">2025</span> Zabudo.pl</p2>
 
       <div class="footer-description">
-        <p>Telefon: <a href="tel:+48503702467">+48 503 702 467</a> | <a href="tel:+48500156450">+48 500 156 450</a></p>
-        <p>Email: <a href="mailto:adam@zabudo.pl">adam@zabudo.pl</a></p>
-        <p><a href="polityka-prywatności.html">Polityka prywatności</a></p>
+        <p2>ZABUDO nie zbiera zapytań.</p2>
+        <p2>ZABUDO zarządza dostępem do realizacji.</p>
+
       </div>
     </div>
   </footer>
