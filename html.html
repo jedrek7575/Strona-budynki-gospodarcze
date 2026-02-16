@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZABUDO - Odkryj modele</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        accent: '#3e6ae1'
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .hero-layer {
+            transition: opacity 500ms ease;
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+
+<body class="bg-zinc-100 text-zinc-900 min-h-screen overflow-x-hidden">
+    <main class="min-h-screen flex flex-col">
+        <header class="fixed top-0 inset-x-0 z-30 border-b border-black/5 bg-white/85 nav-blur">
+            <div class="max-w-[1600px] mx-auto h-16 px-4 md:px-8 flex items-center justify-between">
+                <div class="font-semibold tracking-[0.35em] text-sm md:text-base">ZABUDO</div>
+
+                <nav class="hidden md:flex items-center gap-8 text-[17px] font-medium">
+                    <a href="#" class="hover:opacity-70 transition">Domu</a>
+                    <a href="#" class="hover:opacity-70 transition">Ogrzewanie</a>
+                    <a href="#" class="hover:opacity-70 transition">Ilozacja</a>
+                    <a href="#" class="hover:opacity-70 transition">Więcej</a>
+                </nav>
+
+                <div class="relative">
+                    <button id="account-btn"
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition"
+                        aria-label="Konto użytkownika">
+                        <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="8" r="4"></circle>
+                            <path d="M4 20c1.9-3.3 5-5 8-5s6.1 1.7 8 5"></path>
+                        </svg>
+                    </button>
+                    <div id="account-menu"
+                        class="hidden absolute right-0 mt-2 w-48 rounded-xl bg-white border border-zinc-200 shadow-xl p-2">
+                        <a href="#" class="block px-3 py-2 rounded-lg hover:bg-zinc-100">Zaloguj</a>
+                        <a href="#" class="block px-3 py-2 rounded-lg hover:bg-zinc-100">Zarejestruj</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="relative mt-16 flex-1">
+            <div class="absolute inset-0 overflow-hidden">
+                <img id="hero-image" class="hero-layer absolute inset-0 w-full h-full object-cover"
+                    src="https://picsum.photos/id/1015/1920/1200" alt="Model 35" />
+                <div class="absolute inset-0 bg-black/25"></div>
+            </div>
+
+            <div class="relative z-10 h-[calc(100vh-4rem)] flex flex-col justify-between">
+                <div class="pt-16 md:pt-20 text-center text-white px-4">
+                    <h1 id="hero-title" class="text-4xl md:text-7xl font-semibold tracking-tight">Odkryj model 35</h1>
+                    <p id="hero-subtitle" class="mt-3 text-lg md:text-3xl text-white/90">Dom 35 m² z antresolą</p>
+                    <p id="hero-price" class="mt-2 text-base md:text-xl text-white/90">Od 206 600 zł</p>
+
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <a id="configure-now-link" href="konfigurator.html?model=35"
+                            class="w-64 h-11 rounded-md bg-accent text-white text-[15px] font-semibold hover:brightness-110 transition inline-flex items-center justify-center">Skonfiguruj
+                            teraz</a>
+                        <button
+                            class="w-64 h-11 rounded-md bg-white/90 text-zinc-900 text-[15px] font-semibold hover:bg-white transition">Dowiedz
+                            się więcej</button>
+                    </div>
+                </div>
+
+                <div
+                    class="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 md:px-8">
+                    <button id="prev-btn"
+                        class="pointer-events-auto inline-flex items-center justify-center w-12 h-12 rounded-md bg-white/85 hover:bg-white transition">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                    </button>
+                    <button id="next-btn"
+                        class="pointer-events-auto inline-flex items-center justify-center w-12 h-12 rounded-md bg-white/85 hover:bg-white transition">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="pb-7 md:pb-8 px-4 text-white text-center">
+                    <p id="discover-next" class="mb-4 text-sm md:text-base tracking-wide">Poznaj model 50</p>
+                    <div class="flex items-center justify-center gap-2 mb-4" id="dots"></div>
+                    <a id="configure-home-link" href="konfigurator.html?model=35"
+                        class="mx-auto h-12 px-6 rounded-xl border border-white/70 bg-white/85 text-zinc-900 font-semibold inline-flex items-center gap-3 hover:bg-white transition">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.9"
+                            aria-hidden="true">
+                            <path d="M3 10.8 12 4l9 6.8"></path>
+                            <path d="M5.5 9.8V20h5.8v-5.8h1.4V20h5.8V9.8"></path>
+                        </svg>
+                        <span>Skonfiguruj dom</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const models = [
+            {
+                key: '35',
+                title: 'Odkryj model 35',
+                subtitle: 'Dom 35 m² z antresolą',
+                price: 'Od 206 600 zł',
+                image: 'https://picsum.photos/id/1015/1920/1200'
+            },
+            {
+                key: '50',
+                title: 'Odkryj model 50',
+                subtitle: 'Dom 50 m² z antresolą',
+                price: 'Od 280 000 zł',
+                image: 'https://picsum.photos/id/1016/1920/1200'
+            },
+            {
+                key: '70',
+                title: 'Odkryj model 70',
+                subtitle: 'Dom 70 m² parterowy',
+                price: 'Od 365 300 zł',
+                image: 'https://picsum.photos/id/1018/1920/1200'
+            }
+        ];
+
+        let index = 0;
+
+        const heroImage = document.getElementById('hero-image');
+        const heroTitle = document.getElementById('hero-title');
+        const heroSubtitle = document.getElementById('hero-subtitle');
+        const heroPrice = document.getElementById('hero-price');
+        const discoverNext = document.getElementById('discover-next');
+        const dots = document.getElementById('dots');
+        const configureNowLink = document.getElementById('configure-now-link');
+        const configureHomeLink = document.getElementById('configure-home-link');
+
+        const accountBtn = document.getElementById('account-btn');
+        const accountMenu = document.getElementById('account-menu');
+
+        function renderDots() {
+            dots.innerHTML = models
+                .map((_, i) => `<span class="w-2.5 h-2.5 rounded-full ${i === index ? 'bg-white' : 'bg-white/45'}"></span>`)
+                .join('');
+        }
+
+        function updateHero(nextIndex) {
+            index = (nextIndex + models.length) % models.length;
+            const current = models[index];
+            const nextModel = models[(index + 1) % models.length];
+
+            heroImage.style.opacity = '0.25';
+            setTimeout(() => {
+                heroImage.src = current.image;
+                heroImage.alt = `Model ${current.key}`;
+                heroTitle.textContent = current.title;
+                heroSubtitle.textContent = current.subtitle;
+                heroPrice.textContent = current.price;
+                discoverNext.textContent = `Poznaj model ${nextModel.key}`;
+                configureNowLink.href = `konfigurator.html?model=${current.key}`;
+                configureHomeLink.href = `konfigurator.html?model=${current.key}`;
+                renderDots();
+                heroImage.style.opacity = '1';
+            }, 170);
+        }
+
+        document.getElementById('prev-btn').addEventListener('click', () => updateHero(index - 1));
+        document.getElementById('next-btn').addEventListener('click', () => updateHero(index + 1));
+
+        accountBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            accountMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!accountMenu.contains(e.target)) {
+                accountMenu.classList.add('hidden');
+            }
+        });
+
+        updateHero(0);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,906 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZABUDO - Konfigurator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        accent: '#3e6ae1'
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        :root {
+            --scrollbar-width: 0px;
+        }
+
+        .fade-image {
+            transition: opacity 220ms ease;
+        }
+
+        .scrollbar-thin {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f8fafc;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+
+        .house-visual {
+            /* Show full building frame (no aggressive crop). */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            object-fit: contain;
+            object-position: center center;
+        }
+
+        .right-panel-inner {
+            padding-left: 1rem;
+            padding-right: calc(1rem + var(--scrollbar-width));
+        }
+
+        .payment-bar-inner {
+            padding-left: 1rem;
+            padding-right: calc(1rem + var(--scrollbar-width));
+        }
+
+        @keyframes bonusGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .bonus-banner-animated {
+            background: linear-gradient(90deg, #E3C66A 0%, #F4E6B7 50%, #E3C66A 100%);
+            background-size: 180% 180%;
+            animation: bonusGlow 9s ease-in-out infinite alternate;
+        }
+
+        @media (min-width: 768px) {
+            .right-panel-inner {
+                padding-left: 2rem;
+                padding-right: calc(2rem + var(--scrollbar-width));
+            }
+
+            .payment-bar-inner {
+                padding-left: 2rem;
+                padding-right: calc(2rem + var(--scrollbar-width));
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white text-zinc-900 antialiased" style="font-family: 'Montserrat', sans-serif;">
+    <div id="bonus-banner" class="bonus-banner-animated sticky top-0 z-50 h-11 w-full text-black text-[14px]">
+        <div class="h-full flex items-center justify-center text-center px-4">
+            Kwalifikuje się do otrzymania Bonusu ZABUDO w wysokości 18 750 zł.
+            <button id="open-terms-modal" type="button"
+                class="ml-1 underline text-blue-600 hover:text-blue-800 cursor-pointer font-medium">Zobacz
+                warunki.</button>
+        </div>
+    </div>
+    <header class="sticky top-11 z-40 bg-white/90 backdrop-blur">
+        <div class="max-w-[1680px] mx-auto h-16 px-4 md:px-8 flex items-center justify-between">
+            <a href="html.html" class="font-semibold tracking-[0.35em] text-sm md:text-base">ZABUDO</a>
+            <div class="text-sm text-zinc-600">Konfigurator domu</div>
+        </div>
+    </header>
+
+    <main class="max-w-[1680px] mx-auto grid xl:grid-cols-[1.48fr_.52fr] min-h-[calc(100vh-4rem)]">
+        <section class="xl:sticky xl:top-[6.75rem] xl:h-[calc(100vh-6.75rem)] bg-white">
+            <div class="h-full relative">
+                <div class="absolute inset-0 p-3 md:px-8 md:pt-3 md:pb-6 flex flex-col">
+                    <div class="flex-1 relative rounded-2xl overflow-hidden bg-white">
+                        <img id="gallery-image" src="" alt="Wizualizacja domu"
+                            class="house-visual fade-image absolute" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/15 to-transparent"></div>
+
+                        <button id="gallery-prev"
+                            class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-md bg-white/90 border border-zinc-200 hover:bg-white transition"
+                            aria-label="Poprzednia wizualizacja">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path d="M15 18l-6-6 6-6" />
+                            </svg>
+                        </button>
+                        <button id="gallery-next"
+                            class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-md bg-white/90 border border-zinc-200 hover:bg-white transition"
+                            aria-label="Następna wizualizacja">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path d="M9 18l6-6-6-6" />
+                            </svg>
+                        </button>
+
+                        <div id="gallery-dots"
+                            class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="right-panel" class="bg-white">
+            <div class="right-panel-inner py-6 md:py-8 pb-28 space-y-8">
+                <div>
+                    <h2 id="gallery-title" class="text-2xl md:text-5xl font-semibold tracking-tight mt-1 text-center">
+                    </h2>
+                    <p id="gallery-subtitle"
+                        class="text-zinc-500 mt-6 text-center text-[12px] md:text-[14px] font-medium whitespace-nowrap">
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-4 mt-6">
+                        <div>
+                            <p class="text-xl md:text-2xl font-semibold">70 m²</p>
+                            <p class="text-zinc-500 text-sm leading-5 min-h-[2.5rem]">
+                                <span class="block">Powierzchnia</span>
+                                <span class="block">użytkowa</span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xl md:text-2xl font-semibold">60 dni</p>
+                            <p class="text-zinc-500 text-sm leading-5 min-h-[2.5rem]">
+                                <span class="block">Czas budowy</span>
+                                <span class="block whitespace-nowrap">od zgłoszenia</span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xl md:text-2xl font-semibold">50%</p>
+                            <p class="text-zinc-500 text-sm leading-5 min-h-[2.5rem]">
+                                <span class="block">Mniej energii</span>
+                                <span class="block whitespace-nowrap">dzięki OZE</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <section>
+                    <h3 class="text-lg font-semibold mb-3 text-center">Model</h3>
+                    <div id="model-options" class="grid gap-3"></div>
+                </section>
+
+                <section>
+                    <h3 class="text-lg font-semibold mb-3 text-center">Kolor elewacji</h3>
+                    <div id="color-options" class="grid sm:grid-cols-2 gap-3"></div>
+                </section>
+
+                <section>
+                    <h3 class="text-lg font-semibold mb-3 text-center">Taras (wybierz jedną opcję)</h3>
+                    <div id="terrace-options" class="space-y-3"></div>
+                </section>
+
+                <section>
+                    <h3 class="text-lg font-semibold mb-3 text-center">Garaż (wybierz jedną opcję)</h3>
+                    <div id="garage-options" class="space-y-3"></div>
+                </section>
+
+                <section class="!mt-3">
+                    <div class="text-center">
+                        <p class="text-[13px] leading-5 font-normal text-zinc-500">Z wyłączniem szac. Oszczędności na
+                            czynszu/najmie w ciągu 5-lat w wysokości 29 000 zł</p>
+                        <button id="open-savings-modal"
+                            class="mt-2 underline text-[16px] leading-6 font-normal text-zinc-600 hover:text-zinc-800 transition">
+                            Edytuj oszczędności
+                        </button>
+                    </div>
+                </section>
+
+                <section id="summary-section" class="rounded-2xl border border-zinc-200 bg-white p-4 md:p-5">
+                    <h3 class="text-lg font-semibold text-center">Podsumowanie</h3>
+                    <div class="mt-4 space-y-2 text-sm">
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Model</span><span
+                                id="sum-model" class="font-medium"></span></div>
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Kolor</span><span
+                                id="sum-color" class="font-medium"></span></div>
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Taras</span><span
+                                id="sum-terrace" class="font-medium"></span></div>
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Garaż</span><span
+                                id="sum-garage" class="font-medium"></span></div>
+                        <div class="pt-3 mt-3 border-t border-zinc-200 flex items-center justify-between text-base">
+                            <span class="font-medium">Kwota całkowita</span>
+                            <span id="sum-total" class="font-semibold"></span>
+                        </div>
+                        <div class="flex items-center justify-between text-base text-accent">
+                            <span class="font-medium">40% płatne dzisiaj</span>
+                            <span id="sum-today" class="font-semibold"></span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="payment-bar" class="fixed bottom-0 z-20 px-0 pb-0"
+                style="left:0; right:0; opacity: 1; transform: translateY(0); pointer-events: auto;">
+                <div
+                    class="w-full rounded-t-2xl rounded-b-none border-x border-t border-b-0 border-zinc-200/90 bg-white/95 backdrop-blur shadow-none px-4 md:px-6 py-2.5 md:py-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+                    <div class="min-w-0">
+                        <p class="text-xs text-zinc-500">40% płatne dzisiaj</p>
+                        <p id="bar-today"
+                            class="text-[1.45rem] md:text-[1.7rem] leading-none font-semibold mt-1 whitespace-nowrap">
+                        </p>
+                        <p id="bar-effective" class="text-xs text-zinc-500 mt-0.5 hidden"></p>
+                    </div>
+                    <button
+                        class="inline-flex items-center justify-center h-10 md:h-11 w-[min(45vw,13.5rem)] md:w-[13.5rem] rounded-xl bg-accent text-white text-[1rem] md:text-[1.1rem] font-semibold leading-none hover:brightness-110 shadow-[0_4px_12px_rgba(62,106,225,0.35)] whitespace-nowrap shrink-0">Przejdź
+                        do płatności</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="savings-modal" class="fixed inset-0 z-50 hidden">
+        <div id="savings-modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-zinc-200 p-5 md:p-6">
+                <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold">Edytuj oszczędności</h3>
+                    <button id="close-savings-modal"
+                        class="w-10 h-10 rounded-lg border border-zinc-300 hover:bg-zinc-100 transition"
+                        aria-label="Zamknij">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <path d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                    </button>
+                </div>
+
+
+                <div class="mt-5 space-y-3 text-sm">
+                    <div class="flex items-center justify-between">
+                        <span class="text-zinc-600">Energia (izolacja/OZE)</span>
+                        <span class="font-medium">~2450 zł/rok</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-zinc-600">Czynsz</span>
+                        <span class="font-medium">~12 000 zł/rok</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span id="savings-rent-label" class="text-zinc-600">Najem (2 500 zł/mc)</span>
+                        <span id="savings-rent-yearly" class="font-medium">30 000 zł/rok</span>
+                    </div>
+                    <div class="pt-3 border-t border-zinc-200 flex items-center justify-between">
+                        <span class="font-medium">Razem</span>
+                        <span id="savings-yearly" class="font-semibold">49 000 zł/rok</span>
+                    </div>
+                </div>
+
+                <label
+                    class="mt-5 flex items-center justify-between gap-4 rounded-xl border border-zinc-300 p-3 cursor-pointer select-none">
+                    <div>
+                        <p class="font-medium">Uwzględnij oszczędności</p>
+                        <p class="text-sm text-zinc-500">Odlicz oszczędności od ceny efektywnej</p>
+                    </div>
+                    <input id="savings-toggle" type="checkbox"
+                        class="h-5 w-5 rounded border-zinc-400 text-zinc-900 focus:ring-zinc-700" checked />
+                </label>
+
+                <div class="mt-5 rounded-xl bg-zinc-50 border border-zinc-200 p-4">
+                    <p class="text-sm text-zinc-500">Cena zamówienia</p>
+                    <p id="modal-base-total" class="text-xl font-semibold"></p>
+                    <div class="mt-3 flex items-center justify-between text-sm">
+                        <span class="text-zinc-600">Odliczenie oszczędności</span>
+                        <span id="modal-savings-deduction" class="font-medium">- 49 000 zł</span>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-zinc-200">
+                        <p class="text-sm text-zinc-500">Efektywna cena po 1 roku oszczędności</p>
+                        <p id="modal-effective-total" class="text-2xl font-semibold"></p>
+                    </div>
+                    <p class="text-sm text-zinc-600 mt-3">Szacunkowo, po <span id="modal-years-total"
+                            class="font-semibold text-zinc-900">5 latach</span> oszczędzasz <span id="modal-5y-total"
+                            class="font-semibold text-zinc-900">245 000 zł</span>.</p>
+                    <button id="open-rent-savings-modal"
+                        class="mt-3 underline text-blue-600 hover:text-blue-800 font-medium">Dostosuj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="terms-modal" class="fixed inset-0 z-[60] hidden">
+        <div id="terms-modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="w-full max-w-lg rounded-2xl bg-white shadow-2xl border border-zinc-200 p-5 md:p-6">
+                <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold">Warunki bonusu ZABUDO</h3>
+                    <button id="close-terms-modal"
+                        class="w-10 h-10 rounded-lg border border-zinc-300 hover:bg-zinc-100 transition"
+                        aria-label="Zamknij warunki">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <path d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-sm text-zinc-600 mt-4">Warunki promocji...</p>
+            </div>
+        </div>
+    </div>
+    <div id="rent-savings-modal" class="fixed inset-0 z-[60] hidden">
+        <div id="rent-savings-modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-zinc-200 p-5 md:p-6">
+                <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold">Oszczędności na czynszu/najmie</h3>
+                    <button id="close-rent-savings-modal"
+                        class="w-10 h-10 rounded-lg border border-zinc-300 hover:bg-zinc-100 transition"
+                        aria-label="Zamknij ustawienia czynszu">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <path d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="mt-5 space-y-4">
+                    <label class="block">
+                        <p class="text-sm text-zinc-600">Aktualny czynsz/najem miesięczny</p>
+                        <input id="rent-monthly-input" type="number" min="0" step="100" value="2500"
+                            class="mt-1 h-11 w-full rounded-lg border border-zinc-300 px-3 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent" />
+                    </label>
+
+                    <label class="block">
+                        <p class="text-sm text-zinc-600">Przez ile lat planujesz mieszkać w swoim domu?</p>
+                        <input id="rent-years-input" type="number" min="1" step="1" value="4"
+                            class="mt-1 h-11 w-full rounded-lg border border-zinc-300 px-3 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent" />
+                    </label>
+                </div>
+
+                <button id="calculate-rent-savings" type="button"
+                    class="mt-5 h-11 px-5 rounded-lg bg-accent text-white font-semibold hover:brightness-110 transition shadow-[0_4px_12px_rgba(62,106,225,0.35)]">Oblicz
+                    oszczędności</button>
+
+                <p id="rent-savings-result" class="mt-4 text-sm text-zinc-600">Przez 4 lat zaoszczędzisz 120 000 zł na
+                    czynszu/najmie</p>
+
+                <button id="save-rent-savings" type="button"
+                    class="mt-5 h-11 px-5 rounded-lg bg-zinc-900 text-white font-semibold hover:bg-zinc-800 transition">Zapisz
+                    i zamknij</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const COLORS = [
+            { id: 'gray', name: 'Szary', hex: '#7a7a7a', price: 0 },
+            { id: 'white', name: 'Biel', hex: '#eceff3', price: 0 },
+            { id: 'beige', name: 'Beż', hex: '#d6c7aa', price: 2800 },
+            { id: 'brown', name: 'Brąz', hex: '#6b4d39', price: 3500 }
+        ];
+
+        const TERRACES = [
+            { id: 'none', name: 'Bez tarasu', price: 0 },
+            { id: 'terrace-open', name: 'Taras otwarty', price: 8500 },
+            { id: 'terrace-covered', name: 'Taras zadaszony', price: 16500 }
+        ];
+
+        const GARAGES = [
+            { id: 'none', name: 'Bez garażu', price: 0 },
+            { id: 'garage-1', name: 'Garaż 1-stanowiskowy', price: 35000 },
+            { id: 'garage-2', name: 'Garaż 2-stanowiskowy', price: 65000 },
+            { id: 'garage-3', name: 'Garaż 3-stanowiskowy', price: 90000 }
+        ];
+
+        const MODELS = [
+            {
+                id: 'm35',
+                query: '35',
+                name: 'Dom 35 m²',
+                subtitle: 'Model piętrowy',
+                price: 206600,
+                imagesByColor: {
+                    gray: ['DOM35/35_light_gray_front.png', 'DOM35/35_light_gray_right.png'],
+                    white: ['DOM35/35_white_front.png', 'DOM35/35_white_right.png'],
+                    beige: ['DOM35/35_beige_front.png', 'DOM35/35_beige_right.png'],
+                    brown: ['DOM35/35_dark_front.png', 'DOM35/35_dark_right.png']
+                }
+            },
+            {
+                id: 'm50',
+                query: '50',
+                name: 'Dom 50 m²',
+                subtitle: 'Model z antresolą',
+                price: 280000,
+                imagesByColor: {
+                    gray: ['DOM50/50_light_gray_front.png', 'DOM50/50_light_gray_right.png'],
+                    white: ['DOM50/50_white_front.png', 'DOM50/50_white_right.png'],
+                    beige: ['DOM50/50_beige_front.png', 'DOM50/50_beige_right.png'],
+                    brown: ['DOM50/50_dark_front.png', 'DOM50/50_dark_right.png']
+                }
+            },
+            {
+                id: 'm70',
+                query: '70',
+                name: 'Dom 70 m²',
+                subtitle: 'Model parterowy',
+                price: 365300,
+                imagesByColor: {
+                    gray: 'DOM70/70_light_gray.png',
+                    white: 'DOM70/70_white.png',
+                    beige: 'DOM70/70_beige.png',
+                    brown: 'DOM70/70_dark.png'
+                }
+            }
+        ];
+
+        const state = {
+            modelId: 'm35',
+            colorId: 'gray',
+            terraceId: 'none',
+            garageId: 'none',
+            imageIndex: 0,
+            includeSavings: true,
+            rentMonthly: 2500,
+            savingsYears: 4
+        };
+
+        const el = {
+            rightPanel: document.getElementById('right-panel'),
+            modelOptions: document.getElementById('model-options'),
+            colorOptions: document.getElementById('color-options'),
+            terraceOptions: document.getElementById('terrace-options'),
+            garageOptions: document.getElementById('garage-options'),
+            galleryTitle: document.getElementById('gallery-title'),
+            gallerySubtitle: document.getElementById('gallery-subtitle'),
+            galleryImage: document.getElementById('gallery-image'),
+            galleryDots: document.getElementById('gallery-dots'),
+            sumModel: document.getElementById('sum-model'),
+            sumColor: document.getElementById('sum-color'),
+            sumTerrace: document.getElementById('sum-terrace'),
+            sumGarage: document.getElementById('sum-garage'),
+            sumTotal: document.getElementById('sum-total'),
+            sumToday: document.getElementById('sum-today'),
+            barToday: document.getElementById('bar-today'),
+            barEffective: document.getElementById('bar-effective'),
+            savings5yInline: document.getElementById('savings-5y-inline'),
+            openSavingsModal: document.getElementById('open-savings-modal'),
+            savingsModal: document.getElementById('savings-modal'),
+            savingsModalBackdrop: document.getElementById('savings-modal-backdrop'),
+            closeSavingsModal: document.getElementById('close-savings-modal'),
+            savingsToggle: document.getElementById('savings-toggle'),
+            savingsYearly: document.getElementById('savings-yearly'),
+            savingsYearsInline: document.getElementById('savings-years-inline'),
+            savingsRentLabel: document.getElementById('savings-rent-label'),
+            savingsRentYearly: document.getElementById('savings-rent-yearly'),
+            modalBaseTotal: document.getElementById('modal-base-total'),
+            modalEffectiveTotal: document.getElementById('modal-effective-total'),
+            modalSavingsDeduction: document.getElementById('modal-savings-deduction'),
+            modalYearsTotal: document.getElementById('modal-years-total'),
+            modal5yTotal: document.getElementById('modal-5y-total'),
+            openTermsModal: document.getElementById('open-terms-modal'),
+            termsModal: document.getElementById('terms-modal'),
+            termsModalBackdrop: document.getElementById('terms-modal-backdrop'),
+            closeTermsModal: document.getElementById('close-terms-modal'),
+            openRentSavingsModal: document.getElementById('open-rent-savings-modal'),
+            rentSavingsModal: document.getElementById('rent-savings-modal'),
+            rentSavingsModalBackdrop: document.getElementById('rent-savings-modal-backdrop'),
+            closeRentSavingsModal: document.getElementById('close-rent-savings-modal'),
+            rentMonthlyInput: document.getElementById('rent-monthly-input'),
+            rentYearsInput: document.getElementById('rent-years-input'),
+            calculateRentSavings: document.getElementById('calculate-rent-savings'),
+            rentSavingsResult: document.getElementById('rent-savings-result'),
+            saveRentSavings: document.getElementById('save-rent-savings'),
+            summarySection: document.getElementById('summary-section'),
+            paymentBar: document.getElementById('payment-bar')
+        };
+
+        const SAVINGS = {
+            energyYearly: 7000,
+            maintenanceYearly: 12000
+        };
+
+        const pln = (value) => `${new Intl.NumberFormat('pl-PL').format(value)} zł`;
+
+        function selectedModel() {
+            return MODELS.find((m) => m.id === state.modelId);
+        }
+
+        function selectedColor() {
+            return COLORS.find((c) => c.id === state.colorId);
+        }
+
+        function selectedTerrace() {
+            return TERRACES.find((t) => t.id === state.terraceId);
+        }
+
+        function selectedGarage() {
+            return GARAGES.find((g) => g.id === state.garageId);
+        }
+
+        function colorOrder() {
+            return COLORS.map((c) => c.id);
+        }
+
+        function modelImages() {
+            const map = selectedModel().imagesByColor;
+            const current = map[state.colorId];
+            return Array.isArray(current) ? current : [current];
+        }
+
+        function totalPrice() {
+            const base = selectedModel().price;
+            const color = selectedColor().price;
+            const terrace = selectedTerrace().price;
+            const garage = selectedGarage().price;
+            return base + color + terrace + garage;
+        }
+
+        function yearlySavings() {
+            return SAVINGS.energyYearly + SAVINGS.maintenanceYearly + (state.rentMonthly * 12);
+        }
+
+        function savingsForConfiguredYears() {
+            return yearlySavings() * state.savingsYears;
+        }
+
+        function parseNonNegative(value, fallback) {
+            const parsed = Number(value);
+            if (!Number.isFinite(parsed) || parsed < 0) return fallback;
+            return Math.round(parsed);
+        }
+
+        function parsePositive(value, fallback) {
+            const parsed = Number(value);
+            if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+            return Math.round(parsed);
+        }
+
+        function updateBodyScrollLock() {
+            const anyModalOpen =
+                !el.savingsModal.classList.contains('hidden') ||
+                !el.rentSavingsModal.classList.contains('hidden') ||
+                !el.termsModal.classList.contains('hidden');
+            document.body.classList.toggle('overflow-hidden', anyModalOpen);
+        }
+
+        function openTermsModal() {
+            el.termsModal.classList.remove('hidden');
+            updateBodyScrollLock();
+        }
+
+        function closeTermsModal() {
+            el.termsModal.classList.add('hidden');
+            updateBodyScrollLock();
+        }
+
+        function renderRentSavingsPreview() {
+            const monthly = parseNonNegative(el.rentMonthlyInput.value, state.rentMonthly);
+            const years = parsePositive(el.rentYearsInput.value, state.savingsYears);
+            const total = monthly * 12 * years;
+            el.rentSavingsResult.textContent = `Przez ${years} lat zaoszczędzisz ${pln(total)} na czynszu/najmie`;
+        }
+
+        function openRentSavingsModal() {
+            el.rentMonthlyInput.value = state.rentMonthly;
+            el.rentYearsInput.value = state.savingsYears;
+            renderRentSavingsPreview();
+            el.rentSavingsModal.classList.remove('hidden');
+            updateBodyScrollLock();
+        }
+
+        function closeRentSavingsModal() {
+            el.rentSavingsModal.classList.add('hidden');
+            updateBodyScrollLock();
+        }
+
+        function syncUrlWithModel() {
+            const current = selectedModel();
+            const url = new URL(window.location.href);
+            url.searchParams.set('model', current.query);
+            window.history.replaceState({}, '', url.toString());
+        }
+
+        function applyModelFromQuery() {
+            const param = new URLSearchParams(window.location.search).get('model');
+            if (!param) return;
+            const normalized = param.toLowerCase();
+            const target = MODELS.find((m) => m.query === normalized || m.id === normalized);
+            if (target) {
+                state.modelId = target.id;
+            }
+        }
+
+        function renderModelOptions() {
+            el.modelOptions.innerHTML = MODELS
+                .map((m) => {
+                    const active = m.id === state.modelId;
+                    return `
+            <button data-model-id="${m.id}" class="model-btn text-left rounded-xl border p-4 transition ${active ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 bg-white hover:border-zinc-400'}">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="font-semibold">${m.name}</p>
+                  <p class="text-sm ${active ? 'text-zinc-300' : 'text-zinc-500'}">${m.subtitle}</p>
+                </div>
+                <p class="font-semibold whitespace-nowrap">${pln(m.price)}</p>
+              </div>
+            </button>
+          `;
+                })
+                .join('');
+        }
+
+        function renderColors() {
+            el.colorOptions.innerHTML = COLORS
+                .map((c) => {
+                    const active = c.id === state.colorId;
+                    return `
+            <button data-color-id="${c.id}" class="color-btn rounded-xl border p-3 text-left transition ${active ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 bg-white hover:border-zinc-400'}">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="inline-block w-5 h-5 rounded-full border border-black/20" style="background:${c.hex}"></span>
+                  <span class="font-medium">${c.name}</span>
+                </div>
+                <span class="text-sm font-medium">${c.price ? '+ ' + pln(c.price) : 'W cenie'}</span>
+              </div>
+            </button>
+          `;
+                })
+                .join('');
+        }
+
+        function renderExclusiveOptions(list, selectedId, cssClass, targetEl) {
+            targetEl.innerHTML = list
+                .map((item) => {
+                    const active = item.id === selectedId;
+                    return `
+            <button data-option-id="${item.id}" class="${cssClass} w-full text-left rounded-xl border p-3 transition ${active ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 bg-white hover:border-zinc-400'}">
+              <div class="flex items-center justify-between gap-3">
+                <span class="font-medium">${item.name}</span>
+                <span class="text-sm font-medium">${item.price ? '+ ' + pln(item.price) : 'W cenie'}</span>
+              </div>
+            </button>
+          `;
+                })
+                .join('');
+        }
+
+        function renderGallery() {
+            const model = selectedModel();
+            const images = modelImages();
+            const idx = ((state.imageIndex % images.length) + images.length) % images.length;
+            const currentImage = images[idx];
+
+            el.galleryTitle.textContent = model.name;
+            el.gallerySubtitle.textContent = 'Szacowany termin startu budowy: marzec 2026';
+
+            el.galleryImage.style.opacity = '0.35';
+            setTimeout(() => {
+                el.galleryImage.src = currentImage;
+                el.galleryImage.style.opacity = '1';
+            }, 110);
+
+            el.galleryDots.innerHTML = images
+                .map((img, i) => `<span class="w-2.5 h-2.5 rounded-full ${i === idx ? 'bg-zinc-900' : 'bg-zinc-400/70'}"></span>`)
+                .join('');
+        }
+
+        function renderSummary() {
+            const model = selectedModel();
+            const color = selectedColor();
+            const terrace = selectedTerrace();
+            const garage = selectedGarage();
+            const total = totalPrice();
+            const today = Math.round(total * 0.4);
+
+            el.sumModel.textContent = `${model.name} (${pln(model.price)})`;
+            el.sumColor.textContent = `${color.name}${color.price ? ` (+ ${pln(color.price)})` : ''}`;
+            el.sumTerrace.textContent = `${terrace.name}${terrace.price ? ` (+ ${pln(terrace.price)})` : ''}`;
+            el.sumGarage.textContent = `${garage.name}${garage.price ? ` (+ ${pln(garage.price)})` : ''}`;
+            el.sumTotal.textContent = pln(total);
+            el.sumToday.textContent = pln(today);
+            el.barToday.textContent = pln(today);
+            el.barEffective.classList.add('hidden');
+            el.barEffective.textContent = '';
+        }
+
+        function renderSavingsModal() {
+            const total = totalPrice();
+            const yearly = yearlySavings();
+            const configuredYears = savingsForConfiguredYears();
+            const effective = Math.max(total - yearly, 0);
+            const rentYearly = state.rentMonthly * 12;
+            const monthlyFormatted = new Intl.NumberFormat('pl-PL').format(state.rentMonthly);
+
+            el.savings5yInline.textContent = pln(configuredYears);
+            el.savingsYearsInline.textContent = `${state.savingsYears} lat:`;
+            el.savingsYearly.textContent = `${pln(yearly)}/rok`;
+            el.savingsRentLabel.textContent = `Najem (${monthlyFormatted} zł/mc)`;
+            el.savingsRentYearly.textContent = `${pln(rentYearly)}/rok`;
+            el.modalBaseTotal.textContent = pln(total);
+            el.modalYearsTotal.textContent = `${state.savingsYears} lat`;
+            el.modal5yTotal.textContent = pln(configuredYears);
+            el.savingsToggle.checked = state.includeSavings;
+            el.modalSavingsDeduction.textContent = state.includeSavings ? `- ${pln(yearly)}` : '- 0 zł';
+            el.modalEffectiveTotal.textContent = state.includeSavings ? pln(effective) : pln(total);
+        }
+
+        function openSavingsModal() {
+            el.savingsModal.classList.remove('hidden');
+            updateBodyScrollLock();
+            renderSavingsModal();
+        }
+
+        function closeSavingsModal() {
+            el.savingsModal.classList.add('hidden');
+            el.rentSavingsModal.classList.add('hidden');
+            updateBodyScrollLock();
+        }
+
+        function setupPaymentBarVisibility() {
+            if (!el.summarySection || !el.paymentBar) return;
+
+            const update = () => {
+                const summaryRect = el.summarySection.getBoundingClientRect();
+                const hide = summaryRect.top <= window.innerHeight && summaryRect.bottom >= 0;
+                el.paymentBar.style.opacity = hide ? '0' : '1';
+                el.paymentBar.style.pointerEvents = hide ? 'none' : 'auto';
+                el.paymentBar.style.transform = hide ? 'translateY(100%)' : 'translateY(0)';
+            };
+
+            update();
+            window.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+        }
+
+        function syncPaymentBarBounds() {
+            if (!el.rightPanel || !el.paymentBar) return;
+            const rect = el.rightPanel.getBoundingClientRect();
+            const left = Math.max(rect.left, 0);
+            const right = Math.max(window.innerWidth - rect.right, 0);
+            el.paymentBar.style.left = `${left}px`;
+            el.paymentBar.style.right = `${right}px`;
+        }
+
+        function syncScrollbarWidth() {
+            const scrollbarWidth = Math.max(window.innerWidth - document.documentElement.clientWidth, 0);
+            document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+        }
+
+        function syncGalleryWithColor() {
+            const images = modelImages();
+            if (!images.length) {
+                state.imageIndex = 0;
+                return;
+            }
+            const idx = ((state.imageIndex % images.length) + images.length) % images.length;
+            state.imageIndex = idx;
+        }
+
+        function rerenderAll() {
+            renderModelOptions();
+            renderColors();
+            renderExclusiveOptions(TERRACES, state.terraceId, 'terrace-btn', el.terraceOptions);
+            renderExclusiveOptions(GARAGES, state.garageId, 'garage-btn', el.garageOptions);
+            renderGallery();
+            renderSummary();
+            renderSavingsModal();
+            syncUrlWithModel();
+        }
+
+        document.getElementById('gallery-prev').addEventListener('click', () => {
+            state.imageIndex -= 1;
+            syncGalleryWithColor();
+            renderGallery();
+            renderSummary();
+            renderSavingsModal();
+        });
+
+        document.getElementById('gallery-next').addEventListener('click', () => {
+            state.imageIndex += 1;
+            syncGalleryWithColor();
+            renderGallery();
+            renderSummary();
+            renderSavingsModal();
+        });
+
+        el.modelOptions.addEventListener('click', (event) => {
+            const btn = event.target.closest('.model-btn');
+            if (!btn) return;
+            state.modelId = btn.dataset.modelId;
+            state.colorId = 'gray';
+            state.imageIndex = 0;
+            rerenderAll();
+        });
+
+        el.colorOptions.addEventListener('click', (event) => {
+            const btn = event.target.closest('.color-btn');
+            if (!btn) return;
+            state.colorId = btn.dataset.colorId;
+            state.imageIndex = 0;
+            renderColors();
+            renderGallery();
+            renderSummary();
+            renderSavingsModal();
+        });
+
+        el.terraceOptions.addEventListener('click', (event) => {
+            const btn = event.target.closest('.terrace-btn');
+            if (!btn) return;
+            state.terraceId = btn.dataset.optionId;
+            renderExclusiveOptions(TERRACES, state.terraceId, 'terrace-btn', el.terraceOptions);
+            renderSummary();
+            renderSavingsModal();
+        });
+
+        el.garageOptions.addEventListener('click', (event) => {
+            const btn = event.target.closest('.garage-btn');
+            if (!btn) return;
+            state.garageId = btn.dataset.optionId;
+            renderExclusiveOptions(GARAGES, state.garageId, 'garage-btn', el.garageOptions);
+            renderSummary();
+            renderSavingsModal();
+        });
+
+        el.openSavingsModal.addEventListener('click', openSavingsModal);
+        el.closeSavingsModal.addEventListener('click', closeSavingsModal);
+        el.savingsModalBackdrop.addEventListener('click', closeSavingsModal);
+        el.openTermsModal.addEventListener('click', openTermsModal);
+        el.closeTermsModal.addEventListener('click', closeTermsModal);
+        el.termsModalBackdrop.addEventListener('click', closeTermsModal);
+        el.openRentSavingsModal.addEventListener('click', openRentSavingsModal);
+        el.closeRentSavingsModal.addEventListener('click', closeRentSavingsModal);
+        el.rentSavingsModalBackdrop.addEventListener('click', closeRentSavingsModal);
+        el.calculateRentSavings.addEventListener('click', renderRentSavingsPreview);
+        el.rentMonthlyInput.addEventListener('input', renderRentSavingsPreview);
+        el.rentYearsInput.addEventListener('input', renderRentSavingsPreview);
+        el.saveRentSavings.addEventListener('click', () => {
+            state.rentMonthly = parseNonNegative(el.rentMonthlyInput.value, state.rentMonthly);
+            state.savingsYears = parsePositive(el.rentYearsInput.value, state.savingsYears);
+            renderSavingsModal();
+            renderSummary();
+            closeRentSavingsModal();
+            closeSavingsModal();
+        });
+        el.savingsToggle.addEventListener('change', () => {
+            state.includeSavings = el.savingsToggle.checked;
+            renderSavingsModal();
+            renderSummary();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            if (!el.rentSavingsModal.classList.contains('hidden')) {
+                closeRentSavingsModal();
+                return;
+            }
+            if (!el.termsModal.classList.contains('hidden')) {
+                closeTermsModal();
+                return;
+            }
+            if (!el.savingsModal.classList.contains('hidden')) {
+                closeSavingsModal();
+            }
+        });
+
+        applyModelFromQuery();
+        syncScrollbarWidth();
+        syncPaymentBarBounds();
+        syncGalleryWithColor();
+        rerenderAll();
+        setupPaymentBarVisibility();
+        window.addEventListener('resize', () => {
+            syncScrollbarWidth();
+            syncPaymentBarBounds();
+        });
+        window.addEventListener('scroll', syncPaymentBarBounds, { passive: true });
+    </script>
+</body>
+
+</html>
