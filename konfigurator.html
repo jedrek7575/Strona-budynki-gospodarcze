@@ -129,6 +129,7 @@
 </head>
 
 <body class="bg-white text-zinc-900 antialiased" style="font-family: 'Montserrat', sans-serif;">
+
     <div id="bonus-banner" class="bonus-banner-animated sticky top-0 z-50 h-11 w-full text-black text-[14px]">
         <div class="h-full flex items-center justify-center text-center px-4">
             Kwalifikuje się do otrzymania Bonusu ZABUDO w wysokości 18 750 zł.
@@ -233,7 +234,8 @@
                 <section class="!mt-3">
                     <div class="text-center">
                         <p class="text-[13px] leading-5 font-normal text-zinc-500">Z wyłączniem szac. Oszczędności na
-                            czynszu/najmie w ciągu 5-lat w wysokości 29 000 zł</p>
+                            czynszu/najmie w ciągu <span id="savings-years-inline">5 lat</span> w wysokości <span
+                                id="savings-5y-inline">29 000 zł</span></p>
                         <button id="open-savings-modal"
                             class="mt-2 underline text-[16px] leading-6 font-normal text-zinc-600 hover:text-zinc-800 transition">
                             Edytuj oszczędności
@@ -364,7 +366,17 @@
                         </svg>
                     </button>
                 </div>
-                <p class="text-sm text-zinc-600 mt-4">Warunki promocji...</p>
+                <div class="text-sm text-zinc-600 mt-4 space-y-3">
+                    <p class="font-medium text-zinc-900">Warunki</p>
+                    <p>Bonus Zabudo dotyczy modeli DOM50 i DOM70 z wyłączeniem wersji DOM35, zamówionych do 31 marca
+                        2026 r. (włącznie).</p>
+                    <p>Jeśli przelew zadatku nie wpłynie na konto ZABUDO do 31 marca 2026 r., bonus Zabudo nie będzie
+                        uwzględniony w rezerwacji. Jeżeli przelew został wysłany wcześniej, ale nie dotarł w terminie z
+                        przyczyn leżących po stronie banku, klient zachowuje prawo do skorzystania z oferty pod
+                        warunkiem przedstawienia potwierdzenia nadania przelewu w wymaganym terminie.</p>
+                    <p>Oferta nie obejmuje samych garaży i tarasów.</p>
+                    <p>Zachęta ta jest widoczna na fakturze za dom jako „Bonus Zabudo”.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -529,6 +541,7 @@
     </div>
 
     <script>
+
         const COLORS = [
             { id: 'gray', name: 'Szary', hex: '#7a7a7a', price: 0 },
             { id: 'white', name: 'Biel', hex: '#eceff3', price: 0 },
@@ -895,14 +908,26 @@
         }
 
         function setupPaymentBarVisibility() {
-            if (!el.summarySection || !el.paymentBar) return;
+            const summary = document.getElementById('summary-section');
+            const bar = document.getElementById('payment-bar');
+            if (!summary || !bar) return;
+            bar.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
             const update = () => {
-                const summaryRect = el.summarySection.getBoundingClientRect();
-                const hide = summaryRect.top <= window.innerHeight && summaryRect.bottom >= 0;
-                el.paymentBar.style.opacity = hide ? '0' : '1';
-                el.paymentBar.style.pointerEvents = hide ? 'none' : 'auto';
-                el.paymentBar.style.transform = hide ? 'translateY(100%)' : 'translateY(0)';
+                const rect = summary.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                // Check if ANY part of the summary section is visible in the viewport
+                const isVisible = (rect.top < windowHeight) && (rect.bottom > 0);
+
+                if (isVisible) {
+                    bar.style.opacity = '0';
+                    bar.style.pointerEvents = 'none';
+                    bar.style.transform = 'translateY(100%)';
+                } else {
+                    bar.style.opacity = '1';
+                    bar.style.pointerEvents = 'auto';
+                    bar.style.transform = 'translateY(0)';
+                }
             };
 
             update();
