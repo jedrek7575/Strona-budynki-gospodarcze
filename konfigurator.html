@@ -121,6 +121,118 @@
             animation: none;
         }
 
+        .color-picker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 0.25rem;
+        }
+
+        .color-meta {
+            min-height: 5.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            gap: 0.25rem;
+        }
+
+        .color-meta-price {
+            font-size: 1.3rem;
+            line-height: 1.2;
+            font-weight: 600;
+            color: #52525b;
+        }
+
+        .color-meta-name {
+            font-size: 2rem;
+            line-height: 1.1;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #09090b;
+        }
+
+        .color-swatches {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+        }
+
+        .color-btn {
+            position: relative;
+            width: 3.55rem;
+            height: 3.55rem;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            background: var(--swatch-color, #d4d4d8);
+            box-shadow:
+                0 0 0 1px rgba(39, 39, 42, 0.12),
+                inset 0 1px 3px rgba(255, 255, 255, 0.35),
+                inset 0 -6px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+        }
+
+        .color-btn::before {
+            content: "";
+            position: absolute;
+            left: 17%;
+            right: 17%;
+            top: 18%;
+            height: 26%;
+            border-radius: 9999px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.1));
+            filter: blur(0.5px);
+            pointer-events: none;
+        }
+
+        .color-btn::after {
+            content: "";
+            position: absolute;
+            left: 22%;
+            right: 22%;
+            top: 50%;
+            height: 1px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.28);
+            pointer-events: none;
+        }
+
+        .color-btn[data-selected="false"]:hover {
+            transform: translateY(-1px);
+        }
+
+        .color-btn[data-selected="true"] {
+            border-color: #18181b;
+            box-shadow:
+                0 0 0 1px rgba(39, 39, 42, 0.12),
+                inset 0 1px 3px rgba(255, 255, 255, 0.35),
+                inset 0 -6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 640px) {
+            .color-meta {
+                min-height: 4.5rem;
+            }
+
+            .color-meta-price {
+                font-size: 1.05rem;
+            }
+
+            .color-meta-name {
+                font-size: 1.55rem;
+            }
+
+            .color-btn {
+                width: 3.1rem;
+                height: 3.1rem;
+            }
+        }
+
         @media (min-width: 768px) {
             .right-panel-inner {
                 padding-left: 2rem;
@@ -224,7 +336,7 @@
 
                 <section>
                     <h3 class="text-lg font-semibold mb-3 text-center">Kolor elewacji</h3>
-                    <div id="color-options" class="grid sm:grid-cols-2 gap-3"></div>
+                    <div id="color-options" class="mt-1"></div>
                 </section>
 
                 <section>
@@ -548,8 +660,8 @@
     <script>
 
         const COLORS = [
-            { id: 'gray', name: 'Szary', hex: '#7a7a7a', price: 0 },
             { id: 'white', name: 'Biel', hex: '#eceff3', price: 0 },
+            { id: 'gray', name: 'Szary', hex: '#7a7a7a', price: 0 },
             { id: 'beige', name: 'Beż', hex: '#d6c7aa', price: 2800 },
             { id: 'brown', name: 'Brąz', hex: '#6b4d39', price: 3500 }
         ];
@@ -814,22 +926,24 @@
         }
 
         function renderColors() {
-            el.colorOptions.innerHTML = COLORS
-                .map((c) => {
-                    const active = c.id === state.colorId;
-                    return `
-            <button data-color-id="${c.id}" class="color-btn rounded-xl border p-3 text-left transition ${active ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 bg-white hover:border-zinc-400'}">
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <span class="inline-block w-5 h-5 rounded-full border border-black/20" style="background:${c.hex}"></span>
-                  <span class="font-medium">${c.name}</span>
-                </div>
-                <span class="text-sm font-medium whitespace-nowrap">${c.price ? '+ ' + pln(c.price) : 'W cenie'}</span>
+            const activeColor = selectedColor();
+            el.colorOptions.innerHTML = `
+            <div class="color-picker">
+              <div class="color-meta" aria-live="polite">
+                <p class="color-meta-price">${activeColor.price ? '+ ' + pln(activeColor.price) : 'W zestawie'}</p>
+                <p class="color-meta-name">${activeColor.name}</p>
               </div>
-            </button>
+              <div class="color-swatches" role="radiogroup" aria-label="Wybierz kolor elewacji">
+                ${COLORS.map((c) => {
+                const active = c.id === state.colorId;
+                const priceLabel = c.price ? `dopłata ${pln(c.price)}` : 'w zestawie';
+                return `
+                    <button type="button" data-color-id="${c.id}" class="color-btn" data-selected="${active}" aria-pressed="${active}" aria-label="${c.name}, ${priceLabel}" style="--swatch-color:${c.hex}"></button>
+                  `;
+            }).join('')}
+              </div>
+            </div>
           `;
-                })
-                .join('');
         }
 
         function renderExclusiveOptions(list, selectedId, cssClass, targetEl) {
