@@ -9,8 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
     
-    <link rel="preload" as="image" href="DOM35/L_GRAY/35_light_gray_front.webp">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,53 +26,55 @@
             --scrollbar-width: 0px;
         }
 
-        .fade-image {
-            transition: opacity 220ms ease;
-            will-change: opacity; /* OPTYMALIZACJA: Informacja dla GPU */
+        body {
+            font-family: 'Montserrat', sans-serif;
         }
 
+        /* --- OPTYMALIZACJA OBRAZÓW --- */
+        .visual-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f4f4f5; /* Tło pod zdjęciem (zinc-100) */
+        }
+
+        .house-visual {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Klucz do "tego samego rozmiaru": contain dopasuje do ramki, cover wypełni (może uciąć) */
+            object-fit: contain; 
+            object-position: center center;
+            opacity: 0;
+            transition: opacity 300ms ease-in-out;
+            will-change: opacity;
+            z-index: 10;
+        }
+        
+        .house-visual.loaded {
+            opacity: 1;
+        }
+
+        /* --- UI UTILS --- */
         .scrollbar-thin {
             scrollbar-width: thin;
             scrollbar-color: #cbd5e1 #f8fafc;
         }
-
-        .scrollbar-thin::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 999px;
-        }
-
-        .house-visual {
-            /* Show full building frame (no aggressive crop). */
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            object-fit: contain;
-            object-position: center center;
-        }
+        .scrollbar-thin::-webkit-scrollbar { width: 8px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
 
         .right-panel-inner {
             padding-left: 1rem;
             padding-right: calc(1rem + var(--scrollbar-width));
         }
 
-        .payment-bar-inner {
-            padding-left: 1rem;
-            padding-right: calc(1rem + var(--scrollbar-width));
-        }
-
+        /* --- ANIMACJE --- */
         @keyframes bonusGlow {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            100% {
-                background-position: 100% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
         .bonus-banner-animated {
@@ -84,27 +84,13 @@
         }
 
         @keyframes chatPulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.08);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
         }
 
         @keyframes chatColorMorph {
-            0% {
-                background-color: var(--chat-fab-base-color, #18181b);
-                color: var(--chat-fab-ink-color, #ffffff);
-            }
-
-            100% {
-                background-color: #ffffff;
-                color: var(--chat-fab-base-color, #18181b);
-            }
+            0% { background-color: var(--chat-fab-base-color, #18181b); color: var(--chat-fab-ink-color, #ffffff); }
+            100% { background-color: #ffffff; color: var(--chat-fab-base-color, #18181b); }
         }
 
         .chat-fab {
@@ -112,9 +98,8 @@
             --chat-fab-ink-color: #ffffff;
             position: relative;
             border: none;
-            animation:
-                chatColorMorph 2s cubic-bezier(0.68, -0.2, 0.27, 1.2) infinite alternate,
-                chatPulse 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+            animation: chatColorMorph 2s cubic-bezier(0.68, -0.2, 0.27, 1.2) infinite alternate,
+                       chatPulse 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
             box-shadow: 0 12px 26px rgba(15, 23, 42, 0.3);
         }
 
@@ -125,142 +110,56 @@
             animation: none;
         }
 
-        .color-picker {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            padding-top: 0.25rem;
-        }
-
-        .color-meta {
-            min-height: 5.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            text-align: center;
-            gap: 0.25rem;
-        }
-
-        .color-meta-price {
-            font-size: 1.3rem;
-            line-height: 1.2;
-            font-weight: 600;
-            color: #52525b;
-        }
-
-        .color-meta-name {
-            font-size: 2rem;
-            line-height: 1.1;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            color: #09090b;
-        }
-
-        .color-swatches {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.9rem;
-        }
-
+        /* --- COLOR PICKER --- */
+        .color-picker { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding-top: 0.25rem; }
+        .color-meta { min-height: 5.25rem; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; gap: 0.25rem; }
+        .color-meta-price { font-size: 1.3rem; line-height: 1.2; font-weight: 600; color: #52525b; }
+        .color-meta-name { font-size: 2rem; line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; color: #09090b; }
+        .color-swatches { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.9rem; }
+        
         .color-btn {
-            position: relative;
-            width: 3.55rem;
-            height: 3.55rem;
-            border-radius: 9999px;
-            border: 1px solid transparent;
-            background: var(--swatch-color, #d4d4d8);
-            box-shadow:
-                0 0 0 1px rgba(39, 39, 42, 0.12),
-                inset 0 1px 3px rgba(255, 255, 255, 0.35),
-                inset 0 -6px 10px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+            position: relative; width: 3.55rem; height: 3.55rem; border-radius: 9999px;
+            border: 1px solid transparent; background: var(--swatch-color, #d4d4d8);
+            box-shadow: 0 0 0 1px rgba(39, 39, 42, 0.12), inset 0 1px 3px rgba(255, 255, 255, 0.35), inset 0 -6px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer; transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
         }
-
         .color-btn::before {
-            content: "";
-            position: absolute;
-            left: 17%;
-            right: 17%;
-            top: 18%;
-            height: 26%;
-            border-radius: 9999px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.1));
-            filter: blur(0.5px);
-            pointer-events: none;
+            content: ""; position: absolute; left: 17%; right: 17%; top: 18%; height: 26%; border-radius: 9999px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.1)); filter: blur(0.5px); pointer-events: none;
         }
-
         .color-btn::after {
-            content: "";
-            position: absolute;
-            left: 22%;
-            right: 22%;
-            top: 50%;
-            height: 1px;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.28);
-            pointer-events: none;
+            content: ""; position: absolute; left: 22%; right: 22%; top: 50%; height: 1px; border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.28); pointer-events: none;
         }
-
-        .color-btn[data-selected="false"]:hover {
-            transform: translateY(-1px);
-        }
-
+        .color-btn[data-selected="false"]:hover { transform: translateY(-1px); }
         .color-btn[data-selected="true"] {
             border-color: #18181b;
-            box-shadow:
-                0 0 0 1px rgba(39, 39, 42, 0.12),
-                inset 0 1px 3px rgba(255, 255, 255, 0.35),
-                inset 0 -6px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0 0 1px rgba(39, 39, 42, 0.12), inset 0 1px 3px rgba(255, 255, 255, 0.35), inset 0 -6px 10px rgba(0, 0, 0, 0.15);
         }
 
         @media (max-width: 640px) {
-            .color-meta {
-                min-height: 4.5rem;
-            }
-
-            .color-meta-price {
-                font-size: 1.05rem;
-            }
-
-            .color-meta-name {
-                font-size: 1.55rem;
-            }
-
-            .color-btn {
-                width: 3.1rem;
-                height: 3.1rem;
-            }
+            .color-meta { min-height: 4.5rem; }
+            .color-meta-price { font-size: 1.05rem; }
+            .color-meta-name { font-size: 1.55rem; }
+            .color-btn { width: 3.1rem; height: 3.1rem; }
         }
 
         @media (min-width: 768px) {
-            .right-panel-inner {
-                padding-left: 2rem;
-                padding-right: calc(2rem + var(--scrollbar-width));
-            }
-
-            .payment-bar-inner {
-                padding-left: 2rem;
-                padding-right: calc(2rem + var(--scrollbar-width));
-            }
+            .right-panel-inner { padding-left: 2rem; padding-right: calc(2rem + var(--scrollbar-width)); }
         }
     </style>
 </head>
 
-<body class="bg-white text-zinc-900 antialiased" style="font-family: 'Montserrat', sans-serif;">
+<body class="bg-white text-zinc-900 antialiased">
 
     <div id="bonus-banner" class="bonus-banner-animated sticky top-0 z-50 h-11 w-full text-black text-[14px]">
         <div class="h-full flex items-center justify-center text-center px-4">
             Kwalifikuje się do otrzymania Bonusu ZABUDO w wysokości 18 750 zł.
-            <button id="open-terms-modal" type="button" class="ml-1 underline cursor-pointer">Zobacz
-                warunki.</button>
+            <button id="open-terms-modal" type="button" class="ml-1 underline cursor-pointer">Zobacz warunki.</button>
         </div>
     </div>
-    <header class="sticky top-11 z-40 bg-white/90 backdrop-blur">
+
+    <header class="sticky top-11 z-40 bg-white/90 backdrop-blur border-b border-zinc-100">
         <div class="max-w-[1680px] mx-auto h-16 px-4 md:px-8 flex items-center justify-between">
             <a href="index.html" class="font-semibold tracking-[0.35em] text-sm md:text-base">ZABUDO</a>
             <div class="text-sm text-zinc-600">Konfigurator domu</div>
@@ -268,67 +167,50 @@
     </header>
 
     <main class="max-w-[1680px] mx-auto grid xl:grid-cols-[1.48fr_.52fr] min-h-[calc(100vh-4rem)]">
-        <section class="xl:sticky xl:top-[6.75rem] xl:h-[calc(100vh-6.75rem)] bg-white">
-            <div class="h-full relative">
-                <div class="absolute inset-0 p-3 md:px-8 md:pt-3 md:pb-6 flex flex-col">
-                    <div class="flex-1 relative rounded-2xl overflow-hidden bg-white">
-                        <img id="gallery-image" src="" alt="Wizualizacja domu" fetchpriority="high" decoding="async"
-                            class="house-visual fade-image absolute" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/15 to-transparent"></div>
+        
+        <section class="xl:sticky xl:top-[6.75rem] xl:h-[calc(100vh-6.75rem)] bg-white w-full">
+            <div class="h-full w-full relative flex flex-col p-3 md:px-8 md:pt-3 md:pb-6">
+                <div class="visual-container flex-1 relative rounded-2xl overflow-hidden bg-zinc-50 border border-zinc-100 aspect-video xl:aspect-auto">
+                    
+                    <img id="gallery-image" src="" alt="Wizualizacja domu" class="house-visual" decoding="async" />
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/10 to-transparent pointer-events-none z-20"></div>
 
-                        <button id="gallery-prev"
-                            class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-md bg-white/90 border border-zinc-200 hover:bg-white transition"
-                            aria-label="Poprzednia wizualizacja">
-                            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor"
-                                stroke-width="2.2">
-                                <path d="M15 18l-6-6 6-6" />
-                            </svg>
-                        </button>
-                        <button id="gallery-next"
-                            class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-md bg-white/90 border border-zinc-200 hover:bg-white transition"
-                            aria-label="Następna wizualizacja">
-                            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor"
-                                stroke-width="2.2">
-                                <path d="M9 18l6-6-6-6" />
-                            </svg>
-                        </button>
+                    <button id="gallery-prev" class="absolute z-30 left-3 md:left-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-md bg-white/90 border border-zinc-200 hover:bg-white transition shadow-sm" aria-label="Poprzednia wizualizacja">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                    </button>
+                    <button id="gallery-next" class="absolute z-30 right-3 md:right-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-md bg-white/90 border border-zinc-200 hover:bg-white transition shadow-sm" aria-label="Następna wizualizacja">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </button>
 
-                        <div id="gallery-dots"
-                            class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2"></div>
-                    </div>
+                    <div id="gallery-dots" class="absolute z-30 bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2"></div>
                 </div>
             </div>
         </section>
 
-        <section id="right-panel" class="bg-white">
-            <div class="right-panel-inner py-6 md:py-8 pb-28 space-y-8">
+        <section id="right-panel" class="bg-white relative">
+            <div class="right-panel-inner py-6 md:py-8 pb-32 space-y-8">
+                
                 <div>
-                    <h2 id="gallery-title" class="text-2xl md:text-5xl font-semibold tracking-tight mt-1 text-center">
-                    </h2>
-                    <p id="gallery-subtitle"
-                        class="text-zinc-500 mt-6 text-center text-[12px] md:text-[14px] font-medium whitespace-nowrap">
-                    </p>
+                    <h2 id="gallery-title" class="text-2xl md:text-5xl font-semibold tracking-tight mt-1 text-center"></h2>
+                    <p id="gallery-subtitle" class="text-zinc-500 mt-6 text-center text-[12px] md:text-[14px] font-medium whitespace-nowrap"></p>
+                    
                     <div class="grid md:grid-cols-3 gap-4 mt-6">
-                        <div>
-                            <p class="text-xl md:text-2xl font-semibold">70 m²</p>
-                            <p class="text-zinc-500 text-sm leading-5 min-h-[2.5rem]">
-                                <span class="block">Powierzchnia</span>
-                                <span class="block">użytkowa</span>
-                            </p>
+                        <div class="text-center p-3 rounded-xl bg-zinc-50 border border-zinc-100">
+                            <p class="text-xl md:text-2xl font-semibold text-zinc-900">70 m²</p>
+                            <p class="text-zinc-500 text-xs mt-1">Powierzchnia użytkowa</p>
                         </div>
-                        <div>
-                            <p class="text-xl md:text-2xl font-semibold">60 dni</p>
-                            <p class="text-zinc-500 text-sm leading-5 min-h-[2.5rem]">
-                                <span class="block">Czas budowy</span>
-                                <span class="block whitespace-nowrap">od zgłoszenia</span>
-                            </p>
+                        <div class="text-center p-3 rounded-xl bg-zinc-50 border border-zinc-100">
+                            <p class="text-xl md:text-2xl font-semibold text-zinc-900">60 dni</p>
+                            <p class="text-zinc-500 text-xs mt-1">Czas budowy</p>
                         </div>
-                        <div>
-                            <p class="text-xl md:text-2xl font-semibold">50%</p>
-                            <p class="text-zinc-500 text-sm leading-5 min-h-[2.5rem]">
-                                <span class="block">Mniej energii</span>
-                                <span class="block whitespace-nowrap">dzięki OZE</span>
-                            </p>
+                        <div class="text-center p-3 rounded-xl bg-zinc-50 border border-zinc-100">
+                            <p class="text-xl md:text-2xl font-semibold text-zinc-900">50%</p>
+                            <p class="text-zinc-500 text-xs mt-1">Mniej energii (OZE)</p>
                         </div>
                     </div>
                 </div>
@@ -353,316 +235,222 @@
                     <div id="garage-options" class="space-y-3"></div>
                 </section>
 
-                <section class="!mt-3">
+                <section class="!mt-6 pt-6 border-t border-zinc-100">
                     <div class="text-center">
-                        <p class="text-[13px] leading-5 font-normal text-zinc-500">Z wyłączniem szac. Oszczędności na
-                            najmie w ciągu <span id="savings-years-inline">5 lat</span> w wysokości <span
-                                id="savings-5y-inline">29 000 zł</span></p>
-                        <button id="open-savings-modal"
-                            class="mt-2 underline text-[13px] leading-6 font-normal text-zinc-600 hover:text-zinc-800 transition">
-                            Edytuj oszczędności
+                        <p class="text-[13px] leading-5 font-normal text-zinc-500">
+                            Z wyłączeniem szac. oszczędności na najmie w ciągu <span id="savings-years-inline" class="font-medium text-zinc-700">5 lat</span> w wysokości <span id="savings-5y-inline" class="font-medium text-zinc-700">29 000 zł</span>
+                        </p>
+                        <button id="open-savings-modal" class="mt-2 text-[13px] font-medium text-accent hover:text-blue-700 transition underline decoration-2 decoration-accent/30 hover:decoration-accent">
+                            Edytuj kalkulację oszczędności
                         </button>
                     </div>
                 </section>
 
-                <section id="summary-section" class="rounded-2xl border border-zinc-200 bg-white p-4 md:p-5">
-                    <h3 class="text-lg font-semibold text-center">Podsumowanie</h3>
-                    <div class="mt-4 space-y-2 text-sm">
-                        <div class="flex items-center justify-between"><span class="text-zinc-600">Model</span><span
-                                id="sum-model" class="font-medium"></span></div>
-                        <div class="flex items-center justify-between"><span class="text-zinc-600">Kolor</span><span
-                                id="sum-color" class="font-medium"></span></div>
-                        <div class="flex items-center justify-between"><span class="text-zinc-600">Taras</span><span
-                                id="sum-terrace" class="font-medium"></span></div>
-                        <div class="flex items-center justify-between"><span class="text-zinc-600">Garaż</span><span
-                                id="sum-garage" class="font-medium"></span></div>
-                        <div class="pt-3 mt-3 border-t border-zinc-200 flex items-center justify-between text-base">
-                            <span class="font-medium">Kwota całkowita</span>
-                            <span id="sum-total" class="font-semibold"></span>
+                <section id="summary-section" class="rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 md:p-6">
+                    <h3 class="text-lg font-semibold text-center mb-4">Podsumowanie konfiguracji</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Model</span><span id="sum-model" class="font-medium text-zinc-900"></span></div>
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Kolor</span><span id="sum-color" class="font-medium text-zinc-900"></span></div>
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Taras</span><span id="sum-terrace" class="font-medium text-zinc-900"></span></div>
+                        <div class="flex items-center justify-between"><span class="text-zinc-600">Garaż</span><span id="sum-garage" class="font-medium text-zinc-900"></span></div>
+                        
+                        <div class="pt-4 mt-4 border-t border-zinc-200 flex items-center justify-between text-base">
+                            <span class="font-semibold text-zinc-900">Cena całkowita</span>
+                            <span id="sum-total" class="font-bold text-lg text-zinc-900"></span>
                         </div>
-                        <div class="flex items-center justify-between text-base text-accent">
+                        <div class="flex items-center justify-between text-sm text-accent bg-accent/5 p-2 rounded-lg border border-accent/10">
                             <span class="font-medium">40% płatne dzisiaj</span>
-                            <span id="sum-today" class="font-semibold"></span>
+                            <span id="sum-today" class="font-bold"></span>
                         </div>
                     </div>
                 </section>
             </div>
 
-            <div id="payment-bar" class="fixed bottom-0 z-20 px-0 pb-0"
-                style="left:0; right:0; opacity: 1; transform: translateY(0); pointer-events: auto;">
-                <div
-                    class="w-full rounded-t-2xl rounded-b-none border-x border-t border-b-0 border-zinc-200/90 bg-white/95 backdrop-blur shadow-none px-4 md:px-6 py-2.5 md:py-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+            <div id="payment-bar" class="fixed bottom-0 z-30 w-full transform transition-all duration-300 ease-out translate-y-0 opacity-100">
+                <div class="w-full border-t border-zinc-200 bg-white/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.05)] px-4 md:px-8 py-3 grid grid-cols-[1fr_auto] items-center gap-4 max-w-[1680px] mx-auto xl:pr-[calc(2rem+0.52fr)]">
                     <div class="min-w-0">
-                        <p class="text-xs text-zinc-500">40% płatne dzisiaj</p>
-                        <p id="bar-today"
-                            class="text-[1.2rem] md:text-[1.35rem] leading-none font-semibold mt-1 whitespace-nowrap">
-                        </p>
+                        <p class="text-xs text-zinc-500 font-medium uppercase tracking-wide">40% płatne dzisiaj</p>
+                        <p id="bar-today" class="text-xl md:text-2xl font-bold text-zinc-900 leading-tight mt-0.5 whitespace-nowrap"></p>
                         <p id="bar-effective" class="text-xs text-zinc-500 mt-0.5 hidden"></p>
                     </div>
-                    <button
-                        class="inline-flex items-center justify-center h-9 md:h-10 w-[min(42vw,12rem)] md:w-[12rem] rounded-xl bg-accent text-white text-[0.9rem] md:text-[1rem] font-semibold leading-none hover:brightness-110 shadow-[0_4px_12px_rgba(62,106,225,0.35)] whitespace-nowrap shrink-0">Przejdź
-                        do płatności</button>
+                    <button class="inline-flex items-center justify-center h-11 md:h-12 px-6 md:px-8 rounded-xl bg-accent text-white text-sm md:text-base font-semibold hover:bg-blue-600 shadow-lg shadow-blue-500/20 transition-all active:scale-95 whitespace-nowrap">
+                        Przejdź do płatności
+                    </button>
                 </div>
             </div>
         </section>
     </main>
 
-    <div id="savings-modal" class="fixed inset-0 z-50 hidden">
-        <div id="savings-modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+    <div id="savings-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div id="savings-modal-backdrop" class="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm transition-opacity"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-zinc-200 p-5 md:p-6">
-                <div class="flex items-center justify-between gap-3">
-                    <h3 class="text-xl font-semibold">Edytuj oszczędności</h3>
-                    <button id="close-savings-modal"
-                        class="w-10 h-10 rounded-lg border border-zinc-300 hover:bg-zinc-100 transition"
-                        aria-label="Zamknij">
-                        <svg viewBox="0 0 24 24" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor"
-                            stroke-width="2.2">
-                            <path d="M6 6l12 12M18 6L6 18" />
-                        </svg>
+            <div class="w-full max-w-xl transform rounded-2xl bg-white shadow-2xl transition-all p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-xl font-bold text-zinc-900">Edytuj oszczędności</h3>
+                    <button id="close-savings-modal" class="text-zinc-400 hover:text-zinc-600 transition p-2 hover:bg-zinc-100 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
 
-
-                <div class="mt-5 space-y-3 text-sm">
-                    <div class="flex items-center justify-between">
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between py-2 border-b border-zinc-100">
                         <span class="text-zinc-600">Energia (izolacja/OZE)</span>
-                        <span class="font-medium">~2450 zł/rok</span>
+                        <span class="font-semibold text-zinc-900">~2 450 zł/rok</span>
                     </div>
-                    <div class="flex items-center justify-between">
+                    <div class="flex justify-between py-2 border-b border-zinc-100">
                         <span class="text-zinc-600">Czynsz</span>
-                        <span class="font-medium">~12 000 zł/rok</span>
+                        <span class="font-semibold text-zinc-900">~12 000 zł/rok</span>
                     </div>
-                    <div class="flex items-center justify-between">
+                    <div class="flex justify-between py-2 border-b border-zinc-100">
                         <span id="savings-rent-label" class="text-zinc-600">Najem (2 500 zł/mc)</span>
-                        <span id="savings-rent-yearly" class="font-medium">30 000 zł/rok</span>
+                        <span id="savings-rent-yearly" class="font-semibold text-zinc-900">30 000 zł/rok</span>
                     </div>
-                    <div class="pt-3 border-t border-zinc-200 flex items-center justify-between">
-                        <span class="font-medium">Razem</span>
-                        <span id="savings-yearly" class="font-semibold">49 000 zł/rok</span>
+                    <div class="flex justify-between py-3">
+                        <span class="font-bold text-zinc-800">Razem oszczędności</span>
+                        <span id="savings-yearly" class="font-bold text-emerald-600">49 000 zł/rok</span>
                     </div>
                 </div>
 
-                <label
-                    class="mt-5 flex items-center justify-between gap-4 rounded-xl border border-zinc-300 p-3 cursor-pointer select-none">
+                <label class="mt-5 flex items-center justify-between gap-4 rounded-xl border border-zinc-200 p-4 cursor-pointer hover:bg-zinc-50 transition">
                     <div>
-                        <p class="font-medium">Uwzględnij oszczędności</p>
-                        <p class="text-sm text-zinc-500">Odlicz oszczędności od ceny efektywnej</p>
+                        <p class="font-semibold text-zinc-900">Uwzględnij w cenie</p>
+                        <p class="text-xs text-zinc-500 mt-1">Odejmij szacowane oszczędności od ceny domu</p>
                     </div>
-                    <input id="savings-toggle" type="checkbox"
-                        class="h-5 w-5 rounded border-zinc-400 text-zinc-900 focus:ring-zinc-700" checked />
+                    <div class="relative inline-flex items-center cursor-pointer">
+                        <input id="savings-toggle" type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+                    </div>
                 </label>
 
-                <div class="mt-5 rounded-xl bg-zinc-50 border border-zinc-200 p-4">
-                    <p class="text-sm text-zinc-500">Cena zamówienia</p>
-                    <p id="modal-base-total" class="text-xl font-semibold"></p>
-                    <div class="mt-3 flex items-center justify-between text-sm">
-                        <span class="text-zinc-600">Odliczenie oszczędności</span>
-                        <span id="modal-savings-deduction" class="font-medium">- 49 000 zł</span>
+                <div class="mt-5 rounded-xl bg-zinc-50 border border-zinc-200 p-5">
+                    <div class="flex justify-between items-end mb-2">
+                        <p class="text-sm text-zinc-500">Cena regularna</p>
+                        <p id="modal-base-total" class="text-lg font-semibold text-zinc-900"></p>
                     </div>
-                    <div class="mt-2 pt-2 border-t border-zinc-200">
-                        <p class="text-sm text-zinc-500">Efektywna cena po 1 roku oszczędności</p>
-                        <p id="modal-effective-total" class="text-2xl font-semibold"></p>
+                    <div class="flex justify-between items-end mb-4 text-emerald-600">
+                        <span class="text-sm font-medium">Minus oszczędności (1 rok)</span>
+                        <span id="modal-savings-deduction" class="font-bold">- 49 000 zł</span>
                     </div>
-                    <p class="text-sm text-zinc-600 mt-3">Szacunkowo, po <span id="modal-years-total"
-                            class="font-semibold text-zinc-900">5 latach</span> oszczędzasz <span id="modal-5y-total"
-                            class="font-semibold text-zinc-900">245 000 zł</span>.</p>
-                    <button id="open-rent-savings-modal"
-                        class="mt-3 underline text-blue-600 hover:text-blue-800 font-medium">Dostosuj</button>
+                    <div class="pt-4 border-t border-zinc-200">
+                        <p class="text-xs text-zinc-500 uppercase tracking-wide font-semibold">Efektywna cena (po roku)</p>
+                        <p id="modal-effective-total" class="text-3xl font-bold text-zinc-900 mt-1"></p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-zinc-200 flex justify-between items-center">
+                        <p class="text-sm text-zinc-600">Suma oszczędności po <span id="modal-years-total" class="font-bold">5 latach</span>: <span id="modal-5y-total" class="font-bold text-emerald-600">245 000 zł</span></p>
+                        <button id="open-rent-savings-modal" class="text-sm font-semibold text-accent hover:underline">Dostosuj</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div id="terms-modal" class="fixed inset-0 z-[60] hidden">
         <div id="terms-modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="w-full max-w-2xl rounded-2xl bg-white shadow-2xl border border-zinc-200 p-5 md:p-6">
-                <div class="flex items-center justify-between gap-3">
-                    <button id="close-terms-modal"
-                        class="w-10 h-10 rounded-lg border border-zinc-300 hover:bg-zinc-100 transition"
-                        aria-label="Zamknij warunki">
-                        <svg viewBox="0 0 24 24" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor"
-                            stroke-width="2.2">
-                            <path d="M6 6l12 12M18 6L6 18" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="text-sm text-zinc-600 mt-4 space-y-3" style="text-align: justify;">
-                    <p class="font-medium text-zinc-900">Warunki</p>
-                    <p>Bonus Zabudo dotyczy modeli DOM50 i DOM70 z wyłączeniem wersji DOM35, zamówionych do 31 marca
-                        2026 r. (włącznie). Jeśli przelew zadatku nie wpłynie na konto ZABUDO do 31 marca 2026 r., bonus
-                        Zabudo nie będzie uwzględniony w rezerwacji. Jeżeli przelew został wysłany wcześniej, ale nie
-                        dotarł w terminie z
-                        przyczyn leżących po stronie banku, klient zachowuje prawo do skorzystania z oferty pod
-                        warunkiem przedstawienia potwierdzenia nadania przelewu w wymaganym terminie. Oferta nie
-                        obejmuje samych garaży i tarasów. Zachęta ta jest widoczna na fakturze za dom jako „Bonus
-                        Zabudo”.</p>
+            <div class="w-full max-w-2xl rounded-2xl bg-white shadow-2xl border border-zinc-200 p-6 relative">
+                 <button id="close-terms-modal" class="absolute top-4 right-4 p-2 rounded-full hover:bg-zinc-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-xl font-bold mb-4">Warunki Bonusu</h3>
+                <div class="text-sm text-zinc-600 space-y-3 text-justify leading-relaxed max-h-[70vh] overflow-y-auto pr-2 scrollbar-thin">
+                    <p>Bonus Zabudo dotyczy modeli DOM50 i DOM70 z wyłączeniem wersji DOM35, zamówionych do 31 marca 2026 r. (włącznie).</p>
+                    <p>Jeśli przelew zadatku nie wpłynie na konto ZABUDO do 31 marca 2026 r., bonus Zabudo nie będzie uwzględniony w rezerwacji.</p>
+                    <p>Jeżeli przelew został wysłany wcześniej, ale nie dotarł w terminie z przyczyn leżących po stronie banku, klient zachowuje prawo do skorzystania z oferty pod warunkiem przedstawienia potwierdzenia nadania przelewu w wymaganym terminie.</p>
+                    <p>Oferta nie obejmuje samych garaży i tarasów. Zachęta ta jest widoczna na fakturze za dom jako „Bonus Zabudo”.</p>
                 </div>
             </div>
         </div>
     </div>
+
     <div id="rent-savings-modal" class="fixed inset-0 z-[60] hidden">
-        <div id="rent-savings-modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+        <div id="rent-savings-modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-zinc-200 p-5 md:p-6">
-                <div class="flex items-center justify-between gap-3">
-                    <h3 class="text-xl font-semibold">Oszczędności na czynszu/najmie</h3>
-                    <button id="close-rent-savings-modal"
-                        class="w-10 h-10 rounded-lg border border-zinc-300 hover:bg-zinc-100 transition"
-                        aria-label="Zamknij ustawienia czynszu">
-                        <svg viewBox="0 0 24 24" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor"
-                            stroke-width="2.2">
-                            <path d="M6 6l12 12M18 6L6 18" />
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="mt-5 space-y-4">
+            <div class="w-full max-w-md rounded-2xl bg-white shadow-2xl p-6">
+                <h3 class="text-xl font-bold mb-6">Parametry najmu</h3>
+                
+                <div class="space-y-5">
                     <label class="block">
-                        <p class="text-sm text-zinc-600">Aktualny czynsz/najem miesięczny</p>
-                        <input id="rent-monthly-input" type="number" min="0" step="100" value="2500"
-                            class="mt-1 h-11 w-full rounded-lg border border-zinc-300 px-3 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent" />
+                        <span class="text-sm font-medium text-zinc-700">Miesięczny koszt najmu/czynszu</span>
+                        <div class="relative mt-1">
+                            <input id="rent-monthly-input" type="number" min="0" step="100" class="block w-full rounded-lg border-zinc-300 pr-12 focus:border-accent focus:ring-accent sm:text-sm h-11 px-3 border" placeholder="2500">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-zinc-500">PLN</div>
+                        </div>
                     </label>
 
                     <label class="block">
-                        <p class="text-sm text-zinc-600">Przez ile lat planujesz mieszkać w swoim domu?</p>
-                        <input id="rent-years-input" type="number" min="1" step="1" value="4"
-                            class="mt-1 h-11 w-full rounded-lg border border-zinc-300 px-3 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent" />
+                        <span class="text-sm font-medium text-zinc-700">Horyzont czasowy (lata)</span>
+                        <input id="rent-years-input" type="number" min="1" max="50" class="mt-1 block w-full rounded-lg border-zinc-300 focus:border-accent focus:ring-accent sm:text-sm h-11 px-3 border" placeholder="5">
                     </label>
                 </div>
 
-                <button id="calculate-rent-savings" type="button"
-                    class="mt-5 h-11 px-5 rounded-lg bg-accent text-white font-semibold hover:brightness-110 transition shadow-[0_4px_12px_rgba(62,106,225,0.35)]">Oblicz
-                    oszczędności</button>
+                <div class="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <p id="rent-savings-result" class="text-sm text-blue-800 font-medium text-center">...</p>
+                </div>
 
-                <p id="rent-savings-result" class="mt-4 text-sm text-zinc-600">Przez 4 lat zaoszczędzisz 120 000 zł na
-                    czynszu/najmie</p>
-
-                <button id="save-rent-savings" type="button"
-                    class="mt-5 h-11 px-5 rounded-lg bg-zinc-900 text-white font-semibold hover:bg-zinc-800 transition">Zapisz
-                    i zamknij</button>
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <button id="close-rent-savings-modal" class="w-full py-2.5 rounded-lg border border-zinc-300 text-zinc-700 font-medium hover:bg-zinc-50 transition">Anuluj</button>
+                    <button id="save-rent-savings" class="w-full py-2.5 rounded-lg bg-zinc-900 text-white font-medium hover:bg-black transition">Zapisz</button>
+                </div>
+                <button id="calculate-rent-savings" class="hidden"></button>
             </div>
         </div>
     </div>
 
-    <button id="chat-fab" type="button" aria-label="Otwórz czat"
-        class="chat-fab fixed bottom-6 left-6 z-[70] grid h-12 w-14 place-items-center rounded-md text-xl font-semibold shadow-xl">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="h-6 w-6" aria-hidden="true"
-            enable-background="new 0 0 64 64">
-            <path
-                d="m55.438 5h-46.875c-3.625 0-6.563 2.918-6.563 6.517v29.793c0 3.598 2.938 6.518 6.563 6.518h6.918v11.172l10.39-11.172h29.567c3.626 0 6.563-2.92 6.563-6.518v-29.793c-.001-3.599-2.938-6.517-6.563-6.517m-39.451 25.604c-2.331 0-4.219-1.875-4.219-4.19 0-2.314 1.888-4.189 4.219-4.189s4.219 1.875 4.219 4.189c0 2.315-1.888 4.19-4.219 4.19m16.013 0c-2.329 0-4.219-1.875-4.219-4.19 0-2.314 1.89-4.189 4.219-4.189s4.219 1.875 4.219 4.189c0 2.315-1.89 4.19-4.219 4.19m16.013 0c-2.331 0-4.219-1.875-4.219-4.19 0-2.314 1.888-4.189 4.219-4.189 2.329 0 4.219 1.875 4.219 4.189-.001 2.315-1.89 4.19-4.219 4.19" />
-        </svg>
+    <button id="chat-fab" type="button" aria-label="Otwórz czat" class="chat-fab fixed bottom-24 md:bottom-6 left-6 z-[70] grid h-14 w-14 place-items-center rounded-full text-white shadow-xl hover:scale-105 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="h-7 w-7 fill-current" aria-hidden="true"><path d="m55.438 5h-46.875c-3.625 0-6.563 2.918-6.563 6.517v29.793c0 3.598 2.938 6.518 6.563 6.518h6.918v11.172l10.39-11.172h29.567c3.626 0 6.563-2.92 6.563-6.518v-29.793c-.001-3.599-2.938-6.517-6.563-6.517m-39.451 25.604c-2.331 0-4.219-1.875-4.219-4.19 0-2.314 1.888-4.189 4.219-4.189s4.219 1.875 4.219 4.189c0 2.315-1.888 4.19-4.219 4.19m16.013 0c-2.329 0-4.219-1.875-4.219-4.19 0-2.314 1.89-4.189 4.219-4.189s4.219 1.875 4.219 4.189c0 2.315-1.89 4.19-4.219 4.19m16.013 0c-2.331 0-4.219-1.875-4.219-4.19 0-2.314 1.888-4.189 4.219-4.189 2.329 0 4.219 1.875 4.219 4.189-.001 2.315-1.89 4.19-4.219 4.19" /></svg>
     </button>
 
-    <div id="chat-modal" class="fixed bottom-3 left-3 z-[80] hidden w-[min(24rem,calc(100vw-2rem))]">
-        <div class="relative w-full overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_rgba(15,23,42,0.24)]">
-            <div class="flex items-center justify-between border-b border-zinc-100 px-5 py-4">
-                <h3 class="text-base font-semibold text-zinc-900">Czat</h3>
-                <button id="chat-close-btn" type="button" aria-label="Zamknij czat"
-                    class="rounded-md px-2 py-1 text-sm text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-700">X</button>
+    <div id="chat-modal" class="fixed bottom-4 left-4 z-[80] hidden w-[calc(100vw-2rem)] max-w-sm md:w-96">
+        <div class="relative w-full overflow-hidden rounded-2xl bg-white shadow-2xl border border-zinc-100 ring-1 ring-black/5">
+            <div class="flex items-center justify-between border-b border-zinc-100 px-5 py-4 bg-zinc-50">
+                <h3 class="text-base font-bold text-zinc-900">Porozmawiaj z nami</h3>
+                <button id="chat-close-btn" class="rounded-full p-1 text-zinc-400 hover:bg-zinc-200 hover:text-zinc-700 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
-
-            <div class="max-h-[calc(84vh-4.5rem)] overflow-y-auto px-5 py-4">
-                <p class="mb-5 text-xs leading-relaxed text-zinc-700">
-                    Obecnie brak dostępnych agentów. Podaj swoje dane kontaktowe, a my skontaktujemy się z Tobą.
-                </p>
-
-                <form id="chat-form" class="space-y-4">
-                    <div>
-                        <label for="chat-first-name"
-                            class="ml-2.5 mb-1 block text-xs font-medium text-zinc-700">Imię</label>
-                        <input id="chat-first-name" name="firstName" type="text"
-                            class="h-10 w-full rounded-lg bg-zinc-100 px-3 text-sm text-zinc-900 outline-none transition focus:ring-2 focus:ring-[#3e6ae1]">
+            <div class="max-h-[60vh] overflow-y-auto px-5 py-5 scrollbar-thin">
+                <p class="mb-5 text-sm text-zinc-600">Obecnie brak dostępnych agentów. Zostaw dane, oddzwonimy.</p>
+                <form id="chat-form" class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                        <input id="chat-first-name" placeholder="Imię" class="h-10 w-full rounded-lg bg-zinc-50 border border-zinc-200 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition">
+                        <input id="chat-last-name" placeholder="Nazwisko" class="h-10 w-full rounded-lg bg-zinc-50 border border-zinc-200 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition">
                     </div>
-                    <div>
-                        <label for="chat-last-name"
-                            class="ml-2.5 mb-1 block text-xs font-medium text-zinc-700">Nazwisko</label>
-                        <input id="chat-last-name" name="lastName" type="text"
-                            class="h-10 w-full rounded-lg bg-zinc-100 px-3 text-sm text-zinc-900 outline-none transition focus:ring-2 focus:ring-[#3e6ae1]">
-                    </div>
-                    <div>
-                        <label for="chat-email" class="ml-2.5 mb-1 block text-xs font-medium text-zinc-700">Adres
-                            e-mail</label>
-                        <input id="chat-email" name="email" type="email"
-                            class="h-10 w-full rounded-lg bg-zinc-100 px-3 text-sm text-zinc-900 outline-none transition focus:ring-2 focus:ring-[#3e6ae1]">
-                    </div>
-                    <div>
-                        <label for="chat-phone" class="ml-2.5 mb-1 block text-xs font-medium text-zinc-700">Nr
-                            telefonu</label>
-                        <input id="chat-phone" name="phone" type="tel"
-                            class="h-10 w-full rounded-lg bg-zinc-100 px-3 text-sm text-zinc-900 outline-none transition focus:ring-2 focus:ring-[#3e6ae1]">
-                    </div>
-                    <div>
-                        <label for="chat-postal-code" class="ml-2.5 mb-1 block text-xs font-medium text-zinc-700">Kod
-                            pocztowy</label>
-                        <input id="chat-postal-code" name="postalCode" type="text"
-                            class="h-10 w-full rounded-lg bg-zinc-100 px-3 text-sm text-zinc-900 outline-none transition focus:ring-2 focus:ring-[#3e6ae1]">
-                    </div>
-
-                    <fieldset>
-                        <legend class="ml-2.5 mb-2 text-xs font-semibold text-zinc-800">Zainteresowanie produktem
-                        </legend>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-2 text-xs text-zinc-700">
-                                <input type="checkbox" name="chat-product" value="Model 35"
-                                    class="h-4 w-4 rounded border-zinc-300 text-[#3e6ae1] focus:ring-[#3e6ae1]">
-                                Model 35
+                    <input id="chat-email" type="email" placeholder="E-mail" class="h-10 w-full rounded-lg bg-zinc-50 border border-zinc-200 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition">
+                    <input id="chat-phone" type="tel" placeholder="Telefon" class="h-10 w-full rounded-lg bg-zinc-50 border border-zinc-200 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition">
+                    <input id="chat-postal-code" placeholder="Kod pocztowy" class="h-10 w-full rounded-lg bg-zinc-50 border border-zinc-200 px-3 text-sm focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition">
+                    
+                    <fieldset class="pt-2">
+                        <legend class="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-wide">Interesuje mnie:</legend>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center gap-2 text-xs text-zinc-700 p-2 rounded bg-zinc-50 hover:bg-zinc-100 cursor-pointer border border-transparent hover:border-zinc-200 transition">
+                                <input type="checkbox" name="chat-product" value="Model 35" class="rounded border-zinc-300 text-accent focus:ring-accent"> Model 35
                             </label>
-                            <label class="flex items-center gap-2 text-xs text-zinc-700">
-                                <input type="checkbox" name="chat-product" value="Model 50"
-                                    class="h-4 w-4 rounded border-zinc-300 text-[#3e6ae1] focus:ring-[#3e6ae1]">
-                                Model 50
+                            <label class="flex items-center gap-2 text-xs text-zinc-700 p-2 rounded bg-zinc-50 hover:bg-zinc-100 cursor-pointer border border-transparent hover:border-zinc-200 transition">
+                                <input type="checkbox" name="chat-product" value="Model 50" class="rounded border-zinc-300 text-accent focus:ring-accent"> Model 50
                             </label>
-                            <label class="flex items-center gap-2 text-xs text-zinc-700">
-                                <input type="checkbox" name="chat-product" value="Model 70"
-                                    class="h-4 w-4 rounded border-zinc-300 text-[#3e6ae1] focus:ring-[#3e6ae1]">
-                                Model 70
+                            <label class="flex items-center gap-2 text-xs text-zinc-700 p-2 rounded bg-zinc-50 hover:bg-zinc-100 cursor-pointer border border-transparent hover:border-zinc-200 transition">
+                                <input type="checkbox" name="chat-product" value="Model 70" class="rounded border-zinc-300 text-accent focus:ring-accent"> Model 70
                             </label>
-                            <label class="flex items-center gap-2 text-xs text-zinc-700">
-                                <input type="checkbox" name="chat-product" value="Taras"
-                                    class="h-4 w-4 rounded border-zinc-300 text-[#3e6ae1] focus:ring-[#3e6ae1]">
-                                Taras
-                            </label>
-                            <label class="flex items-center gap-2 text-xs text-zinc-700">
-                                <input type="checkbox" name="chat-product" value="Garaż"
-                                    class="h-4 w-4 rounded border-zinc-300 text-[#3e6ae1] focus:ring-[#3e6ae1]">
-                                Garaż
+                            <label class="flex items-center gap-2 text-xs text-zinc-700 p-2 rounded bg-zinc-50 hover:bg-zinc-100 cursor-pointer border border-transparent hover:border-zinc-200 transition">
+                                <input type="checkbox" name="chat-product" value="Garaż" class="rounded border-zinc-300 text-accent focus:ring-accent"> Garaż
                             </label>
                         </div>
                     </fieldset>
-
-                    <button id="chat-submit-btn" type="submit" disabled
-                        class="mt-2 w-full rounded-lg bg-[#3e6ae1] px-4 py-3 text-xs font-semibold text-white shadow-[0_4px_12px_rgba(62,106,225,0.35)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:bg-zinc-300 disabled:text-zinc-500 disabled:shadow-none disabled:hover:brightness-100">
-                        Poproś O Kontakt Telefoniczny
-                    </button>
+                    <button id="chat-submit-btn" type="submit" disabled class="mt-2 w-full rounded-lg bg-accent px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:bg-zinc-200 disabled:text-zinc-400 disabled:shadow-none">Wyślij zgłoszenie</button>
                 </form>
             </div>
-
-            <div id="chat-close-confirm"
-                class="absolute inset-0 z-20 hidden items-end justify-center bg-white/90 p-4 sm:p-5">
-                <div class="w-full max-w-xs rounded-xl border border-zinc-200 bg-white p-5 text-center shadow-xl">
-                    <p class="mb-5 text-base font-semibold text-zinc-900">Zakończyć czat?</p>
-                    <div class="flex justify-center gap-3">
-                        <button id="chat-confirm-yes" type="button"
-                            class="rounded-lg bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition hover:bg-black">
-                            Tak
-                        </button>
-                        <button id="chat-confirm-no" type="button"
-                            class="rounded-lg border border-zinc-300 px-4 py-2 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100">
-                            Nie
-                        </button>
-                    </div>
+            <div id="chat-close-confirm" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-white/95 backdrop-blur text-center p-6">
+                <p class="mb-4 text-zinc-900 font-semibold">Zakończyć rozmowę?</p>
+                <div class="flex gap-3">
+                    <button id="chat-confirm-yes" class="px-4 py-2 bg-zinc-900 text-white rounded-lg text-sm font-medium hover:bg-black">Tak</button>
+                    <button id="chat-confirm-no" class="px-4 py-2 border border-zinc-300 text-zinc-700 rounded-lg text-sm font-medium hover:bg-zinc-50">Nie</button>
                 </div>
             </div>
         </div>
     </div>
-    <div id="chat-success"
-        class="pointer-events-none fixed left-1/2 top-5 z-[90] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg bg-emerald-600 px-4 py-3 text-center text-sm font-medium text-white opacity-0 shadow-lg transition-opacity duration-300">
-        Dziękujemy! Skontaktujemy się z Tobą w ciągu 24h.
+    <div id="chat-success" class="pointer-events-none fixed left-1/2 top-20 z-[90] -translate-x-1/2 rounded-full bg-emerald-600 px-6 py-3 text-center text-sm font-bold text-white shadow-xl opacity-0 transition-all duration-500 scale-90">
+        Dziękujemy! Skontaktujemy się wkrótce.
     </div>
 
     <script>
-
         const COLORS = [
             { id: 'white', name: 'Biel', hex: '#eceff3', price: 0 },
             { id: 'gray', name: 'Szary', hex: '#7a7a7a', price: 0 },
@@ -714,7 +502,7 @@
                 id: 'm70',
                 query: '70',
                 name: 'Dom 70 m²',
-                subtitle: 'Model parterowy',
+                subtitle: 'Model z antresolą',
                 price: 365300,
                 imagesByColor: {
                     gray: ['DOM70/L_GRAY/70_light_gray_front.webp', 'DOM70/L_GRAY/70_light_gray_right.webp'],
@@ -725,11 +513,10 @@
             }
         ];
 
-        // --- OPTYMALIZACJA: CACHE OBRAZÓW I PRELOADER ---
+        // --- OPTYMALIZACJA: CACHE OBRAZÓW (Smart Preloading) ---
         const imageCache = new Set();
         
         function preloadAllImages() {
-            // Zbieramy wszystkie URL-e
             const allUrls = [];
             MODELS.forEach(m => {
                 Object.values(m.imagesByColor).forEach(urls => {
@@ -737,30 +524,33 @@
                 });
             });
 
-            // Pobieramy w tle używając requestIdleCallback jeśli dostępny,
-            // aby nie blokować głównego wątku
+            // Leniwe ładowanie w tle (Idle Callback)
             const processPreload = () => {
                 if (allUrls.length === 0) return;
                 
-                // Pobieraj po jednym na raz w czasie bezczynności
-                const url = allUrls.shift();
-                if (!imageCache.has(url)) {
-                    const img = new Image();
-                    img.src = url;
-                    img.onload = () => imageCache.add(url);
-                }
+                // Pobieramy max 2 na raz, żeby nie zabić sieci
+                const batch = allUrls.splice(0, 2);
+                
+                batch.forEach(url => {
+                    if (!imageCache.has(url)) {
+                        const img = new Image();
+                        img.src = url;
+                        img.onload = () => imageCache.add(url);
+                        img.onerror = () => console.warn(`Nie można załadować zasobu w tle: ${url}`);
+                    }
+                });
                 
                 if ('requestIdleCallback' in window) {
                     requestIdleCallback(processPreload);
                 } else {
-                    setTimeout(processPreload, 50);
+                    setTimeout(processPreload, 200);
                 }
             };
 
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(processPreload);
             } else {
-                setTimeout(processPreload, 200);
+                setTimeout(processPreload, 500);
             }
         }
         // ------------------------------------------------
@@ -834,25 +624,10 @@
 
         const pln = (value) => `${new Intl.NumberFormat('pl-PL').format(value)} zł`;
 
-        function selectedModel() {
-            return MODELS.find((m) => m.id === state.modelId);
-        }
-
-        function selectedColor() {
-            return COLORS.find((c) => c.id === state.colorId);
-        }
-
-        function selectedTerrace() {
-            return TERRACES.find((t) => t.id === state.terraceId);
-        }
-
-        function selectedGarage() {
-            return GARAGES.find((g) => g.id === state.garageId);
-        }
-
-        function colorOrder() {
-            return COLORS.map((c) => c.id);
-        }
+        function selectedModel() { return MODELS.find((m) => m.id === state.modelId); }
+        function selectedColor() { return COLORS.find((c) => c.id === state.colorId); }
+        function selectedTerrace() { return TERRACES.find((t) => t.id === state.terraceId); }
+        function selectedGarage() { return GARAGES.find((g) => g.id === state.garageId); }
 
         function modelImages() {
             const map = selectedModel().imagesByColor;
@@ -861,11 +636,7 @@
         }
 
         function totalPrice() {
-            const base = selectedModel().price;
-            const color = selectedColor().price;
-            const terrace = selectedTerrace().price;
-            const garage = selectedGarage().price;
-            return base + color + terrace + garage;
+            return selectedModel().price + selectedColor().price + selectedTerrace().price + selectedGarage().price;
         }
 
         function yearlySavings() {
@@ -878,14 +649,12 @@
 
         function parseNonNegative(value, fallback) {
             const parsed = Number(value);
-            if (!Number.isFinite(parsed) || parsed < 0) return fallback;
-            return Math.round(parsed);
+            return (!Number.isFinite(parsed) || parsed < 0) ? fallback : Math.round(parsed);
         }
 
         function parsePositive(value, fallback) {
             const parsed = Number(value);
-            if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
-            return Math.round(parsed);
+            return (!Number.isFinite(parsed) || parsed <= 0) ? fallback : Math.round(parsed);
         }
 
         function updateBodyScrollLock() {
@@ -899,17 +668,12 @@
                 const termsModalOpen = !el.termsModal.classList.contains('hidden');
                 el.chatFab.classList.toggle('chat-fab-disabled', termsModalOpen);
                 el.chatFab.disabled = termsModalOpen;
-                el.chatFab.setAttribute('aria-disabled', termsModalOpen ? 'true' : 'false');
             }
         }
 
-        function openTermsModal() {
-            el.termsModal.classList.remove('hidden');
-            updateBodyScrollLock();
-        }
-
-        function closeTermsModal() {
-            el.termsModal.classList.add('hidden');
+        function toggleModal(modal, show) {
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
             updateBodyScrollLock();
         }
 
@@ -918,19 +682,6 @@
             const years = parsePositive(el.rentYearsInput.value, state.savingsYears);
             const total = monthly * 12 * years;
             el.rentSavingsResult.textContent = `Przez ${years} lat zaoszczędzisz ${pln(total)} na czynszu/najmie`;
-        }
-
-        function openRentSavingsModal() {
-            el.rentMonthlyInput.value = state.rentMonthly;
-            el.rentYearsInput.value = state.savingsYears;
-            renderRentSavingsPreview();
-            el.rentSavingsModal.classList.remove('hidden');
-            updateBodyScrollLock();
-        }
-
-        function closeRentSavingsModal() {
-            el.rentSavingsModal.classList.add('hidden');
-            updateBodyScrollLock();
         }
 
         function syncUrlWithModel() {
@@ -945,28 +696,23 @@
             if (!param) return;
             const normalized = param.toLowerCase();
             const target = MODELS.find((m) => m.query === normalized || m.id === normalized);
-            if (target) {
-                state.modelId = target.id;
-            }
+            if (target) state.modelId = target.id;
         }
 
         function renderModelOptions() {
-            el.modelOptions.innerHTML = MODELS
-                .map((m) => {
-                    const active = m.id === state.modelId;
-                    return `
-            <button data-model-id="${m.id}" class="model-btn text-left rounded-xl border p-4 transition ${active ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 bg-white hover:border-zinc-400'}">
-              <div class="flex items-center justify-between gap-3">
-                <div>
-                  <p class="font-semibold">${m.name}</p>
-                  <p class="text-sm ${active ? 'text-zinc-300' : 'text-zinc-500'}">${m.subtitle}</p>
-                </div>
-                <p class="font-semibold whitespace-nowrap">${pln(m.price)}</p>
-              </div>
-            </button>
-          `;
-                })
-                .join('');
+            el.modelOptions.innerHTML = MODELS.map((m) => {
+                const active = m.id === state.modelId;
+                return `
+                <button data-model-id="${m.id}" class="model-btn w-full text-left rounded-xl border p-4 transition duration-200 ${active ? 'border-zinc-900 bg-zinc-900 text-white shadow-md' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:shadow-sm'}">
+                  <div class="flex items-center justify-between gap-3">
+                    <div>
+                      <p class="font-bold text-lg leading-tight">${m.name}</p>
+                      <p class="text-sm ${active ? 'text-zinc-300' : 'text-zinc-500'} mt-1">${m.subtitle}</p>
+                    </div>
+                    <p class="font-bold whitespace-nowrap">${pln(m.price)}</p>
+                  </div>
+                </button>`;
+            }).join('');
         }
 
         function renderColors() {
@@ -977,35 +723,29 @@
                 <p class="color-meta-price">${activeColor.price ? '+ ' + pln(activeColor.price) : 'W zestawie'}</p>
                 <p class="color-meta-name">${activeColor.name}</p>
               </div>
-              <div class="color-swatches" role="radiogroup" aria-label="Wybierz kolor elewacji">
+              <div class="color-swatches" role="radiogroup">
                 ${COLORS.map((c) => {
-                const active = c.id === state.colorId;
-                const priceLabel = c.price ? `dopłata ${pln(c.price)}` : 'w zestawie';
-                return `
-                    <button type="button" data-color-id="${c.id}" class="color-btn" data-selected="${active}" aria-pressed="${active}" aria-label="${c.name}, ${priceLabel}" style="--swatch-color:${c.hex}"></button>
-                  `;
-            }).join('')}
+                    const active = c.id === state.colorId;
+                    return `<button type="button" data-color-id="${c.id}" class="color-btn" data-selected="${active}" style="--swatch-color:${c.hex}" aria-label="${c.name}"></button>`;
+                }).join('')}
               </div>
-            </div>
-          `;
+            </div>`;
         }
 
         function renderExclusiveOptions(list, selectedId, cssClass, targetEl) {
-            targetEl.innerHTML = list
-                .map((item) => {
-                    const active = item.id === selectedId;
-                    return `
-            <button data-option-id="${item.id}" class="${cssClass} w-full text-left rounded-xl border p-3 transition ${active ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 bg-white hover:border-zinc-400'}">
-              <div class="flex items-center justify-between gap-3">
-                <span class="font-medium">${item.name}</span>
-                <span class="text-sm font-medium whitespace-nowrap">${item.price ? '+ ' + pln(item.price) : 'W cenie'}</span>
-              </div>
-            </button>
-          `;
-                })
-                .join('');
+            targetEl.innerHTML = list.map((item) => {
+                const active = item.id === selectedId;
+                return `
+                <button data-option-id="${item.id}" class="${cssClass} w-full text-left rounded-xl border p-3.5 transition duration-200 ${active ? 'border-zinc-900 bg-zinc-900 text-white shadow-md' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:shadow-sm'}">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="font-semibold">${item.name}</span>
+                    <span class="text-sm font-medium whitespace-nowrap">${item.price ? '+ ' + pln(item.price) : 'W cenie'}</span>
+                  </div>
+                </button>`;
+            }).join('');
         }
 
+        // --- CORE: LOGIKA WYŚWIETLANIA ZDJĘĆ ---
         function renderGallery() {
             const model = selectedModel();
             const images = modelImages();
@@ -1015,38 +755,56 @@
             el.galleryTitle.textContent = model.name;
             el.gallerySubtitle.textContent = 'Szacowany termin startu budowy: marzec 2026';
 
-            // OPTYMALIZACJA:
-            // Jeśli obraz jest w cache, zmiana jest natychmiastowa.
-            // Jeśli nie, browser pobierze go szybko (bo preloader działa).
-            // Używamy decode() by uniknąć migotania przy renderowaniu.
-            
-            el.galleryImage.style.opacity = '0.35';
-            
-            // Tworzymy tymczasowy obiekt by sprawdzić gotowość
-            const tempImg = new Image();
-            tempImg.src = currentImage;
-            
-            const swapImage = () => {
-                 el.galleryImage.src = currentImage;
-                 el.galleryImage.style.opacity = '1';
-            };
+            // 1. Ustawienie kropek nawigacji
+            el.galleryDots.innerHTML = images.map((_, i) => 
+                `<span class="transition-all duration-300 ${i === idx ? 'w-6 bg-white shadow' : 'w-2 bg-white/50 hover:bg-white/80'} h-2 rounded-full cursor-pointer"></span>`
+            ).join('');
 
-            // Jeśli browser wspiera decode(), czekamy na gotowość do wyświetlenia
-            if ('decode' in tempImg) {
-                tempImg.decode().then(() => {
-                    setTimeout(swapImage, 110);
-                }).catch(() => {
-                    // Fallback jeśli decode failnie (np. zły url)
-                    setTimeout(swapImage, 110);
-                });
-            } else {
-                // Fallback dla starych browserów
-                 setTimeout(swapImage, 110);
+            // 2. Pobieranie zdjęcia z płynnym przejściem
+            const imgEl = el.galleryImage;
+            
+            // Jeśli to to samo źródło, nic nie rób (zapobiega mignięciu)
+            if (imgEl.src.endsWith(currentImage)) {
+                if (!imgEl.classList.contains('loaded')) imgEl.classList.add('loaded');
+                return;
             }
 
-            el.galleryDots.innerHTML = images
-                .map((img, i) => `<span class="w-2.5 h-2.5 rounded-full ${i === idx ? 'bg-zinc-900' : 'bg-zinc-400/70'}"></span>`)
-                .join('');
+            // Start fade out
+            imgEl.classList.remove('loaded');
+
+            // Przygotuj nowe zdjęcie w pamięci
+            const tempImg = new Image();
+            tempImg.src = currentImage;
+
+            const updateImage = () => {
+                imgEl.src = currentImage;
+                // Wymuś reflow
+                void imgEl.offsetWidth; 
+                imgEl.classList.add('loaded');
+            };
+
+            // Nowoczesne dekodowanie (asynchroniczne)
+            if ('decode' in tempImg) {
+                tempImg.decode()
+                    .then(() => {
+                        updateImage();
+                    })
+                    .catch((err) => {
+                        console.error('Błąd dekodowania obrazu:', err);
+                        // Fallback na wypadek błędu dekodowania (np. uszkodzony plik)
+                        imgEl.src = currentImage; // Spróbuj załadować mimo to
+                        imgEl.onerror = () => {
+                             // Fallback placeholder jeśli plik nie istnieje (dla lokalnych testów)
+                             console.warn('Obraz nie istnieje, ładuję placeholder.');
+                             imgEl.src = 'https://placehold.co/1200x900/e4e4e7/52525b?text=Wizualizacja+' + model.query;
+                             imgEl.classList.add('loaded');
+                        }
+                        updateImage();
+                    });
+            } else {
+                // Fallback dla starszych przeglądarek
+                tempImg.onload = updateImage;
+            }
         }
 
         function renderSummary() {
@@ -1064,8 +822,6 @@
             el.sumTotal.textContent = pln(total);
             el.sumToday.textContent = pln(today);
             el.barToday.textContent = pln(today);
-            el.barEffective.classList.add('hidden');
-            el.barEffective.textContent = '';
         }
 
         function renderSavingsModal() {
@@ -1074,12 +830,11 @@
             const configuredYears = savingsForConfiguredYears();
             const effective = Math.max(total - yearly, 0);
             const rentYearly = state.rentMonthly * 12;
-            const monthlyFormatted = new Intl.NumberFormat('pl-PL').format(state.rentMonthly);
 
             el.savings5yInline.textContent = pln(configuredYears);
-            el.savingsYearsInline.textContent = `${state.savingsYears} lat:`;
+            el.savingsYearsInline.textContent = `${state.savingsYears} lat`;
             el.savingsYearly.textContent = `${pln(yearly)}/rok`;
-            el.savingsRentLabel.textContent = `Najem (${monthlyFormatted} zł/mc)`;
+            el.savingsRentLabel.textContent = `Najem (${new Intl.NumberFormat('pl-PL').format(state.rentMonthly)} zł/mc)`;
             el.savingsRentYearly.textContent = `${pln(rentYearly)}/rok`;
             el.modalBaseTotal.textContent = pln(total);
             el.modalYearsTotal.textContent = `${state.savingsYears} lat`;
@@ -1089,30 +844,18 @@
             el.modalEffectiveTotal.textContent = state.includeSavings ? pln(effective) : pln(total);
         }
 
-        function openSavingsModal() {
-            el.savingsModal.classList.remove('hidden');
-            updateBodyScrollLock();
-            renderSavingsModal();
-        }
-
-        function closeSavingsModal() {
-            el.savingsModal.classList.add('hidden');
-            el.rentSavingsModal.classList.add('hidden');
-            updateBodyScrollLock();
-        }
-
+        // --- SCROLL & LAYOUT LOGIC ---
         function setupPaymentBarVisibility() {
             const summary = document.getElementById('summary-section');
             const bar = document.getElementById('payment-bar');
             if (!summary || !bar) return;
-            bar.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
             const update = () => {
                 const rect = summary.getBoundingClientRect();
                 const windowHeight = window.innerHeight;
-                // Check if ANY part of the summary section is visible in the viewport
+                // Jeśli sekcja podsumowania jest widoczna, ukryj sticky bar
                 const isVisible = (rect.top < windowHeight) && (rect.bottom > 0);
-
+                
                 if (isVisible) {
                     bar.style.opacity = '0';
                     bar.style.pointerEvents = 'none';
@@ -1123,34 +866,23 @@
                     bar.style.transform = 'translateY(0)';
                 }
             };
-
-            update();
             window.addEventListener('scroll', update, { passive: true });
             window.addEventListener('resize', update);
+            update();
         }
 
         function syncPaymentBarBounds() {
             if (!el.rightPanel || !el.paymentBar) return;
             const rect = el.rightPanel.getBoundingClientRect();
-            const left = Math.max(rect.left, 0);
-            const right = Math.max(window.innerWidth - rect.right, 0);
-            el.paymentBar.style.left = `${left}px`;
-            el.paymentBar.style.right = `${right}px`;
-        }
-
-        function syncScrollbarWidth() {
-            const scrollbarWidth = Math.max(window.innerWidth - document.documentElement.clientWidth, 0);
-            document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+            // Sticky bar ma mieć szerokość prawego panelu + layout marginesy, ale w projekcie jest full width
+            // Tutaj logika była customowa, zostawiamy jak w oryginale (full width na dole)
+            // lub dopasowujemy padding contentu wewnątrz bara (co zrobiono w CSS).
         }
 
         function syncGalleryWithColor() {
             const images = modelImages();
-            if (!images.length) {
-                state.imageIndex = 0;
-                return;
-            }
-            const idx = ((state.imageIndex % images.length) + images.length) % images.length;
-            state.imageIndex = idx;
+            if (!images.length) { state.imageIndex = 0; return; }
+            state.imageIndex = ((state.imageIndex % images.length) + images.length) % images.length;
         }
 
         function rerenderAll() {
@@ -1164,255 +896,152 @@
             syncUrlWithModel();
         }
 
-        document.getElementById('gallery-prev').addEventListener('click', () => {
-            state.imageIndex -= 1;
-            syncGalleryWithColor();
-            renderGallery();
-            renderSummary();
-            renderSavingsModal();
-        });
+        // --- EVENTS ---
+        document.getElementById('gallery-prev').addEventListener('click', () => { state.imageIndex--; syncGalleryWithColor(); renderGallery(); });
+        document.getElementById('gallery-next').addEventListener('click', () => { state.imageIndex++; syncGalleryWithColor(); renderGallery(); });
 
-        document.getElementById('gallery-next').addEventListener('click', () => {
-            state.imageIndex += 1;
-            syncGalleryWithColor();
-            renderGallery();
-            renderSummary();
-            renderSavingsModal();
-        });
-
-        el.modelOptions.addEventListener('click', (event) => {
-            const btn = event.target.closest('.model-btn');
+        el.modelOptions.addEventListener('click', (e) => {
+            const btn = e.target.closest('.model-btn');
             if (!btn) return;
             state.modelId = btn.dataset.modelId;
-            // Zachowanie spójności: resetujemy kolor lub nie, w zależności od wymagań. 
-            // Tu zostawiam jak było (reset na gray)
-            state.colorId = 'gray'; 
+            state.colorId = 'gray'; // Reset koloru
             state.imageIndex = 0;
             rerenderAll();
         });
 
-        el.colorOptions.addEventListener('click', (event) => {
-            const btn = event.target.closest('.color-btn');
+        el.colorOptions.addEventListener('click', (e) => {
+            const btn = e.target.closest('.color-btn');
             if (!btn) return;
             state.colorId = btn.dataset.colorId;
             state.imageIndex = 0;
             renderColors();
             renderGallery();
             renderSummary();
-            renderSavingsModal();
         });
 
-        el.terraceOptions.addEventListener('click', (event) => {
-            const btn = event.target.closest('.terrace-btn');
+        el.terraceOptions.addEventListener('click', (e) => {
+            const btn = e.target.closest('.terrace-btn');
             if (!btn) return;
             state.terraceId = btn.dataset.optionId;
             renderExclusiveOptions(TERRACES, state.terraceId, 'terrace-btn', el.terraceOptions);
             renderSummary();
-            renderSavingsModal();
         });
 
-        el.garageOptions.addEventListener('click', (event) => {
-            const btn = event.target.closest('.garage-btn');
+        el.garageOptions.addEventListener('click', (e) => {
+            const btn = e.target.closest('.garage-btn');
             if (!btn) return;
             state.garageId = btn.dataset.optionId;
             renderExclusiveOptions(GARAGES, state.garageId, 'garage-btn', el.garageOptions);
             renderSummary();
-            renderSavingsModal();
         });
 
-        el.openSavingsModal.addEventListener('click', openSavingsModal);
-        el.closeSavingsModal.addEventListener('click', closeSavingsModal);
-        el.savingsModalBackdrop.addEventListener('click', closeSavingsModal);
-        el.openTermsModal.addEventListener('click', openTermsModal);
-        el.closeTermsModal.addEventListener('click', closeTermsModal);
-        el.termsModalBackdrop.addEventListener('click', closeTermsModal);
-        el.openRentSavingsModal.addEventListener('click', openRentSavingsModal);
-        el.closeRentSavingsModal.addEventListener('click', closeRentSavingsModal);
-        el.rentSavingsModalBackdrop.addEventListener('click', closeRentSavingsModal);
-        el.calculateRentSavings.addEventListener('click', renderRentSavingsPreview);
+        // Modals listeners
+        el.openSavingsModal.addEventListener('click', () => toggleModal(el.savingsModal, true));
+        el.closeSavingsModal.addEventListener('click', () => toggleModal(el.savingsModal, false));
+        el.savingsModalBackdrop.addEventListener('click', () => toggleModal(el.savingsModal, false));
+        
+        el.openTermsModal.addEventListener('click', () => toggleModal(el.termsModal, true));
+        el.closeTermsModal.addEventListener('click', () => toggleModal(el.termsModal, false));
+        el.termsModalBackdrop.addEventListener('click', () => toggleModal(el.termsModal, false));
+
+        el.openRentSavingsModal.addEventListener('click', () => {
+            el.rentMonthlyInput.value = state.rentMonthly;
+            el.rentYearsInput.value = state.savingsYears;
+            renderRentSavingsPreview();
+            toggleModal(el.rentSavingsModal, true);
+        });
+        el.closeRentSavingsModal.addEventListener('click', () => toggleModal(el.rentSavingsModal, false));
+        
         el.rentMonthlyInput.addEventListener('input', renderRentSavingsPreview);
         el.rentYearsInput.addEventListener('input', renderRentSavingsPreview);
+        
         el.saveRentSavings.addEventListener('click', () => {
             state.rentMonthly = parseNonNegative(el.rentMonthlyInput.value, state.rentMonthly);
             state.savingsYears = parsePositive(el.rentYearsInput.value, state.savingsYears);
             renderSavingsModal();
             renderSummary();
-            closeRentSavingsModal();
-            closeSavingsModal();
+            toggleModal(el.rentSavingsModal, false);
+            toggleModal(el.savingsModal, false);
         });
+
         el.savingsToggle.addEventListener('change', () => {
             state.includeSavings = el.savingsToggle.checked;
             renderSavingsModal();
-            renderSummary();
         });
 
-        document.addEventListener('keydown', (event) => {
-            if (event.key !== 'Escape') return;
-            if (!el.rentSavingsModal.classList.contains('hidden')) {
-                closeRentSavingsModal();
-                return;
-            }
-            if (!el.termsModal.classList.contains('hidden')) {
-                closeTermsModal();
-                return;
-            }
-            if (!el.savingsModal.classList.contains('hidden')) {
-                closeSavingsModal();
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                toggleModal(el.rentSavingsModal, false);
+                toggleModal(el.termsModal, false);
+                toggleModal(el.savingsModal, false);
             }
         });
 
+        // Init
         applyModelFromQuery();
-        syncScrollbarWidth();
-        syncPaymentBarBounds();
-        syncGalleryWithColor();
         rerenderAll();
         setupPaymentBarVisibility();
-        
-        // Inicjacja preloadera po pierwszym renderze
-        preloadAllImages();
+        preloadAllImages(); // Start smart preload
 
-        window.addEventListener('resize', () => {
-            syncScrollbarWidth();
-            syncPaymentBarBounds();
-        });
-        window.addEventListener('scroll', syncPaymentBarBounds, { passive: true });
     </script>
+
     <script>
-        (function initChatWidget() {
-            const chatFab = document.getElementById('chat-fab');
-            const chatModal = document.getElementById('chat-modal');
-            const chatCloseBtn = document.getElementById('chat-close-btn');
-            const chatCloseConfirm = document.getElementById('chat-close-confirm');
-            const chatConfirmYes = document.getElementById('chat-confirm-yes');
-            const chatConfirmNo = document.getElementById('chat-confirm-no');
-            const chatForm = document.getElementById('chat-form');
-            const chatSuccess = document.getElementById('chat-success');
-            const modelOptions = document.getElementById('model-options');
-            const chatSubmitBtn = document.getElementById('chat-submit-btn');
-            const chatRequiredFields = [
-                document.getElementById('chat-first-name'),
-                document.getElementById('chat-last-name'),
-                document.getElementById('chat-email'),
-                document.getElementById('chat-phone'),
-                document.getElementById('chat-postal-code')
-            ];
-            const chatProductCheckboxes = Array.from(document.querySelectorAll('input[name="chat-product"]'));
+        (function initChat() {
+            const dom = {
+                fab: document.getElementById('chat-fab'),
+                modal: document.getElementById('chat-modal'),
+                closeBtn: document.getElementById('chat-close-btn'),
+                confirm: document.getElementById('chat-close-confirm'),
+                yes: document.getElementById('chat-confirm-yes'),
+                no: document.getElementById('chat-confirm-no'),
+                form: document.getElementById('chat-form'),
+                success: document.getElementById('chat-success'),
+                submit: document.getElementById('chat-submit-btn'),
+                inputs: document.querySelectorAll('#chat-form input:not([type="checkbox"])'),
+                checks: document.querySelectorAll('input[name="chat-product"]')
+            };
 
-            if (!chatFab || !chatModal || !chatCloseBtn || !chatCloseConfirm || !chatConfirmYes || !chatConfirmNo || !chatForm || !chatSuccess || !chatSubmitBtn || !chatProductCheckboxes.length || chatRequiredFields.some((field) => !field)) {
-                return;
+            if (!dom.fab) return;
+
+            function checkValidity() {
+                const filled = Array.from(dom.inputs).every(i => i.value.trim().length > 0);
+                const checked = Array.from(dom.checks).some(c => c.checked);
+                dom.submit.disabled = !(filled && checked);
             }
 
-            let successTimer = null;
+            dom.fab.addEventListener('click', () => { dom.modal.classList.remove('hidden'); dom.confirm.classList.add('hidden'); dom.confirm.classList.remove('flex'); });
+            dom.closeBtn.addEventListener('click', () => { dom.confirm.classList.remove('hidden'); dom.confirm.classList.add('flex'); });
+            dom.yes.addEventListener('click', () => dom.modal.classList.add('hidden'));
+            dom.no.addEventListener('click', () => { dom.confirm.classList.add('hidden'); dom.confirm.classList.remove('flex'); });
 
-            function openChat() {
-                chatModal.classList.remove('hidden');
-                hideCloseConfirmation();
-            }
+            dom.inputs.forEach(i => i.addEventListener('input', checkValidity));
+            dom.checks.forEach(c => c.addEventListener('change', checkValidity));
 
-            function closeChat() {
-                chatModal.classList.add('hidden');
-                hideCloseConfirmation();
-            }
-
-            function showCloseConfirmation() {
-                chatCloseConfirm.classList.remove('hidden');
-                chatCloseConfirm.classList.add('flex');
-            }
-
-            function hideCloseConfirmation() {
-                chatCloseConfirm.classList.add('hidden');
-                chatCloseConfirm.classList.remove('flex');
-            }
-
-            function showSuccessMessage() {
-                chatSuccess.classList.remove('opacity-0');
-                clearTimeout(successTimer);
-                successTimer = setTimeout(() => {
-                    chatSuccess.classList.add('opacity-0');
-                }, 3500);
-            }
-
-            function isChatFormValid() {
-                const allFieldsFilled = chatRequiredFields.every((field) => field.value.trim().length > 0);
-                const hasAtLeastOneProduct = chatProductCheckboxes.some((checkbox) => checkbox.checked);
-                return allFieldsFilled && hasAtLeastOneProduct;
-            }
-
-            function syncChatSubmitState() {
-                chatSubmitBtn.disabled = !isChatFormValid();
-            }
-
-            function syncFabColorWithSelectedModelTile() {
-                const activeModelBtn = document.querySelector('#model-options .model-btn.border-zinc-900');
-                if (!activeModelBtn) return;
-
-                const activeBg = window.getComputedStyle(activeModelBtn).backgroundColor;
-                const activeText = window.getComputedStyle(activeModelBtn).color;
-                if (activeBg) {
-                    chatFab.style.setProperty('--chat-fab-base-color', activeBg);
-                }
-                if (activeText) {
-                    chatFab.style.setProperty('--chat-fab-ink-color', activeText);
-                }
-            }
-
-            chatFab.addEventListener('click', openChat);
-            chatCloseBtn.addEventListener('click', showCloseConfirmation);
-            chatConfirmYes.addEventListener('click', closeChat);
-            chatConfirmNo.addEventListener('click', hideCloseConfirmation);
-
-            if (modelOptions) {
-                modelOptions.addEventListener('click', () => {
-                    syncFabColorWithSelectedModelTile();
-                });
-
-                if ('MutationObserver' in window) {
-                    const modelObserver = new MutationObserver(syncFabColorWithSelectedModelTile);
-                    modelObserver.observe(modelOptions, {
-                        childList: true,
-                        subtree: true,
-                        attributes: true,
-                        attributeFilter: ['class']
-                    });
-                }
-            }
-
-            syncFabColorWithSelectedModelTile();
-
-            chatRequiredFields.forEach((field) => {
-                field.addEventListener('input', syncChatSubmitState);
-                field.addEventListener('change', syncChatSubmitState);
+            dom.form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                dom.modal.classList.add('hidden');
+                dom.success.classList.remove('opacity-0', 'scale-90');
+                dom.success.classList.add('scale-100');
+                setTimeout(() => {
+                    dom.success.classList.add('opacity-0', 'scale-90');
+                    dom.success.classList.remove('scale-100');
+                }, 4000);
+                dom.form.reset();
+                checkValidity();
             });
-            chatProductCheckboxes.forEach((checkbox) => {
-                checkbox.addEventListener('change', syncChatSubmitState);
-            });
-            syncChatSubmitState();
-
-            chatForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-
-                if (!isChatFormValid()) {
-                    syncChatSubmitState();
-                    return;
+            
+            // Sync FAB color
+            const observer = new MutationObserver(() => {
+                const active = document.querySelector('.model-btn.border-zinc-900');
+                if(active) {
+                    const style = getComputedStyle(active);
+                    dom.fab.style.setProperty('--chat-fab-base-color', style.backgroundColor);
+                    dom.fab.style.setProperty('--chat-fab-ink-color', style.color);
                 }
-
-                const payload = {
-                    imie: document.getElementById('chat-first-name').value.trim(),
-                    nazwisko: document.getElementById('chat-last-name').value.trim(),
-                    adresEmail: document.getElementById('chat-email').value.trim(),
-                    nrTelefonu: document.getElementById('chat-phone').value.trim(),
-                    kodPocztowy: document.getElementById('chat-postal-code').value.trim(),
-                    zainteresowanieProduktem: Array.from(document.querySelectorAll('input[name="chat-product"]:checked')).map((input) => input.value)
-                };
-
-                console.log(payload);
-                showSuccessMessage();
-                closeChat();
-                chatForm.reset();
-                syncChatSubmitState();
             });
+            observer.observe(document.getElementById('model-options'), { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+
         })();
     </script>
 </body>
-
 </html>
