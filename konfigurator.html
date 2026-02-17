@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    
+    <link rel="preload" as="image" href="DOM35/L_GRAY/35_light_gray_front.webp">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -27,6 +30,7 @@
 
         .fade-image {
             transition: opacity 220ms ease;
+            will-change: opacity; /* OPTYMALIZACJA: Informacja dla GPU */
         }
 
         .scrollbar-thin {
@@ -268,7 +272,7 @@
             <div class="h-full relative">
                 <div class="absolute inset-0 p-3 md:px-8 md:pt-3 md:pb-6 flex flex-col">
                     <div class="flex-1 relative rounded-2xl overflow-hidden bg-white">
-                        <img id="gallery-image" src="" alt="Wizualizacja domu"
+                        <img id="gallery-image" src="" alt="Wizualizacja domu" fetchpriority="high" decoding="async"
                             class="house-visual fade-image absolute" />
                         <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/15 to-transparent"></div>
 
@@ -687,10 +691,10 @@
                 subtitle: 'Model piętrowy',
                 price: 206600,
                 imagesByColor: {
-                    gray: ['DOM35/L_GRAY/35_light_gray_front.png', 'DOM35/L_GRAY/35_light_gray_right.png'],
-                    white: ['DOM35/WHITE/35_white_front.png', 'DOM35/WHITE/35_white_right.png'],
-                    beige: ['DOM35/BEIGE/35_beige_front.png', 'DOM35/BEIGE/35_beige_right.png'],
-                    brown: ['DOM35/DARK/35_dark_front.png', 'DOM35/DARK/35_dark_right.png']
+                    gray: ['DOM35/L_GRAY/35_light_gray_front.webp', 'DOM35/L_GRAY/35_light_gray_right.webp'],
+                    white: ['DOM35/WHITE/35_white_front.webp', 'DOM35/WHITE/35_white_right.webp'],
+                    beige: ['DOM35/BEIGE/35_beige_front.webp', 'DOM35/BEIGE/35_beige_right.webp'],
+                    brown: ['DOM35/DARK/35_dark_front.webp', 'DOM35/DARK/35_dark_right.webp']
                 }
             },
             {
@@ -700,10 +704,10 @@
                 subtitle: 'Model z antresolą',
                 price: 280000,
                 imagesByColor: {
-                    gray: ['DOM50/L_GRAY/50_light_gray_front.png', 'DOM50/L_GRAY/50_light_gray_right.png'],
-                    white: ['DOM50/WHITE/50_white_front.png', 'DOM50/WHITE/50_white_right.png'],
-                    beige: ['DOM50/BEIGE/50_beige_front.png', 'DOM50/BEIGE/50_beige_right.png'],
-                    brown: ['DOM50/DARK/50_dark_front.png', 'DOM50/DARK/50_dark_right.png']
+                    gray: ['DOM50/L_GRAY/50_light_gray_front.webp', 'DOM50/L_GRAY/50_light_gray_right.webp'],
+                    white: ['DOM50/WHITE/50_white_front.webp', 'DOM50/WHITE/50_white_right.webp'],
+                    beige: ['DOM50/BEIGE/50_beige_front.webp', 'DOM50/BEIGE/50_beige_right.webp'],
+                    brown: ['DOM50/DARK/50_dark_front.webp', 'DOM50/DARK/50_dark_right.webp']
                 }
             },
             {
@@ -713,13 +717,53 @@
                 subtitle: 'Model parterowy',
                 price: 365300,
                 imagesByColor: {
-                    gray: ['DOM70/L_GRAY/70_light_gray_front.png', 'DOM70/L_GRAY/70_light_gray_right.png'],
-                    white: ['DOM70/WHITE/70_white_front.png', 'DOM70/WHITE/70_white_right.png'],
-                    beige: ['DOM70/BEIGE/70_beige_front.png', 'DOM70/BEIGE/70_beige_right.png'],
-                    brown: ['DOM70/DARK/70_dark_front.png', 'DOM70/DARK/70_dark_right.png']
+                    gray: ['DOM70/L_GRAY/70_light_gray_front.webp', 'DOM70/L_GRAY/70_light_gray_right.webp'],
+                    white: ['DOM70/WHITE/70_white_front.webp', 'DOM70/WHITE/70_white_right.webp'],
+                    beige: ['DOM70/BEIGE/70_beige_front.webp', 'DOM70/BEIGE/70_beige_right.webp'],
+                    brown: ['DOM70/DARK/70_dark_front.webp', 'DOM70/DARK/70_dark_right.webp']
                 }
             }
         ];
+
+        // --- OPTYMALIZACJA: CACHE OBRAZÓW I PRELOADER ---
+        const imageCache = new Set();
+        
+        function preloadAllImages() {
+            // Zbieramy wszystkie URL-e
+            const allUrls = [];
+            MODELS.forEach(m => {
+                Object.values(m.imagesByColor).forEach(urls => {
+                    if (Array.isArray(urls)) allUrls.push(...urls);
+                });
+            });
+
+            // Pobieramy w tle używając requestIdleCallback jeśli dostępny,
+            // aby nie blokować głównego wątku
+            const processPreload = () => {
+                if (allUrls.length === 0) return;
+                
+                // Pobieraj po jednym na raz w czasie bezczynności
+                const url = allUrls.shift();
+                if (!imageCache.has(url)) {
+                    const img = new Image();
+                    img.src = url;
+                    img.onload = () => imageCache.add(url);
+                }
+                
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(processPreload);
+                } else {
+                    setTimeout(processPreload, 50);
+                }
+            };
+
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(processPreload);
+            } else {
+                setTimeout(processPreload, 200);
+            }
+        }
+        // ------------------------------------------------
 
         const state = {
             modelId: 'm35',
@@ -971,11 +1015,34 @@
             el.galleryTitle.textContent = model.name;
             el.gallerySubtitle.textContent = 'Szacowany termin startu budowy: marzec 2026';
 
+            // OPTYMALIZACJA:
+            // Jeśli obraz jest w cache, zmiana jest natychmiastowa.
+            // Jeśli nie, browser pobierze go szybko (bo preloader działa).
+            // Używamy decode() by uniknąć migotania przy renderowaniu.
+            
             el.galleryImage.style.opacity = '0.35';
-            setTimeout(() => {
-                el.galleryImage.src = currentImage;
-                el.galleryImage.style.opacity = '1';
-            }, 110);
+            
+            // Tworzymy tymczasowy obiekt by sprawdzić gotowość
+            const tempImg = new Image();
+            tempImg.src = currentImage;
+            
+            const swapImage = () => {
+                 el.galleryImage.src = currentImage;
+                 el.galleryImage.style.opacity = '1';
+            };
+
+            // Jeśli browser wspiera decode(), czekamy na gotowość do wyświetlenia
+            if ('decode' in tempImg) {
+                tempImg.decode().then(() => {
+                    setTimeout(swapImage, 110);
+                }).catch(() => {
+                    // Fallback jeśli decode failnie (np. zły url)
+                    setTimeout(swapImage, 110);
+                });
+            } else {
+                // Fallback dla starych browserów
+                 setTimeout(swapImage, 110);
+            }
 
             el.galleryDots.innerHTML = images
                 .map((img, i) => `<span class="w-2.5 h-2.5 rounded-full ${i === idx ? 'bg-zinc-900' : 'bg-zinc-400/70'}"></span>`)
@@ -1117,7 +1184,9 @@
             const btn = event.target.closest('.model-btn');
             if (!btn) return;
             state.modelId = btn.dataset.modelId;
-            state.colorId = 'gray';
+            // Zachowanie spójności: resetujemy kolor lub nie, w zależności od wymagań. 
+            // Tu zostawiam jak było (reset na gray)
+            state.colorId = 'gray'; 
             state.imageIndex = 0;
             rerenderAll();
         });
@@ -1198,6 +1267,10 @@
         syncGalleryWithColor();
         rerenderAll();
         setupPaymentBarVisibility();
+        
+        // Inicjacja preloadera po pierwszym renderze
+        preloadAllImages();
+
         window.addEventListener('resize', () => {
             syncScrollbarWidth();
             syncPaymentBarBounds();
