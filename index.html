@@ -12,19 +12,26 @@
                 extend: {
                     colors: {
                         accent: '#3e6ae1'
+                    },
+                    transitionDuration: {
+                        '700': '700ms',
                     }
                 }
             }
         };
     </script>
     <style>
-        .hero-layer {
-            transition: opacity 500ms ease;
-        }
-
         .nav-blur {
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+        }
+        /* Płynne przejścia dla tekstu */
+        .fade-text {
+            transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+        }
+        .fade-out-up {
+            opacity: 0;
+            transform: translateY(-10px);
         }
     </style>
 </head>
@@ -61,38 +68,37 @@
         </header>
 
         <section class="relative mt-16 flex-1">
-            <div class="absolute inset-0 overflow-hidden">
-                <img id="hero-image" class="hero-layer absolute inset-0 w-full h-full object-cover"
-                    src="https://picsum.photos/id/1015/1920/1200" alt="Model 35" />
-                <div class="absolute inset-0 bg-black/25"></div>
+            <div id="hero-images-container" class="absolute inset-0 overflow-hidden bg-zinc-900">
+                <div class="absolute inset-0 bg-black/25 z-10 pointer-events-none"></div>
             </div>
 
-            <div class="relative z-10 h-[calc(100vh-4rem)] flex flex-col justify-between">
+            <div class="relative z-20 h-[calc(100vh-4rem)] flex flex-col justify-between">
                 <div class="pt-16 md:pt-20 text-center text-white px-4">
-                    <h1 id="hero-title" class="text-4xl md:text-7xl font-semibold tracking-tight">Odkryj model 35</h1>
-                    <p id="hero-subtitle" class="mt-3 text-lg md:text-3xl text-white/90">Dom 35 m² z antresolą</p>
-                    <p id="hero-price" class="mt-2 text-base md:text-xl text-white/90">Od 206 600 zł</p>
+                    <h1 id="hero-title" class="fade-text text-4xl md:text-7xl font-semibold tracking-tight"></h1>
+                    <p id="hero-subtitle" class="fade-text mt-3 text-lg md:text-3xl text-white/90"></p>
+                    <p id="hero-price" class="fade-text mt-2 text-base md:text-xl text-white/90"></p>
 
                     <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-                        <a id="configure-now-link" href="konfigurator.html?model=35"
-                            class="w-64 h-11 rounded-md bg-accent text-white text-[15px] font-semibold hover:brightness-110 transition inline-flex items-center justify-center">Skonfiguruj
-                            teraz</a>
+                        <a id="configure-now-link" href="#"
+                            class="w-64 h-11 rounded-md bg-accent text-white text-[15px] font-semibold hover:brightness-110 transition inline-flex items-center justify-center">
+                            Skonfiguruj teraz
+                        </a>
                         <button
-                            class="w-64 h-11 rounded-md bg-white/90 text-zinc-900 text-[15px] font-semibold hover:bg-white transition">Dowiedz
-                            się więcej</button>
+                            class="w-64 h-11 rounded-md bg-white/90 text-zinc-900 text-[15px] font-semibold hover:bg-white transition">
+                            Dowiedz się więcej
+                        </button>
                     </div>
                 </div>
 
-                <div
-                    class="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 md:px-8">
+                <div class="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 md:px-8">
                     <button id="prev-btn"
-                        class="pointer-events-auto inline-flex items-center justify-center w-12 h-12 rounded-md bg-white/85 hover:bg-white transition">
+                        class="pointer-events-auto inline-flex items-center justify-center w-12 h-12 rounded-md bg-white/85 hover:bg-white transition shadow-lg">
                         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                             <path d="M15 18l-6-6 6-6" />
                         </svg>
                     </button>
                     <button id="next-btn"
-                        class="pointer-events-auto inline-flex items-center justify-center w-12 h-12 rounded-md bg-white/85 hover:bg-white transition">
+                        class="pointer-events-auto inline-flex items-center justify-center w-12 h-12 rounded-md bg-white/85 hover:bg-white transition shadow-lg">
                         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                             <path d="M9 18l6-6-6-6" />
                         </svg>
@@ -100,9 +106,9 @@
                 </div>
 
                 <div class="pb-7 md:pb-8 px-4 text-white text-center">
-                    <p id="discover-next" class="mb-4 text-sm md:text-base tracking-wide">Poznaj model 50</p>
+                    <p id="discover-next" class="mb-4 text-sm md:text-base tracking-wide fade-text"></p>
                     <div class="flex items-center justify-center gap-2 mb-4" id="dots"></div>
-                    <a id="configure-home-link" href="konfigurator.html?model=35"
+                    <a id="configure-home-link" href="#"
                         class="mx-auto h-12 px-6 rounded-xl border border-white/70 bg-white/85 text-zinc-900 font-semibold inline-flex items-center gap-3 hover:bg-white transition">
                         <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.9"
                             aria-hidden="true">
@@ -141,49 +147,89 @@
             }
         ];
 
-        let index = 0;
-
-        const heroImage = document.getElementById('hero-image');
-        const heroTitle = document.getElementById('hero-title');
-        const heroSubtitle = document.getElementById('hero-subtitle');
-        const heroPrice = document.getElementById('hero-price');
-        const discoverNext = document.getElementById('discover-next');
+        let currentIndex = 0;
+        const imagesContainer = document.getElementById('hero-images-container');
+        
+        // Elementy tekstowe
+        const textElements = {
+            title: document.getElementById('hero-title'),
+            subtitle: document.getElementById('hero-subtitle'),
+            price: document.getElementById('hero-price'),
+            next: document.getElementById('discover-next')
+        };
+        
         const dots = document.getElementById('dots');
         const configureNowLink = document.getElementById('configure-now-link');
         const configureHomeLink = document.getElementById('configure-home-link');
 
-        const accountBtn = document.getElementById('account-btn');
-        const accountMenu = document.getElementById('account-menu');
+        // 1. Inicjalizacja: Wygeneruj wszystkie obrazki od razu
+        function initImages() {
+            models.forEach((model, i) => {
+                const img = document.createElement('img');
+                img.src = model.image;
+                img.alt = `Model ${model.key}`;
+                // Ustawiamy absolutne pozycjonowanie, żeby nakładały się na siebie
+                // opacity-0 domyślnie ukrywa, duration-700 zapewnia płynność
+                img.className = `absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${i === 0 ? 'opacity-100' : 'opacity-0'}`;
+                img.id = `hero-img-${i}`;
+                // Wstawiamy przed overlayem (bg-black/25)
+                imagesContainer.insertBefore(img, imagesContainer.firstChild);
+            });
+        }
 
         function renderDots() {
             dots.innerHTML = models
-                .map((_, i) => `<span class="w-2.5 h-2.5 rounded-full ${i === index ? 'bg-white' : 'bg-white/45'}"></span>`)
+                .map((_, i) => `<button onclick="changeSlide(${i})" class="w-2.5 h-2.5 rounded-full transition-colors ${i === currentIndex ? 'bg-white' : 'bg-white/45 hover:bg-white/70'}"></button>`)
                 .join('');
         }
 
-        function updateHero(nextIndex) {
-            index = (nextIndex + models.length) % models.length;
+        function updateContent(index) {
             const current = models[index];
             const nextModel = models[(index + 1) % models.length];
 
-            heroImage.style.opacity = '0.25';
+            // Aktualizacja obrazków (Zarządzanie klasami CSS)
+            models.forEach((_, i) => {
+                const img = document.getElementById(`hero-img-${i}`);
+                if (i === index) {
+                    img.classList.remove('opacity-0');
+                    img.classList.add('opacity-100');
+                } else {
+                    img.classList.remove('opacity-100');
+                    img.classList.add('opacity-0');
+                }
+            });
+
+            // Animacja tekstu (Fade out -> zmiana -> Fade in)
+            Object.values(textElements).forEach(el => el.classList.add('fade-out-up'));
+
             setTimeout(() => {
-                heroImage.src = current.image;
-                heroImage.alt = `Model ${current.key}`;
-                heroTitle.textContent = current.title;
-                heroSubtitle.textContent = current.subtitle;
-                heroPrice.textContent = current.price;
-                discoverNext.textContent = `Poznaj model ${nextModel.key}`;
+                textElements.title.textContent = current.title;
+                textElements.subtitle.textContent = current.subtitle;
+                textElements.price.textContent = current.price;
+                textElements.next.textContent = `Poznaj model ${nextModel.key}`;
+                
                 configureNowLink.href = `konfigurator.html?model=${current.key}`;
                 configureHomeLink.href = `konfigurator.html?model=${current.key}`;
-                renderDots();
-                heroImage.style.opacity = '1';
-            }, 170);
+
+                Object.values(textElements).forEach(el => el.classList.remove('fade-out-up'));
+            }, 300); // Czekamy aż tekst zniknie (300ms zgodnie z CSS)
+
+            renderDots();
         }
 
-        document.getElementById('prev-btn').addEventListener('click', () => updateHero(index - 1));
-        document.getElementById('next-btn').addEventListener('click', () => updateHero(index + 1));
+        function changeSlide(newIndex) {
+            currentIndex = (newIndex + models.length) % models.length;
+            updateContent(currentIndex);
+        }
 
+        // Event Listeners
+        document.getElementById('prev-btn').addEventListener('click', () => changeSlide(currentIndex - 1));
+        document.getElementById('next-btn').addEventListener('click', () => changeSlide(currentIndex + 1));
+
+        // Menu mobilne
+        const accountBtn = document.getElementById('account-btn');
+        const accountMenu = document.getElementById('account-menu');
+        
         accountBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             accountMenu.classList.toggle('hidden');
@@ -195,8 +241,19 @@
             }
         });
 
-        updateHero(0);
+        // Start
+        initImages(); // Generuje <img>
+        // Ustawiamy tekst początkowy bez animacji opóźnionej
+        const initial = models[0];
+        const initialNext = models[1];
+        textElements.title.textContent = initial.title;
+        textElements.subtitle.textContent = initial.subtitle;
+        textElements.price.textContent = initial.price;
+        textElements.next.textContent = `Poznaj model ${initialNext.key}`;
+        configureNowLink.href = `konfigurator.html?model=${initial.key}`;
+        configureHomeLink.href = `konfigurator.html?model=${initial.key}`;
+        renderDots();
+
     </script>
 </body>
-
 </html>
